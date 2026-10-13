@@ -9,19 +9,23 @@ B.Mgmt. in **Big Data Management and Applications**, Guangdong University of Tec
 
 ## What this repository is for
 
-Four projects, each built around a single question: *does this result survive
+Six projects, each built around a single question: *does this result survive
 being checked?*
 
 Coursework usually ends at the first plausible number. These projects keep going
 to the part that decides whether the number means anything — whether a forecast
 beats a trivial benchmark, whether a "linkage" survives a change of identifying
 assumption, whether two data files that are supposed to agree actually join at
-all. Two of the four headline findings below are **negative results**, and they
-are the ones I would most want to be asked about.
+all, whether a customer segment that looks different really is.
+
+**Five of the six headline findings below are negative or corrective results.**
+Those are the ones I would most want to be asked about: a portfolio of six
+confirmed hypotheses would say less about how I work than one honest null.
 
 Every project runs from a clean checkout and regenerates its own figures and
 tables. Two of them verify their output numerically against stored reference
 values on every run and **fail loudly** if anything drifts.
+
 
 ## Projects
 
@@ -62,6 +66,32 @@ any reconciliation check built on it passes while comparing nothing to nothing.
 Parsed properly, the files do agree exactly. Four interactive figures, each
 labelling what every visual channel encodes.
 
+### 5 · [Beijing PM2.5, 2010–2014](projects/05-beijing-air-quality-seaborn/)
+`Seaborn` · `43,824 hourly observations` · `7 figures`
+
+PM2.5 exceeded China's grade II daily limit in **48.5%** of hours. What explains
+the variation is ventilation, not temperature: Spearman ρ = **−0.360** for wind
+speed against **+0.011** for temperature, and median PM2.5 is **6.3× higher** in
+the calmest wind decile than the windiest. Temperature's Pearson *r* (−0.091) and
+Spearman ρ (+0.011) **disagree on the sign**, which is why the coursework version
+should not have led with the linear coefficient. Separately, 1,341 of the 2,067
+missing hours sit inside gaps longer than a day — the longest is 155 consecutive
+hours — so **91% of them are left missing** rather than interpolated into a smooth
+ramp through a possible haze episode.
+
+### 6 · [Consumer Transactions: A Segmentation That Isn't There](projects/06-consumer-behaviour-matplotlib/)
+`Matplotlib` · `8,000 transactions` · `bootstrap CIs · ANOVA · permutation null`
+
+The brief asks which customer groups spend more. Tested first: **four of the five
+candidate segmentations do not differ at all** (age band *p* = 0.45, gender 0.52,
+city tier 0.77, payment method 0.90). Income's correlation with spend is −0.010
+with a 95% CI of [−0.032, +0.012] — narrow enough to be a measured *absence*, not
+a missing finding. Only membership tier separates (*p* = 1.0 × 10⁻⁶, robust to
+trimming), and its direction is unidentified because tiers are awarded *for*
+spending. Monthly revenue falls inside a permutation null band in **all 12
+months**, so there is no seasonality to explain either.
+
+
 ## Reproducibility
 
 | Project | Verifies its own numbers | Command |
@@ -70,6 +100,9 @@ labelling what every visual channel encodes.
 | 02 Market linkages | 8 tables / 334 values, `rtol=1e-6` | `python run_analysis.py` |
 | 03 NEV transition | — | `python src/nev_visualization.py && python src/build_figures_en.py` |
 | 04 Bike sharing | README numbers read from `findings.json` | `python src/build_charts.py` |
+| 05 Beijing PM2.5 | README numbers read from `findings.json` | `python src/analyze.py` |
+| 06 Consumer transactions | README numbers read from `findings.json`, fixed seeds | `python src/analyze.py` |
+
 
 Projects 01 and 02 ship a verifier rather than a runner. It checks the SHA-256 of
 every input against `provenance.json`, clears all notebook outputs and
@@ -78,8 +111,9 @@ regenerated number against stored reference values. A silent change in a library
 version shows up as a failed build, not as a quietly different conclusion.
 
 Each project pins its dependencies in its own `requirements.txt`. Python 3.12.
-A GitHub Actions workflow rebuilds projects 03 and 04 from a clean checkout on
-every push, so a pipeline that only works on my laptop cannot go unnoticed.
+A GitHub Actions workflow rebuilds projects 03–06 from a clean checkout on every
+push, so a pipeline that only works on my laptop cannot go unnoticed.
+
 
 
 ```bash
@@ -96,23 +130,31 @@ testing, Granger causality, impulse responses and variance decomposition,
 residual and ARCH diagnostics, fixed-origin out-of-sample evaluation against
 pre-specified benchmarks.
 
-**Data engineering & quality** — hash-verified inputs, join-integrity checks,
-date and unit normalisation, reconciliation between independent sources,
-deterministic end-to-end pipelines.
+**Inference discipline** — bootstrap and Fisher-z confidence intervals,
+one-way ANOVA and Kruskal-Wallis with Bonferroni correction for multiple
+groupings, permutation null bands, trimmed-mean robustness checks, and the
+judgement to report a precise null instead of a ranking.
 
-**Visualisation** — Matplotlib for print, Plotly and Pyecharts for interaction;
-explicit encoding of every visual channel; figures captioned with their source,
-denominator and known caveats.
+**Data engineering & quality** — hash-verified inputs, join-integrity checks,
+gap-length audits before imputation, date and unit normalisation, reconciliation
+between independent sources, deterministic end-to-end pipelines with fixed seeds.
+
+**Visualisation** — Matplotlib and Seaborn for print, Plotly and Pyecharts for
+interaction; explicit encoding of every visual channel; figures captioned with
+their source, denominator and known caveats.
+
 
 **Research communication** — reports that separate what was measured, what was
 estimated, and what remains assumed; bilingual (English / Chinese) delivery.
 
 ## Academic integrity and AI use
 
-All four projects originate in my own undergraduate coursework. Original course
+All six projects originate in my own undergraduate coursework. Original course
 submissions and datasets are retained unmodified in each project's
 `source_materials/` directory so the development from assignment to portfolio
-version can be inspected directly.
+version can be inspected directly — including, in projects 04 and 05, the places
+where the portfolio version corrects a method error in my own earlier work.
+
 
 AI assistance was used for code structuring, English writing, and verification
 tooling. The research questions, the sensitivity and robustness analyses that

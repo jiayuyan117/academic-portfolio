@@ -1,0 +1,7 @@
+gap_length,gaps,missing_hours,interpolated
+1 hour,112,112,True
+2-3 hours,31,64,True
+4-6 hours,15,74,False
+7-12 hours,21,185,False
+13-24 hours,15,291,False
+over 24 hours,20,1341,False

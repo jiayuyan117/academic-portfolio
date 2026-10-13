@@ -1,7 +1,8 @@
 name: build
 
-# Rebuilds the figure-generating projects from a clean checkout on every push, so
-# a pipeline that only runs on the author's laptop cannot go unnoticed.
+# Rebuilds the figure-generating projects (03-06) from a clean checkout on every
+# push, so a pipeline that only runs on the author's laptop cannot go unnoticed.
+
 #
 # The numeric verifiers for projects 01 and 02 are deliberately not run here:
 # they compare regenerated values at rtol=1e-6, which is a reproducibility check
@@ -41,6 +42,18 @@ jobs:
           pip install -r requirements.txt
           python src/build_charts.py
 
+      - name: Build project 05 (Beijing PM2.5)
+        working-directory: projects/05-beijing-air-quality-seaborn
+        run: |
+          pip install -r requirements.txt
+          python src/analyze.py
+
+      - name: Build project 06 (consumer transactions)
+        working-directory: projects/06-consumer-behaviour-matplotlib
+        run: |
+          pip install -r requirements.txt
+          python src/analyze.py
+
       - name: Check the expected outputs were produced
         run: |
           python - <<'PY'
@@ -49,17 +62,29 @@ jobs:
 
           nev = Path("projects/03-china-nev-industry-analytics")
           bike = Path("projects/04-bike-sharing-interactive-visualization")
+          air = Path("projects/05-beijing-air-quality-seaborn")
+          shop = Path("projects/06-consumer-behaviour-matplotlib")
 
           assert len(list((nev / "data").glob("*.csv"))) == 7
           assert len(list((nev / "charts_en").glob("*.png"))) == 8
           assert len(list((bike / "charts").glob("*.html"))) == 4
+          assert len(list((air / "figures").glob("*.png"))) == 7
+          assert len(list((shop / "figures").glob("*.png"))) == 7
 
-          findings = json.loads((bike / "outputs/findings.json").read_text())
-          assert findings["hourly_rows"] == 17379, findings
-          assert findings["hourly_vs_daily_abs_diff"] == 0, findings
+          bike_findings = json.loads((bike / "outputs/findings.json").read_text())
+          assert bike_findings["hourly_rows"] == 17379, bike_findings
+          assert bike_findings["hourly_vs_daily_abs_diff"] == 0, bike_findings
+
+          air_findings = json.loads((air / "outputs/findings.json").read_text())
+          assert air_findings["hourly_rows"] == 43824, air_findings
+          assert air_findings["longest_gap_hours"] == 155, air_findings
+          assert air_findings["hours_left_missing"] == 1891, air_findings
+
+          shop_findings = json.loads((shop / "outputs/findings.json").read_text())
+          assert shop_findings["null_segmentations"] == 4, shop_findings
+          assert shop_findings["months_inside_null_band"] == 12, shop_findings
           print("all expected outputs present")
           PY
-
 
       - name: Upload rebuilt figures
         uses: actions/upload-artifact@v4
@@ -68,3 +93,6 @@ jobs:
           path: |
             projects/03-china-nev-industry-analytics/charts_en
             projects/04-bike-sharing-interactive-visualization/charts
+            projects/05-beijing-air-quality-seaborn/figures
+            projects/06-consumer-behaviour-matplotlib/figures
+

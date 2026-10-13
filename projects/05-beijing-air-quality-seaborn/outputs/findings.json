@@ -1,0 +1,22 @@
+{
+  "hourly_rows": 43824,
+  "missing_pm25_hours": 2067,
+  "missing_share": 0.0472,
+  "gap_count": 214,
+  "longest_gap_hours": 155,
+  "hours_interpolated": 176,
+  "hours_left_missing": 1891,
+  "share_above_cn_grade_ii": 0.4849,
+  "share_severe": 0.0731,
+  "spearman_wind_speed": -0.36,
+  "spearman_temperature": 0.011,
+  "pearson_temperature": -0.091,
+  "median_pm25_calmest_decile": 107.0,
+  "median_pm25_windiest_decile": 17.0,
+  "median_pm25_by_wind": {
+    "NE": 55.0,
+    "NW": 31.0,
+    "SE": 91.0,
+    "Calm / variable": 98.0
+  }
+}

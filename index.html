@@ -66,11 +66,12 @@ footer p{margin:0 0 10px;max-width:70ch}
     <p class="sub">B.Mgmt. in <strong>Big Data Management and Applications</strong>, Guangdong University of Technology</p>
     <p class="sub">Applying for MS programmes in Data Science / Business Analytics — US · Singapore · Hong Kong</p>
 
-    <p class="lede">Four projects, each built around a single question:
+    <p class="lede">Six projects, each built around a single question:
       <em>does this result survive being checked?</em> Coursework usually ends at the
       first plausible number. These go on to the part that decides whether the number
-      means anything. Two of the four headline findings below are negative results —
-      and they are the ones I would most want to be asked about.</p>
+      means anything. Five of the six headline findings below are negative or
+      corrective results — and those are the ones I would most want to be asked about.</p>
+
 
     <p class="meta">Every project regenerates its own figures and tables from a clean
       checkout. Two of them verify every output number against stored reference values
@@ -162,11 +163,59 @@ footer p{margin:0 0 10px;max-width:70ch}
     </p>
   </section>
 
+  <section class="card">
+    <h3><span class="num">05</span>Beijing PM2.5, 2010–2014</h3>
+    <p class="stack">Seaborn · 43,824 hourly observations · 7 figures</p>
+    <span class="tag">Method correction</span>
+    <p class="find negative">PM2.5 exceeded China's grade II daily limit in
+      <b>48.5%</b> of hours. What explains the variation is ventilation, not
+      temperature: Spearman ρ = <b>−0.360</b> for wind speed against <b>+0.011</b> for
+      temperature, and median PM2.5 is <b>6.3× higher</b> in the calmest wind decile
+      than the windiest.</p>
+    <p>Temperature's Pearson <i>r</i> (−0.091) and Spearman ρ (+0.011) disagree on the
+      sign, so the linear coefficient my coursework version led with was describing an
+      association that is not monotonic. Separately, 1,341 of the 2,067 missing hours
+      sit inside gaps longer than a day — the longest is 155 consecutive hours — so 91%
+      of them are left missing rather than interpolated into a smooth ramp through a
+      possible haze episode.</p>
+    <p class="cardlinks">
+      <a href="projects/05-beijing-air-quality-seaborn/figures/03_ventilation_wind_speed.png">Ventilation</a>
+      <a href="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png">Gap audit</a>
+      <a href="projects/05-beijing-air-quality-seaborn/figures/07_season_hour_heatmap.png">Season × hour</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/05-beijing-air-quality-seaborn">Code</a>
+    </p>
+  </section>
+
+  <section class="card">
+    <h3><span class="num">06</span>Consumer Transactions: A Segmentation That Isn't There</h3>
+    <p class="stack">Matplotlib · 8,000 transactions · bootstrap CIs · ANOVA · permutation null</p>
+    <span class="tag">Null result</span>
+    <p class="find negative">The brief asks which customer groups spend more. Tested
+      first: <b>four of the five candidate segmentations do not differ at all</b> — age
+      band <i>p</i> = 0.45, gender 0.52, city tier 0.77, payment method 0.90. Income's
+      correlation with spend is <b>−0.010</b>, 95% CI [−0.032, +0.012]: narrow enough to
+      be a measured absence rather than a missing finding.</p>
+    <p>Only membership tier separates (<i>p</i> = 1.0 × 10⁻⁶, robust to 10% trimming),
+      and its direction is unidentified because loyalty tiers are awarded <i>for</i>
+      spending. Monthly revenue falls inside a permutation null band in all 12 months,
+      so there is no seasonality to explain either.</p>
+    <p class="cardlinks">
+      <a href="projects/06-consumer-behaviour-matplotlib/figures/01_segmentation_effect_audit.png">Segmentation audit</a>
+      <a href="projects/06-consumer-behaviour-matplotlib/figures/02_correlation_forest.png">Correlation intervals</a>
+      <a href="projects/06-consumer-behaviour-matplotlib/figures/07_monthly_trend_vs_noise.png">Trend vs noise</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/06-consumer-behaviour-matplotlib">Code</a>
+    </p>
+  </section>
+
+
   <footer>
-    <p><strong>Academic integrity and AI use.</strong> All four projects originate in my
+    <p><strong>Academic integrity and AI use.</strong> All six projects originate in my
       own undergraduate coursework. The original course submissions and datasets are
       retained unmodified in each project's <code>source_materials/</code> directory, so
-      the development from assignment to portfolio version can be inspected directly.</p>
+      the development from assignment to portfolio version can be inspected directly —
+      including the places where the portfolio version corrects a method error in my own
+      earlier work.</p>
+
     <p>AI assistance was used for code structuring, English writing and verification
       tooling. The research questions, the sensitivity analyses that produce the findings
       above, and all interpretation are my own. Where a number is my estimate rather than

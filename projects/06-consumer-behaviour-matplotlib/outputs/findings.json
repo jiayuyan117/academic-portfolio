@@ -1,0 +1,68 @@
+{
+  "data": {
+    "rows": 8020,
+    "fields": 14,
+    "unique_users": 3997,
+    "missing_by_field": {
+      "income": 15,
+      "payment": 15,
+      "rating": 15
+    },
+    "duplicate_rows": 20,
+    "date_min": "2025-01-01",
+    "date_max": "2025-12-31"
+  },
+  "rows_after_dedup": 8000,
+  "segmentation": {
+    "age_group": {
+      "anova_p": 0.4447,
+      "separates": false,
+      "spread_pct_of_mean": 11.0
+    },
+    "gender": {
+      "anova_p": 0.5225,
+      "separates": false,
+      "spread_pct_of_mean": 1.5
+    },
+    "city_level": {
+      "anova_p": 0.7732,
+      "separates": false,
+      "spread_pct_of_mean": 2.6
+    },
+    "payment": {
+      "anova_p": 0.8958,
+      "separates": false,
+      "spread_pct_of_mean": 3.2
+    },
+    "membership": {
+      "anova_p": 0.0,
+      "separates": true,
+      "spread_pct_of_mean": 17.1
+    }
+  },
+  "null_segmentations": 4,
+  "income_amount": {
+    "r": -0.0104,
+    "ci": [
+      -0.0323,
+      0.0116
+    ],
+    "p": 0.354
+  },
+  "basket_identity": {
+    "r_vs_expected": 0.937,
+    "r2_vs_expected": 0.878,
+    "ratio_median": 1.0,
+    "ratio_q75": 1.1
+  },
+  "membership_mean_amount": {
+    "Standard": 1338.04,
+    "Silver": 1385.02,
+    "Gold": 1553.58,
+    "Platinum": 1578.78
+  },
+  "membership_anova_p": 1.0399204845043704e-06,
+  "top_two_category_revenue_share": 0.5854,
+  "months_inside_null_band": 12,
+  "months_total": 12
+}
