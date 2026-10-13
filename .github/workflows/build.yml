@@ -29,6 +29,12 @@ jobs:
       - name: Compile every Python file
         run: python -m compileall -q projects
 
+      - name: Test project 07 (Java workforce system)
+        working-directory: projects/07-workforce-system-java
+        run: |
+          javac Workforce.java WorkforceTest.java
+          java WorkforceTest
+
       - name: Build project 03 (China NEV analytics)
         working-directory: projects/03-china-nev-industry-analytics
         run: |

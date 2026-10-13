@@ -9,7 +9,7 @@ B.Mgmt. in **Big Data Management and Applications**, Guangdong University of Tec
 
 ## What this repository is for
 
-Six projects, each built around a single question: *does this result survive
+Seven projects, each built around a single question: *does this result survive
 being checked?*
 
 Coursework usually ends at the first plausible number. These projects keep going
@@ -18,8 +18,8 @@ beats a trivial benchmark, whether a "linkage" survives a change of identifying
 assumption, whether two data files that are supposed to agree actually join at
 all, whether a customer segment that looks different really is.
 
-**Five of the six headline findings below are negative or corrective results.**
-Those are the ones I would most want to be asked about: a portfolio of six
+**Five of the seven headline findings below are negative or corrective results.**
+Those are the ones I would most want to be asked about: a portfolio of seven
 confirmed hypotheses would say less about how I work than one honest null.
 
 Every project runs from a clean checkout and regenerates its own figures and
@@ -91,6 +91,14 @@ trimming), and its direction is unidentified because tiers are awarded *for*
 spending. Monthly revenue falls inside a permutation null band in **all 12
 months**, so there is no seasonality to explain either.
 
+### 7 · [Workforce System in Java](projects/07-workforce-system-java/)
+`Java 17` · `department tree` · `employee BST` · `invariant testing`
+
+An organization tree and an employee search index must describe the same people.
+The system validates transfers, deletion, membership and ordering after every
+operation. Immutable records and integer salary cents make state changes explicit.
+The seeded reference-model suite passes **2,013 checks** across 1,000 operations.
+
 
 ## Reproducibility
 
@@ -102,6 +110,7 @@ months**, so there is no seasonality to explain either.
 | 04 Bike sharing | README numbers read from `findings.json` | `python src/build_charts.py` |
 | 05 Beijing PM2.5 | README numbers read from `findings.json` | `python src/analyze.py` |
 | 06 Consumer transactions | README numbers read from `findings.json`, fixed seeds | `python src/analyze.py` |
+| 07 Workforce system | 2,013 behavioral checks / 1,000 seeded operations | `javac Workforce.java WorkforceTest.java && java WorkforceTest` |
 
 
 Projects 01 and 02 ship a verifier rather than a runner. It checks the SHA-256 of
@@ -111,7 +120,7 @@ regenerated number against stored reference values. A silent change in a library
 version shows up as a failed build, not as a quietly different conclusion.
 
 Each project pins its dependencies in its own `requirements.txt`. Python 3.12.
-A GitHub Actions workflow rebuilds projects 03–06 from a clean checkout on every
+A GitHub Actions workflow rebuilds projects 03–07 from a clean checkout on every
 push, so a pipeline that only works on my laptop cannot go unnoticed.
 
 
@@ -149,7 +158,7 @@ estimated, and what remains assumed; bilingual (English / Chinese) delivery.
 
 ## Academic integrity and AI use
 
-All six projects originate in my own undergraduate coursework. Original course
+All seven projects originate in my own undergraduate coursework. Original course
 submissions and datasets are retained unmodified in each project's
 `source_materials/` directory so the development from assignment to portfolio
 version can be inspected directly — including, in projects 04 and 05, the places
