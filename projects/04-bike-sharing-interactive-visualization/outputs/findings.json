@@ -1,0 +1,18 @@
+{
+  "hourly_rows": 17379,
+  "zero_count_hours": 0,
+  "severe_weather_hours": 3,
+  "registered_share": 0.8117,
+  "hourly_vs_daily_abs_diff": 0,
+  "busiest_day": {
+    "date": "2012-09-15",
+    "rides": 8714
+  },
+  "rides_by_time_period": {
+    "Day off-peak": 1233459,
+    "Evening peak": 1037971,
+    "Morning peak": 629742,
+    "Night": 284998,
+    "Night/early": 106509
+  }
+}

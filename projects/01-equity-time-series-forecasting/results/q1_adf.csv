@@ -1,0 +1,3 @@
+﻿Series,Deterministic,ADF,p_value,ADF_lags,Effective_N
+100*log(price),c,0.49900045393561576,0.9848426842251932,0,2889
+Log return (%),c,-39.09338970020044,0.0,1,2888

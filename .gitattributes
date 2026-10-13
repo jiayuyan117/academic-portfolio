@@ -1,0 +1,18 @@
+# Do not normalise line endings.
+#
+# Projects 01 and 02 verify the SHA-256 of their input files against
+# provenance.json on every run. Any CRLF/LF rewriting by Git would change those
+# hashes and make the verifier fail on a fresh clone, so every file is stored
+# byte-for-byte as committed.
+* -text
+
+*.png binary
+*.pdf binary
+*.pptx binary
+*.docx binary
+*.xlsx binary
+*.zip binary
+
+# Keep generated artefacts out of diff noise.
+*.ipynb -diff
+*.html -diff

@@ -1,0 +1,12 @@
+{
+  "title": "Shanghai–Hong Kong Market Linkages: Prediction, Identification and Cointegration",
+  "basis": "Supplied econometrics coursework",
+  "assistance": "This analysis develops supplied econometrics coursework and retains its original datasets and teaching notebook in source_materials. AI assistance was used for code completion, analytical organization, verification, and English writing. The data were supplied with the course; upstream vendor and price-adjustment details were not independently established.",
+  "sha256": {
+    "source_materials/VARSJ.csv": "513fd852dcb5864a8302a0f6c0b9eb6952b67ff32601bbba5a0d16d2690f48df",
+    "source_materials/XZSJ.csv": "8d613e11490ffaabbca29900aa758ba345b67e8b54530eabf4d1a5771d174ef4",
+    "source_materials/实验练习 (1).ipynb": "b4109b5ab869566de40df6e48bf4a670f61ffeb2a5c9cffe2d100893a8908de0",
+    "VARSJ.csv": "513fd852dcb5864a8302a0f6c0b9eb6952b67ff32601bbba5a0d16d2690f48df",
+    "XZSJ.csv": "8d613e11490ffaabbca29900aa758ba345b67e8b54530eabf4d1a5771d174ef4"
+  }
+}

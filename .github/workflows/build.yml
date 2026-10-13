@@ -1,0 +1,70 @@
+name: build
+
+# Rebuilds the figure-generating projects from a clean checkout on every push, so
+# a pipeline that only runs on the author's laptop cannot go unnoticed.
+#
+# The numeric verifiers for projects 01 and 02 are deliberately not run here:
+# they compare regenerated values at rtol=1e-6, which is a reproducibility check
+# against a fixed environment rather than across BLAS implementations. Run them
+# locally with `python run_analysis.py`; the last verified run is recorded in
+# each project's results/verification.json.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile every Python file
+        run: python -m compileall -q projects
+
+      - name: Build project 03 (China NEV analytics)
+        working-directory: projects/03-china-nev-industry-analytics
+        run: |
+          pip install -r requirements.txt
+          python src/nev_visualization.py
+          python src/build_figures_en.py
+
+      - name: Build project 04 (bike-sharing visualisation)
+        working-directory: projects/04-bike-sharing-interactive-visualization
+        run: |
+          pip install -r requirements.txt
+          python src/build_charts.py
+
+      - name: Check the expected outputs were produced
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          nev = Path("projects/03-china-nev-industry-analytics")
+          bike = Path("projects/04-bike-sharing-interactive-visualization")
+
+          assert len(list((nev / "data").glob("*.csv"))) == 7
+          assert len(list((nev / "charts_en").glob("*.png"))) == 8
+          assert len(list((bike / "charts").glob("*.html"))) == 4
+
+          findings = json.loads((bike / "outputs/findings.json").read_text())
+          assert findings["hourly_rows"] == 17379, findings
+          assert findings["hourly_vs_daily_abs_diff"] == 0, findings
+          print("all expected outputs present")
+          PY
+
+
+      - name: Upload rebuilt figures
+        uses: actions/upload-artifact@v4
+        with:
+          name: figures
+          path: |
+            projects/03-china-nev-industry-analytics/charts_en
+            projects/04-bike-sharing-interactive-visualization/charts

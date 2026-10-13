@@ -1,0 +1,12 @@
+{
+  "executed_code_cells": 7,
+  "error_outputs": 0,
+  "source_hashes_verified": true,
+  "primary_content_english": true,
+  "reference_tables_verified": 11,
+  "numeric_values_compared": 252,
+  "comparison_rtol": 1e-06,
+  "comparison_atol": 1e-08,
+  "embedded_figures": true,
+  "external_rendering_assets": false
+}

@@ -1,0 +1,64 @@
+﻿season_label,weather_label,time_period,rides,records,share_of_parent
+Fall,Clear,Day off-peak,285628,955,0.35617084049824116
+Fall,Clear,Evening peak,274339,565,0.3420937450510698
+Fall,Clear,Morning peak,132751,510,0.1655371155733402
+Fall,Clear,Night,81665,420,0.10183417483331068
+Fall,Clear,Night/early,27558,830,0.03436412404403815
+Fall,Light rain/snow,Day off-peak,16561,82,0.35802922864060877
+Fall,Light rain/snow,Evening peak,19194,61,0.4149515738498789
+Fall,Light rain/snow,Morning peak,4995,30,0.10798599100657212
+Fall,Light rain/snow,Night,4134,38,0.08937218955378762
+Fall,Light rain/snow,Night/early,1372,58,0.029661016949152543
+Fall,Mist/cloudy,Day off-peak,74446,279,0.34962335393458943
+Fall,Mist/cloudy,Evening peak,53247,123,0.25006574868972253
+Fall,Mist/cloudy,Morning peak,60331,211,0.28333458568932807
+Fall,Mist/cloudy,Night,16750,103,0.07866361091803956
+Fall,Mist/cloudy,Night/early,8158,231,0.038312700768320405
+Spring,Clear,Day off-peak,125930,772,0.3871457645460191
+Spring,Clear,Evening peak,103230,487,0.3173593049637541
+Spring,Clear,Morning peak,60737,435,0.1867233566364771
+Spring,Clear,Night,27028,360,0.08309200130350039
+Spring,Clear,Night/early,8353,611,0.025679572550249326
+Spring,Light rain/snow,Day off-peak,5864,104,0.2709546252656871
+Spring,Light rain/snow,Evening peak,7831,68,0.3618427132427687
+Spring,Light rain/snow,Morning peak,5728,64,0.264670548008502
+Spring,Light rain/snow,Night,1467,44,0.06778486276684226
+Spring,Light rain/snow,Night/early,752,89,0.03474725071619998
+Spring,Mist/cloudy,Day off-peak,50612,382,0.40748762127128535
+Spring,Mist/cloudy,Evening peak,30713,165,0.2472766796827825
+Spring,Mist/cloudy,Morning peak,29862,216,0.24042510365927297
+Spring,Mist/cloudy,Night,8436,136,0.0679199710156596
+Spring,Mist/cloudy,Night/early,4582,306,0.036890624370999554
+Spring,Severe weather,Day off-peak,36,1,0.16143497757847533
+Spring,Severe weather,Evening peak,164,1,0.7354260089686099
+Spring,Severe weather,Night/early,23,1,0.1031390134529148
+Summer,Clear,Day off-peak,247944,816,0.37314944549207407
+Summer,Clear,Evening peak,232486,523,0.34988554667453264
+Summer,Clear,Morning peak,102568,421,0.15436224439886043
+Summer,Clear,Night,61493,380,0.09254540884895021
+Summer,Clear,Night/early,19972,719,0.030057354585582643
+Summer,Light rain/snow,Day off-peak,14655,102,0.313388790282916
+Summer,Light rain/snow,Evening peak,15546,70,0.33244231550584863
+Summer,Light rain/snow,Morning peak,11516,79,0.2462630712315292
+Summer,Light rain/snow,Night,3907,54,0.08354895964758463
+Summer,Light rain/snow,Night/early,1139,101,0.02435686333212155
+Summer,Mist/cloudy,Day off-peak,82295,370,0.3968644357961642
+Summer,Mist/cloudy,Evening peak,49619,143,0.23928569706263894
+Summer,Mist/cloudy,Morning peak,54216,236,0.2614545507154121
+Summer,Mist/cloudy,Night,14392,118,0.06940486007629133
+Summer,Mist/cloudy,Night/early,6841,277,0.0329904563494934
+Winter,Clear,Day off-peak,219246,723,0.4011886746533795
+Winter,Clear,Evening peak,171288,461,0.3134324261515743
+Winter,Clear,Morning peak,92829,399,0.16986373060123588
+Winter,Clear,Night,44479,354,0.08139017842928795
+Winter,Clear,Night/early,18649,672,0.03412499016452238
+Winter,Light rain/snow,Day off-peak,13449,121,0.3079688573391344
+Winter,Light rain/snow,Evening peak,16280,73,0.37279596977329976
+Winter,Light rain/snow,Morning peak,9379,64,0.2147698648958095
+Winter,Light rain/snow,Night,3285,43,0.07522326539958782
+Winter,Light rain/snow,Night/early,1277,74,0.029242042592168536
+Winter,Mist/cloudy,Day off-peak,96793,392,0.38493629002752017
+Winter,Mist/cloudy,Evening peak,64034,174,0.25465695242034264
+Winter,Mist/cloudy,Morning peak,64830,241,0.257822566533573
+Winter,Mist/cloudy,Night,17962,134,0.07143311645960262
+Winter,Mist/cloudy,Night/early,7833,307,0.03115107455896155

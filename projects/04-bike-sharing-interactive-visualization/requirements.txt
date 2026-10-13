@@ -1,0 +1,5 @@
+# Pinned to the versions used to produce the committed charts.
+numpy==2.5.3
+pandas==3.0.6
+plotly==7.1.0
+pyecharts==2.1.0

@@ -1,0 +1,199 @@
+{
+  "samples": [
+    {
+      "Dataset": "Prices",
+      "Rows": 2599,
+      "Start": "2011-01-04",
+      "End": "2021-12-31"
+    },
+    {
+      "Dataset": "VAR training",
+      "Rows": 2578,
+      "Start": "2011-01-05",
+      "End": "2021-12-02"
+    },
+    {
+      "Dataset": "VAR holdout",
+      "Rows": 20,
+      "Start": "2021-12-03",
+      "End": "2021-12-31"
+    },
+    {
+      "Dataset": "Cointegration levels",
+      "Rows": 1461,
+      "Start": "2016-01-04",
+      "End": "2021-12-31"
+    }
+  ],
+  "selected_orders": {
+    "aic": 7,
+    "bic": 0,
+    "hqic": 0,
+    "fpe": 7
+  },
+  "first_forecast": {
+    "date": "2021-12-03",
+    "SZH": 0.10606118805990185,
+    "XGH": 0.03782405149124295
+  },
+  "forecast_metrics": [
+    {
+      "Model": "VAR(7)",
+      "Series": "SZH",
+      "MAE": 0.6448619266334656,
+      "RMSE": 0.7198399463548045
+    },
+    {
+      "Model": "VAR(7)",
+      "Series": "XGH",
+      "MAE": 0.8570440385250058,
+      "RMSE": 1.111088541032163
+    },
+    {
+      "Model": "Zero return",
+      "Series": "SZH",
+      "MAE": 0.6435344138322119,
+      "RMSE": 0.7211351614296048
+    },
+    {
+      "Model": "Zero return",
+      "Series": "XGH",
+      "MAE": 0.8533921758044727,
+      "RMSE": 1.103932365050917
+    }
+  ],
+  "granger": [
+    {
+      "Direction": "SZH -> XGH",
+      "VAR_lag": 7,
+      "F": 1.2758234839894729,
+      "p_value": 0.2579153178017749,
+      "Reject_5pct": false
+    },
+    {
+      "Direction": "XGH -> SZH",
+      "VAR_lag": 7,
+      "F": 1.9297855216974618,
+      "p_value": 0.06088020106609379,
+      "Reject_5pct": false
+    }
+  ],
+  "fevd_sensitivity": [
+    {
+      "Order": "SZH, XGH",
+      "Response": "XGH",
+      "Shock": "SZH",
+      "Horizon": 1,
+      "Share_pct": 32.28895096082189
+    },
+    {
+      "Order": "SZH, XGH",
+      "Response": "XGH",
+      "Shock": "SZH",
+      "Horizon": 5,
+      "Share_pct": 32.40705065234689
+    },
+    {
+      "Order": "SZH, XGH",
+      "Response": "XGH",
+      "Shock": "SZH",
+      "Horizon": 10,
+      "Share_pct": 32.42815216115743
+    },
+    {
+      "Order": "SZH, XGH",
+      "Response": "SZH",
+      "Shock": "XGH",
+      "Horizon": 1,
+      "Share_pct": 0.0
+    },
+    {
+      "Order": "SZH, XGH",
+      "Response": "SZH",
+      "Shock": "XGH",
+      "Horizon": 5,
+      "Share_pct": 0.420696006413191
+    },
+    {
+      "Order": "SZH, XGH",
+      "Response": "SZH",
+      "Shock": "XGH",
+      "Horizon": 10,
+      "Share_pct": 0.553516815014168
+    },
+    {
+      "Order": "XGH, SZH",
+      "Response": "XGH",
+      "Shock": "SZH",
+      "Horizon": 1,
+      "Share_pct": 0.0
+    },
+    {
+      "Order": "XGH, SZH",
+      "Response": "XGH",
+      "Shock": "SZH",
+      "Horizon": 5,
+      "Share_pct": 0.2968144881265061
+    },
+    {
+      "Order": "XGH, SZH",
+      "Response": "XGH",
+      "Shock": "SZH",
+      "Horizon": 10,
+      "Share_pct": 0.3509709113708979
+    },
+    {
+      "Order": "XGH, SZH",
+      "Response": "SZH",
+      "Shock": "XGH",
+      "Horizon": 1,
+      "Share_pct": 32.2889509608219
+    },
+    {
+      "Order": "XGH, SZH",
+      "Response": "SZH",
+      "Shock": "XGH",
+      "Horizon": 5,
+      "Share_pct": 32.321964133854785
+    },
+    {
+      "Order": "XGH, SZH",
+      "Response": "SZH",
+      "Shock": "XGH",
+      "Horizon": 10,
+      "Share_pct": 32.11611698143853
+    }
+  ],
+  "johansen": [
+    {
+      "q": 1,
+      "Levels_VAR_order": 2,
+      "Rank": 2,
+      "White12_p": 2.0603958176555775e-07,
+      "Deterministic": "co"
+    },
+    {
+      "q": 2,
+      "Levels_VAR_order": 3,
+      "Rank": 2,
+      "White12_p": 3.293893844693865e-07,
+      "Deterministic": "co"
+    },
+    {
+      "q": 3,
+      "Levels_VAR_order": 4,
+      "Rank": 2,
+      "White12_p": 4.6942908889571454e-07,
+      "Deterministic": "co"
+    }
+  ],
+  "johansen_q2": {
+    "rank": 2,
+    "trace_first_nonrejection": 2.447202989368655,
+    "critical": 3.8415
+  },
+  "eg": {
+    "statistic": -1.8233176841347545,
+    "p": 0.6183282411673388
+  }
+}

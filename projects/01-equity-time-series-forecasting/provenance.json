@@ -1,0 +1,10 @@
+{
+  "title": "Equity Time-Series Forecasting: ARMA/ARIMA Diagnostics and Benchmark Evaluation",
+  "basis": "Supplied econometrics coursework",
+  "assistance": "This analysis develops supplied econometrics coursework and retains its original datasets and teaching notebook in source_materials. AI assistance was used for code completion, analytical organization, verification, and English writing. The data were supplied with the course; upstream vendor and price-adjustment details were not independently established.",
+  "sha256": {
+    "source_materials/GZMTp.csv": "de8c51c23965d787734141a3d32462afa820c239231f4b43ef4b9b35aff47fa7",
+    "source_materials/实验练习.ipynb": "1575214826635bf016fc3c2626aca923990a071118128190f889673d21bea0e7",
+    "GZMTp.csv": "de8c51c23965d787734141a3d32462afa820c239231f4b43ef4b9b35aff47fa7"
+  }
+}

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jiayu Yan — Data Analytics Portfolio</title>
+<meta name="description" content="Four reproducible data analysis projects in econometrics, forecasting, industry analysis and interactive visualisation.">
+<style>
+:root{
+  --ink:#16222e; --body:#425362; --muted:#7a8a99;
+  --line:#dde4ea; --bg:#f6f8fa; --card:#ffffff;
+  --accent:#1f6fb2; --accent-dark:#164f80; --flag:#b4532f;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--body);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark);text-decoration:underline}
+.wrap{max-width:900px;margin:0 auto;padding:0 24px}
+header{background:var(--card);border-bottom:1px solid var(--line);padding:64px 0 48px}
+h1{margin:0 0 6px;font-size:34px;line-height:1.2;color:var(--ink);letter-spacing:-.4px}
+.sub{font-size:17px;color:var(--body);margin:0 0 4px}
+.sub strong{color:var(--ink)}
+.meta{font-size:14px;color:var(--muted);margin:14px 0 0}
+.lede{margin:28px 0 0;font-size:16px;max-width:66ch}
+.lede em{color:var(--ink);font-style:normal;font-weight:600}
+.links{margin:26px 0 0;display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-block;padding:9px 16px;border-radius:6px;font-size:14px;
+  border:1px solid var(--line);background:#fff;color:var(--body)}
+.btn:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:#fff}
+main{padding:52px 0 0}
+h2.section{font-size:13px;text-transform:uppercase;letter-spacing:1.4px;
+  color:var(--muted);font-weight:700;margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:26px 28px;margin:0 0 20px}
+.card h3{margin:0 0 4px;font-size:21px;color:var(--ink);line-height:1.3}
+.card h3 .num{color:var(--muted);font-weight:400;margin-right:8px}
+.stack{margin:0 0 14px;font-size:12.5px;color:var(--muted);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.card p{margin:0 0 14px}
+.find{border-left:3px solid var(--accent);padding:2px 0 2px 14px;margin:0 0 16px;
+  color:var(--ink)}
+.find.negative{border-left-color:var(--flag)}
+.find b{color:var(--ink)}
+.tag{display:inline-block;font-size:11px;letter-spacing:.6px;text-transform:uppercase;
+  font-weight:700;color:var(--flag);border:1px solid #e8cdc2;background:#fdf4f0;
+  border-radius:4px;padding:2px 7px;margin:0 0 10px}
+.cardlinks{font-size:14px;padding-top:6px;border-top:1px solid var(--line)}
+.cardlinks a{margin-right:18px;white-space:nowrap}
+footer{margin:48px 0 0;padding:32px 0 56px;border-top:1px solid var(--line);
+  font-size:14px;color:var(--muted)}
+footer p{margin:0 0 10px;max-width:70ch}
+@media(max-width:600px){
+  header{padding:40px 0 32px} h1{font-size:27px} .card{padding:20px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>Jiayu Yan</h1>
+    <p class="sub">B.Mgmt. in <strong>Big Data Management and Applications</strong>, Guangdong University of Technology</p>
+    <p class="sub">Applying for MS programmes in Data Science / Business Analytics — US · Singapore · Hong Kong</p>
+
+    <p class="lede">Four projects, each built around a single question:
+      <em>does this result survive being checked?</em> Coursework usually ends at the
+      first plausible number. These go on to the part that decides whether the number
+      means anything. Two of the four headline findings below are negative results —
+      and they are the ones I would most want to be asked about.</p>
+
+    <p class="meta">Every project regenerates its own figures and tables from a clean
+      checkout. Two of them verify every output number against stored reference values
+      on each run and fail loudly if anything drifts.</p>
+
+    <div class="links">
+      <a class="btn primary" href="https://github.com/jiayuyan117/academic-portfolio">Repository on GitHub</a>
+      <a class="btn" href="https://github.com/jiayuyan117/academic-portfolio/blob/main/README.zh-CN.md">中文版</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <h2 class="section">Projects</h2>
+
+  <section class="card">
+    <h3><span class="num">01</span>Equity Time-Series Forecasting</h3>
+    <p class="stack">statsmodels · ARMA/ARIMA · fixed-origin holdout · 252 values verified per run</p>
+    <span class="tag">Negative result</span>
+    <p class="find negative">Training-only BIC selects MA(2). It beats a zero-return
+      forecast by <b>0.29% of RMSE</b> on an untouched 20-day holdout — while Ljung–Box
+      <b>rejects</b> residual adequacy at lag 20 and ARCH-LM rejects constant variance
+      (<i>p</i> = 4e-09).</p>
+    <p>Fit, residual adequacy and out-of-sample performance are kept as three separate
+      questions, because a model can win the first and fail the other two. Here it does.
+      Selection is specified before the holdout is touched, benchmarks are fixed in
+      advance, and return and log-price errors are never compared on the same scale.</p>
+    <p class="cardlinks">
+      <a href="projects/01-equity-time-series-forecasting/FIRST_READ.html">Read the report</a>
+      <a href="projects/01-equity-time-series-forecasting/Research_Analysis.html">Full analysis</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/01-equity-time-series-forecasting">Code</a>
+    </p>
+  </section>
+
+  <section class="card">
+    <h3><span class="num">02</span>Shanghai–Hong Kong Market Linkages</h3>
+    <p class="stack">VAR / VECM · Johansen · Granger · 334 values verified per run</p>
+    <span class="tag">Negative result</span>
+    <p class="find negative">A Shanghai shock appears to explain <b>32.4%</b> of Hong
+      Kong's 10-step forecast-error variance — reverse the Cholesky ordering and the same
+      quantity becomes <b>0.35%</b>. Same data, same model, same sample; only the
+      identifying assumption changed.</p>
+    <p>VAR(7) also loses to a zero-return benchmark on MAE in both markets, and neither
+      Granger direction is significant at 5%. Johansen selects rank 2 stably, yet every
+      fitted VECM rejects residual whiteness — so no long-run equilibrium claim is made
+      and no VECM forecast is deployed on the back of it.</p>
+    <p class="cardlinks">
+      <a href="projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html">Read the report</a>
+      <a href="projects/02-shanghai-hongkong-market-linkages/Research_Analysis.html">Full analysis</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/02-shanghai-hongkong-market-linkages">Code</a>
+    </p>
+  </section>
+
+  <section class="card">
+    <h3><span class="num">03</span>China's New Energy Vehicle Transition, 2015–2025</h3>
+    <p class="stack">pandas · matplotlib · 7 compiled tables · 16 figures, bilingual</p>
+    <p class="find">NEV share of new vehicle sales went from <b>1.3% to 47.9%</b> in
+      eleven years. The findings that complicate that story: charging capacity outgrew
+      the fleet but almost entirely through <b>private</b> chargers (public share fell
+      48% → 23%); battery chemistry reversed toward LFP (40% → <b>81%</b>); and plug-in
+      hybrids <i>gained</i> share (17% → <b>36%</b>).</p>
+    <p>Every denominator, definition change and scenario assumption is documented —
+      including a 0.3 GWh discrepancy against an official battery total, and a carbon
+      estimate captioned on the figure itself as a scenario rather than a statistic.</p>
+    <p class="cardlinks">
+      <a href="projects/03-china-nev-industry-analytics/charts_en/08_dashboard.png">Dashboard</a>
+      <a href="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png">Battery chemistry</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/03-china-nev-industry-analytics">Code &amp; data</a>
+    </p>
+  </section>
+
+  <section class="card">
+    <h3><span class="num">04</span>Bike-Sharing Demand: Interactive Visualisation</h3>
+    <p class="stack">Plotly · Pyecharts · 17,379 hourly observations</p>
+    <span class="tag">Data-quality finding</span>
+    <p class="find negative">The two files in the UCI Bike Sharing Dataset store dates as
+      <code>2011/1/1</code> and <code>2011-01-01</code>, so the obvious join between them
+      matches <b>0 of 731 days</b> — and any reconciliation check built on it passes while
+      comparing nothing to nothing. Parsed properly, the files agree exactly.</p>
+    <p>Four interactive figures, each labelling what every visual channel encodes. The
+      density contour is a count of <i>observations</i>; ride volume is carried only by
+      marker size on a separate layer, so the two can never be read off the same channel.</p>
+    <p class="cardlinks">
+      <a href="projects/04-bike-sharing-interactive-visualization/charts/01_sunburst.html">Sunburst</a>
+      <a href="projects/04-bike-sharing-interactive-visualization/charts/02_density_contour.html">Density</a>
+      <a href="projects/04-bike-sharing-interactive-visualization/charts/03_calendar_heatmap.html">Calendar</a>
+      <a href="projects/04-bike-sharing-interactive-visualization/charts/04_season_timeline.html">Animation</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/04-bike-sharing-interactive-visualization">Code</a>
+    </p>
+  </section>
+
+  <footer>
+    <p><strong>Academic integrity and AI use.</strong> All four projects originate in my
+      own undergraduate coursework. The original course submissions and datasets are
+      retained unmodified in each project's <code>source_materials/</code> directory, so
+      the development from assignment to portfolio version can be inspected directly.</p>
+    <p>AI assistance was used for code structuring, English writing and verification
+      tooling. The research questions, the sensitivity analyses that produce the findings
+      above, and all interpretation are my own. Where a number is my estimate rather than
+      a published statistic, it is labelled as such in the figure.</p>
+    <p>No result here is presented as more certain than the evidence supports. Where a
+      model fails, the failure is the finding.</p>
+    <p>Code MIT licensed · third-party datasets under their original terms ·
+      <a href="https://github.com/jiayuyan117">@jiayuyan117</a></p>
+  </footer>
+
+
+</main>
+
+</body>
+</html>
+

@@ -1,0 +1,19 @@
+# Notebook / interpreter runtime
+.runtime/
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Large regenerated intermediates.
+# These are rebuilt in seconds by the project's build script and are kept out of
+# version control so the repository stays small enough to clone comfortably.
+projects/04-bike-sharing-interactive-visualization/outputs/01_cleaned_derived_data.csv
+projects/04-bike-sharing-interactive-visualization/outputs/04_daily_calendar_crosscheck.csv
