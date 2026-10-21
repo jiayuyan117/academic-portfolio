@@ -1,4 +1,8 @@
 {
+  "analysis_basis": "original observed PM2.5 only; no imputed values used",
+  "observed_pm25_hours": 41757,
+  "analysis_excluded_missing_hours": 2067,
+  "imputation_fields_scope": "separate short-gap policy audit, not analysis inputs",
   "hourly_rows": 43824,
   "missing_pm25_hours": 2067,
   "missing_share": 0.0472,

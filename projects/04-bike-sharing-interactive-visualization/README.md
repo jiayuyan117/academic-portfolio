@@ -1,108 +1,91 @@
 # Bike-Sharing Demand: Interactive Visualisation
 
-**Four interactive figures where every visual channel is labelled — and a silent join bug found in the source data**
+**Four interactive figures with explicit encodings and offline support.**
 
-`Python` · `Plotly` · `Pyecharts` · `17,379 hourly observations`
+`Python` · `Plotly` · `17,379 hourly observations`
 
-**Live charts:** [sunburst](https://jiayuyan117.github.io/academic-portfolio/projects/04-bike-sharing-interactive-visualization/charts/01_sunburst.html)
-· [density](https://jiayuyan117.github.io/academic-portfolio/projects/04-bike-sharing-interactive-visualization/charts/02_density_contour.html)
-· [calendar](https://jiayuyan117.github.io/academic-portfolio/projects/04-bike-sharing-interactive-visualization/charts/03_calendar_heatmap.html)
-· [seasonal animation](https://jiayuyan117.github.io/academic-portfolio/projects/04-bike-sharing-interactive-visualization/charts/04_season_timeline.html)
+## Offline charts
 
----
+[Sunburst](charts/01_sunburst.html) · [Density contour](charts/02_density_contour.html)
+· [Calendar heatmap](charts/03_calendar_heatmap.html)
+· [Seasonal animation](charts/04_season_timeline.html)
 
-## The finding that matters most
+All four HTML files embed Plotly.js and their data. After rebuilding, download
+and open any chart locally with the network disconnected; no CDN, MathJax or
+Pyecharts/ECharts assets are needed. The former Pyecharts timeline now uses Plotly
+frames with Play/Pause and a season slider. Each chart carries an offline-support
+note. Embedding the runtime increases each HTML by several MB.
 
-The UCI Bike Sharing Dataset ships two files that are meant to reconcile:
-`hour.csv` (17,379 hourly records) and `day.csv` (731 daily totals). They store
-the same date column in **two different formats**:
+## Data quality and findings
 
-| File | `dteday` |
-| --- | --- |
-| `hour.csv` | `2011/1/1` |
-| `day.csv` | `2011-01-01` |
+The UCI hourly file uses `2011/1/1`; the daily file uses `2011-01-01`.
+`parse_dates()` normalises both before joining. Unmatched dates raise an error,
+so a failed join cannot masquerade as zero reconciliation difference.
 
-A natural `merge(hour, day, on="dteday")` therefore matches **0 of 731 days**. An
-outer join silently returns twice as many rows, half of them `NaN`, and any
-"hourly totals equal daily totals" check written on top of it passes
-vacuously — it is comparing nothing to nothing.
-
-Parsing both columns to datetimes first and joining on the normalised date gives
-a real reconciliation: the two files **do** agree, absolute difference **0** rides
-across all 731 days. Same conclusion as the naive version, reached for a reason
-instead of by accident. The guard lives in `parse_dates()` in
-`src/build_charts.py`, with a comment explaining why it exists.
-
-## What the data says
-
-| | |
-| --- | --- |
+| Metric | Result |
+| --- | ---: |
 | Hourly observations | 17,379 |
 | Hours with zero rides | 0 |
-| Hours in severe weather (code 4) | 3 |
-| Registered-user share of all rides | **81.2%** |
+| Severe-weather hours | 3 |
+| Registered-user share of rides | 81.2% |
 | Busiest day | 2012-09-15, 8,714 rides |
-| Hourly vs daily reconciliation | 0 rides difference over 731 days |
+| Hourly vs daily absolute difference | 0 rides |
 
-Ride volume by time of day — the evening peak carries 1.6× the morning peak,
-which is the asymmetry a commuting-only story would miss:
+Registered share is total registered rides divided by all rides, selected by
+the `Registered` label rather than row position. It is not a share of unique users.
 
-| Period | Rides |
+| Period | Total rides |
 | --- | ---: |
-| Day off-peak (10–16) | 1,233,459 |
-| Evening peak (17–20) | 1,037,971 |
-| Morning peak (6–9) | 629,742 |
-| Night (21–23) | 284,998 |
-| Night/early (0–5) | 106,509 |
+| Day off-peak | 1,233,459 |
+| Evening peak | 1,037,971 |
+| Morning peak | 629,742 |
+| Night | 284,998 |
+| Night/early | 106,509 |
 
-Only three hours of severe weather exist in two years, so any claim about how
-severe weather affects demand would rest on three observations. It is reported as
-a count, and no such claim is made.
+## Visual encodings and limits
 
-## The visualisation discipline
+1. **Sunburst:** season → weather → time of day; area/value = total rides;
+   hover = share of parent.
+2. **Density contour:** contours count observed hours; sampled markers encode
+   rides/hour by size and colour. Observation density is not demand volume.
+3. **Calendar:** daily totals on a weekday-by-week matrix, actual dates in hover,
+   year buttons and a common colour scale. Blank padding does not mean zero rides.
+4. **Seasonal animation:** temperature (x), wind speed (y), rides/hour (size),
+   humidity (opacity). Axes remain 0–1. The quietest decile is excluded and up to
+   1,000 hours per season are sampled with seed 42; it is not the full distribution.
 
-The failure mode in charts like these is a visual channel that quietly mixes
-*how many observations* with *how many rides*. Each figure states what every
-channel encodes:
+## Business meaning and next decision
 
-1. **Sunburst** — season → weather → time of day. Area and value are total rides;
-   the hover shows share of parent so a ring can be read without eyeballing it.
-2. **Density contour** — the filled contours are a density of **observations**.
-   Ride volume appears only as marker size and colour on a separate scatter
-   layer, so the two quantities can never be read off the same channel.
-3. **Calendar heatmap** — real calendar dates, not a synthetic index, with one
-   selectable layer per year. Built on the join described above.
-4. **Seasonal animation** (Pyecharts) — four dimensions in one frame:
-   temperature (x), wind speed (y), rides (marker size), humidity (opacity).
-   Axes pinned to 0–1 so frames stay comparable; the quietest decile is dropped
-   so the busy hours are not buried.
+Registered riders account for 81.2% of recorded rides, and
+evening-peak volume is 1.65 times morning-peak volume over equal four-hour
+windows. These aggregates motivate checking evening availability and service
+reliability for regular users before expanding generic acquisition campaigns.
+They do not locate shortages or establish why people ride.
 
-Plotly.js is loaded from a CDN rather than inlined, which takes the sunburst HTML
-from 4.8 MB to 13 KB.
+Before changing fleet allocation, join station-level inventory, failed rentals
+and operating costs. Evaluate a small scheduling pilot against a comparable
+baseline using unserved-demand rate and cost per completed ride, with explicit
+weather and calendar controls. No pilot or causal evaluation has been run here.
+The 3 severe-weather hours are insufficient for a reliable
+severe-weather policy; 2011–2012 citywide observations also limit current transfer.
 
 ## Reproduce
 
+From this project directory, in the centrally prepared Python environment:
+
 ```bash
-pip install -r requirements.txt
 python src/build_charts.py
+python -m unittest discover -s tests -v
 ```
 
-Writes `charts/*.html`, the aggregate tables in `outputs/`, and
-`outputs/findings.json` — every number quoted in this README comes from that file,
-so the README cannot drift from the data.
-
-## Contents
-
-- `src/build_charts.py` — the whole pipeline, documented
-- `charts/` — four interactive HTML figures
-- `outputs/` — the aggregates behind each figure, plus `findings.json`
-- `data/` — `hour.csv`, `day.csv` and the original dataset readme
+The build rewrites all four `charts/*.html`, aggregate tables, `outputs/findings.json`
+and this README from `render_readme()`. All exports check for external script or
+stylesheet tags and the presence of the embedded Plotly runtime. Browser rendering
+with networking disabled remains the final visual acceptance check.
 
 ## Provenance
 
-Data: [UCI Bike Sharing Dataset](https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset)
-(Fanaee-T & Gama, 2013), Washington D.C. Capital Bikeshare, 2011–2012, used
-unmodified. Developed from a course visualisation assignment; the code was
-rewritten for this portfolio. AI assistance was used for code structuring and
-English writing; the data-quality investigation and the encoding decisions are my
-own.
+[UCI Bike Sharing Dataset](https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset),
+Fanaee-T & Gama (2013), Washington D.C. Capital Bikeshare, 2011–2012; inputs are
+unmodified. Developed from a course visualisation assignment. AI assistance was
+used for code structuring and English writing.

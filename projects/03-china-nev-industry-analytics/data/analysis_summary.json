@@ -1,0 +1,36 @@
+{
+  "data_status": {
+    "compiled_from_coursework": 93,
+    "verified_external": 21,
+    "needs_verification": 2,
+    "assumption": 1
+  },
+  "note": "Selected observations source-checked; other historical values unverified. Evidence: data/source/provenance.json.",
+  "charging_scope_break": {
+    "year": 2025,
+    "before": "EVCIPA compilation, 2020-2024",
+    "after": "NEA connectors, revised scope, 2025",
+    "source_ids": [
+      "nea_break_2025",
+      "nea_2025"
+    ],
+    "interpretation": "Do not connect 2024 to 2025 or interpret the difference as physical additions under fixed scope."
+  },
+  "precision_notes": {
+    "exports.nev_exports_10k.2020": {
+      "precision": "approximate",
+      "source_id": "exports_2020_approx",
+      "note": "About 70,000 only; 7.0 retained for calculation. Resulting share is approximate, not an externally verified 7.04%."
+    }
+  },
+  "carbon_factor_t_per_vehicle_year": 1.5,
+  "findings_en": [
+    "Compiled NEV sales, 2015-2025: 0.331 to 16.490 million; end/start = 49.82x.",
+    "Calculated share of supplied vehicle sales: 1.35% to 47.94%; all vehicle types including exports. 2025 published share 47.9% is retained separately.",
+    "2025 NEA revised-scope snapshot: fleet/connectors 2.19; public share 23.48%. 2025 NEA connector scope/reporting break vs EVCIPA; differences across the break are not physical additions.",
+    "LFP / (LFP + ternary), 2025: 81.27%; two-chemistry subtotal 769.4 GWh.",
+    "PHEV / (BEV + PHEV): 17.14% to 35.56%; latest change -4.42 percentage points; all vehicle types; historical values remain individually unverified.",
+    "NEV export share: approximately 7.0% in 2020 to 36.84%; latest annual volume growth 103.66%.",
+    "Illustrative year-end fleet scenario at 1.5 t CO2/vehicle-year: latest annual 0.659550, cumulative 1.968945 hundred million tonnes. Not measured emissions or a life-cycle assessment; factor is classified as an assumption."
+  ]
+}

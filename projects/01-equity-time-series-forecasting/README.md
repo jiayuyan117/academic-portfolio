@@ -91,6 +91,26 @@ python run_analysis.py
    `rtol=1e-6`,
 5. re-exports the HTML report and rewrites `MANIFEST_SHA256.json`.
 
+Keep the repository's root `portfolio_common/` directory alongside `projects/`;
+the project entry point locates it without requiring `PYTHONPATH`. It can be
+called from the project directory or by script path from another directory.
+Before execution, exact package versions are checked against the read-only
+`requirements.txt`. Missing packages or mismatches stop the run with a clear
+error; actual versions and mismatches are recorded in `results/environment.json`,
+including failed checks. The root-level `environment.json` is a historical
+record and is not overwritten. `python run_analysis.py --check-only` checks
+environment, input hashes, English source and source synchronization without
+executing the notebook or certifying regenerated numbers.
+
+`Research_Analysis.ipynb` is the canonical analysis. From the repository root,
+use `python -B portfolio_common/notebook_source.py projects/01-equity-time-series-forecasting`
+to regenerate `analysis.py`, or add `--check` to verify synchronization.
+For edits made to the exported Python cells, `--update-notebook-code` explicitly
+imports them into the notebook and clears stale outputs; it never executes the
+analysis. The runner rejects an unsynchronized export. Full-training candidate
+models are fitted once and reused for comparison, diagnostics, forecasts and
+the 100% stability check; the 60% and 80% prefixes still receive separate fits.
+
 Last verified run: **11 reference tables, 252 numeric values matched, 0 errors**
 (see `results/verification.json`).
 

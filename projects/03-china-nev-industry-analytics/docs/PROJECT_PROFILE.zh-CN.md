@@ -2,20 +2,21 @@
 
 ## 中文项目简介
 
-本项目研究中国新能源汽车产业在 2015—2025 年间如何从规模扩张走向系统性转型。项目将 7 组公开统计数据组织为产业结果、系统支撑和影响评估三个层次，并通过销量与渗透率、保有量与车桩比、动力电池结构、动力路线、出口以及减碳情景等指标，分析产业增长背后的结构性变化。
+本项目以 2015—2025 年新能源汽车产业数据为输入，将六组观测及一个作者假设参数组织为七张派生表。来源审计已支持 21 个观测，其他历史值保留未核验状态；逐值区分政府原站、政府转载与媒体证据。2025 销量分母含出口，动力路线为全车型，充电图明确分开 EVCIPA 历史序列与 2025 NEA 新统计口径。
 
 项目的重点不是简单展示增长曲线，而是建立一条从研究问题、数据口径、派生指标、可视化输出到结论边界的可复现证据链。
 
 ## English Project Summary
 
-This project examines how China’s new energy vehicle industry evolved from rapid market expansion toward a broader system transition between 2015 and 2025. Seven public datasets are organized into three layers: market outcomes, system enablers, and impact scenarios. Derived indicators—including new-car penetration, vehicle-to-charger ratios, battery chemistry shares, powertrain composition, export shares, and scenario-based emissions reductions—are used to interpret structural change beneath the growth curve.
+This project produces seven derived tables and bilingual figures from six observation tables and one assumption table. The supplied source audit supports 21 observations; remaining historical values retain their unverified status. Provenance distinguishes government originals, government republications and media evidence. Sales cover all vehicle types including exports, powertrain shares use BEV+PHEV, and charging figures separate the 2025 NEA reporting regime. The carbon output uses an author-selected assumption, not measured avoided emissions.
 
 The project is designed to demonstrate a reproducible workflow from research framing and data governance to metric construction, visualization, interpretation, and methodological boundary-setting.
 
 ## Role and contribution
 
-- Data collection and public-source review
-- Definition alignment and data quality checking
+- Preservation of coursework values and candidate source links
+- Field/year/value provenance and explicit unresolved definitions
+- Year-key alignment and input/output quality checks
 - Derived metric design
 - Python visualization and batch export
 - Analytical narrative and bilingual portfolio restructuring
@@ -26,9 +27,10 @@ Python 3 · pandas · NumPy · Matplotlib · CSV · PowerPoint
 
 ## Selected outputs
 
-- 7 structured CSV datasets
-- 8 high-resolution analytical charts
-- 2 editable portfolio presentations
-- 1 reproducible analysis script
-- 1 step-by-step teaching and demonstration script
+- 7 independent input CSVs and one provenance JSON
+- 7 derived CSVs and a generated English summary
+- 8 Chinese and 8 English high-resolution charts
+- Shared data pipeline and two rendering entry points
+- Validation regression tests
+- 2 historical course presentations, retained unchanged; current findings are in the README and rebuilt figures
 

@@ -1,6 +1,6 @@
 # Beijing PM2.5, 2010–2014
 
-**A ventilation story, not a temperature story — and 1,891 missing hours that should stay missing**
+**Observed-hour associations and an explicit audit of missing-data policy**
 
 `Python` · `Seaborn` · `43,824 hourly observations` · `7 figures`
 
@@ -8,11 +8,12 @@
 
 ## Headline
 
-Across five years of hourly readings, Beijing PM2.5 exceeded China's grade II
-daily limit (75 µg/m³) in **48.5%** of hours and reached severe-pollution levels
-(>250 µg/m³) in **7.3%**.
+Across five years, **48.5% of observed hourly readings** were above 75 µg/m³
+and **7.3%** were above 250 µg/m³. These are hourly comparisons with reference
+values used for daily air-quality assessment, **not daily compliance rates**.
 
-What explains the variation is air movement, not air temperature:
+Cumulated wind speed has a stronger marginal rank association with PM2.5
+than temperature in this sample:
 
 | Driver | Spearman ρ with PM2.5 |
 | --- | ---: |
@@ -21,8 +22,10 @@ What explains the variation is air movement, not air temperature:
 | Pressure | −0.142 |
 | Temperature | **+0.011** |
 
-Median PM2.5 in the calmest wind decile is **107 µg/m³** against **17 µg/m³** in
-the windiest — a **6.3×** difference. By wind direction, northwesterlies run a
+Median PM2.5 in the lowest cumulated-wind-speed decile is **107 µg/m³**
+against **17 µg/m³** in the highest — a **6.3×** difference.
+The source's `Iws` field measures cumulated wind speed, not instantaneous wind.
+By wind direction, northwesterlies run a
 median of **31 µg/m³** against **98** in calm or variable hours.
 
 ![Ventilation](figures/03_ventilation_wind_speed.png)
@@ -37,17 +40,20 @@ longer than a day**. Linear interpolation across a six-day gap draws a smooth
 ramp through what may have been an entire haze episode, then feeds that invented
 shape into every correlation downstream.
 
-This project fills only gaps of **≤3 hours** (176 hours, 0.4% of the series) and
-leaves the remaining **1,891 hours missing**. Every figure reports the sample it
-actually used.
+The policy audit constructs a separate series filling gaps of **≤3 hours**
+(176 hours, 0.4% of the series) and leaving **1,891 hours missing**.
+That candidate series is **not used in the headline analysis**: every pollution
+distribution, correlation and conditional summary uses the original observed
+values, excluding all **2,067 missing hours** (41,757 observed hours).
+The gap figure evaluates what a limited imputation policy would permit.
 
 ![Gap audit](figures/01_missing_data_gap_audit.png)
 
 ### 2 · The temperature finding was an artefact of the statistic
 
-Temperature gives Pearson *r* = **−0.091** but Spearman ρ = **+0.011**. When a
-linear and a rank coefficient disagree on the *sign*, the association is not
-monotonic and neither number belongs in a headline.
+Temperature gives Pearson *r* = **−0.091** but Spearman ρ = **+0.011**.
+Both are small. Their different signs motivate examining the conditional
+shape; a sign disagreement alone does not establish non-monotonicity.
 
 Binning temperature and plotting conditional medians shows why: PM2.5 rises and
 falls twice across the temperature range, with local maxima near 0 °C and near
@@ -74,17 +80,31 @@ transport from local emission, and `cbwd` is a source-defined combined category
 rather than a measured bearing. `Ir` and `Is` count **cumulated hours** of rain
 and snow, not millimetres, so they are not precipitation intensity. The 75 and
 250 µg/m³ lines are *daily* standards drawn on hourly data for orientation only.
+Serial dependence, seasonality, station coverage and unmeasured emissions
+prevent these marginal correlations from identifying an intervention effect.
+
+## Decision relevance
+
+For an operations team planning outdoor shifts, use low-ventilation periods
+as a candidate risk indicator alongside live local monitoring and official
+forecasts. These historical associations justify evaluating a warning rule;
+they do not by themselves justify production restrictions or schedule changes.
+Before deployment, validate on later time periods and additional stations,
+measure missed high-pollution events and false alarms, and assess the cost
+of each. Daily regulatory compliance requires daily aggregation and the
+applicable data-completeness rules.
 
 ## Reproduce
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -c ../../constraints.txt -r requirements.txt
 python src/analyze.py
 ```
 
-Writes `figures/*.png`, the tables in `outputs/`, and `outputs/findings.json` —
-every number quoted above comes from that file, so this README cannot drift from
-the data. The script asserts the input is a gap-free hourly index before
+Writes `figures/*.png`, the tables in `outputs/`, and `outputs/findings.json`.
+The report's figures can be checked against those outputs; this README is
+maintained separately and is not generated automatically.
+The script asserts the input is a gap-free hourly index before
 measuring gap lengths, because gap statistics on an irregular index would be
 meaningless.
 

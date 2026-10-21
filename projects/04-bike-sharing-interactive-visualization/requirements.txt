@@ -1,5 +1,5 @@
-# Pinned to the versions used to produce the committed charts.
+# Fixed reference environment: CPython 3.12; install in a virtual environment.
+# These declarations are read-only during analysis. See ../../REPRODUCING.md.
 numpy==2.5.3
 pandas==3.0.6
 plotly==7.1.0
-pyecharts==2.1.0

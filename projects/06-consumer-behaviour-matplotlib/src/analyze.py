@@ -1,20 +1,15 @@
-"""Consumer transactions: a segmentation exercise on data with almost no segments.
+"""Consumer transactions: evidence and limits for a segmentation decision.
 
-Input  : data/consumer_transactions.csv   (8,020 rows, course-supplied)
+Input  : data/consumer_transactions.csv (8,020 raw rows -> 8,000 after deduplication)
 Output : figures/*.png   seven Matplotlib figures
          outputs/*.csv   the tables behind each figure
-         outputs/findings.json  every number quoted in README.md
+         outputs/findings.json, README.md  computed findings and report
 
-The assignment asks which customer groups spend more. The honest answer, on this
-dataset, is that four of the five candidate groupings do not differ at all:
-age band, gender, city tier and payment method all give ANOVA p > 0.48. Only
-membership tier separates (p < 0.0001), and even that admits an obvious reverse
-reading -- tiers are usually awarded *for* spending.
-
-So this project reports confidence intervals and tests before it reports
-rankings, and declines to rank where the test says there is nothing to rank.
-Ranking five group means that differ by noise is the single most common way a
-dashboard invents a finding.
+Mean transaction amount is the primary estimand. Classical ANOVA is accompanied
+by Welch, Kruskal-Wallis and a Welch-Yuen trimmed-mean sensitivity check. These
+tests do not all estimate the same thing. Non-rejection does not establish equality.
+Repeated user IDs also make transaction-level p-values and intervals nominal:
+customer dependence is not corrected by any of these sensitivity checks.
 """
 
 from __future__ import annotations
@@ -35,7 +30,8 @@ DATA = ROOT / "data" / "consumer_transactions.csv"
 FIGURES = ROOT / "figures"
 OUTPUTS = ROOT / "outputs"
 
-RNG = np.random.default_rng(20261013)
+SEED = 20261013
+RNG = np.random.default_rng(SEED)
 BOOTSTRAP = 2000
 
 INK = "#16222e"
@@ -97,6 +93,9 @@ def load() -> tuple[pd.DataFrame, dict]:
     }
 
     df = raw.drop_duplicates().copy()
+    defects["rows_after_dedup"] = int(len(df))
+    defects["unique_users_after_dedup"] = int(df["user_id"].nunique())
+    defects["users_with_multiple_transactions"] = int((df["user_id"].value_counts() > 1).sum())
     df["membership"] = df["membership"].map(MEMBERSHIP)
     df["city_level"] = df["city_level"].map(CITY)
     df["gender"] = df["gender"].map(GENDER)
@@ -111,7 +110,7 @@ def load() -> tuple[pd.DataFrame, dict]:
 
 
 def mean_ci(values: np.ndarray) -> tuple[float, float, float]:
-    """Bootstrap mean and 95% percentile interval, robust to the heavy right tail."""
+    """IID percentile bootstrap CI; neither tail-proof nor adjusted for user clusters."""
     draws = RNG.choice(values, size=(BOOTSTRAP, len(values)), replace=True).mean(axis=1)
     return values.mean(), float(np.percentile(draws, 2.5)), float(np.percentile(draws, 97.5))
 
@@ -121,17 +120,71 @@ GROUPINGS = [("age_group", "Age band"), ("gender", "Gender"),
              ("membership", "Membership tier")]
 
 
+def welch_test(groups: list[np.ndarray], trim: float = 0.0) -> tuple[float, float]:
+    """Welch ANOVA; with trimming, the Welch-Yuen test of trimmed means.
+
+    Trim floor(n * trim) observations from EACH tail. Use winsorised sums of
+    squares divided by h-1 (h = retained n), not the variance of the trimmed
+    observations. With two groups, F equals scipy's Welch/Yuen t statistic squared.
+    See Wilcox, Introduction to Robust Estimation and Hypothesis Testing (2017).
+    """
+    if not 0 <= trim < 0.5 or len(groups) < 2:
+        raise ValueError("Need >=2 groups and 0 <= trim < 0.5")
+    means, variances, sizes = [], [], []
+    for group in groups:
+        values = np.sort(np.asarray(group, dtype=float))
+        cut = int(len(values) * trim)
+        retained = len(values) - 2 * cut
+        if retained < 2 or not np.isfinite(values).all():
+            raise ValueError("Each group needs >=2 retained, finite observations")
+        winsorised = values.copy()
+        if cut:
+            winsorised[:cut] = values[cut]
+            winsorised[-cut:] = values[-cut - 1]
+        means.append(values[cut:len(values) - cut].mean())
+        variances.append(np.sum((winsorised - winsorised.mean()) ** 2) / (retained - 1))
+        sizes.append(retained)
+    means, variances, sizes = map(np.asarray, (means, variances, sizes))
+    if np.any(variances <= 0):
+        raise ValueError("Welch test requires positive within-group variances")
+    weights = sizes / variances
+    relative_weights = weights / weights.sum()
+    centre = np.sum(relative_weights * means)
+    k = len(groups)
+    correction = np.sum((1 - relative_weights) ** 2 / (sizes - 1))
+    f_stat = (np.sum(weights * (means - centre) ** 2) / (k - 1)
+              / (1 + 2 * (k - 2) * correction / (k * k - 1)))
+    df2 = (k * k - 1) / (3 * correction)
+    return float(f_stat), float(stats.f.sf(f_stat, k - 1, df2))
+
+
 def group_tests(df: pd.DataFrame) -> pd.DataFrame:
-    """One row per candidate segmentation: does it separate spending at all?"""
+    """Five primary mean comparisons plus explicitly separate sensitivity families."""
     rows = []
     for column, label in GROUPINGS:
         groups = [g["amount"].to_numpy() for _, g in df.groupby(column, observed=True)]
         f_stat, p_anova = stats.f_oneway(*groups)
         _, p_kruskal = stats.kruskal(*groups)
+        _, p_welch = welch_test(groups)
+        _, p_trimmed = welch_test(groups, trim=0.1)
+        _, p_levene = stats.levene(*groups, center="median")
         means = df.groupby(column, observed=True)["amount"].mean()
+        trimmed = [stats.trim_mean(group, 0.1) for group in groups]
+        group_sizes = [len(group) for group in groups]
+        group_variances = [np.var(group, ddof=1) for group in groups]
         rows.append({
             "variable": column, "label": label, "groups": len(groups),
+            "n_used": sum(group_sizes), "n_missing_group": int(df[column].isna().sum()),
+            "min_group_n": min(group_sizes), "max_group_n": max(group_sizes),
+            "variance_ratio": max(group_variances) / min(group_variances),
+            "brown_forsythe_p": p_levene,
             "anova_f": f_stat, "anova_p": p_anova, "kruskal_p": p_kruskal,
+            "welch_p": p_welch, "trimmed_welch_p": p_trimmed,
+            "anova_p_bonferroni": min(1.0, p_anova * len(GROUPINGS)),
+            "welch_p_bonferroni": min(1.0, p_welch * len(GROUPINGS)),
+            "kruskal_p_bonferroni": min(1.0, p_kruskal * len(GROUPINGS)),
+            "trimmed_welch_p_bonferroni": min(1.0, p_trimmed * len(GROUPINGS)),
+            "trimmed_mean_min": min(trimmed), "trimmed_mean_max": max(trimmed),
             "spread_pct_of_mean": (means.max() - means.min()) / df["amount"].mean() * 100,
             # Five groupings are tested, so the 5% threshold is Bonferroni-corrected.
             "significant_bonferroni": p_anova < 0.05 / len(GROUPINGS),
@@ -167,19 +220,21 @@ def fig_effect_audit(df: pd.DataFrame, tests: pd.DataFrame) -> pd.DataFrame:
                            "mean_amount": mean, "ci_low": low, "ci_high": high})
         ax.axhline(overall, color=AMBER, linestyle=":", linewidth=1.4)
         ax.set_xticks(range(len(order)), order, rotation=35, ha="right", fontsize=9)
-        verdict = "separates" if test["significant_bonferroni"] else "no difference"
-        ax.set_title(f"{label}\np = {test['anova_p']:.3f} — {verdict}",
+        verdict = "mean evidence" if test["significant_bonferroni"] else "not rejected"
+        ax.set_title(f"{label}\np = {test['anova_p']:.2g}\n{verdict}",
                      fontsize=11, color=INK if test["significant_bonferroni"] else BODY)
         for spine in ("top", "right"):
             ax.spines[spine].set_visible(False)
     axes[0].set_ylabel("Mean transaction amount (¥)")
-    fig.suptitle("Four of five candidate segmentations do not separate spending at all",
+    not_rejected = int((~tests["significant_bonferroni"]).sum())
+    fig.suptitle(f"{not_rejected} of {len(tests)} mean-comparison nulls are not rejected",
                  fontsize=14.5, fontweight="bold", color=INK, y=1.03)
     fig.tight_layout()
     save(fig, "01_segmentation_effect_audit",
-         "Points are group means; bars are 2,000-draw bootstrap 95% intervals. "
-         "Dotted line is the overall mean. p-values are one-way ANOVA; the "
-         "'separates' verdict uses a Bonferroni threshold of 0.05/5 = 0.01.")
+         "Means with pointwise IID bootstrap 95% intervals (2,000 draws); not pairwise tests. "
+         "Nominal ANOVA p-values; Bonferroni threshold 0.05/5.\n"
+         "Repeated users are not cluster-adjusted. Non-rejection is not equivalence; "
+         "Welch, rank and trimmed-mean checks are exported separately.")
     return pd.DataFrame(detail)
 
 
@@ -204,7 +259,7 @@ def correlation_table(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def fig_correlation_forest(table: pd.DataFrame) -> None:
-    """A tight interval around zero is a finding, not a missing finding."""
+    """Show the precision of a linear association estimate, with its assumptions."""
     fig, ax = plt.subplots(figsize=(9, 5))
     y = np.arange(len(table))[::-1]
     for position, row in zip(y, table.itertuples()):
@@ -217,22 +272,22 @@ def fig_correlation_forest(table: pd.DataFrame) -> None:
     ax.set_yticks(y, table["label"])
     ax.set_xlim(-0.2, 1.0)
     ax.set_xlabel("Pearson correlation with transaction amount (95% CI)")
-    ax.set_title("Income, age, discount and rating are confidently unrelated to spend\n"
-                 "the intervals are narrow and they contain zero — this is a null, not a gap")
+    ax.set_title("Linear associations with transaction amount\n"
+                 "Intervals containing zero do not establish absence of a relationship")
     for spine in ("top", "right", "left"):
         ax.spines[spine].set_visible(False)
     income = table.set_index("variable").loc["income"]
-    bound = max(abs(income["ci_low"]), abs(income["ci_high"]))
     save(fig, "02_correlation_forest",
-         f"Fisher-z intervals on n = {int(income['n']):,}. The income interval is "
-         f"[{income['ci_low']:+.3f}, {income['ci_high']:+.3f}] — narrow enough to rule "
-         f"out any association stronger than {bound:.2f}, which is why 'weak but "
-         f"present' would be the wrong description of it.")
+         f"Income n = {int(income['n']):,}, nominal Fisher-z 95% CI "
+         f"[{income['ci_low']:+.3f}, {income['ci_high']:+.3f}]. Intervals are pointwise, "
+         "not multiplicity- or user-cluster-adjusted.\n"
+         "They describe linear correlation under sampling assumptions; nonlinear "
+         "relationships, confounding and causal effects remain unresolved.")
 
 
 
 def fig_mechanical_identity(df: pd.DataFrame) -> dict:
-    """What amount *is* determined by: the basket, not the customer."""
+    """Describe basket arithmetic without interpreting association as a mechanism."""
     expected = df["price"] * df["quantity"] * (1 - df["discount"])
     r = float(df["amount"].corr(expected))
     design = np.column_stack([np.ones(len(df)), expected])
@@ -250,16 +305,17 @@ def fig_mechanical_identity(df: pd.DataFrame) -> dict:
     ax.set_yscale("log")
     ax.set_xlabel("price × quantity × (1 − discount)  (¥, log scale)")
     ax.set_ylabel("Recorded amount (¥, log scale)")
-    ax.set_title("Transaction value is a basket identity, not a behavioural outcome\n"
+    ax.set_title("Transaction value closely tracks basket arithmetic\n"
                  f"r = {r:.3f} against the arithmetic expectation, R² = {r2:.3f}")
     ax.legend(loc="upper left")
     for spine in ("top", "right"):
         ax.spines[spine].set_visible(False)
-    save(fig, "03_basket_identity",
-         "Points above the dashed line carry a surcharge; the ratio clusters on a "
-         "few discrete multipliers (median 1.000, upper quartile 1.100), which is "
-         "consistent with a shipping or service tier rather than customer choice.")
     ratio = (df["amount"] / expected).describe()
+    save(fig, "03_basket_identity",
+         f"Recorded/expected ratio: median {ratio['50%']:.3f}, upper quartile "
+         f"{ratio['75%']:.3f}. Fees, rounding or construction rules are possible "
+         "explanations, not verified mechanisms.\n"
+         "This accounting association does not rule out customer behaviour.")
     return {"r_vs_expected": round(r, 4), "r2_vs_expected": round(float(r2), 4),
             "ratio_median": round(float(ratio["50%"]), 4),
             "ratio_q75": round(float(ratio["75%"]), 4)}
@@ -280,16 +336,17 @@ def fig_amount_distribution(df: pd.DataFrame) -> None:
     ax.set_xlabel("Transaction amount (¥, log scale)")
     ax.set_ylabel("Transactions")
     ax.set_title("The mean sits above two thirds of all transactions\n"
-                 f"only {share:.0%} of baskets exceed the mean — report medians, not means")
+                 f"{share:.0%} of baskets exceed the mean — report both mean and median")
     for spine in ("top", "right"):
         ax.spines[spine].set_visible(False)
     save(fig, "04_amount_distribution",
          "Log-spaced bins. A right-skewed basket distribution is expected; the "
-         "point is that a 'mean basket' headline would describe a minority of orders.")
+         "median describes a typical basket; the arithmetic mean remains relevant "
+         "to revenue per transaction. Neither measures profit or customer lifetime value.")
 
 
-def fig_membership(df: pd.DataFrame) -> pd.DataFrame:
-    """The one real effect -- shown with its mechanism and its causal caveat."""
+def fig_membership(df: pd.DataFrame, tests: pd.DataFrame) -> pd.DataFrame:
+    """Descriptive tier differences, with computed sensitivity results and caveats."""
     table = df.groupby("membership", observed=True).agg(
         transactions=("amount", "size"), mean_amount=("amount", "mean"),
         median_amount=("amount", "median"),
@@ -309,10 +366,10 @@ def fig_membership(df: pd.DataFrame) -> pd.DataFrame:
     ax.plot(range(1, len(table) + 1), table["trimmed_mean_amount"], color=TEAL,
             marker="D", linewidth=1.8, markersize=6, label="10% trimmed mean")
     ax.set_ylabel("Transaction amount (¥)")
-    ax.set_title("Membership tier does separate spending")
+    ax.set_title("Transaction amounts by membership tier")
     ax.legend(loc="upper left")
 
-    # Small real differences are unreadable as absolute bars, so show them as
+    # Small descriptive differences are unreadable as absolute bars, so show them as
     # percentage change against the Standard tier.
     metrics = [("median_amount", "Median amount", BLUE),
                ("median_price", "Median unit price", TEAL),
@@ -327,18 +384,19 @@ def fig_membership(df: pd.DataFrame) -> pd.DataFrame:
     ax2.axhline(0, color=BODY, linewidth=1)
     ax2.set_xticks(x, MEMBERSHIP_ORDER)
     ax2.set_ylabel("Change vs Standard tier (%)")
-    ax2.set_title("…through unit price and large orders, not basket size")
+    ax2.set_title("Basket composition relative to Standard")
     ax2.legend(loc="upper left", fontsize=9)
     for axis in (ax, ax2):
         for spine in ("top", "right"):
             axis.spines[spine].set_visible(False)
     fig.tight_layout()
+    test = tests.set_index("variable").loc["membership"]
     save(fig, "05_membership_effect",
-         "ANOVA p = 1.0e-06, surviving Bonferroni correction for five tested "
-         "groupings, and p = 1.6e-09 on 10% trimmed means — so this is a shift of "
-         "the whole distribution, not a few large orders. Direction is not "
-         "identified: loyalty tiers are normally awarded for past spending, so this "
-         "is as consistent with reverse causality as with a tier effect.")
+         f"Nominal omnibus p: ANOVA {test['anova_p']:.2g}; Welch {test['welch_p']:.2g}; "
+         f"Kruskal-Wallis {test['kruskal_p']:.2g}; 10%-per-tail Welch-Yuen "
+         f"{test['trimmed_welch_p']:.2g}.\n"
+         "Different estimands; no pairwise tier claims or uniform-distribution-shift claim. "
+         "Tier assignment and causal direction are unverified; repeated users are not adjusted.")
     return table
 
 
@@ -396,7 +454,7 @@ def fig_monthly_trend(df: pd.DataFrame) -> pd.DataFrame:
             linewidth=2.2, label="Observed revenue")
     ax.set_ylabel("Revenue (¥ thousands)")
     ax.tick_params(axis="x", rotation=45)
-    ax.set_title("There is no monthly pattern to explain\n"
+    ax.set_title("Monthly revenue against a fixed-order-count reference\n"
                  f"{inside} of {len(monthly)} months fall inside the range produced by "
                  f"reshuffling alone")
     ax.legend(loc="upper left", fontsize=9)
@@ -404,15 +462,194 @@ def fig_monthly_trend(df: pd.DataFrame) -> pd.DataFrame:
         ax.spines[spine].set_visible(False)
     save(fig, "07_monthly_trend_vs_noise",
          "The band holds each month's order count fixed and permutes which amounts "
-         "fall in which month, 500 times. A seasonality narrative fitted to this "
-         "series would be fitting noise.")
+         "fall in which month, 500 times. Pointwise reference bands assume exchangeable "
+         "amounts, not a joint seasonality test.\n"
+         "This cannot exclude order-count seasonality, dependence or smaller effects.")
 
     monthly["null_low"] = low * 1000
     monthly["null_high"] = high * 1000
     return monthly
 
 
+def render_readme(findings: dict, tests: pd.DataFrame, correlations: pd.DataFrame,
+                  membership: pd.DataFrame) -> str:
+    """Render the full report from this run, including assumptions and decisions."""
+    data = findings["data"]
+    test_rows = "\n".join(
+        f"| {r.label} | {r.n_used:,} | {r.anova_p:.3g} | {r.anova_p_bonferroni:.3g} "
+        f"| {r.welch_p:.3g} | {r.kruskal_p:.3g} | {r.trimmed_welch_p:.3g} | "
+        f"{'reject equal means (nominal)' if r.significant_bonferroni else 'not rejected'} |"
+        for r in tests.itertuples())
+    correlation_rows = "\n".join(
+        f"| {r.label} | {r.n:,} | {r.pearson_r:+.3f} | [{r.ci_low:+.3f}, {r.ci_high:+.3f}] |"
+        for r in correlations.itertuples())
+    tiers = membership.set_index("membership")
+    standard, platinum = tiers.loc["Standard"], tiers.loc["Platinum"]
+    mem_test = tests.set_index("variable").loc["membership"]
+    identity = findings["basket_identity"]
+    missing = ", ".join(f"`{name}`: {count}" for name, count in data["missing_by_field"].items())
+    return f"""# Consumer Transactions: Evidence for a Segmentation Decision
+
+**{data['rows']:,} raw rows → remove {data['duplicate_rows']:,} exact duplicates →
+{findings['rows_after_dedup']:,} analysed transactions. Non-significance does not prove equality.**
+
+`Python` · `Matplotlib` · `ANOVA / Welch / Kruskal-Wallis / trimmed means`
+
+## Business question and metric
+
+Should a marketing team prioritise a demographic segment or a membership offer?
+The primary metric here is **mean recorded amount per transaction** (sum of amount
+divided by included transactions), relevant to revenue per order. Median amount
+describes a typical order; a 10%-per-tail trimmed mean describes the central 80%.
+These are different estimands. None measures margin, conversion, purchase frequency
+or lifetime value. The unit is a transaction, not a customer.
+
+## Evidence and statistical scope
+
+The table uses the {findings['rows_after_dedup']:,} deduplicated transactions, dropping
+missing labels separately for each grouping; `n` is the included count.
+{findings['not_rejected_segmentations']} of {len(tests)} primary ANOVA hypotheses are
+not rejected at Bonferroni 0.05/5 = 0.01. This does not prove no difference or
+establish that any segment is commercially equivalent.
+
+| Grouping | n | ANOVA p | ANOVA adjusted p | Welch p | Kruskal-Wallis p | Trimmed Welch-Yuen p | Primary decision |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+{test_rows}
+
+**These are nominal, exploratory transaction-level tests.** There are
+{data['unique_users_after_dedup']:,} unique user IDs and
+{data['users_with_multiple_transactions']:,} IDs with repeated transactions.
+Independence is therefore unverified; no customer-cluster correction is implemented.
+P-values and confidence intervals must not be treated as calibrated customer-level
+evidence or as causal estimates.
+
+- **ANOVA** asks whether arithmetic means are equal. The classical F reference
+  assumes independent errors, common within-group variance and normal errors for
+  exact finite-sample inference. Large groups can help the mean approximation under
+  finite variance, but do not remove skew, heteroskedasticity or dependence.
+  Group sizes, variance ratios and median-centred Levene (Brown-Forsythe) p-values
+  are exported as diagnostics; a non-significant diagnostic does not prove assumptions.
+- **Welch ANOVA** also targets means and relaxes equal variances. Its p-value is an
+  approximation and it still requires independent observations.
+- **Kruskal-Wallis** is a rank-based test of equality of group distributions.
+  A location/median interpretation requires comparable distribution shapes;
+  different spread or shape can change the result. It is not a robust test of
+  the same arithmetic-mean null.
+- **Welch-Yuen** tests equality of 10%-per-tail trimmed means using winsorised
+  variances and retained sample sizes. It checks sensitivity to extremes and
+  changes the estimand; it does not prove a shift of the entire distribution.
+- **Multiplicity:** the five primary ANOVA tests form one Bonferroni family.
+  Each sensitivity family also has five-test adjusted p-values in the CSV, but
+  there is no joint correction over all methods. Sensitivity checks are exploratory,
+  not extra opportunities to declare a discovery. Omnibus rejection does not
+  identify which tiers differ; no pairwise comparisons are claimed.
+- **Intervals:** bootstrap mean intervals and Fisher-z correlation intervals are
+  pointwise and assume independent observations. They are not simultaneous,
+  cluster-adjusted or pairwise difference intervals. Overlap is not a hypothesis test.
+
+![Segmentation audit](figures/01_segmentation_effect_audit.png)
+
+## Linear associations and basket arithmetic
+
+| Variable | Pairwise-complete n | Pearson r | Nominal 95% Fisher-z CI |
+| --- | ---: | ---: | --- |
+{correlation_rows}
+
+Near-zero estimates constrain plausible **linear** correlations under the sampling
+assumptions. Intervals containing zero do not demonstrate absence of association;
+nonlinear patterns, confounding and causal effects remain unresolved.
+
+![Correlation forest](figures/02_correlation_forest.png)
+
+Recorded amount tracks `price × quantity × (1 − discount)` with
+r = {identity['r_vs_expected']:.3f}, R² = {identity['r2_vs_expected']:.3f}.
+The recorded/expected ratio has median {identity['ratio_median']:.3f} and upper
+quartile {identity['ratio_q75']:.3f}. Fees or dataset construction rules are hypotheses,
+not verified mechanisms. Basket arithmetic does not exclude customer behaviour.
+
+![Basket arithmetic](figures/03_basket_identity.png)
+![Amount distribution](figures/04_amount_distribution.png)
+
+## Membership association and commercial meaning
+
+Mean amount is ¥{standard['mean_amount']:,.2f} for Standard and
+¥{platinum['mean_amount']:,.2f} for Platinum, a descriptive difference of
+¥{platinum['mean_amount'] - standard['mean_amount']:,.2f} per transaction.
+Membership omnibus p-values are ANOVA {mem_test['anova_p']:.3g},
+Welch {mem_test['welch_p']:.3g}, Kruskal-Wallis {mem_test['kruskal_p']:.3g} and
+trimmed Welch-Yuen {mem_test['trimmed_welch_p']:.3g}; they address different nulls.
+These are neither an adjusted Standard–Platinum pairwise test nor an upgrade effect.
+
+Membership is a candidate for further investigation, not a reason to spend more
+on upgrades. Tier eligibility may depend on prior spending, and the assignment
+rule is undocumented. Selection, confounding and reverse causality remain possible.
+The top two categories contribute {findings['top_two_category_revenue_share']:.1%}
+of recorded revenue; inspect their margins and inventory exposure before allocating
+budget. Revenue concentration alone does not establish customer preference or profit.
+
+![Membership](figures/05_membership_effect.png)
+![Category revenue](figures/06_category_revenue.png)
+
+## Monthly reference and its limits
+
+{findings['months_inside_null_band']} of {findings['months_total']} months lie within
+pointwise 95% reference bands from 500 reassignments of amounts while holding each
+month's order count fixed. This is not a joint seasonality test and cannot exclude
+seasonality in order counts, dependence or smaller effects. Exchangeability is an
+assumption; a single teaching-data year is insufficient for a general seasonal policy.
+
+![Monthly reference](figures/07_monthly_trend_vs_noise.png)
+
+## Decision and next experiment — proposed, not performed
+
+1. **Current decision:** do not prioritise demographic targeting solely from these
+   unadjusted rankings. Keep membership as a hypothesis and first validate user IDs,
+   tier assignment timing, missing labels and the amount definition on production data.
+2. **Observational follow-up:** construct customer histories, define a fixed
+   follow-up window, audit dependence and selection, and use customer-cluster
+   inference. Specify a commercially meaningful effect before any equivalence claim.
+3. **Proposed experiment:** randomise eligible customers to a defined membership
+   offer or existing experience, stratifying on pre-treatment spending/tier where
+   appropriate. Do not infer the offer effect by comparing existing tiers.
+4. **Primary decision metric:** incremental contribution margin per randomised
+   eligible customer over the pre-specified window, including non-purchasers and
+   offer costs. Track conversion, repeat purchase and order value as secondary
+   metrics; refunds, unsubscribes and discount expense are guardrails.
+5. **Decision rule:** agree a minimum worthwhile margin gain, guardrail limits,
+   sample size/power, follow-up period and multiplicity plan before launch. Analyse
+   by assigned group (intention to treat); expand only if the interval supports the
+   agreed economic threshold and guardrails, otherwise revise or gather more evidence.
+
+No A/B test, random assignment or causal identification was performed in this project.
+The current data lacks the cost and eligibility fields needed to estimate that payoff.
+
+## Data provenance and reproducibility
+
+The course-supplied source has **{data['rows']:,} raw rows**, including
+**{data['duplicate_rows']:,} exact duplicate rows**. All reported analyses use the
+**{findings['rows_after_dedup']:,} deduplicated transactions**; missing values are not
+globally imputed. Raw missing counts: {missing}. Dates span
+{data['date_min']} to {data['date_max']}. The generating process and upstream vendor
+are undocumented. Results illustrate an analysis workflow, not real-market claims.
+
+From this project directory, in the centrally prepared Python environment:
+
+```bash
+python src/analyze.py
+python -m unittest discover -s tests -v
+```
+
+The build rewrites seven PNG figures, six CSV tables, `outputs/findings.json` and
+this README via `render_readme()`. A seed of {SEED} is reset at each full run;
+reproducibility also depends on dependency versions. Reports/PNG figures can be
+viewed offline. Original coursework is retained in `source_materials/`; source data
+is unmodified. AI assistance was used for code structuring and English writing.
+"""
+
+
 def main() -> None:
+    global RNG
+    RNG = np.random.default_rng(SEED)
     FIGURES.mkdir(exist_ok=True)
     OUTPUTS.mkdir(exist_ok=True)
 
@@ -424,7 +661,7 @@ def main() -> None:
     fig_correlation_forest(correlations)
     identity = fig_mechanical_identity(df)
     fig_amount_distribution(df)
-    membership = fig_membership(df)
+    membership = fig_membership(df, tests)
     category = fig_category(df)
     monthly = fig_monthly_trend(df)
 
@@ -441,11 +678,21 @@ def main() -> None:
         "data": defects,
         "rows_after_dedup": int(len(df)),
         "segmentation": {
-            row.variable: {"anova_p": round(float(row.anova_p), 4),
-                           "separates": bool(row.significant_bonferroni),
+            row.variable: {"anova_p": float(row.anova_p),
+                           "anova_p_bonferroni": float(row.anova_p_bonferroni),
+                           "welch_p": float(row.welch_p),
+                           "kruskal_p": float(row.kruskal_p),
+                           "trimmed_welch_p": float(row.trimmed_welch_p),
+                           "reject_equal_means_nominal": bool(row.significant_bonferroni),
                            "spread_pct_of_mean": round(float(row.spread_pct_of_mean), 1)}
             for row in tests.itertuples()},
-        "null_segmentations": int((~tests["significant_bonferroni"]).sum()),
+        "not_rejected_segmentations": int((~tests["significant_bonferroni"]).sum()),
+        "inference_scope": {
+            "unit": "transaction", "primary_estimand": "arithmetic mean amount",
+            "primary_family": "five ANOVA tests; Bonferroni alpha=0.05/5",
+            "sensitivity": "Welch means; Kruskal-Wallis ranks; 10%-per-tail Welch-Yuen means",
+            "user_cluster_adjusted": False, "causal_identification": False,
+            "non_rejection_is_equivalence": False},
         "income_amount": {"r": round(float(income["pearson_r"]), 4),
                           "ci": [round(float(income["ci_low"]), 4),
                                  round(float(income["ci_high"]), 4)],
@@ -463,6 +710,8 @@ def main() -> None:
     }
     (OUTPUTS / "findings.json").write_text(
         json.dumps(findings, indent=2, ensure_ascii=False), encoding="utf-8")
+    (ROOT / "README.md").write_text(
+        render_readme(findings, tests, correlations, membership), encoding="utf-8")
     print(json.dumps(findings, indent=2, ensure_ascii=False))
 
 

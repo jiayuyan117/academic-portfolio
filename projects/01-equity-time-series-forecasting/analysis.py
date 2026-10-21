@@ -101,19 +101,19 @@ def stationarity_analysis(train, z_train):
 stationarity_analysis(train, z_train);
 
 # %%
-def compare_models(train):
-    fits, table, selected = candidates(train)
+fits, comparison, selected = candidates(train)
+
+def compare_models(fits, table, selected):
     save_table(table, 'q2_candidates')
     print('Selection criterion fixed before holdout evaluation: BIC')
     print('Selected:', selected)
     save_table(fits[selected].params.to_frame('Estimate'), 'q2_selected_parameters')
     return (table, selected)
-compare_models(train);
+compare_models(fits, comparison, selected);
 
 # %%
-def diagnose_residuals(train):
-    fits, _, selected = candidates(train)
-    resid, lb = residual_check(train, fits[selected], ORDERS[selected])
+def diagnose_residuals(train, fit, selected):
+    resid, lb = residual_check(train, fit, ORDERS[selected])
     save_table(lb, 'q3_ljung_box')
     fig, axes = plt.subplots(2, 1, figsize=(11, 6))
     axes[0].plot(resid.index, resid, lw=0.65, color='#163c61')
@@ -122,12 +122,11 @@ def diagnose_residuals(train):
     plot_acf(resid, lags=30, zero=False, ax=axes[1])
     save_figure(fig, 'q3_residual_diagnostics')
     return lb
-diagnose_residuals(train);
+diagnose_residuals(train, fits[selected], selected);
 
 # %%
-def evaluate_returns(train, test, H):
-    fits, _, selected = candidates(train)
-    prediction = fits[selected].get_forecast(steps=H)
+def evaluate_returns(train, test, H, fit, selected):
+    prediction = fit.get_forecast(steps=H)
     forecasts = pd.DataFrame({selected: np.asarray(prediction.predicted_mean), 'Zero return': 0.0, 'Training mean': float(train.mean())}, index=test.index)
     table = metrics(forecasts, test)
     save_table(table, 'q4_return_metrics')
@@ -142,9 +141,8 @@ def evaluate_returns(train, test, H):
     ax.set(title='Fixed-origin 20-observation return forecast', ylabel='Log return (%)')
     ax.legend(ncol=2)
     save_figure(fig, 'q4_return_forecast')
-    gain = 100 * (1 - table.loc[selected, 'RMSE'] / table.loc['Zero return', 'RMSE'])
     return table
-evaluate_returns(train, test, H);
+evaluate_returns(train, test, H, fits[selected], selected);
 
 # %%
 def evaluate_log_prices(z_train, z_test, data, H):
@@ -173,13 +171,15 @@ def evaluate_log_prices(z_train, z_test, data, H):
 evaluate_log_prices(z_train, z_test, data, H);
 
 # %%
-fits, comparison, selected = candidates(train)
 resid, lb = residual_check(train, fits[selected], ORDERS[selected])
 arch = het_arch(resid, nlags=10, ddof=sum(ORDERS[selected]))
 stability = []
 for fraction in (.6, .8, 1.):
     prefix = train.iloc[:int(len(train) * fraction)]
-    _, table, choice = candidates(prefix)
+    if len(prefix) == len(train):
+        table, choice = comparison, selected
+    else:
+        _, table, choice = candidates(prefix)
     stability.append({"Training_fraction": fraction, "N": len(prefix),
                       "End": str(prefix.index[-1].date()), "BIC_choice": choice,
                       "BIC": float(table.loc[choice, "BIC"])})

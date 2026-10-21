@@ -1,4 +1,4 @@
-"""Beijing PM2.5, 2010-2014: a ventilation story, not a temperature story.
+"""Beijing PM2.5, 2010-2014: ventilation associations and missing-data audit.
 
 Input  : data/PRSA_data_2010.1.1-2014.12.31.csv  (UCI Beijing PM2.5 dataset)
 Output : figures/*.png   seven Seaborn figures
@@ -11,11 +11,12 @@ Two decisions drive this script.
    whose longest run is 155 consecutive hours. Interpolating all of them, as the
    original coursework did, draws a smooth ramp through what may have been an
    entire haze episode. Only gaps of at most MAX_GAP_HOURS are filled; longer
-   gaps stay missing and every figure reports the sample it actually used.
+   gaps stay missing in a separate policy-audit series. Headline analyses use
+   original observed values only, excluding all 2,067 missing hours.
 
 2. Rank correlation first. PM2.5 against temperature gives Pearson -0.091 but
-   Spearman +0.011 -- the sign flips, which is a signal that the relationship is
-   non-monotonic and that Pearson is the wrong summary. The figures therefore
+   Spearman +0.011. Both are small; their different signs motivate inspecting
+   the conditional shape rather than assuming a linear relationship. Figures
    lead with binned conditional means and Spearman coefficients.
 """
 
@@ -151,19 +152,18 @@ def fig_gap_audit(audit: pd.DataFrame) -> None:
                 color="#425362")
     ax.set_ylabel("Missing PM2.5 hours")
     ax.set_xlabel("Length of the gap the hour belongs to")
-    ax.set_title(f"Why {share:.0%} of the missing hours are left missing\n"
+    ax.set_title(f"A short-gap policy leaves {share:.0%} of missing hours unfilled\n"
                  f"2,067 absent PM2.5 hours, by gap length "
                  f"(largest bucket: {longest})")
 
     ax.set_ylim(0, audit["missing_hours"].max() * 1.25)
     handles = [plt.Rectangle((0, 0), 1, 1, color="#1f6fb2"),
                plt.Rectangle((0, 0), 1, 1, color="#c9d3dc")]
-    ax.legend(handles, [f"interpolated (gap <= {MAX_GAP_HOURS} h)",
-                        "left missing"], loc="upper left")
+    ax.legend(handles, [f"policy permits filling (gap <= {MAX_GAP_HOURS} h)",
+                        "policy leaves missing"], loc="upper left")
     save(fig, "01_missing_data_gap_audit",
-         "The longest single gap is 155 consecutive hours. Linear interpolation "
-         "across a gap that long would invent a smooth ramp through a possible "
-         "haze episode, so only short gaps are filled.")
+         "Policy audit only. All headline summaries use observed values and exclude "
+         "all 2,067 missing hours. The longest gap is 155 consecutive hours.")
 
 
 def fig_distribution(df: pd.DataFrame) -> None:
@@ -172,16 +172,15 @@ def fig_distribution(df: pd.DataFrame) -> None:
     sns.histplot(x=observed, bins=70, kde=True, color="#1f6fb2", ax=ax)
     ax.set_xscale("log")
     for value, label, colour in [(CN_GRADE_II, f"CN grade II daily limit ({CN_GRADE_II})", "#e8a33d"),
-                                 (SEVERE, f"severe pollution ({SEVERE})", "#d9534f")]:
+                                 (SEVERE, f"daily AQI reference ({SEVERE})", "#d9534f")]:
         ax.axvline(value, color=colour, linestyle="--", linewidth=1.6)
         ax.text(value * 1.05, ax.get_ylim()[1] * 0.92, label, fontsize=8.5, color=colour)
     share = (observed > CN_GRADE_II).mean()
     severe_share = (observed > SEVERE).mean()
     ax.set_xlabel("PM2.5 (µg/m³, log scale)")
     ax.set_ylabel("Hours")
-    ax.set_title(f"Beijing PM2.5 was above the national daily limit for "
-                 f"{share:.0%} of hours\n{severe_share:.1%} of hours reached "
-                 f"severe-pollution levels, 2010-2014")
+    ax.set_title(f"{share:.1%} of observed hourly PM2.5 readings exceed 75 µg/m³\n"
+                 f"{severe_share:.1%} exceed 250 µg/m³; these are not daily compliance rates")
     save(fig, "02_pm25_distribution",
          "Observed hours only; imputed values are excluded. The two reference "
          "lines are daily standards, shown on hourly data for orientation only.")
@@ -198,7 +197,12 @@ def ventilation_table(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def fig_ventilation(df: pd.DataFrame, table: pd.DataFrame) -> None:
-    """The headline figure: wind, not temperature, is what clears the air."""
+    """Describe the association with the source's cumulated-wind-speed field.
+
+    Args:
+        df: Hourly observations, including original missing pollution readings.
+        table: Cumulated-wind deciles with counts and median pollution.
+    """
     observed = df.dropna(subset=["pm2.5"]).copy()
     observed["iws_decile"] = pd.qcut(observed["Iws"], 10, labels=False, duplicates="drop")
     ratio = table["median_pm25"].iloc[0] / table["median_pm25"].iloc[-1]
@@ -210,11 +214,11 @@ def fig_ventilation(df: pd.DataFrame, table: pd.DataFrame) -> None:
             linewidth=2, label="Median PM2.5")
     ax.axhline(CN_GRADE_II, color="#e8a33d", linestyle="--", linewidth=1.4,
                label=f"CN grade II daily limit ({CN_GRADE_II})")
-    ax.set_xlabel("Cumulated wind speed, decile (1 = calmest)")
+    ax.set_xlabel("Cumulated wind speed, decile (1 = lowest)")
     ax.set_ylabel("PM2.5 (µg/m³)")
     ax.set_xticks(range(len(table)), [str(i + 1) for i in range(len(table))])
-    ax.set_title(f"Ventilation is the dominant control: median PM2.5 is {ratio:.1f}x "
-                 f"higher\nin the calmest decile than the windiest, Beijing 2010-2014")
+    ax.set_title(f"Median PM2.5 is {ratio:.1f}x higher in the lowest cumulated-wind decile\n"
+                 f"than in the highest, Beijing 2010-2014")
     ax.legend(loc="upper right")
     save(fig, "03_ventilation_wind_speed",
          "Spearman rho = -0.360 between cumulated wind speed and PM2.5, against "
@@ -243,13 +247,13 @@ def fig_wind_direction(df: pd.DataFrame) -> None:
 
     ax.set_xlabel("Combined wind direction")
     ax.set_ylabel("PM2.5 (µg/m³, log scale)")
-    ax.set_title("Northwesterlies bring clean air; calm and southeasterly hours trap it\n"
+    ax.set_title("PM2.5 differs across recorded wind-direction categories\n"
                  f"median PM2.5 of {cleanest:.0f} vs {dirtiest:.0f} µg/m³, "
                  f"a {dirtiest / cleanest:.1f}x difference")
 
     save(fig, "04_wind_direction",
-         "Kruskal-Wallis p < 1e-300 across the four categories. Direction is a "
-         "source-defined combined category, not a measured bearing.")
+         "Descriptive distributions; hourly dependence and seasonality are not controlled. "
+         "Direction is a source-defined combined category, not a measured bearing.")
 
 
 def correlation_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -284,8 +288,8 @@ def fig_pearson_vs_spearman(table: pd.DataFrame) -> None:
                  "which is why the linear coefficient should not be the headline")
     ax.legend(loc="lower right")
     save(fig, "05_pearson_vs_spearman",
-         "Observed hours only. A sign disagreement means the association is "
-         "non-monotonic, so a single linear coefficient summarises it badly.")
+         "Observed hours only. Different signs alone do not prove non-monotonicity; "
+         "inspect the conditional-median plot. Neither coefficient identifies causation.")
 
 
 def fig_temperature_shape(df: pd.DataFrame) -> pd.DataFrame:
@@ -372,6 +376,10 @@ def main() -> None:
     spearman = correlations.set_index("variable")["spearman_rho"]
     pearson = correlations.set_index("variable")["pearson_r"]
     findings = {
+        "analysis_basis": "original observed PM2.5 only; no imputed values used",
+        "observed_pm25_hours": int(observed.size),
+        "analysis_excluded_missing_hours": int(df["pm2.5"].isna().sum()),
+        "imputation_fields_scope": "separate short-gap policy audit, not analysis inputs",
         "hourly_rows": int(len(df)),
         "missing_pm25_hours": int(df["pm2.5"].isna().sum()),
         "missing_share": round(float(df["pm2.5"].isna().mean()), 4),

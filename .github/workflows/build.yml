@@ -1,104 +1,126 @@
 name: build
 
-# Rebuilds the figure-generating projects (03-06) from a clean checkout on every
-# push, so a pipeline that only runs on the author's laptop cannot go unnoticed.
-
-#
-# The numeric verifiers for projects 01 and 02 are deliberately not run here:
-# they compare regenerated values at rtol=1e-6, which is a reproducibility check
-# against a fixed environment rather than across BLAS implementations. Run them
-# locally with `python run_analysis.py`; the last verified run is recorded in
-# each project's results/verification.json.
-
 on:
   push:
     branches: [main]
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONUTF8: '1'
+  MPLBACKEND: Agg
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  python:
+    name: Project ${{ matrix.project }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {project: '01', folder: 01-equity-time-series-forecasting, os: ubuntu-22.04}
+          - {project: '02', folder: 02-shanghai-hongkong-market-linkages, os: ubuntu-22.04}
+          - {project: '03', folder: 03-china-nev-industry-analytics, os: ubuntu-22.04}
+          - {project: '04', folder: 04-bike-sharing-interactive-visualization, os: ubuntu-22.04}
+          - {project: '05', folder: 05-beijing-air-quality-seaborn, os: ubuntu-22.04}
+          - {project: '06', folder: 06-consumer-behaviour-matplotlib, os: ubuntu-22.04}
+          - {project: '01', folder: 01-equity-time-series-forecasting, os: windows-2022}
+          - {project: '02', folder: 02-shanghai-hongkong-market-linkages, os: windows-2022}
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-
-      - name: Compile every Python file
-        run: python -m compileall -q projects
-
-      - name: Test project 07 (Java workforce system)
-        working-directory: projects/07-workforce-system-java
-        run: |
-          javac Workforce.java WorkforceTest.java
-          java WorkforceTest
-
-      - name: Build project 03 (China NEV analytics)
-        working-directory: projects/03-china-nev-industry-analytics
-        run: |
-          pip install -r requirements.txt
-          python src/nev_visualization.py
-          python src/build_figures_en.py
-
-      - name: Build project 04 (bike-sharing visualisation)
-        working-directory: projects/04-bike-sharing-interactive-visualization
-        run: |
-          pip install -r requirements.txt
-          python src/build_charts.py
-
-      - name: Build project 05 (Beijing PM2.5)
-        working-directory: projects/05-beijing-air-quality-seaborn
-        run: |
-          pip install -r requirements.txt
-          python src/analyze.py
-
-      - name: Build project 06 (consumer transactions)
-        working-directory: projects/06-consumer-behaviour-matplotlib
-        run: |
-          pip install -r requirements.txt
-          python src/analyze.py
-
-      - name: Check the expected outputs were produced
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          import json
-
-          nev = Path("projects/03-china-nev-industry-analytics")
-          bike = Path("projects/04-bike-sharing-interactive-visualization")
-          air = Path("projects/05-beijing-air-quality-seaborn")
-          shop = Path("projects/06-consumer-behaviour-matplotlib")
-
-          assert len(list((nev / "data").glob("*.csv"))) == 7
-          assert len(list((nev / "charts_en").glob("*.png"))) == 8
-          assert len(list((bike / "charts").glob("*.html"))) == 4
-          assert len(list((air / "figures").glob("*.png"))) == 7
-          assert len(list((shop / "figures").glob("*.png"))) == 7
-
-          bike_findings = json.loads((bike / "outputs/findings.json").read_text())
-          assert bike_findings["hourly_rows"] == 17379, bike_findings
-          assert bike_findings["hourly_vs_daily_abs_diff"] == 0, bike_findings
-
-          air_findings = json.loads((air / "outputs/findings.json").read_text())
-          assert air_findings["hourly_rows"] == 43824, air_findings
-          assert air_findings["longest_gap_hours"] == 155, air_findings
-          assert air_findings["hours_left_missing"] == 1891, air_findings
-
-          shop_findings = json.loads((shop / "outputs/findings.json").read_text())
-          assert shop_findings["null_segmentations"] == 4, shop_findings
-          assert shop_findings["months_inside_null_band"] == 12, shop_findings
-          print("all expected outputs present")
-          PY
-
-      - name: Upload rebuilt figures
+          python-version: '3.12.10'
+          cache: pip
+          cache-dependency-path: |
+            constraints.txt
+            projects/${{ matrix.folder }}/requirements.txt
+      - name: Install Chinese figure fonts
+        if: matrix.project == '03'
+        run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
+      - name: Install the declared environment
+        run: python -m pip install -c constraints.txt -r projects/${{ matrix.folder }}/requirements.txt
+      - name: Check dependency compatibility
+        run: python -m pip check
+      - name: Compile project source
+        run: python -m compileall -q projects/${{ matrix.folder }}
+      - name: Test shared numerical verifier
+        if: matrix.project == '01' || matrix.project == '02'
+        run: python -m unittest discover -s portfolio_common/tests -v
+      - name: Test data and inference semantics
+        if: matrix.project == '03' || matrix.project == '04' || matrix.project == '06'
+        run: python -m unittest discover -s projects/${{ matrix.folder }}/tests -v
+      - name: Rebuild and verify
+        run: python tools/rebuild.py --project ${{ matrix.project }}
+      - name: Check expected artifacts
+        run: python tools/check_delivery.py --project ${{ matrix.project }}
+      - name: Ensure dependency declarations remain unchanged
+        run: git diff --exit-code -- constraints.txt requirements.txt projects/*/requirements.txt
+      - name: Preserve rebuilt evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: figures
+          name: project-${{ matrix.project }}-${{ matrix.os }}
+          if-no-files-found: warn
           path: |
-            projects/03-china-nev-industry-analytics/charts_en
-            projects/04-bike-sharing-interactive-visualization/charts
-            projects/05-beijing-air-quality-seaborn/figures
-            projects/06-consumer-behaviour-matplotlib/figures
+            projects/${{ matrix.folder }}/results
+            projects/${{ matrix.folder }}/outputs
+            projects/${{ matrix.folder }}/charts
+            projects/${{ matrix.folder }}/charts_en
+            projects/${{ matrix.folder }}/figures
+            projects/${{ matrix.folder }}/environment.json
 
+  java:
+    name: Java 17 / JUnit
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - name: Verify project 07
+        run: mvn -B -f projects/07-workforce-system-java/pom.xml verify
+      - name: Preserve JUnit results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-tests
+          path: projects/07-workforce-system-java/target/surefire-reports
+
+  site:
+    name: Published artifact and link checks
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.10'
+      - run: python tools/check_delivery.py
+      - name: Install browser checks
+        run: |
+          python -m pip install -r tools/requirements-browser.txt
+          python -m playwright install --with-deps chromium
+      - name: Render the homepage and charts without external network
+        run: python tools/check_browser.py
+      - name: Preserve visual verification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-checks
+          path: .runtime/browser-checks
+          include-hidden-files: true

@@ -10,37 +10,69 @@
     },
     "duplicate_rows": 20,
     "date_min": "2025-01-01",
-    "date_max": "2025-12-31"
+    "date_max": "2025-12-31",
+    "rows_after_dedup": 8000,
+    "unique_users_after_dedup": 3997,
+    "users_with_multiple_transactions": 2372
   },
   "rows_after_dedup": 8000,
   "segmentation": {
     "age_group": {
-      "anova_p": 0.4447,
-      "separates": false,
+      "anova_p": 0.4446951453460004,
+      "anova_p_bonferroni": 1.0,
+      "welch_p": 0.3633071714522975,
+      "kruskal_p": 0.6929044206033482,
+      "trimmed_welch_p": 0.5419911767261142,
+      "reject_equal_means_nominal": false,
       "spread_pct_of_mean": 11.0
     },
     "gender": {
-      "anova_p": 0.5225,
-      "separates": false,
+      "anova_p": 0.5224774341863079,
+      "anova_p_bonferroni": 1.0,
+      "welch_p": 0.5234222592258377,
+      "kruskal_p": 0.7825581086327398,
+      "trimmed_welch_p": 0.9376274635840277,
+      "reject_equal_means_nominal": false,
       "spread_pct_of_mean": 1.5
     },
     "city_level": {
-      "anova_p": 0.7732,
-      "separates": false,
+      "anova_p": 0.773196213289056,
+      "anova_p_bonferroni": 1.0,
+      "welch_p": 0.7728560632282313,
+      "kruskal_p": 0.30320253092133553,
+      "trimmed_welch_p": 0.5801627398256276,
+      "reject_equal_means_nominal": false,
       "spread_pct_of_mean": 2.6
     },
     "payment": {
-      "anova_p": 0.8958,
-      "separates": false,
+      "anova_p": 0.8957901245752078,
+      "anova_p_bonferroni": 1.0,
+      "welch_p": 0.8916184152942725,
+      "kruskal_p": 0.4385339393575639,
+      "trimmed_welch_p": 0.7219302906220934,
+      "reject_equal_means_nominal": false,
       "spread_pct_of_mean": 3.2
     },
     "membership": {
-      "anova_p": 0.0,
-      "separates": true,
+      "anova_p": 1.0399204845043704e-06,
+      "anova_p_bonferroni": 5.199602422521852e-06,
+      "welch_p": 1.3263105345108272e-05,
+      "kruskal_p": 0.00011158846347412505,
+      "trimmed_welch_p": 0.00035522810786288623,
+      "reject_equal_means_nominal": true,
       "spread_pct_of_mean": 17.1
     }
   },
-  "null_segmentations": 4,
+  "not_rejected_segmentations": 4,
+  "inference_scope": {
+    "unit": "transaction",
+    "primary_estimand": "arithmetic mean amount",
+    "primary_family": "five ANOVA tests; Bonferroni alpha=0.05/5",
+    "sensitivity": "Welch means; Kruskal-Wallis ranks; 10%-per-tail Welch-Yuen means",
+    "user_cluster_adjusted": false,
+    "causal_identification": false,
+    "non_rejection_is_equivalence": false
+  },
   "income_amount": {
     "r": -0.0104,
     "ci": [

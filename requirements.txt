@@ -1,0 +1,7 @@
+# All Python projects; CPython 3.12. Install into an isolated virtual environment.
+-r projects/01-equity-time-series-forecasting/requirements.txt
+-r projects/02-shanghai-hongkong-market-linkages/requirements.txt
+-r projects/03-china-nev-industry-analytics/requirements.txt
+-r projects/04-bike-sharing-interactive-visualization/requirements.txt
+-r projects/05-beijing-air-quality-seaborn/requirements.txt
+-r projects/06-consumer-behaviour-matplotlib/requirements.txt

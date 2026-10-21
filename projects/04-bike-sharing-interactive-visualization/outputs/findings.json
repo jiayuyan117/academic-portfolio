@@ -4,6 +4,12 @@
   "severe_weather_hours": 3,
   "registered_share": 0.8117,
   "hourly_vs_daily_abs_diff": 0,
+  "offline_support": {
+    "supported": true,
+    "renderer": "Plotly",
+    "javascript": "inline",
+    "external_assets": []
+  },
   "busiest_day": {
     "date": "2012-09-15",
     "rides": 8714

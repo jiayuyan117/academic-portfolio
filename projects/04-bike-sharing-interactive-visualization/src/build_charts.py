@@ -1,9 +1,9 @@
 """Build the interactive bike-sharing visualisations and the tables behind them.
 
 Input  : data/hour.csv, data/day.csv  (UCI Bike Sharing Dataset, 2011-2012)
-Output : charts/*.html   four interactive figures (Plotly + Pyecharts)
+Output : charts/*.html   four self-contained, offline Plotly figures
          outputs/*.csv   the aggregates each figure is drawn from
-         outputs/findings.json  the numbers quoted in README.md
+         outputs/findings.json, README.md  computed findings and report
 
 Design notes
 ------------
@@ -20,14 +20,12 @@ Design notes
 from __future__ import annotations
 
 import json
+from html.parser import HTMLParser
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
-from pyecharts import options as opts
-from pyecharts.charts import Scatter, Timeline
-from pyecharts.commons.utils import JsCode
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -39,11 +37,49 @@ SEASONS = {1: "Spring", 2: "Summer", 3: "Fall", 4: "Winter"}
 WEATHER = {1: "Clear", 2: "Mist/cloudy", 3: "Light rain/snow", 4: "Severe weather"}
 SEASON_ORDER = ["Spring", "Summer", "Fall", "Winter"]
 
-# Plotly.js is loaded from a CDN so each HTML file stays around 100 KB instead
-# of embedding a ~3.5 MB copy of the library four times over.
-PLOTLY_JS = "cdn"
+# Each delivered HTML carries its own runtime and data, including the animation.
+PLOTLY_JS = True
 
 RANDOM_STATE = 42
+
+
+class _ResourceParser(HTMLParser):
+    """Inspect tags without mistaking URLs inside Plotly.js for asset loads."""
+
+    def __init__(self):
+        super().__init__()
+        self.external_resources = []
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag in {"script", "iframe", "img", "source"} and attrs.get("src"):
+            self.external_resources.append(attrs["src"])
+        if tag == "link" and attrs.get("href"):
+            self.external_resources.append(attrs["href"])
+
+
+def validate_offline_html(html: str) -> None:
+    parser = _ResourceParser()
+    parser.feed(html)
+    if parser.external_resources:
+        raise ValueError(f"HTML requires external assets: {parser.external_resources}")
+    if "plotly.js v" not in html.lower() or "Plotly.newPlot" not in html:
+        raise ValueError("Missing inline Plotly runtime or chart")
+
+
+def write_offline_html(figure: go.Figure, filename: str) -> None:
+    """One export path for every chart; no CDN or MathJax download."""
+    if not figure.layout.sliders:
+        figure.update_layout(margin_b=90)
+    html = figure.to_html(
+        include_plotlyjs=PLOTLY_JS, include_mathjax=False, full_html=True,
+        auto_play=False, config={"responsive": True, "displaylogo": False})
+    html = html.replace(
+        "</body>",
+        '<p style="margin:12px 24px;font:13px sans-serif;color:#536471">'
+        'Offline supported: this chart includes everything needed to view it.</p></body>')
+    validate_offline_html(html)
+    (CHARTS / filename).write_text(html, encoding="utf-8")
 
 
 def time_period(hour: int) -> str:
@@ -96,6 +132,14 @@ def user_type_share(df: pd.DataFrame) -> pd.DataFrame:
     return table
 
 
+def registered_share(users: pd.DataFrame) -> float:
+    """Select by user type, independently of row order or integer labels."""
+    indexed = users.set_index("user_type")
+    if not indexed.index.is_unique:
+        raise ValueError("User types must be unique")
+    return float(indexed.loc["Registered", "share"])
+
+
 def sunburst_table(df: pd.DataFrame) -> pd.DataFrame:
     """Rides aggregated over season -> weather -> time period."""
     table = df.groupby(["season_label", "weather_label", "time_period"], as_index=False).agg(
@@ -130,7 +174,7 @@ def build_sunburst(table: pd.DataFrame) -> None:
         title=("Ride composition: season &#8594; weather &#8594; time of day"
                "<br><sub>Area and value are total rides. Click a ring to drill in.</sub>"),
         margin=dict(t=90, l=10, r=10, b=10))
-    figure.write_html(CHARTS / "01_sunburst.html", include_plotlyjs=PLOTLY_JS)
+    write_offline_html(figure, "01_sunburst.html")
 
 
 def build_density_contour(df: pd.DataFrame) -> None:
@@ -162,7 +206,7 @@ def build_density_contour(df: pd.DataFrame) -> None:
                "Marker size and colour = rides in that hour.</sub>"),
         xaxis_title="Normalised temperature", yaxis_title="Normalised humidity",
         margin=dict(t=90))
-    figure.write_html(CHARTS / "02_density_contour.html", include_plotlyjs=PLOTLY_JS)
+    write_offline_html(figure, "02_density_contour.html")
 
 
 def daily_crosscheck(df: pd.DataFrame) -> pd.DataFrame:
@@ -173,7 +217,10 @@ def daily_crosscheck(df: pd.DataFrame) -> pd.DataFrame:
         ["dteday", "cnt", "season", "yr", "mnth", "workingday", "holiday"]
     ].rename(columns={"cnt": "day_csv_cnt"})
     day["date"] = parse_dates(day["dteday"])
-    daily = hourly.merge(day.drop(columns="dteday"), on="date", how="outer")
+    daily = hourly.merge(day.drop(columns="dteday"), on="date", how="outer",
+                         validate="one_to_one")
+    if daily[["hourly_cnt", "day_csv_cnt"]].isna().any().any():
+        raise ValueError("Hourly/daily reconciliation has unmatched calendar dates")
     daily["year"] = daily["date"].dt.year
     daily["weekday"] = daily["date"].dt.day_name()
     daily["crosscheck_diff"] = daily["hourly_cnt"] - daily["day_csv_cnt"]
@@ -187,21 +234,31 @@ def build_calendar_heatmap(daily: pd.DataFrame) -> None:
     figure = go.Figure()
     for year in years:
         block = daily[daily["year"] == year]
+        # Heatmap z is a matrix: weekday rows and Monday-based week columns.
+        # Padding is blank, not a fabricated zero-demand observation.
+        monday = block["date"].min() - pd.Timedelta(days=block["date"].min().dayofweek)
+        week = ((block["date"] - monday).dt.days // 7).to_numpy()
+        weekdays = block["date"].dt.dayofweek.to_numpy()
+        weeks = pd.date_range(monday, periods=int(week.max()) + 1, freq="7D")
+        values = np.full((7, len(weeks)), np.nan)
+        hover = np.full((7, len(weeks), 4), "", dtype=object)
+        values[weekdays, week] = block["day_csv_cnt"].to_numpy()
+        hover[weekdays, week] = np.column_stack([
+            block["date"].dt.strftime("%Y-%m-%d"),
+            block[["day_csv_cnt", "workingday", "holiday"]].astype(str)])
         figure.add_trace(go.Heatmap(
-            x=block["date"].dt.strftime("%Y-%m-%d"),
-            y=block["date"].dt.dayofweek,
-            z=block["day_csv_cnt"],
-            customdata=block[["day_csv_cnt", "workingday", "holiday"]].astype(str),
-            hovertemplate=("%{x}<br>rides=%{customdata[0]}"
-                           "<br>workingday=%{customdata[1]}"
-                           " &middot; holiday=%{customdata[2]}<extra></extra>"),
-
+            x=weeks.strftime("%Y-%m-%d"), y=list(range(7)), z=values,
+            customdata=hover, hoverongaps=False,
+            hovertemplate=("%{customdata[0]}<br>rides=%{customdata[1]}"
+                           "<br>workingday=%{customdata[2]}"
+                           " &middot; holiday=%{customdata[3]}<extra></extra>"),
+            zmin=0, zmax=float(daily["day_csv_cnt"].max()),
             visible=(year == years[0]), colorscale="YlGnBu",
             colorbar=dict(title="Rides/day"), name=str(year)))
     figure.update_layout(
         title=(f"Daily ride volume on the real calendar ({years[0]}-{years[-1]})"
                "<br><sub>Rows are weekdays. Use the buttons to switch year.</sub>"),
-        xaxis=dict(type="category", tickangle=-60, nticks=24),
+        xaxis=dict(type="date", title="Week starting Monday", tickangle=-60, nticks=12),
         yaxis=dict(tickmode="array", tickvals=list(range(7)),
                    ticktext=["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]),
         margin=dict(t=100),
@@ -211,7 +268,7 @@ def build_calendar_heatmap(daily: pd.DataFrame) -> None:
                           args=[{"visible": [y == year for y in years]},
                                 {"title": f"Daily ride volume on the real calendar - {year}"}])
                      for year in years])])
-    figure.write_html(CHARTS / "03_calendar_heatmap.html", include_plotlyjs=PLOTLY_JS)
+    write_offline_html(figure, "03_calendar_heatmap.html")
 
 
 def build_season_timeline(df: pd.DataFrame) -> None:
@@ -221,37 +278,144 @@ def build_season_timeline(df: pd.DataFrame) -> None:
     marker opacity = humidity. Axes are pinned to 0-1 so the frames of the
     animation stay comparable.
     """
-    timeline = Timeline(init_opts=opts.InitOpts(width="1100px", height="650px"))
+    frames = []
     max_rides = float(df["cnt"].max())
     for season in SEASON_ORDER:
         block = df[df["season_label"] == season]
         # Drop the quietest decile so the busy hours are not buried under noise.
         block = block[block["cnt"] >= block["cnt"].quantile(0.10)]
         block = block.sample(min(1000, len(block)), random_state=RANDOM_STATE)
-        points = [{
-            "value": [float(temp), float(wind)],
-            "symbolSize": float(np.clip(4 + 24 * np.sqrt(rides / max_rides), 4, 28)),
-            "itemStyle": {"color": f"rgba(31,119,180,{0.25 + 0.65 * float(hum):.2f})"},
-        } for temp, wind, rides, hum in zip(
-            block["temp"], block["windspeed"], block["cnt"], block["hum"])]
+        scatter = go.Scatter(
+            x=block["temp"], y=block["windspeed"], mode="markers", name=season,
+            marker=dict(
+                size=np.clip(4 + 24 * np.sqrt(block["cnt"] / max_rides), 4, 28),
+                sizemode="diameter", color="#1f77b4",
+                opacity=0.25 + 0.65 * block["hum"]),
+            customdata=block[["cnt", "hum"]],
+            hovertemplate=(
+                "temp=%{x:.3f}<br>wind=%{y:.3f}<br>rides/hour=%{customdata[0]}"
+                "<br>humidity=%{customdata[1]:.3f}<extra>%{fullData.name}</extra>"))
+        frames.append(go.Frame(name=season, data=[scatter], traces=[0]))
+    figure = go.Figure(data=frames[0].data, frames=frames)
+    animation = dict(frame=dict(duration=1800, redraw=True),
+                     transition=dict(duration=0), fromcurrent=True)
+    figure.update_layout(
+        title=("Seasonal temperature vs wind speed"
+               "<br><sub>Size = rides/hour; opacity = humidity. "
+               "Quietest decile excluded; at most 1,000 sampled hours per season.</sub>"),
+        height=750, margin=dict(t=100, b=190),
+        xaxis=dict(title="Normalised temperature", range=[0, 1], autorange=False),
+        yaxis=dict(title="Normalised wind speed", range=[0, 1], autorange=False),
+        sliders=[dict(active=0, y=-0.08, currentvalue=dict(prefix="Season: "), steps=[
+            dict(label=season, method="animate",
+                 args=[[season], dict(mode="immediate",
+                                      frame=dict(duration=0, redraw=True),
+                                      transition=dict(duration=0))])
+            for season in SEASON_ORDER])],
+        updatemenus=[dict(type="buttons", direction="right", x=0, y=-0.28,
+                         xanchor="left", yanchor="top", buttons=[
+            dict(label="Play", method="animate", args=[None, animation]),
+            dict(label="Pause", method="animate",
+                 args=[[None], dict(mode="immediate", frame=dict(duration=0),
+                                    transition=dict(duration=0))])])])
+    write_offline_html(figure, "04_season_timeline.html")
 
-        chart = Scatter()
-        chart.add_xaxis(block["temp"].round(3).tolist())
-        chart.add_yaxis("Hours", points, label_opts=opts.LabelOpts(is_show=False))
-        chart.set_global_opts(
-            title_opts=opts.TitleOpts(
-                title=f"{season}: temperature vs wind speed",
-                subtitle="size = rides/hour, opacity = humidity"),
-            xaxis_opts=opts.AxisOpts(name="Normalised temperature", min_=0, max_=1,
-                                     type_="value"),
-            yaxis_opts=opts.AxisOpts(name="Normalised wind speed", min_=0, max_=1),
-            tooltip_opts=opts.TooltipOpts(formatter=JsCode(
 
-                "function(p){return 'temp: '+p.value[0]+'<br>wind: '+p.value[1]"
-                "+'<br>size encodes rides, opacity encodes humidity';}")))
-        timeline.add(chart, season)
-    timeline.add_schema(is_auto_play=True, play_interval=1800, is_loop_play=True)
-    timeline.render(str(CHARTS / "04_season_timeline.html"))
+def render_readme(findings: dict) -> str:
+    """Keep the report's numbers and offline delivery contract in the pipeline."""
+    f = findings
+    periods = "\n".join(f"| {name} | {rides:,} |"
+                        for name, rides in f["rides_by_time_period"].items())
+    ratio = (f["rides_by_time_period"]["Evening peak"]
+             / f["rides_by_time_period"]["Morning peak"])
+    return f"""# Bike-Sharing Demand: Interactive Visualisation
+
+**Four interactive figures with explicit encodings and offline support.**
+
+`Python` · `Plotly` · `{f['hourly_rows']:,} hourly observations`
+
+## Offline charts
+
+[Sunburst](charts/01_sunburst.html) · [Density contour](charts/02_density_contour.html)
+· [Calendar heatmap](charts/03_calendar_heatmap.html)
+· [Seasonal animation](charts/04_season_timeline.html)
+
+All four HTML files embed Plotly.js and their data. After rebuilding, download
+and open any chart locally with the network disconnected; no CDN, MathJax or
+Pyecharts/ECharts assets are needed. The former Pyecharts timeline now uses Plotly
+frames with Play/Pause and a season slider. Each chart carries an offline-support
+note. Embedding the runtime increases each HTML by several MB.
+
+## Data quality and findings
+
+The UCI hourly file uses `2011/1/1`; the daily file uses `2011-01-01`.
+`parse_dates()` normalises both before joining. Unmatched dates raise an error,
+so a failed join cannot masquerade as zero reconciliation difference.
+
+| Metric | Result |
+| --- | ---: |
+| Hourly observations | {f['hourly_rows']:,} |
+| Hours with zero rides | {f['zero_count_hours']:,} |
+| Severe-weather hours | {f['severe_weather_hours']:,} |
+| Registered-user share of rides | {f['registered_share']:.1%} |
+| Busiest day | {f['busiest_day']['date']}, {f['busiest_day']['rides']:,} rides |
+| Hourly vs daily absolute difference | {f['hourly_vs_daily_abs_diff']:,} rides |
+
+Registered share is total registered rides divided by all rides, selected by
+the `Registered` label rather than row position. It is not a share of unique users.
+
+| Period | Total rides |
+| --- | ---: |
+{periods}
+
+## Visual encodings and limits
+
+1. **Sunburst:** season → weather → time of day; area/value = total rides;
+   hover = share of parent.
+2. **Density contour:** contours count observed hours; sampled markers encode
+   rides/hour by size and colour. Observation density is not demand volume.
+3. **Calendar:** daily totals on a weekday-by-week matrix, actual dates in hover,
+   year buttons and a common colour scale. Blank padding does not mean zero rides.
+4. **Seasonal animation:** temperature (x), wind speed (y), rides/hour (size),
+   humidity (opacity). Axes remain 0–1. The quietest decile is excluded and up to
+   1,000 hours per season are sampled with seed 42; it is not the full distribution.
+
+## Business meaning and next decision
+
+Registered riders account for {f['registered_share']:.1%} of recorded rides, and
+evening-peak volume is {ratio:.2f} times morning-peak volume over equal four-hour
+windows. These aggregates motivate checking evening availability and service
+reliability for regular users before expanding generic acquisition campaigns.
+They do not locate shortages or establish why people ride.
+
+Before changing fleet allocation, join station-level inventory, failed rentals
+and operating costs. Evaluate a small scheduling pilot against a comparable
+baseline using unserved-demand rate and cost per completed ride, with explicit
+weather and calendar controls. No pilot or causal evaluation has been run here.
+The {f['severe_weather_hours']} severe-weather hours are insufficient for a reliable
+severe-weather policy; 2011–2012 citywide observations also limit current transfer.
+
+## Reproduce
+
+From this project directory, in the centrally prepared Python environment:
+
+```bash
+python src/build_charts.py
+python -m unittest discover -s tests -v
+```
+
+The build rewrites all four `charts/*.html`, aggregate tables, `outputs/findings.json`
+and this README from `render_readme()`. All exports check for external script or
+stylesheet tags and the presence of the embedded Plotly runtime. Browser rendering
+with networking disabled remains the final visual acceptance check.
+
+## Provenance
+
+[UCI Bike Sharing Dataset](https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset),
+Fanaee-T & Gama (2013), Washington D.C. Capital Bikeshare, 2011–2012; inputs are
+unmodified. Developed from a course visualisation assignment. AI assistance was
+used for code structuring and English writing.
+"""
 
 
 def main() -> None:
@@ -279,8 +443,10 @@ def main() -> None:
         "hourly_rows": int(len(df)),
         "zero_count_hours": int((df["cnt"] == 0).sum()),
         "severe_weather_hours": int((df["weathersit"] == 4).sum()),
-        "registered_share": round(float(users.loc[1, "share"]), 4),
-        "hourly_vs_daily_abs_diff": int(daily["crosscheck_diff"].fillna(0).abs().sum()),
+        "registered_share": round(registered_share(users), 4),
+        "hourly_vs_daily_abs_diff": int(daily["crosscheck_diff"].abs().sum()),
+        "offline_support": {"supported": True, "renderer": "Plotly",
+                            "javascript": "inline", "external_assets": []},
         "busiest_day": {"date": peak["date"].strftime("%Y-%m-%d"),
                         "rides": int(peak["day_csv_cnt"])},
 
@@ -288,6 +454,7 @@ def main() -> None:
     }
     (OUTPUTS / "findings.json").write_text(
         json.dumps(findings, indent=2, ensure_ascii=False), encoding="utf-8")
+    (ROOT / "README.md").write_text(render_readme(findings), encoding="utf-8")
     print(json.dumps(findings, indent=2, ensure_ascii=False))
 
 

@@ -13,8 +13,9 @@ import platform
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
 import matplotlib
+from data_pipeline import (build_tables, NOTE_ZH, CHARGING_BREAK_YEAR, CHARGING_NOTE_ZH,
+                           charging_segments, plot_charging_segments)
 
 # 默认使用 Agg 后端：无界面、只把图存成文件，适合命令行 / 双击 bat 运行；
 # 若设置了环境变量 NEV_GUI=1（《分步骤运行版.py》会自动设置），
@@ -27,7 +28,7 @@ from matplotlib.ticker import FuncFormatter
 # ------------------------------------------------------------------
 # 0. 全局绘图风格（浅色主题，适合打印与插入 Word 报告）
 # ------------------------------------------------------------------
-# Project root: code/nev_visualization.py -> project root.
+# Project root: src/nev_visualization.py -> project root.
 # Generated assets stay beside README.md so the portfolio remains self-contained.
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
@@ -69,7 +70,7 @@ C_GRAY = "#94A3B8"
 BG = "#FFFFFF"
 GRID = "#E5E7EB"
 
-FOOTER = "数据来源：中国汽车工业协会（CAAM）、公安部、中国充电联盟（EVCIPA）、中国汽车动力电池产业创新联盟、海关总署等官方统计"
+FOOTER = NOTE_ZH
 BOX = dict(boxstyle="round,pad=0.45", facecolor="#F8FAFC",
            edgecolor="#CBD5E1", linewidth=0.8)
 
@@ -86,11 +87,20 @@ def _style_ax(ax):
 
 
 def _add_footer(fig, text=FOOTER, y=0.005):
-    fig.text(0.5, y, text, ha="center", va="bottom", fontsize=8, color="#94A3B8")
+    if text != FOOTER:
+        text = f"{text}\n{FOOTER}"
+    fig.subplots_adjust(bottom=max(fig.subplotpars.bottom, 0.17))
+    fig.text(0.5, y, text, ha="center", va="bottom", fontsize=8, color="#64748B")
 
 
 def _thousands(x, pos=None):
     return f"{x:,.0f}"
+
+
+def _charging_break(ax):
+    ax.axvline(CHARGING_BREAK_YEAR - 0.5, color=C_RED, linestyle="--", linewidth=1.2)
+    ax.text(CHARGING_BREAK_YEAR - 0.55, 0.97, "2025 口径断点",
+            transform=ax.get_xaxis_transform(), ha="right", va="top", fontsize=8, color=C_RED)
 
 
 def _seg_label(ax, x, bottom, height, ylim, text, inside_color,
@@ -106,132 +116,50 @@ def _seg_label(ax, x, bottom, height, ylim, text, inside_color,
 
 
 # ==================================================================
-# 1. 数据区（★全部为可溯源的官方真实数据★）
+# 1. 读取独立输入并验证；外部来源状态见 provenance.json
 # ==================================================================
 
-# ---- 数据 1：汽车与新能源汽车产销量、新车渗透率 --------------------
-# 来源：中国汽车工业协会（CAAM）历年统计；渗透率为新能源汽车新车销量
-#       占汽车新车总销量的比重（国内口径），2025 年为 47.9%
-YEARS = np.array([2015, 2016, 2017, 2018, 2019, 2020,
-                  2021, 2022, 2023, 2024, 2025])
-AUTO_SALES = np.array([2459.8, 2802.8, 2887.9, 2808.1, 2576.9, 2531.1,
-                       2627.5, 2686.4, 3009.4, 3143.6, 3440.0])   # 汽车总销量（万辆）
-NEV_OUTPUT = np.array([34.0, 51.7, 79.4, 127.0, 124.2, 136.6,
-                       354.5, 705.8, 958.7, 1288.8, 1662.6])       # 新能源汽车产量（万辆）
-NEV_SALES = np.array([33.1, 50.7, 77.7, 125.6, 120.6, 136.7,
-                      352.1, 688.7, 949.5, 1286.6, 1649.0])       # 新能源汽车销量（万辆）
-NEV_PENETRATION = np.array([1.3, 1.8, 2.7, 4.5, 4.7, 5.4,
-                            13.4, 25.6, 31.6, 40.9, 47.9])         # 新车渗透率（%）
+FRAMES, CARBON_FACTOR = build_tables()
 
-# ---- 数据 2：新能源汽车保有量 -------------------------------------
-# 来源：公安部交通管理局历年“全国机动车保有量”统计
-NEV_STOCK = np.array([58.3, 109.0, 153.0, 261.0, 381.0, 492.0,
-                      784.0, 1310.0, 2041.0, 3140.0, 4397.0])     # 新能源汽车保有量（万辆）
-BEV_STOCK = np.array([33.2, 74.1, 125.0, 211.0, 310.0, 400.0,
-                      640.0, 1045.0, 1552.0, 2209.0, 3022.0])     # 其中纯电动汽车（万辆）
 
-# ---- 数据 3：充电基础设施 ----------------------------------------
-# 来源：中国充电联盟（EVCIPA）/ 国家能源局《全国电动汽车充换电基础设施运行情况》
-CHG_YEARS = np.array([2020, 2021, 2022, 2023, 2024, 2025])
-CHG_TOTAL = np.array([168.1, 261.7, 521.0, 859.6, 1281.8, 2009.2])   # 充电设施总量（万个）
-CHG_PUBLIC = np.array([80.7, 114.7, 179.7, 272.6, 357.9, 471.7])     # 公共充电设施（万个）
-CHG_PRIVATE = CHG_TOTAL - CHG_PUBLIC                                  # 私人充电设施（万个）
+def _values(table, field):
+    return FRAMES[table][field].to_numpy()
 
-# ---- 数据 4：动力电池装车量 ---------------------------------------
-# 来源：中国汽车动力电池产业创新联盟历年“动力电池装车量”统计
-BAT_YEARS = np.array([2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025])
-BAT_LFP = np.array([22.2, 20.2, 24.4, 79.8, 183.8, 261.0, 409.0, 625.3])  # 磷酸铁锂（GWh）
-BAT_NCM = np.array([33.1, 40.5, 38.9, 74.3, 110.4, 126.2, 139.0, 144.1])  # 三元锂（GWh）
 
-# ---- 数据 5：新能源乘用车技术路线结构 -----------------------------
-# 来源：中国汽车工业协会（CAAM）分动力类型产销统计
-TECH_YEARS = np.array([2021, 2022, 2023, 2024, 2025])
-TECH_BEV = np.array([291.6, 536.5, 668.5, 771.9, 1062.2])   # 纯电动（万辆）
-TECH_PHEV = np.array([60.6, 151.8, 280.4, 514.1, 586.1])    # 插电式混动（含增程，万辆）
-
-# ---- 数据 6：新能源汽车出口 ---------------------------------------
-# 来源：中国汽车工业协会（CAAM）/ 海关总署
-EXP_YEARS = np.array([2020, 2021, 2022, 2023, 2024, 2025])
-EXP_NEV = np.array([7.0, 31.0, 67.9, 120.3, 128.4, 261.5])      # 新能源汽车出口（万辆）
-EXP_AUTO = np.array([99.5, 201.5, 311.1, 491.0, 585.9, 709.8])  # 汽车出口总量（万辆）
-
-# ---- 数据 7：绿色低碳成效（情景估算） -----------------------------
-# 保有量口径同数据 2（公安部）；单车年均减碳 1.5 吨 CO2/年 取 ICCT
-# 《Life-cycle GHG emissions of passenger cars》(2025 更新版) 所给区间
-# （1.0~2.0 吨/年）的中值。该指标为“情景估算”，用于说明趋势。
-CARBON_FACTOR = 1.5  # 吨 CO2 /（辆·年）
-CARBON_CUT = NEV_STOCK * CARBON_FACTOR / 10000.0   # 年度减碳量（亿吨 CO2）
-CARBON_CUM = np.cumsum(CARBON_CUT)                 # 累计减碳量（亿吨 CO2）
+YEARS = _values("sales", "year")
+AUTO_SALES = _values("sales", "auto_sales_10k")
+NEV_OUTPUT = _values("sales", "nev_output_10k")
+NEV_SALES = _values("sales", "nev_sales_10k")
+NEV_PENETRATION = _values("sales", "nev_share_of_new_sales_pct")
+FLEET_YEARS = _values("fleet", "year")
+NEV_STOCK = _values("fleet", "nev_fleet_10k")
+BEV_STOCK = _values("fleet", "bev_fleet_10k")
+CHG_YEARS = _values("charging", "year")
+CHG_TOTAL = _values("charging", "chargers_total_10k")
+CHG_PUBLIC = _values("charging", "chargers_public_10k")
+CHG_PRIVATE = _values("charging", "chargers_private_10k")
+# The pipeline merges fleet and charging by year, with one-to-one validation.
+CHG_FLEET = _values("charging", "nev_fleet_10k")
+CHG_RATIO = _values("charging", "vehicles_per_charger")
+BAT_YEARS = _values("battery", "year")
+BAT_LFP = _values("battery", "lfp_gwh")
+BAT_NCM = _values("battery", "nmc_gwh")
+TECH_YEARS = _values("powertrain", "year")
+TECH_BEV = _values("powertrain", "bev_sales_10k")
+TECH_PHEV = _values("powertrain", "phev_sales_10k")
+EXP_YEARS = _values("exports", "year")
+EXP_NEV = _values("exports", "nev_exports_10k")
+EXP_AUTO = _values("exports", "total_exports_10k")
+CARBON_YEARS = _values("carbon", "year")
+CARBON_CUT = _values("carbon", "annual_co2_avoided_100mt")
+CARBON_CUM = _values("carbon", "cumulative_co2_avoided_100mt")
 
 
 # ==================================================================
 # 2. 导出 CSV（实验报告附表）
 # ==================================================================
 def export_csv():
-    pd.DataFrame({
-        "年份": YEARS,
-        "汽车总销量_万辆": AUTO_SALES,
-        "新能源汽车产量_万辆": NEV_OUTPUT,
-        "新能源汽车销量_万辆": NEV_SALES,
-        "新能源汽车新车渗透率_百分比": NEV_PENETRATION,
-    }).to_csv(DATA_DIR / "01_汽车与新能源汽车产销_2015-2025.csv",
-              index=False, encoding="utf-8-sig")
-
-    pd.DataFrame({
-        "年份": YEARS,
-        "新能源汽车保有量_万辆": NEV_STOCK,
-        "其中纯电动汽车保有量_万辆": BEV_STOCK,
-        "纯电动占比_百分比": np.round(BEV_STOCK / NEV_STOCK * 100, 2),
-    }).to_csv(DATA_DIR / "02_新能源汽车保有量_2015-2025.csv",
-              index=False, encoding="utf-8-sig")
-
-    pd.DataFrame({
-        "年份": CHG_YEARS,
-        "充电设施总量_万个": CHG_TOTAL,
-        "公共充电设施_万个": CHG_PUBLIC,
-        "私人充电设施_万个": CHG_PRIVATE,
-        "公共占比_百分比": np.round(CHG_PUBLIC / CHG_TOTAL * 100, 2),
-        "新能源汽车保有量_万辆": NEV_STOCK[-6:],
-        "车桩比_辆每桩": np.round(NEV_STOCK[-6:] / CHG_TOTAL, 2),
-    }).to_csv(DATA_DIR / "03_充电基础设施_2020-2025.csv",
-              index=False, encoding="utf-8-sig")
-
-    pd.DataFrame({
-        "年份": BAT_YEARS,
-        "磷酸铁锂装车量_GWh": BAT_LFP,
-        "三元锂电池装车量_GWh": BAT_NCM,
-        "合计装车量_GWh": BAT_LFP + BAT_NCM,
-        "磷酸铁锂占比_百分比": np.round(BAT_LFP / (BAT_LFP + BAT_NCM) * 100, 2),
-    }).to_csv(DATA_DIR / "04_动力电池装车量_2018-2025.csv",
-              index=False, encoding="utf-8-sig")
-
-    pd.DataFrame({
-        "年份": TECH_YEARS,
-        "纯电动汽车销量_万辆": TECH_BEV,
-        "插电式混动汽车销量_万辆": TECH_PHEV,
-        "合计_万辆": TECH_BEV + TECH_PHEV,
-        "纯电动占比_百分比": np.round(TECH_BEV / (TECH_BEV + TECH_PHEV) * 100, 2),
-        "插混占比_百分比": np.round(TECH_PHEV / (TECH_BEV + TECH_PHEV) * 100, 2),
-    }).to_csv(DATA_DIR / "05_新能源乘用车技术路线_2021-2025.csv",
-              index=False, encoding="utf-8-sig")
-
-    pd.DataFrame({
-        "年份": EXP_YEARS,
-        "新能源汽车出口_万辆": EXP_NEV,
-        "汽车出口总量_万辆": EXP_AUTO,
-        "传统燃料汽车出口_万辆": EXP_AUTO - EXP_NEV,
-        "新能源出口占比_百分比": np.round(EXP_NEV / EXP_AUTO * 100, 2),
-    }).to_csv(DATA_DIR / "06_新能源汽车出口_2020-2025.csv",
-              index=False, encoding="utf-8-sig")
-
-    pd.DataFrame({
-        "年份": YEARS,
-        "新能源汽车保有量_万辆": NEV_STOCK,
-        "年度减碳量估算_亿吨": np.round(CARBON_CUT, 3),
-        "累计减碳量估算_亿吨": np.round(CARBON_CUM, 3),
-    }).to_csv(DATA_DIR / "07_绿色低碳成效情景估算_2015-2025.csv",
-              index=False, encoding="utf-8-sig")
-
+    build_tables(write=True)
     print(f"[OK] 已导出 7 个 CSV 数据文件 -> {DATA_DIR}")
 
 
@@ -263,14 +191,17 @@ def fig1_sales_penetration():
     ax1.set_ylabel("新能源汽车销量（万辆）")
     ax1.set_ylim(0, 1980)
     ax1.yaxis.set_major_formatter(FuncFormatter(_thousands))
-    ax1.set_title("中国新能源汽车销量与新车渗透率（2015—2025）",
+    ax1.set_title("新能源汽车销量与占比（2015—2025，全车型含出口）",
                   fontsize=15, fontweight="bold", pad=14)
-    ax1.annotate("2021 年渗透率突破 10%，\n产业由政策驱动转向市场驱动",
-                 xy=(2021, 352.1), xytext=(2021.4, 1430),
-                 fontsize=9.5, color="#475569",
-                 arrowprops=dict(arrowstyle="->", color=C_GRAY, lw=1.1))
+    crossings = np.flatnonzero(NEV_PENETRATION > 10)
+    if len(crossings):
+        i = crossings[0]
+        ax1.annotate(f"样本内首次销量占比超过 10%：{YEARS[i]} 年\n年度总量不能识别政策或市场驱动效应",
+                     xy=(YEARS[i], NEV_SALES[i]), xytext=(2017.5, 1200),
+                     fontsize=9, color="#475569",
+                     arrowprops=dict(arrowstyle="->", color=C_GRAY, lw=1.1))
     ax1.text(0.018, 0.97,
-             "2015—2025 年新能源汽车销量增长约 50 倍\n连续 11 年位居全球第一",
+             f"{YEARS[0]}—{YEARS[-1]} 年样本销量\n期末为期初的 {NEV_SALES[-1] / NEV_SALES[0]:.2f} 倍",
              transform=ax1.transAxes, ha="left", va="top",
              fontsize=9.5, color=C_GREEN_D, bbox=BOX)
 
@@ -278,30 +209,30 @@ def fig1_sales_penetration():
              markersize=6, linewidth=2.4, zorder=4)
     ax2.fill_between(YEARS, NEV_PENETRATION, color=C_BLUE, alpha=0.10)
     for x, y in zip(YEARS, NEV_PENETRATION):
-        ax2.text(x, y + 2.2, f"{y}%", ha="center", fontsize=9, color=C_BLUE)
-    ax2.set_ylabel("新车渗透率（%）", color=C_BLUE)
+        ax2.text(x, y + 2.2, f"{y:.2f}%", ha="center", fontsize=9, color=C_BLUE)
+    ax2.set_ylabel("样本销量占比（%）", color=C_BLUE)
     ax2.set_ylim(0, 58)
     ax2.set_xticks(YEARS)
     ax2.set_xlabel("年份")
     ax2.axhline(50, color=C_RED, linewidth=1.0, linestyle="--", alpha=0.75)
-    ax2.text(2015.05, 51.4, "50% 分界线（2025 年 12 月单月渗透率已达 52.3%）",
+    ax2.text(2015.05, 51.4, "50% 参考线（本项目仅有年度输入）",
              fontsize=9, color=C_RED, va="bottom")
 
-    _add_footer(fig, "数据来源：中国汽车工业协会（CAAM）；渗透率 = 新能源汽车新车销量 / 汽车新车总销量", y=0.02)
+    _add_footer(fig, "2025 分母为全车型销量（含出口）；公布占比 47.9%，图中由舍入销量重算；商务部转载工信部/中汽协，2026-01-15", y=0.02)
     fig.subplots_adjust(bottom=0.12)
     fig.savefig(CHART_DIR / "01_新能源汽车销量与渗透率.png")
     plt.close(fig)
 
 
 def fig2_stock_vs_charging():
-    """图2：保有量与充电设施协同增长"""
+    """图2：保有量与充电设施；2025 年 NEA 口径断点。"""
     fig, ax = plt.subplots(figsize=(10, 6))
     _style_ax(ax)
 
-    ax.plot(YEARS, NEV_STOCK, color=C_GREEN, marker="o", markersize=6,
+    ax.plot(FLEET_YEARS, NEV_STOCK, color=C_GREEN, marker="o", markersize=6,
             linewidth=2.6, label="新能源汽车保有量（万辆）", zorder=4)
-    ax.fill_between(YEARS, NEV_STOCK, color=C_GREEN, alpha=0.12, zorder=2)
-    for x, y in zip(YEARS, NEV_STOCK):
+    ax.fill_between(FLEET_YEARS, NEV_STOCK, color=C_GREEN, alpha=0.12, zorder=2)
+    for x, y in zip(FLEET_YEARS, NEV_STOCK):
         ax.text(x, y + 110, f"{y:,.0f}", ha="center", fontsize=9, color=C_GREEN_D)
     ax.set_ylabel("新能源汽车保有量（万辆）", color=C_GREEN_D)
     ax.set_ylim(0, 5100)
@@ -311,8 +242,10 @@ def fig2_stock_vs_charging():
     ax.set_xlabel("年份")
 
     ax2 = ax.twinx()
-    ax2.plot(CHG_YEARS, CHG_TOTAL, color=C_BLUE, marker="s", markersize=6,
-             linewidth=2.4, label="充电基础设施（万个）", zorder=5)
+    plot_charging_segments(ax2, FRAMES["charging"], "chargers_total_10k",
+                           color=C_BLUE, marker="s", markersize=6,
+                           linewidth=2.4, label="充电数量（2025 改计枪口）", zorder=5)
+    _charging_break(ax2)
     for x, y in zip(CHG_YEARS[:-1], CHG_TOTAL[:-1]):
         ax2.text(x, y - 135, f"{y:,.1f}", ha="center", fontsize=9, color=C_BLUE)
     ax2.text(2025.16, CHG_TOTAL[-1], f"{CHG_TOTAL[-1]:,.1f}", ha="left",
@@ -322,15 +255,16 @@ def fig2_stock_vs_charging():
     ax2.spines["top"].set_visible(False)
 
     ax.text(2016.4, 3450,
-            "保有量与充电设施同步高增长\n车桩比由 2020 年 2.93 : 1\n降至 2025 年 2.19 : 1",
+            f"2025 年 NEA 新口径截面\n车/枪口比 {CHG_RATIO[-1]:.2f} : 1\n"
+            "与此前 EVCIPA 不作连续增长比较",
             fontsize=9.5, color="#475569", ha="left", va="top", bbox=BOX)
 
-    ax.set_title("新能源汽车保有量与充电基础设施协同增长（2015—2025）",
+    ax.set_title("保有量与充电数量（2025 年 NEA 统计口径断点）",
                  fontsize=15, fontweight="bold", pad=14)
     h1, l1 = ax.get_legend_handles_labels()
     h2, l2 = ax2.get_legend_handles_labels()
     ax.legend(h1 + h2, l1 + l2, loc="upper left", frameon=False, fontsize=10)
-    _add_footer(fig, "数据来源：公安部（保有量）；中国充电联盟（EVCIPA）/ 国家能源局（充电设施，统计口径自 2020 年起）")
+    _add_footer(fig, CHARGING_NOTE_ZH + "\nNEA 2025-07-31 口径说明、2026-01-21 年末发布；数量不反映功率、可达性或利用率")
     fig.savefig(CHART_DIR / "02_保有量与充电设施协同增长.png")
     plt.close(fig)
 
@@ -340,10 +274,14 @@ def fig3_charging_structure():
     fig, ax1, ax2 = _two_panel(figsize=(10, 7.4))
 
     w = 0.55
-    ax1.bar(CHG_YEARS, CHG_PRIVATE, width=w, color=C_GREEN_L,
-            label="私人充电设施（万个）", zorder=3)
-    ax1.bar(CHG_YEARS, CHG_PUBLIC, width=w, bottom=CHG_PRIVATE,
-            color=C_BLUE, label="公共充电设施（万个）", zorder=3)
+    for i, segment in enumerate(charging_segments(FRAMES["charging"])):
+        ax1.bar(segment.year, segment.chargers_private_10k, width=w, color=C_GREEN_L,
+                label="私人" if i == 0 else "2025 NEA 新口径（斜线）",
+                hatch="//" if i else None, zorder=3)
+        ax1.bar(segment.year, segment.chargers_public_10k, width=w,
+                bottom=segment.chargers_private_10k, color=C_BLUE,
+                label="公共" if i == 0 else "_nolegend_", hatch="//" if i else None, zorder=3)
+    _charging_break(ax1)
     for x, p, q in zip(CHG_YEARS, CHG_PRIVATE, CHG_PUBLIC):
         _seg_label(ax1, x, 0, p, 2450, f"{p:,.1f}", "#14532D", "#166534", side="left", min_frac=0.058)
         _seg_label(ax1, x, p, q, 2450, f"{q:,.1f}", "#FFFFFF", "#1D4ED8", side="right", min_frac=0.058)
@@ -354,25 +292,26 @@ def fig3_charging_structure():
     ax1.set_ylim(0, 2450)
     ax1.set_xlim(2019.0, 2025.95)
     ax1.yaxis.set_major_formatter(FuncFormatter(_thousands))
-    ax1.set_title("中国充电基础设施结构演变：私人桩高速补位（2020—2025）",
+    ax1.set_title("充电数量结构：EVCIPA 历史序列与 2025 NEA 新口径",
                   fontsize=15, fontweight="bold", pad=14)
     ax1.legend(frameon=False, fontsize=10, loc="upper left")
 
     share = CHG_PUBLIC / CHG_TOTAL * 100
-    ax2.plot(CHG_YEARS, share, color=C_ORANGE, marker="D", markersize=6,
-             linewidth=2.2)
+    plot_charging_segments(ax2, FRAMES["charging"], "public_share_pct",
+                           color=C_ORANGE, marker="D", markersize=6, linewidth=2.2)
+    _charging_break(ax2)
     for x, y in zip(CHG_YEARS, share):
         ax2.text(x, y + 1.8, f"{y:.1f}%", ha="center", fontsize=9, color=C_ORANGE)
     ax2.set_ylabel("公共设施占比（%）", color=C_ORANGE)
     ax2.set_ylim(0, 60)
     ax2.set_xticks(CHG_YEARS)
     ax2.set_xlabel("年份")
-    ax2.annotate("私人桩占比由 52.0% 升至 76.5%，\n充电网络由“公共为主”转向“公私并重”",
-                 xy=(2025, 23.5), xytext=(2020.1, 8),
+    ax2.annotate(f"2025 新口径公共占比 {share[-1]:.2f}%\n跨口径差额不能解释为实际新增量",
+                 xy=(CHG_YEARS[-1], share[-1]), xytext=(2020.1, 8),
                  fontsize=9.5, color="#475569",
                  arrowprops=dict(arrowstyle="->", color=C_GRAY, lw=1.1))
 
-    _add_footer(fig, "数据来源：中国充电联盟（EVCIPA）/ 国家能源局；2025 年底充电基础设施总量突破 2000 万个，建成全球最大充电网络", y=0.02)
+    _add_footer(fig, CHARGING_NOTE_ZH + "\n私人数量按总量减公共量计算，与 NEA 公布的 2025 私人数量一致", y=0.005)
     fig.subplots_adjust(bottom=0.12)
     fig.savefig(CHART_DIR / "03_充电设施结构演变.png")
     plt.close(fig)
@@ -384,7 +323,7 @@ def fig4_battery():
 
     tot = BAT_LFP + BAT_NCM
     bars = ax1.bar(BAT_YEARS, tot, width=0.5, color=C_GREEN, zorder=3,
-                   label="动力电池装车量合计（GWh）")
+                   label="磷酸铁锂 + 三元锂小计（GWh）")
     for i, b in enumerate(bars):
         if BAT_YEARS[i] >= 2023:
             b.set_color(C_GREEN_D)
@@ -394,7 +333,7 @@ def fig4_battery():
     ax1.set_ylabel("动力电池装车量（GWh）")
     ax1.set_ylim(0, 900)
     ax1.set_xlim(2017.6, 2025.4)
-    ax1.set_title("动力电池装车量快速扩张与磷酸铁锂路线主导（2018—2025）",
+    ax1.set_title("两类动力电池装车结构（2018—2025，部分历史值待核实）",
                   fontsize=15, fontweight="bold", pad=14)
     ax1.legend(frameon=False, fontsize=10, loc="upper left")
 
@@ -407,44 +346,47 @@ def fig4_battery():
     ax2.text(2022.55, 52.5, "50% 结构分界线", fontsize=8.5, color=C_RED)
     ax2.text(2018.0, 20, "磷酸铁锂\n占比", fontsize=9, color="#FFFFFF",
              ha="left", va="center", fontweight="bold")
-    ax2.text(2025.0, 91, "三元锂 18.7%", fontsize=9, color="#7C2D12",
+    ax2.text(BAT_YEARS[-1], 91, f"三元锂 {share_ncm[-1]:.1f}%", fontsize=9, color="#7C2D12",
              ha="right", va="center")
-    ax2.text(2025.0, 40.7, "磷酸铁锂 81.3%", fontsize=9, color="#FFFFFF",
+    ax2.text(BAT_YEARS[-1], 40.7, f"磷酸铁锂 {share_lfp[-1]:.1f}%", fontsize=9, color="#FFFFFF",
              ha="right", va="center", fontweight="bold")
-    ax2.set_ylabel("装车量结构占比（%）")
+    ax2.set_ylabel("两类小计内占比（%）")
     ax2.set_ylim(0, 100)
     ax2.set_xticks(BAT_YEARS)
     ax2.set_xlabel("年份")
-    ax2.annotate("2021 年磷酸铁锂装车量首次反超三元锂",
-                 xy=(2021, 51.8), xytext=(2021.15, 12),
-                 fontsize=9.5, color="#475569",
-                 arrowprops=dict(arrowstyle="->", color="#FFFFFF", lw=1.3))
+    crossings = np.flatnonzero(BAT_LFP > BAT_NCM)
+    if len(crossings):
+        i = crossings[0]
+        ax2.annotate(f"样本内首次磷酸铁锂高于三元锂：{BAT_YEARS[i]} 年",
+                     xy=(BAT_YEARS[i], share_lfp[i]), xytext=(2021.15, 12),
+                     fontsize=9.5, color="#475569",
+                     arrowprops=dict(arrowstyle="->", color="#FFFFFF", lw=1.3))
 
-    _add_footer(fig, "数据来源：中国汽车动力电池产业创新联盟；2025 年动力电池装车量 769.7GWh，同比增长 40.4%，其中磷酸铁锂 625.3GWh", y=0.02)
+    _add_footer(fig, f"{BAT_YEARS[-1]} 年两类小计 {tot[-1]:.1f} GWh；占比分母不包含未列出的化学体系", y=0.02)
     fig.subplots_adjust(bottom=0.12)
     fig.savefig(CHART_DIR / "04_动力电池装车量结构.png")
     plt.close(fig)
 
 
 def fig5_tech_route():
-    """图5：新能源乘用车技术路线结构（纯电 vs 插混）"""
+    """图5：全车型 BEV/PHEV 小计，不含燃料电池汽车。"""
     fig, ax1, ax2 = _two_panel(figsize=(10, 7.4))
 
     w = 0.5
     ax1.bar(TECH_YEARS, TECH_BEV, width=w, color=C_GREEN_D,
             label="纯电动汽车（万辆）", zorder=3)
     ax1.bar(TECH_YEARS, TECH_PHEV, width=w, bottom=TECH_BEV, color=C_ORANGE,
-            label="插电式混动（含增程，万辆）", zorder=3)
+            label="插电式混动（万辆）", zorder=3)
     for x, b, p in zip(TECH_YEARS, TECH_BEV, TECH_PHEV):
         _seg_label(ax1, x, 0, b, 1950, f"{b:,.1f}", "#FFFFFF", "#166534", side="left", min_frac=0.058)
         _seg_label(ax1, x, b, p, 1950, f"{p:,.1f}", "#FFFFFF", "#B45309", side="right", min_frac=0.058)
         ax1.text(x, b + p + 30, f"合计 {b + p:,.1f}", ha="center", fontsize=9,
                  color="#334155", fontweight="bold")
-    ax1.set_ylabel("新能源乘用车销量（万辆）")
+    ax1.set_ylabel("样本两类汽车销量（万辆）")
     ax1.set_ylim(0, 1950)
     ax1.set_xlim(2020.0, 2025.95)
     ax1.yaxis.set_major_formatter(FuncFormatter(_thousands))
-    ax1.set_title("新能源乘用车技术路线结构：纯电为主、插混快速补位（2021—2025）",
+    ax1.set_title("全车型纯电与插混销量结构（2021—2025，非仅乘用车）",
                   fontsize=15, fontweight="bold", pad=14)
     ax1.legend(frameon=False, fontsize=10, loc="upper left")
 
@@ -457,12 +399,13 @@ def fig5_tech_route():
     ax2.set_ylim(0, 50)
     ax2.set_xticks(TECH_YEARS)
     ax2.set_xlabel("年份")
-    ax2.annotate("插混占比由 17.2% 升至 35.6%，\n成为拉动增长的重要动能",
-                 xy=(2025, 35.6), xytext=(2021.05, 8),
+    ax2.annotate(f"两类小计内插混占比：{phev_share[0]:.1f}% → {phev_share[-1]:.1f}%\n"
+                 f"末年较上年变动 {phev_share[-1]-phev_share[-2]:+.2f} 个百分点",
+                 xy=(TECH_YEARS[-1], phev_share[-1]), xytext=(2021.05, 8),
                  fontsize=9.5, color="#475569",
                  arrowprops=dict(arrowstyle="->", color=C_GRAY, lw=1.1))
 
-    _add_footer(fig, "数据来源：中国汽车工业协会（CAAM）分动力类型统计；插混含增程式，2025 年纯电动占比 64.4%", y=0.02)
+    _add_footer(fig, "全车型 BEV + PHEV 小计（不含燃料电池）；2021 工信部发布会，2022-01-12；2025 经济观察报，2026-01-15", y=0.02)
     fig.subplots_adjust(bottom=0.12)
     fig.savefig(CHART_DIR / "05_技术路线结构.png")
     plt.close(fig)
@@ -470,17 +413,16 @@ def fig5_tech_route():
 
 def fig6_export():
     """图6：新能源汽车出口规模与占比"""
-    fig, ax = plt.subplots(figsize=(10, 6.2))
-    _style_ax(ax)
+    fig, ax, ax2 = _two_panel(figsize=(10, 7.6))
 
     x = np.arange(len(EXP_YEARS))
     ax.bar(x, EXP_NEV, width=0.5, color=C_BLUE,
            label="新能源汽车出口（万辆）", zorder=3)
     ax.bar(x, EXP_AUTO - EXP_NEV, width=0.5, bottom=EXP_NEV,
-           color="#E2E8F0", label="传统燃料汽车出口（万辆）", zorder=3)
+           color="#E2E8F0", label="其余汽车出口（差额，万辆）", zorder=3)
     for xi, n, t in zip(x, EXP_NEV, EXP_AUTO):
-        ax.text(xi, n / 2, f"{n:,.1f}", ha="center", va="center",
-                fontsize=9, color="#FFFFFF")
+        _seg_label(ax, xi, 0, n, 900, f"{'约 ' if EXP_YEARS[xi] == 2020 else ''}{n:,.1f}", "#FFFFFF", C_BLUE,
+                   side="left", min_frac=0.058)
         ax.text(xi, n + (t - n) / 2, f"{t - n:,.1f}", ha="center", va="center",
                 fontsize=9, color="#475569")
         ax.text(xi, t + 22, f"{t:,.1f}", ha="center", fontsize=9,
@@ -491,29 +433,31 @@ def fig6_export():
     ax.yaxis.set_major_formatter(FuncFormatter(_thousands))
     ax.set_xticks(x)
     ax.set_xticklabels(EXP_YEARS)
-    ax.set_xlabel("年份")
     ax.set_xlim(-0.75, 5.75)
 
-    ax2 = ax.twinx()
     share = EXP_NEV / EXP_AUTO * 100
     ax2.plot(x, share, color=C_RED, marker="o", markersize=6.5,
-             linewidth=2.4, label="新能源占出口比重（%，右轴）")
+             linewidth=2.4, label="新能源占出口比重（%）")
     for xi, y in zip(x, share):
-        ax2.text(xi, y + 2.4, f"{y:.1f}%", ha="center", fontsize=9.5, color=C_RED)
+        ax2.text(xi, y + 2.4, f"{'约 ' if EXP_YEARS[xi] == 2020 else ''}{y:.1f}%",
+                 ha="center", fontsize=9.5, color=C_RED)
     ax2.set_ylabel("新能源汽车出口占比（%）", color=C_RED)
     ax2.set_ylim(0, 55)
+    ax2.set_xlabel("年份")
     ax2.spines["top"].set_visible(False)
 
     ax.text(4.35, 878,
-            "2025 年新能源汽车出口 261.5 万辆，\n同比翻番，占汽车出口 36.8%",
+            f"{EXP_YEARS[-1]} 年样本新能源出口 {EXP_NEV[-1]:.1f} 万辆\n"
+            f"同比 {(EXP_NEV[-1]/EXP_NEV[-2]-1)*100:.1f}%，占样本出口 {share[-1]:.1f}%",
             fontsize=9.5, color=C_RED, ha="center", va="top", bbox=BOX)
 
-    ax.set_title("中国汽车出口结构与新能源汽车出口占比（2020—2025）",
+    ax.set_title("汽车出口结构与新能源占比（2020—2025，2020 为约数）",
                  fontsize=15, fontweight="bold", pad=14)
     h1, l1 = ax.get_legend_handles_labels()
     h2, l2 = ax2.get_legend_handles_labels()
     ax.legend(h1 + h2, l1 + l2, loc="upper left", frameon=False, fontsize=10)
-    _add_footer(fig, "数据来源：中国汽车工业协会（CAAM）、海关总署")
+    _add_footer(fig, "2025 中汽协数据经工信部/商务部转载，2026-01-15；2020 新能源出口仅获约 7 万辆支持，计算占比亦为约数", y=0.02)
+    fig.subplots_adjust(bottom=0.12)
     fig.savefig(CHART_DIR / "06_新能源汽车出口.png")
     plt.close(fig)
 
@@ -522,27 +466,28 @@ def fig7_carbon():
     """图7：新能源汽车年度减碳量情景估算"""
     fig, ax1, ax2 = _two_panel(figsize=(10, 7.4))
 
-    bars = ax1.bar(YEARS, CARBON_CUT, width=0.6, color=C_GREEN, zorder=3)
+    bars = ax1.bar(CARBON_YEARS, CARBON_CUT, width=0.6, color=C_GREEN, zorder=3)
     for i, b in enumerate(bars):
-        if YEARS[i] >= 2023:
+        if CARBON_YEARS[i] >= 2023:
             b.set_color(C_GREEN_D)
-    for x, y in zip(YEARS, CARBON_CUT):
+    for x, y in zip(CARBON_YEARS, CARBON_CUT):
         ax1.text(x, y + 0.013, f"{y:.2f}", ha="center", va="bottom",
                  fontsize=9, color="#334155")
     ax1.set_ylabel("年度减碳量（亿吨 CO2）")
     ax1.set_ylim(0, 0.88)
-    ax1.set_title("新能源汽车推动绿色低碳转型：年度与累计减碳量情景估算（2015—2025）",
+    ax1.set_title("年度与累计减碳情景（2015—2025，作者自定假设）",
                   fontsize=15, fontweight="bold", pad=14)
     ax1.text(0.015, 0.97,
-             "情景假设：单车年均减碳 1.5 t CO2\n（ICCT 2025 全生命周期研究区间\n1.0~2.0 t/年，取中值）\n"
-             "官方口径：2024 年中国新能源汽车\n助力全球减碳超 5000 万吨（白皮书）",
+             f"作者演示假设：{CARBON_FACTOR:g} t CO2 /（辆·年）\n"
+             "参数类别：assumption（非统计观测）\n年末保有量替代全年车年暴露量\n"
+             "未计电网、行驶里程与制造排放\n不是实测减排或生命周期评估",
              transform=ax1.transAxes, ha="left", va="top", fontsize=9,
              color="#475569", bbox=BOX)
 
-    ax2.plot(YEARS, CARBON_CUM, color=C_ORANGE, marker="D", markersize=5.5,
+    ax2.plot(CARBON_YEARS, CARBON_CUM, color=C_ORANGE, marker="D", markersize=5.5,
              linewidth=2.2)
-    ax2.fill_between(YEARS, CARBON_CUM, color=C_ORANGE, alpha=0.12)
-    for x, y in zip(YEARS, CARBON_CUM):
+    ax2.fill_between(CARBON_YEARS, CARBON_CUM, color=C_ORANGE, alpha=0.12)
+    for x, y in zip(CARBON_YEARS, CARBON_CUM):
         if x in (2015, 2018, 2021, 2023, 2025):
             ax2.text(x, y + 0.14, f"{y:.2f}", ha="center", fontsize=9, color=C_ORANGE)
     ax2.set_ylabel("累计减碳量（亿吨 CO2）", color=C_ORANGE)
@@ -550,7 +495,7 @@ def fig7_carbon():
     ax2.set_xticks(YEARS)
     ax2.set_xlabel("年份")
 
-    _add_footer(fig, "保有量来源：公安部；减碳系数参考：ICCT《Life-cycle GHG emissions of passenger cars》(2025)｜本图为情景估算，非官方统计值", y=0.02)
+    _add_footer(fig, "累计值为年度情景值之和；不得与其他地区、年度或生命周期口径的减排量直接比较", y=0.02)
     fig.subplots_adjust(bottom=0.12)
     fig.savefig(CHART_DIR / "07_减碳量情景估算.png")
     plt.close(fig)
@@ -559,35 +504,36 @@ def fig7_carbon():
 def fig8_dashboard():
     """图8：综合看板（2×2）"""
     fig, axes = plt.subplots(2, 2, figsize=(15, 10.5))
-    fig.suptitle("中国新能源汽车产业发展与绿色低碳转型 · 综合看板（2015—2025）",
+    fig.suptitle("新能源汽车产业看板（部分数值已核实，2025 充电口径断点）",
                  fontsize=18, fontweight="bold", y=0.985, color="#0F172A")
 
     # (a) 销量 + 渗透率
     ax = axes[0, 0]
     _style_ax(ax)
     ax.bar(YEARS, NEV_SALES, width=0.6, color=C_GREEN, zorder=3)
-    ax.set_title("(a) 新能源汽车销量与渗透率", fontsize=12, fontweight="bold")
+    ax.set_title("(a) 全车型新能源汽车销量与占比（含出口）", fontsize=12, fontweight="bold")
     ax.set_ylabel("销量（万辆）")
     ax.set_xticks(YEARS[::2])
     axb = ax.twinx()
     axb.plot(YEARS, NEV_PENETRATION, color=C_BLUE, marker="o", lw=2, markersize=4)
-    axb.set_ylabel("渗透率（%）", color=C_BLUE)
+    axb.set_ylabel("样本销量占比（%）", color=C_BLUE)
     axb.set_ylim(0, 62)
     axb.spines["top"].set_visible(False)
 
     # (b) 保有量 + 充电设施
     ax = axes[0, 1]
     _style_ax(ax)
-    ax.plot(YEARS, NEV_STOCK, color=C_GREEN_D, marker="o", lw=2.2, markersize=4,
+    ax.plot(FLEET_YEARS, NEV_STOCK, color=C_GREEN_D, marker="o", lw=2.2, markersize=4,
             label="新能源汽车保有量")
-    ax.fill_between(YEARS, NEV_STOCK, color=C_GREEN, alpha=0.12)
-    ax.set_title("(b) 保有量与充电基础设施", fontsize=12, fontweight="bold")
+    ax.fill_between(FLEET_YEARS, NEV_STOCK, color=C_GREEN, alpha=0.12)
+    ax.set_title("(b) 保有量与充电数量（2025 口径断点）", fontsize=12, fontweight="bold")
     ax.set_ylabel("保有量（万辆）")
     ax.set_xticks(YEARS[::2])
     ax.set_ylim(0, 5100)
     axb = ax.twinx()
-    axb.plot(CHG_YEARS, CHG_TOTAL, color=C_BLUE, marker="s", lw=2.2, markersize=4,
-             label="充电设施（万个）")
+    plot_charging_segments(axb, FRAMES["charging"], "chargers_total_10k",
+                           color=C_BLUE, marker="s", lw=2.2, markersize=4, label="充电数量（万个）")
+    _charging_break(axb)
     axb.set_ylabel("充电设施（万个）", color=C_BLUE)
     axb.spines["top"].set_visible(False)
 
@@ -597,7 +543,7 @@ def fig8_dashboard():
     ax.bar(BAT_YEARS, BAT_LFP, width=0.55, color=C_GREEN, label="磷酸铁锂", zorder=3)
     ax.bar(BAT_YEARS, BAT_NCM, width=0.55, bottom=BAT_LFP, color=C_ORANGE,
            label="三元锂", zorder=3)
-    ax.set_title("(c) 动力电池装车量结构（GWh）", fontsize=12, fontweight="bold")
+    ax.set_title("(c) 两类动力电池装车量（GWh）", fontsize=12, fontweight="bold")
     ax.set_ylabel("装车量（GWh）")
     ax.set_xticks(BAT_YEARS[::2])
     ax.legend(frameon=False, fontsize=9, loc="upper left")
@@ -607,14 +553,14 @@ def fig8_dashboard():
     _style_ax(ax)
     ax.bar(EXP_YEARS, EXP_NEV, width=0.5, color=C_BLUE, label="新能源汽车出口", zorder=3)
     ax.bar(EXP_YEARS, EXP_AUTO - EXP_NEV, width=0.5, bottom=EXP_NEV,
-           color="#E2E8F0", label="传统燃料汽车出口", zorder=3)
-    ax.set_title("(d) 汽车出口结构（万辆）", fontsize=12, fontweight="bold")
+           color="#E2E8F0", label="其余汽车出口（差额）", zorder=3)
+    ax.set_title("(d) 汽车出口结构（万辆，2020 NEV 为约数）", fontsize=12, fontweight="bold")
     ax.set_ylabel("出口量（万辆）")
     ax.set_xticks(EXP_YEARS)
     ax.legend(frameon=False, fontsize=9, loc="upper left")
 
-    _add_footer(fig, FOOTER, y=0.012)
-    fig.tight_layout(rect=[0, 0.025, 1, 0.965])
+    _add_footer(fig, CHARGING_NOTE_ZH, y=0.008)
+    fig.tight_layout(rect=[0, 0.045, 1, 0.965])
     fig.savefig(CHART_DIR / "08_综合看板.png")
     plt.close(fig)
 
@@ -640,23 +586,24 @@ def main():
     fig8_dashboard()
     print(f"[OK] 已生成 8 张图表 -> {CHART_DIR}")
 
-    print("\n---- 关键结论摘要 ----")
-    print(f"1) 新能源汽车销量：{NEV_SALES[0]:.1f} 万辆（2015）→ {NEV_SALES[-1]:,.1f} 万辆（2025），"
-          f"增长约 {NEV_SALES[-1] / NEV_SALES[0]:.0f} 倍")
-    print(f"2) 新车渗透率：{NEV_PENETRATION[0]}% → {NEV_PENETRATION[-1]}%，"
-          f"2025 年 12 月单月已达 52.3%")
+    print("\n---- 计算摘要（部分数值已按来源审计核对） ----")
+    print(NOTE_ZH)
+    print(f"1) 新能源汽车销量：{NEV_SALES[0]:.1f} 万辆（{YEARS[0]}）→ "
+          f"{NEV_SALES[-1]:,.1f} 万辆（{YEARS[-1]}），期末为期初 {NEV_SALES[-1] / NEV_SALES[0]:.2f} 倍")
+    print(f"2) 样本年度销量占比：{NEV_PENETRATION[0]:.2f}% → {NEV_PENETRATION[-1]:.2f}%；"
+          "分母为全车型销量（含出口）；2025 公布值 47.9%，计算值单列")
     print(f"3) 保有量：{NEV_STOCK[0]:.1f} 万辆 → {NEV_STOCK[-1]:,.0f} 万辆，"
           f"纯电动占比 {BEV_STOCK[-1] / NEV_STOCK[-1] * 100:.1f}%")
-    print(f"4) 充电设施：{CHG_TOTAL[0]:.1f} 万个（2020）→ {CHG_TOTAL[-1]:,.1f} 万个（2025），"
-          f"车桩比 {NEV_STOCK[-6] / CHG_TOTAL[0]:.2f}:1 → {NEV_STOCK[-1] / CHG_TOTAL[-1]:.2f}:1")
-    print(f"5) 动力电池装车量：{BAT_LFP[-1] + BAT_NCM[-1]:,.1f} GWh（2025），"
-          f"磷酸铁锂占比 {BAT_LFP[-1] / (BAT_LFP[-1] + BAT_NCM[-1]) * 100:.1f}%")
-    print(f"6) 技术路线：2025 年纯电 {TECH_BEV[-1]:,.1f} 万辆、插混 {TECH_PHEV[-1]:,.1f} 万辆，"
+    print(f"4) 2025 NEA 新口径：{CHG_TOTAL[-1]:,.1f} 万枪口，车/枪口比 {CHG_RATIO[-1]:.2f}:1；"
+          "跨口径不解释为连续增长或实际新增量")
+    print(f"5) 两类电池装车量小计：{BAT_LFP[-1] + BAT_NCM[-1]:,.1f} GWh（{BAT_YEARS[-1]}），"
+          f"小计内磷酸铁锂占比 {BAT_LFP[-1] / (BAT_LFP[-1] + BAT_NCM[-1]) * 100:.1f}%")
+    print(f"6) 技术路线：{TECH_YEARS[-1]} 年纯电 {TECH_BEV[-1]:,.1f} 万辆、插混 {TECH_PHEV[-1]:,.1f} 万辆，"
           f"插混占比 {TECH_PHEV[-1] / (TECH_BEV[-1] + TECH_PHEV[-1]) * 100:.1f}%")
-    print(f"7) 出口：{EXP_NEV[0]:.1f} 万辆（2020）→ {EXP_NEV[-1]:,.1f} 万辆（2025），"
+    print(f"7) 出口：约 {EXP_NEV[0]:.1f} 万辆（{EXP_YEARS[0]}）→ {EXP_NEV[-1]:,.1f} 万辆（{EXP_YEARS[-1]}），"
           f"占汽车出口 {EXP_NEV[-1] / EXP_AUTO[-1] * 100:.1f}%")
-    print(f"8) 累计减碳（情景估算）：{CARBON_CUM[-1]:.2f} 亿吨 CO2；"
-          f"官方口径 2024 年助力全球减碳超 5000 万吨")
+    print(f"8) 累计减碳情景：{CARBON_CUM[-1]:.6f} 亿吨 CO2；"
+          f"作者假设系数 {CARBON_FACTOR:g} 吨/辆年，独立 assumption 分类，非实测减排")
     print("\n全部完成")
 
 

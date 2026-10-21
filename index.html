@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jiayu Yan — Data Analytics Portfolio</title>
-<meta name="description" content="Four reproducible data analysis projects in econometrics, forecasting, industry analysis and interactive visualisation.">
+<meta name="description" content="Jiayu Yan's academic portfolio: reproducible forecasting, statistical inference, industry analysis, interactive visualisation and Java data structures, with evidence-led decision notes.">
 <style>
 :root{
-  --ink:#16222e; --body:#425362; --muted:#7a8a99;
+  --ink:#16222e; --body:#425362; --muted:#586a79;
   --line:#dde4ea; --bg:#f6f8fa; --card:#ffffff;
   --accent:#1f6fb2; --accent-dark:#164f80; --flag:#b4532f;
 }
@@ -17,6 +17,13 @@ body{margin:0;background:var(--bg);color:var(--body);
   -webkit-font-smoothing:antialiased}
 a{color:var(--accent);text-decoration:none}
 a:hover{color:var(--accent-dark);text-decoration:underline}
+a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.skip{position:absolute;left:16px;top:-80px;background:#fff;padding:10px;z-index:1}
+.skip:focus{top:12px}
+.guide{margin-top:24px;padding:18px 22px;background:var(--bg);border-left:3px solid var(--accent)}
+.guide p{margin:4px 0}
+.decision{font-size:15px}
+section[id]{scroll-margin-top:24px}
 .wrap{max-width:900px;margin:0 auto;padding:0 24px}
 header{background:var(--card);border-bottom:1px solid var(--line);padding:64px 0 48px}
 h1{margin:0 0 6px;font-size:34px;line-height:1.2;color:var(--ink);letter-spacing:-.4px}
@@ -59,6 +66,7 @@ footer p{margin:0 0 10px;max-width:70ch}
 </style>
 </head>
 <body>
+<a class="skip" href="#projects">Skip to projects</a>
 
 <header>
   <div class="wrap">
@@ -66,28 +74,42 @@ footer p{margin:0 0 10px;max-width:70ch}
     <p class="sub">B.Mgmt. in <strong>Big Data Management and Applications</strong>, Guangdong University of Technology</p>
     <p class="sub">Applying for MS programmes in Data Science / Business Analytics — US · Singapore · Hong Kong</p>
 
-    <p class="lede">Six projects, each built around a single question:
-      <em>does this result survive being checked?</em> Coursework usually ends at the
-      first plausible number. These go on to the part that decides whether the number
-      means anything. Five of the six headline findings below are negative or
-      corrective results — and those are the ones I would most want to be asked about.</p>
+    <p class="lede">My work connects statistical analysis with decisions:
+      <em>does this result survive being checked, and what should we do with it?</em>
+      These coursework-based projects cover forecasting, inference, visualisation
+      and information systems. Negative results and methodological corrections
+      are reported alongside the findings they qualify.</p>
 
 
-    <p class="meta">Every project regenerates its own figures and tables from a clean
-      checkout. Two of them verify every output number against stored reference values
-      on each run and fail loudly if anything drifts.</p>
+    <p class="meta">Reproducibility is part of the deliverable: versioned inputs,
+      executable analyses and explicit checks. The two econometrics projects verify
+      input SHA-256 hashes and compare 586 numerical results with stored references
+      at a relative tolerance of 10⁻⁶.</p>
+
+    <nav class="guide" aria-label="Suggested reading routes">
+      <p><strong>Start here:</strong> <a href="#project-06">06 · Consumer decisions</a>
+        for the path from a business question to an evidence-limited recommendation.</p>
+      <p><strong>Statistical depth:</strong> <a href="#project-01">01 · Forecasting</a>
+        → <a href="#project-02">02 · Market linkages</a>.</p>
+      <p><strong>Data and communication:</strong> <a href="#project-03">03 · Industry data</a>,
+        <a href="#project-04">04 · Interactive charts</a>,
+        <a href="#project-05">05 · Air quality</a>.
+        <strong>Engineering:</strong> <a href="#project-07">07 · Java</a>.</p>
+    </nav>
 
     <div class="links">
       <a class="btn primary" href="https://github.com/jiayuyan117/academic-portfolio">Repository on GitHub</a>
       <a class="btn" href="https://github.com/jiayuyan117/academic-portfolio/blob/main/README.zh-CN.md">中文版</a>
+      <a class="btn" href="https://github.com/jiayuyan117/academic-portfolio/blob/main/REPRODUCING.md">Reproduce the work</a>
+      <a class="btn" href="https://github.com/jiayuyan117/academic-portfolio/actions/workflows/build.yml">Build &amp; verification</a>
     </div>
   </div>
 </header>
 
-<main class="wrap">
+<main class="wrap" id="projects">
   <h2 class="section">Projects</h2>
 
-  <section class="card">
+  <section class="card" id="project-01">
     <h3><span class="num">01</span>Equity Time-Series Forecasting</h3>
     <p class="stack">statsmodels · ARMA/ARIMA · fixed-origin holdout · 252 values verified per run</p>
     <span class="tag">Negative result</span>
@@ -99,6 +121,9 @@ footer p{margin:0 0 10px;max-width:70ch}
       questions, because a model can win the first and fail the other two. Here it does.
       Selection is specified before the holdout is touched, benchmarks are fixed in
       advance, and return and log-price errors are never compared on the same scale.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Keep the zero-return
+      benchmark: this small advantage on one window does not justify deploying
+      a trading model. Wider time-based validation and transaction costs remain necessary.</p>
     <p class="cardlinks">
       <a href="projects/01-equity-time-series-forecasting/FIRST_READ.html">Read the report</a>
       <a href="projects/01-equity-time-series-forecasting/Research_Analysis.html">Full analysis</a>
@@ -106,22 +131,7 @@ footer p{margin:0 0 10px;max-width:70ch}
     </p>
   </section>
 
-  <section class="card">
-    <h3><span class="num">07</span>Workforce System in Java</h3>
-    <p class="stack">Java 17 · department tree · employee BST · invariant testing</p>
-    <span class="tag">Information systems</span>
-    <p class="find">A department tree and an employee search index must describe the same people.
-      The system validates transfers, deletion, membership and ordering after every operation.</p>
-    <p>Immutable employee records, integer salary cents, subtree counts and explicit rejection
-      cases make the data structure's behaviour inspectable. A seeded reference-model test
-      passes <b>2,013 checks</b> across 1,000 operations.</p>
-    <p class="cardlinks">
-      <a href="projects/07-workforce-system-java/README.md">Read the report</a>
-      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/07-workforce-system-java">Code &amp; tests</a>
-    </p>
-  </section>
-
-  <section class="card">
+  <section class="card" id="project-02">
     <h3><span class="num">02</span>Shanghai–Hong Kong Market Linkages</h3>
     <p class="stack">VAR / VECM · Johansen · Granger · 334 values verified per run</p>
     <span class="tag">Negative result</span>
@@ -133,6 +143,9 @@ footer p{margin:0 0 10px;max-width:70ch}
       Granger direction is significant at 5%. Johansen selects rank 2 stably, yet every
       fitted VECM rejects residual whiteness — so no long-run equilibrium claim is made
       and no VECM forecast is deployed on the back of it.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Treat shock attribution
+      as sensitive to identification assumptions. It is insufficient evidence for
+      a directional hedging rule or a causal claim about either market.</p>
     <p class="cardlinks">
       <a href="projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html">Read the report</a>
       <a href="projects/02-shanghai-hongkong-market-linkages/Research_Analysis.html">Full analysis</a>
@@ -140,27 +153,31 @@ footer p{margin:0 0 10px;max-width:70ch}
     </p>
   </section>
 
-  <section class="card">
+  <section class="card" id="project-03">
     <h3><span class="num">03</span>China's New Energy Vehicle Transition, 2015–2025</h3>
     <p class="stack">pandas · matplotlib · 7 compiled tables · 16 figures, bilingual</p>
-    <p class="find">NEV share of new vehicle sales went from <b>1.3% to 47.9%</b> in
-      eleven years. The findings that complicate that story: charging capacity outgrew
-      the fleet but almost entirely through <b>private</b> chargers (public share fell
-      48% → 23%); battery chemistry reversed toward LFP (40% → <b>81%</b>); and plug-in
-      hybrids <i>gained</i> share (17% → <b>36%</b>).</p>
-    <p>Every denominator, definition change and scenario assumption is documented —
-      including a 0.3 GWh discrepancy against an official battery total, and a carbon
-      estimate captioned on the figure itself as a scenario rather than a statistic.</p>
+    <p class="find">In 2025, NEVs accounted for <b>47.9%</b> of CAAM's all-vehicle
+      sales, <b>including exports</b>. The important analytical distinctions are the
+      denominators: domestic sales, registrations, fleet stock and battery-chemistry
+      subtotals answer different questions.</p>
+    <p>A source audit records publication dates and evidence levels, corrects the
+      2021 PHEV sales input, and flags the <b>2025 charging-statistics break</b>.
+      Historical observations still awaiting verification remain labelled.
+      The carbon calculation is an illustrative scenario, not measured emissions savings.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Charging investment
+      needs location, utilization and power data. National connector counts and a
+      series with a reporting break cannot alone establish where capacity is scarce.</p>
     <p class="cardlinks">
       <a href="projects/03-china-nev-industry-analytics/charts_en/08_dashboard.png">Dashboard</a>
       <a href="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png">Battery chemistry</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/docs/NEV_SOURCE_AUDIT.md">Source audit</a>
       <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/03-china-nev-industry-analytics">Code &amp; data</a>
     </p>
   </section>
 
-  <section class="card">
+  <section class="card" id="project-04">
     <h3><span class="num">04</span>Bike-Sharing Demand: Interactive Visualisation</h3>
-    <p class="stack">Plotly · Pyecharts · 17,379 hourly observations</p>
+    <p class="stack">Plotly · standalone offline charts · 17,379 hourly observations</p>
     <span class="tag">Data-quality finding</span>
     <p class="find negative">The two files in the UCI Bike Sharing Dataset store dates as
       <code>2011/1/1</code> and <code>2011-01-01</code>, so the obvious join between them
@@ -169,6 +186,10 @@ footer p{margin:0 0 10px;max-width:70ch}
     <p>Four interactive figures, each labelling what every visual channel encodes. The
       density contour is a count of <i>observations</i>; ride volume is carried only by
       marker size on a separate layer, so the two can never be read off the same channel.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Reconcile hourly and
+      daily totals before using demand patterns to inform fleet planning. These
+      historical aggregates support exploration; station-level rebalancing requires
+      station availability and service-cost data.</p>
     <p class="cardlinks">
       <a href="projects/04-bike-sharing-interactive-visualization/charts/01_sunburst.html">Sunburst</a>
       <a href="projects/04-bike-sharing-interactive-visualization/charts/02_density_contour.html">Density</a>
@@ -178,21 +199,24 @@ footer p{margin:0 0 10px;max-width:70ch}
     </p>
   </section>
 
-  <section class="card">
+  <section class="card" id="project-05">
     <h3><span class="num">05</span>Beijing PM2.5, 2010–2014</h3>
     <p class="stack">Seaborn · 43,824 hourly observations · 7 figures</p>
     <span class="tag">Method correction</span>
-    <p class="find negative">PM2.5 exceeded China's grade II daily limit in
-      <b>48.5%</b> of hours. What explains the variation is ventilation, not
-      temperature: Spearman ρ = <b>−0.360</b> for wind speed against <b>+0.011</b> for
-      temperature, and median PM2.5 is <b>6.3× higher</b> in the calmest wind decile
-      than the windiest.</p>
+    <p class="find negative"><b>48.5%</b> of observed hourly PM2.5 readings exceed
+      75 µg/m³, a daily-standard reference value, not an hourly compliance limit.
+      Spearman ρ is <b>−0.360</b> for cumulated wind speed and <b>+0.011</b> for
+      temperature. Median PM2.5 is <b>6.3× higher</b> in the lowest cumulated-wind-speed
+      decile than in the highest.</p>
     <p>Temperature's Pearson <i>r</i> (−0.091) and Spearman ρ (+0.011) disagree on the
-      sign, so the linear coefficient my coursework version led with was describing an
-      association that is not monotonic. Separately, 1,341 of the 2,067 missing hours
-      sit inside gaps longer than a day — the longest is 155 consecutive hours — so 91%
-      of them are left missing rather than interpolated into a smooth ramp through a
-      possible haze episode.</p>
+      sign; the conditional-median plot helps examine the nonlinear pattern that
+      neither coefficient captures. Separately, 1,341 of the 2,067 missing hours
+      sit inside gaps longer than a day — the longest is 155 consecutive hours.
+      A short-gap policy audit leaves 91% unfilled. The headline figures and
+      correlations use only original observations, excluding all 2,067 missing hours.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Evaluate ventilation
+      indicators for outdoor-work warnings alongside current local monitoring.
+      The associations do not identify the effects of changing emissions or schedules.</p>
     <p class="cardlinks">
       <a href="projects/05-beijing-air-quality-seaborn/figures/03_ventilation_wind_speed.png">Ventilation</a>
       <a href="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png">Gap audit</a>
@@ -201,19 +225,28 @@ footer p{margin:0 0 10px;max-width:70ch}
     </p>
   </section>
 
-  <section class="card">
-    <h3><span class="num">06</span>Consumer Transactions: A Segmentation That Isn't There</h3>
+  <section class="card" id="project-06">
+    <h3><span class="num">06</span>Consumer Transactions: Testing Segmentation Claims</h3>
     <p class="stack">Matplotlib · 8,000 transactions · bootstrap CIs · ANOVA · permutation null</p>
     <span class="tag">Null result</span>
     <p class="find negative">The brief asks which customer groups spend more. Tested
-      first: <b>four of the five candidate segmentations do not differ at all</b> — age
-      band <i>p</i> = 0.45, gender 0.52, city tier 0.77, payment method 0.90. Income's
+      first: <b>four of five groupings show no statistically detectable mean-spend difference</b> — age
+      band <i>p</i> = 0.44, gender 0.52, city tier 0.77, payment method 0.90. Income's
       correlation with spend is <b>−0.010</b>, 95% CI [−0.032, +0.012]: narrow enough to
-      be a measured absence rather than a missing finding.</p>
+      constrain the size of the linear association in this sample, without proving
+      independence or the absence of every useful segment.</p>
     <p>Only membership tier separates (<i>p</i> = 1.0 × 10⁻⁶, robust to 10% trimming),
-      and its direction is unidentified because loyalty tiers are awarded <i>for</i>
-      spending. Monthly revenue falls inside a permutation null band in all 12 months,
-      so there is no seasonality to explain either.</p>
+      and its direction is unidentified: tier assignment is undocumented and may
+      depend on prior spending. Monthly revenue falls inside a permutation null band in all 12 months,
+      so this analysis does not establish a seasonal revenue pattern. The input
+      contains 8,020 rows; 20 exact duplicates are removed, leaving 8,000 transactions.</p>
+    <p>These are transaction-level exploratory tests. Repeat customers create
+      dependence that the reported tests and intervals do not adjust for;
+      customer-level validation is needed before acting on the results.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Avoid reallocating
+      marketing spend from these demographic rankings alone. A next step is a
+      randomized offer test with incremental contribution margin as the primary
+      outcome; no such experiment has been conducted here.</p>
     <p class="cardlinks">
       <a href="projects/06-consumer-behaviour-matplotlib/figures/01_segmentation_effect_audit.png">Segmentation audit</a>
       <a href="projects/06-consumer-behaviour-matplotlib/figures/02_correlation_forest.png">Correlation intervals</a>
@@ -222,19 +255,38 @@ footer p{margin:0 0 10px;max-width:70ch}
     </p>
   </section>
 
+  <section class="card" id="project-07">
+    <h3><span class="num">07</span>Workforce System in Java</h3>
+    <p class="stack">Java 17 · department tree · employee search index · invariant testing</p>
+    <span class="tag">Information systems</span>
+    <p class="find">A department tree and an employee search index must describe the same people.
+      Transfers, deletion, membership and ordering are checked against explicit invariants.</p>
+    <p>Immutable employee records, integer salary cents and reference-model tests
+      make state changes inspectable. Ordered inputs and deletion edge cases
+      test behaviour beyond a single random workload.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Consistent department
+      membership supports reliable headcount reporting. This in-memory teaching
+      system demonstrates core invariants; production use would also require
+      persistence, access control and audit history.</p>
+    <p class="cardlinks">
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/07-workforce-system-java#readme">Read the report</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/07-workforce-system-java">Code &amp; tests</a>
+    </p>
+  </section>
 
   <footer>
-    <p><strong>Academic integrity and AI use.</strong> All six projects originate in my
+    <p><strong>Academic integrity and AI use.</strong> These projects originate in my
       own undergraduate coursework. The original course submissions and datasets are
       retained unmodified in each project's <code>source_materials/</code> directory, so
       the development from assignment to portfolio version can be inspected directly —
       including the places where the portfolio version corrects a method error in my own
       earlier work.</p>
 
-    <p>AI assistance was used for code structuring, English writing and verification
-      tooling. The research questions, the sensitivity analyses that produce the findings
-      above, and all interpretation are my own. Where a number is my estimate rather than
-      a published statistic, it is labelled as such in the figure.</p>
+    <p>AI assistance was used for code structuring, English writing, verification
+      tooling and this portfolio's review-driven revisions. Original coursework is
+      retained separately. Decision notes describe implications and proposed next steps,
+      not interventions already tested. Estimates and scenarios are distinguished
+      from published statistics.</p>
     <p>No result here is presented as more certain than the evidence supports. Where a
       model fails, the failure is the finding.</p>
     <p>Code MIT licensed · third-party datasets under their original terms ·

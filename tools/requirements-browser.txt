@@ -1,0 +1,2 @@
+# Optional delivery verification only; not needed to rebuild the analyses.
+playwright==1.55.0
