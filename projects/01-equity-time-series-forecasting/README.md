@@ -77,8 +77,15 @@ I am claiming.
 
 ## Reproduce
 
+Use **Windows x86-64 and CPython 3.12.10** for the original strict numerical
+reference. The complete GitHub Windows run passed all 252 comparisons. Linux
+produced `MAE_z=4.5313198708117` for the drift model versus the original
+`4.531076030729077`, outside `rtol=1e-6, atol=1e-8`; Linux reproduction is not
+certified against that reference. The runner retains the same strict checks
+on every platform. See [the environment notes](../../REPRODUCING.md).
+
 ```bash
-pip install -r requirements.txt
+pip install -c ../../constraints.txt -r requirements.txt
 python run_analysis.py
 ```
 

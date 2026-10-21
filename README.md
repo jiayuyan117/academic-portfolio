@@ -159,7 +159,10 @@ Commands in the table run from the corresponding project directory.
 Each Python project has read-only dependency declarations; the root
 `constraints.txt` fixes the resolved versions. CPython 3.12.10 and JDK 17
 are the documented environments. GitHub Actions is configured to rebuild
-**01–07**, including the full 01–02 numerical verifiers on Linux and Windows.
+**01–07**. Project 01's strict numerical reference is verified on Windows;
+project 02 runs on Linux and Windows, and projects 03–07 run on Linux.
+Project 01's Linux optimizer output exceeds the original tolerance; that
+platform is not certified against the Windows reference.
 See the [actual workflow runs](https://github.com/jiayuyan117/academic-portfolio/actions/workflows/build.yml)
 for execution status and [REPRODUCING.md](REPRODUCING.md) for setup and limitations.
 
@@ -169,7 +172,7 @@ for execution status and [REPRODUCING.md](REPRODUCING.md) for setup and limitati
 git clone https://github.com/jiayuyan117/academic-portfolio.git
 cd academic-portfolio
 python -m venv .venv
-# Activate .venv as described in REPRODUCING.md.
+# Use Windows for project 01; activate .venv as described in REPRODUCING.md.
 python -m pip install -c constraints.txt -r requirements.txt
 python tools/rebuild.py --project 01
 ```

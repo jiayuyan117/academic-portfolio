@@ -29,7 +29,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - {project: '01', folder: 01-equity-time-series-forecasting, os: ubuntu-22.04}
+          # Project 01's original numerical reference is Windows-specific.
+          # Its full, strict verifier runs below on windows-2022; see REPRODUCING.md.
           - {project: '02', folder: 02-shanghai-hongkong-market-linkages, os: ubuntu-22.04}
           - {project: '03', folder: 03-china-nev-industry-analytics, os: ubuntu-22.04}
           - {project: '04', folder: 04-bike-sharing-interactive-visualization, os: ubuntu-22.04}

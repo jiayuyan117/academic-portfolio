@@ -7,7 +7,7 @@ projects 01–02 are not relaxed or replaced.
 | Recommendation | Implementation |
 | --- | --- |
 | Homepage project counts | Removed stale numerical claims from the introduction, metadata and footer; seven numbered cards with checked anchors and a reading guide. |
-| CI coverage for 01–02 | Full notebook verifiers added to Linux and Windows jobs; projects 03–06 rebuild separately; Java runs through Maven/JUnit. |
+| CI coverage for 01–02 | Full strict notebook verification on Windows for 01 and on Linux/Windows for 02; projects 03–06 rebuild on Linux; Java runs through Maven/JUnit. |
 | Offline project 04 charts | Four standalone Plotly HTML files embed the runtime; calendar and animation preserve their original analytical roles. Browser checks block every HTTP(S) request. |
 | Requirements overwritten by runners | Dependency declarations are read-only; versions are checked and actual environments recorded separately. |
 | Requirements BOM inconsistency | UTF-8 without BOM, common comment headers, and a delivery check for encoding. |
@@ -74,9 +74,15 @@ after inspecting installed `ipykernel 7.4.0` metadata: it explicitly requires
 - Historical NEV observations without retrieved supporting evidence remain
   labelled unverified. Traceability and arithmetic validation do not certify
   all external statistics. See [the source audit](NEV_SOURCE_AUDIT.md).
+- The first remote run on commit `4c64847` passed nine of ten jobs, including both
+  Windows numerical verifiers, project 02 on Linux, projects 03–07 and browser
+  checks. Project 01 on Linux failed its original numerical tolerance:
+  drift-model MAE was `4.5313198708117`, versus `4.531076030729077`.
+  Its supported CI environment is consequently Windows; no reference value or
+  tolerance was changed. The failing Linux run remains available in GitHub history.
 - The Docker recipe has not been executed locally; Docker is not installed.
-  Linux and Windows GitHub-hosted jobs must run on the eventual pushed commit
-  before remote CI success can be claimed.
+  Its default command now rebuilds projects 02–06, consistent with the Linux
+  verification scope. Project 01 retains full mandatory Windows verification.
 - Existing historical Office deliverables may contain superseded figures;
   the project README identifies the current analytical artifacts.
 - Local verification does not mean GitHub or Pages has been updated. Remote

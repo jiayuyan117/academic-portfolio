@@ -136,7 +136,9 @@ UCI 共享单车数据集的两个文件把日期分别存成 `2011/1/1` 和 `20
 
 表中命令在各项目目录运行。Python 使用只读 `requirements.txt` 声明与根目录
 `constraints.txt`，文档环境为 CPython 3.12.10 和 JDK 17。
-GitHub Actions 已配置覆盖 **01–07**，01、02 在 Linux 与 Windows 上执行完整校验。
+GitHub Actions 已配置覆盖 **01–07**：01 在 Windows 上执行完整严格数值校验，
+02 同时验证 Linux 与 Windows，03–07 在 Linux 上验证。01 的 Linux 优化器结果
+超出原有容差，因此未声称它能在 Linux 上通过 Windows 数值基准；参考值和容差均未修改。
 实际成功与否以 [workflow 运行记录](https://github.com/jiayuyan117/academic-portfolio/actions/workflows/build.yml)
 为准。安装、统一重建和容器说明见 [REPRODUCING.md](REPRODUCING.md)。
 README 为独立维护的文案，生成 `findings.json` 不会自动更新 README。
@@ -146,7 +148,7 @@ README 为独立维护的文案，生成 `findings.json` 不会自动更新 READ
 git clone https://github.com/jiayuyan117/academic-portfolio.git
 cd academic-portfolio
 python -m venv .venv
-# 按 REPRODUCING.md 激活虚拟环境。
+# 01 使用 Windows；按 REPRODUCING.md 激活虚拟环境。
 python -m pip install -c constraints.txt -r requirements.txt
 python tools/rebuild.py --project 01
 ```

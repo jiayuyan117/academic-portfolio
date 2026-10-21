@@ -5,6 +5,12 @@ for project 07. Run commands from the repository root unless stated otherwise.
 The public reports and charts are committed, so reading them requires no Python
 installation. Rebuilding requires downloading packages once.
 
+Project 01's original strict numerical reference is supported on **Windows
+x86-64**. Project 02 is checked on Windows and Linux; 03–07 are checked on
+Linux as well as the local Windows validation. On macOS/Linux, select projects
+02–06 rather than using the all-project command below. A Linux project 01 run
+still executes the checks and fails on excessive drift; it is not silently skipped.
+
 ## Python: a clean, isolated environment
 
 ```bash
@@ -30,6 +36,13 @@ These are published releases, not prerelease specifications. `constraints.txt`
 also records the resolved transitive dependency versions. Platform-specific
 dependencies may differ, and the CI jobs provide separate platform evidence.
 This is a version constraint snapshot, not a hash-locked package mirror.
+
+The first Linux CI run of project 01 produced a drift-model `MAE_z` of
+`4.5313198708117`, versus the original Windows `4.531076030729077`.
+The difference exceeds `rtol=1e-6, atol=1e-8`. The complete Windows CI run
+passed all 252 comparisons. CI therefore runs project 01 in its validated
+Windows environment; it neither loosens the tolerance nor replaces the reference.
+See [the recorded failure](https://github.com/jiayuyan117/academic-portfolio/actions/runs/39584285722/job/119169217969).
 
 The existing numerical reference environment is retained deliberately.
 Downgrading a statistics library without measuring the numerical consequences
@@ -101,7 +114,8 @@ docker run --rm academic-portfolio
 
 The Dockerfile fixes the Python patch version and Debian release and installs
 the same dependency constraints. It includes CJK fonts for the Chinese figures.
-It rebuilds the Python projects inside the container; Java is tested separately.
+It rebuilds Python projects 02–06 inside the Linux container; project 01 requires
+the documented Windows reference environment, and Java is tested separately.
 Building the image requires network access. Container execution is a supported
 recipe only to the extent recorded in the delivery verification report; do not
 infer a successful Docker run from the presence of this file alone.
