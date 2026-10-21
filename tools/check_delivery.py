@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 from html.parser import HTMLParser
 import json
+import hashlib
 from pathlib import Path
 import re
 from urllib.parse import unquote, urlsplit
@@ -66,6 +67,23 @@ def findings(folder: Path) -> dict:
 
 def check_project(number: str) -> None:
     """Check artifacts and recorded invariants for a selected Python project."""
+    if number == "08":
+        folder = ROOT / "projects/08-nlp-job-postings"
+        manifest = json.loads((folder / "results/manifest.json").read_text(encoding="utf-8"))
+        for name, expected in manifest["sha256"].items():
+            target = (folder / name).resolve()
+            if not target.is_relative_to(folder.resolve()):
+                raise AssertionError("NLP manifest escapes project")
+            if hashlib.sha256(target.read_bytes()).hexdigest() != expected:
+                raise AssertionError(f"NLP artifact mismatch: {name}")
+        report = Page(folder / "report.html")
+        for link in report.links + report.resources:
+            check_local_link(report, link)
+        source = json.loads((folder / "results/source_audit.json").read_text(encoding="utf-8"))
+        assert source["jobs"] == 21663 and source["verified_source_references"] == 22213
+        assert source["status"] == "passed" and not any(source["employer_overlap"].values())
+        print("Project 08: evidence manifest and report links passed")
+        return
     folder = ROOT / "projects" / PROJECTS[number][0]
     if number in {"01", "02"}:
         result = json.loads((folder / "results/verification.json").read_text(encoding="utf-8"))
@@ -126,23 +144,23 @@ def check_project(number: str) -> None:
 def main() -> None:
     """Check dependency encoding, selected artifacts, and homepage local links."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--project", choices=PROJECTS)
+    parser.add_argument("--project", choices=[*PROJECTS, "08"])
     args = parser.parse_args()
     for path in [ROOT / "requirements.txt", *sorted((ROOT / "projects").glob("*/requirements.txt"))]:
         data = path.read_bytes()
         if data.startswith(b"\xef\xbb\xbf"):
             raise AssertionError(f"{path}: UTF-8 BOM is not permitted")
         data.decode("utf-8")
-    for number in [args.project] if args.project else PROJECTS:
+    for number in [args.project] if args.project else [*PROJECTS, "08"]:
         check_project(number)
     if not args.project:
         page = Page(ROOT / "index.html")
-        expected = {f"project-{n:02}" for n in range(1, 8)}
+        expected = {f"project-{n:02}" for n in range(1, 9)}
         actual = {value for value in page.ids if re.fullmatch(r"project-\d+", value)}
         assert actual == expected, (actual, expected)
         for link in page.links + page.resources:
             check_local_link(page, link)
-        print("Homepage: seven project anchors and all local links checked")
+        print("Homepage: eight project anchors and all local links checked")
 
 
 if __name__ == "__main__":

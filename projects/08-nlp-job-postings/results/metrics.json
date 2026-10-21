@@ -1,0 +1,172 @@
+{
+  "classification": {
+    "macro_f1": {
+      "text": 0.7406329276415013,
+      "lexicon": 0.5003175597229429,
+      "fusion": 0.734782917324294
+    },
+    "hypothesis": {
+      "delta_macro_f1": -0.0058500103172073326,
+      "ci95": [
+        -0.01757619073155839,
+        0.006980453981031039
+      ],
+      "replicates": 1000,
+      "clusters": 1364,
+      "seed": 42,
+      "decision_threshold": 0.02,
+      "threshold_and_interval_pass": false,
+      "method": "Paired employer-cluster percentile bootstrap; fixed category set"
+    },
+    "evidence": "Full-cohort rerun with saved predictions"
+  },
+  "extraction": {
+    "test": [
+      {
+        "channel": "skill",
+        "split": "test",
+        "method": "train_lexicon",
+        "precision": 0.0789041095890411,
+        "recall": 0.13688212927756654,
+        "f1": 0.10010427528675704,
+        "tp": "144",
+        "predicted": "1825",
+        "gold": "1052",
+        "unseen_gold_spans": "905",
+        "unseen_exact_recall": "0.0",
+        "seen_gold_spans": "147",
+        "seen_exact_recall": "0.9795918367346939",
+        "predict_seconds": "0.26919180000550114",
+        "train_seconds": "0.0"
+      },
+      {
+        "channel": "skill",
+        "split": "test",
+        "method": "context_BIO_LR",
+        "precision": 0.12582781456953643,
+        "recall": 0.12642585551330798,
+        "f1": 0.12612612612612611,
+        "tp": "133",
+        "predicted": "1057",
+        "gold": "1052",
+        "unseen_gold_spans": "905",
+        "unseen_exact_recall": "0.08950276243093923",
+        "seen_gold_spans": "147",
+        "seen_exact_recall": "0.35374149659863946",
+        "predict_seconds": "4.038389399996959",
+        "train_seconds": "104.95145200000115"
+      },
+      {
+        "channel": "knowledge",
+        "split": "test",
+        "method": "train_lexicon",
+        "precision": 0.1324354657687991,
+        "recall": 0.5305755395683454,
+        "f1": 0.21196335548769535,
+        "tp": "590",
+        "predicted": "4455",
+        "gold": "1112",
+        "unseen_gold_spans": "505",
+        "unseen_exact_recall": "0.0",
+        "seen_gold_spans": "607",
+        "seen_exact_recall": "0.9719934102141681",
+        "predict_seconds": "0.5021387000015238",
+        "train_seconds": "0.0"
+      },
+      {
+        "channel": "knowledge",
+        "split": "test",
+        "method": "context_BIO_LR",
+        "precision": 0.5017462165308498,
+        "recall": 0.38758992805755393,
+        "f1": 0.43734145104008115,
+        "tp": "431",
+        "predicted": "859",
+        "gold": "1112",
+        "unseen_gold_spans": "505",
+        "unseen_exact_recall": "0.13267326732673268",
+        "seen_gold_spans": "607",
+        "seen_exact_recall": "0.5996705107084019",
+        "predict_seconds": "5.2041892999986885",
+        "train_seconds": "101.19253290000051"
+      }
+    ],
+    "intervals": {
+      "skill": {
+        "delta_f1_context_minus_lexicon": 0.026021850839369073,
+        "ci95": [
+          -0.0020499917917086935,
+          0.051818883751550714
+        ],
+        "job_clusters": 65,
+        "replicates": 1000,
+        "seed": 2026,
+        "method": "Paired test job-cluster percentile bootstrap; no multiplicity correction"
+      },
+      "knowledge": {
+        "delta_f1_context_minus_lexicon": 0.2253780955523858,
+        "ci95": [
+          0.18304052797720774,
+          0.26934921082125335
+        ],
+        "job_clusters": 65,
+        "replicates": 1000,
+        "seed": 2026,
+        "method": "Paired test job-cluster percentile bootstrap; no multiplicity correction"
+      }
+    },
+    "optimization": {
+      "skill": {
+        "iterations": [
+          300
+        ],
+        "iteration_limit": 300,
+        "convergence_warning": true
+      },
+      "knowledge": {
+        "iterations": [
+          300
+        ],
+        "iteration_limit": 300,
+        "convergence_warning": true
+      }
+    }
+  },
+  "model_comparison": {
+    "rerun_macro_f1": {
+      "fair_tfidf": 0.7271703776328328,
+      "cnn": 0.3679247264931383,
+      "minilm": 0.6704900650282706
+    },
+    "budget_note": "Shared sample IDs; TF-IDF full text, CNN 256 words, MiniLM 256 subwords"
+  },
+  "paper_reported": {
+    "evidence": "Historical paper values; not substituted for this rerun",
+    "ablation": {
+      "text": 0.7406,
+      "lexicon": 0.5003,
+      "fusion": 0.7348
+    },
+    "model_comparison": {
+      "fair_tfidf": 0.7272,
+      "cnn": 0.3679,
+      "minilm": 0.6705
+    },
+    "extraction_f1": {
+      "skill_lexicon": 0.1001,
+      "skill_context": 0.1185,
+      "knowledge_lexicon": 0.212,
+      "knowledge_context": 0.4217
+    },
+    "jobstreet": {
+      "text_macro_f1": 0.5784,
+      "fusion_macro_f1": 0.5507,
+      "delta": -0.0277,
+      "ci95": [
+        -0.0358,
+        -0.0191
+      ],
+      "status": "Not rerun: external CSV and archived exclusion index not supplied"
+    }
+  }
+}

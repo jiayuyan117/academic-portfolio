@@ -1,0 +1,24 @@
+{
+  "skill": {
+    "delta_f1_context_minus_lexicon": 0.026021850839369073,
+    "ci95": [
+      -0.0020499917917086935,
+      0.051818883751550714
+    ],
+    "job_clusters": 65,
+    "replicates": 1000,
+    "seed": 2026,
+    "method": "Paired test job-cluster percentile bootstrap; no multiplicity correction"
+  },
+  "knowledge": {
+    "delta_f1_context_minus_lexicon": 0.2253780955523858,
+    "ci95": [
+      0.18304052797720774,
+      0.26934921082125335
+    ],
+    "job_clusters": 65,
+    "replicates": 1000,
+    "seed": 2026,
+    "method": "Paired test job-cluster percentile bootstrap; no multiplicity correction"
+  }
+}

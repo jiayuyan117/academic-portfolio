@@ -1,0 +1,14 @@
+{
+  "python": "3.12.10",
+  "platform": "Windows",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "joblib": "1.6.0",
+    "threadpoolctl": "3.7.0"
+  },
+  "requirements_sha256": "f7843257f12e220a862b6f97be0c3f3503ceaa29ed3db72f68b03c71a7b6f406"
+}

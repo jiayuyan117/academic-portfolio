@@ -1,0 +1,189 @@
+{
+  "schema": 1,
+  "model": "cnn",
+  "seed": 42,
+  "input_sha256": {
+    "jobs.csv": "375125b47b086df36c7acf95ed62bba0419e0b7a34a3351ef43a2e4120c7f318"
+  },
+  "source_sha256": {
+    "model_comparison.py": "d3b451e66d86e8389de40411f1747d143fbebeeae99eb312f371f232685bb115",
+    "classification.py": "d91918193731344fc1d6abee97c5246c54a37dc4a29f08ab1d7cf1b47beab13c",
+    "skill_extraction.py": "b6d5008a5cd1401a0f3138a0588f48893616774a5a62794b37bf44d1008ad073",
+    "requirements.txt": "f7843257f12e220a862b6f97be0c3f3503ceaa29ed3db72f68b03c71a7b6f406",
+    "requirements-deep.txt": "ee89788d85b4c31f102c889b0bcdbb45d62a6bb2f4f4ab8dfb48c8b996df7485"
+  },
+  "labels": [
+    "Accounting",
+    "Administration & Office Support",
+    "Banking & Financial Services",
+    "Call Centre & Customer Service",
+    "Community Services & Development",
+    "Construction",
+    "Education & Training",
+    "Government & Defence",
+    "Healthcare & Medical",
+    "Hospitality & Tourism",
+    "Human Resources & Recruitment",
+    "Information & Communication Technology",
+    "Insurance & Superannuation",
+    "Manufacturing, Transport & Logistics",
+    "Marketing & Communications",
+    "Mining, Resources & Energy",
+    "Real Estate & Property",
+    "Retail & Consumer Products",
+    "Sales",
+    "Trades & Services"
+  ],
+  "split_names": [
+    "train",
+    "valid",
+    "test"
+  ],
+  "split_counts": {
+    "train": 12000,
+    "valid": 2000,
+    "test": 2944
+  },
+  "split_ids_sha256": "a865743745516f1d2edd41659c8a4cc7ee5249cf1db2ebdc4383924774a574c2",
+  "split_ids_file": "fair_split_ids.json",
+  "class_counts": {
+    "train": {
+      "Accounting": 705,
+      "Administration & Office Support": 2027,
+      "Banking & Financial Services": 303,
+      "Call Centre & Customer Service": 658,
+      "Community Services & Development": 542,
+      "Construction": 175,
+      "Education & Training": 310,
+      "Government & Defence": 284,
+      "Healthcare & Medical": 421,
+      "Hospitality & Tourism": 1507,
+      "Human Resources & Recruitment": 328,
+      "Information & Communication Technology": 500,
+      "Insurance & Superannuation": 104,
+      "Manufacturing, Transport & Logistics": 1225,
+      "Marketing & Communications": 467,
+      "Mining, Resources & Energy": 139,
+      "Real Estate & Property": 257,
+      "Retail & Consumer Products": 739,
+      "Sales": 604,
+      "Trades & Services": 705
+    },
+    "valid": {
+      "Accounting": 156,
+      "Administration & Office Support": 308,
+      "Banking & Financial Services": 46,
+      "Call Centre & Customer Service": 150,
+      "Community Services & Development": 83,
+      "Construction": 42,
+      "Education & Training": 79,
+      "Government & Defence": 56,
+      "Healthcare & Medical": 86,
+      "Hospitality & Tourism": 120,
+      "Human Resources & Recruitment": 67,
+      "Information & Communication Technology": 107,
+      "Insurance & Superannuation": 13,
+      "Manufacturing, Transport & Logistics": 189,
+      "Marketing & Communications": 83,
+      "Mining, Resources & Energy": 33,
+      "Real Estate & Property": 37,
+      "Retail & Consumer Products": 144,
+      "Sales": 111,
+      "Trades & Services": 90
+    },
+    "test": {
+      "Accounting": 159,
+      "Administration & Office Support": 494,
+      "Banking & Financial Services": 122,
+      "Call Centre & Customer Service": 223,
+      "Community Services & Development": 148,
+      "Construction": 57,
+      "Education & Training": 83,
+      "Government & Defence": 84,
+      "Healthcare & Medical": 126,
+      "Hospitality & Tourism": 180,
+      "Human Resources & Recruitment": 73,
+      "Information & Communication Technology": 143,
+      "Insurance & Superannuation": 51,
+      "Manufacturing, Transport & Logistics": 252,
+      "Marketing & Communications": 122,
+      "Mining, Resources & Energy": 40,
+      "Real Estate & Property": 39,
+      "Retail & Consumer Products": 217,
+      "Sales": 159,
+      "Trades & Services": 172
+    }
+  },
+  "sampling": "jobs.csv order; stratified per split; seed 42; exact sizes",
+  "input_field": "text (job description only)",
+  "parameters": {
+    "estimator": "TextCNN",
+    "embedding": 64,
+    "filters": 64,
+    "kernels": [
+      3,
+      4,
+      5
+    ],
+    "dropout": 0.3,
+    "vocab_limit": 30000,
+    "padding_id": 0,
+    "unknown_id": 1,
+    "epochs": 3,
+    "batch": 64,
+    "optimizer": "Adam",
+    "lr": 0.001,
+    "loss": "CrossEntropyLoss",
+    "tokenizer": "re.findall(r'\\b\\w+\\b', text.casefold())",
+    "fit_vocabulary": "selected training split only",
+    "selection": "fixed final epoch 3; no early stopping",
+    "truncation": {
+      "max_tokens": 256,
+      "unit": "regex word tokens"
+    }
+  },
+  "fairness_note": "Identical selected rows and employer-isolated splits. TF-IDF reads full descriptions; CNN reads 256 regex tokens; MiniLM reads 256 wordpieces including special tokens. These are different truncation budgets.",
+  "runtime_root": ".runtime/comparison",
+  "versions": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0",
+    "threadpoolctl": "3.7.0",
+    "torch": "2.14.1"
+  },
+  "device": "cpu",
+  "threads": 2,
+  "status": "completed",
+  "cache_key": "b040ec6f103c82cbe207494e78a319003c330d115324f0acc5b285c209bb277a",
+  "split_ids_file_sha256": "d1c9bc21b48629b391d2ac1ef8a5de340eb8603ef5d7f8154492f88604996a62",
+  "selection": {
+    "selected_epoch": 3,
+    "history": [
+      {
+        "epoch": 1,
+        "valid_macro_f1": 0.15714128429964472
+      },
+      {
+        "epoch": 2,
+        "valid_macro_f1": 0.28076963040120123
+      },
+      {
+        "epoch": 3,
+        "valid_macro_f1": 0.3749380179808191
+      }
+    ]
+  },
+  "output_sha256": {
+    "predictions.csv": "36cc3afc3ef09bb1d15c8f9178b872d5d663bae7ac8f81ab4b9bba75c898fb9c",
+    "metrics.json": "27ae5c24a9acea01979d3b850c51cf529d61a741d01d50d8c6fa18ecc40267b7",
+    "validation_epoch1.csv": "078b7d97d23224c7c016e89281b57d17070558f4ecbebb926b691da0e5b66d0a",
+    "validation_epoch2.csv": "7dd9d8c7c2cbbb0fa18802ec5cba548e1e63a6f2f84a57dbfe714bec920f8087",
+    "validation_epoch3.csv": "8a201edc84a5b1bc4ef5f8a1877f852bd3f21b62b1a48d685d11dc5d65253234"
+  },
+  "private_artifact_sha256": {
+    "cnn/b040ec6f103c82cbe207494e78a319003c330d115324f0acc5b285c209bb277a/weights.pt": "312e8771f49529459110a424db57216205d493608352cae86a6bd33b7a5cce4e",
+    "cnn/b040ec6f103c82cbe207494e78a319003c330d115324f0acc5b285c209bb277a/vocab.json": "3d59909d0aec35d1b640d17b07cd6bb90e0f3f239709e6bfa0abab3482d3445a"
+  },
+  "run_config_sha256": "f902d8b475e90735406d051afe8c591977583f2fe73c75dac09dddc7cb777926"
+}

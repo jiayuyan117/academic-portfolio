@@ -2,6 +2,12 @@
 
 Use **CPython 3.12** for projects 01–06 and **JDK 17 + Maven 3.9**
 for project 07. Run commands from the repository root unless stated otherwise.
+Project 08 has a separate CPython 3.12 environment and task runner. From
+`projects/08-nlp-job-postings`, install its `requirements.txt`, run
+`python run.py verify` for the committed research evidence, `python run.py smoke`
+for sample training, and `python run.py data` / `python run.py reproduce` for
+full baseline retraining. Its optional deep models use `requirements-deep.txt`.
+The root runner and aggregate requirements retain their 01–06 scope.
 The public reports and charts are committed, so reading them requires no Python
 installation. Rebuilding requires downloading packages once.
 

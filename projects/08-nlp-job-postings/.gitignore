@@ -1,0 +1,10 @@
+data/raw/
+data/full/
+.runtime/
+__pycache__/
+*.pyc
+*.joblib
+*.pt
+*.safetensors
+models/
+.venv/

@@ -12,32 +12,75 @@ B.Mgmt. in **Big Data Management and Applications**, Guangdong University of Tec
 These projects connect statistical analysis with decisions: *does this result
 survive being checked, and what should we do with it?*
 
-Coursework usually ends at the first plausible number. These projects keep going
-to the part that decides whether the number means anything — whether a forecast
-beats a trivial benchmark, whether a "linkage" survives a change of identifying
-assumption, whether two data files that are supposed to agree actually join at
-all, whether a customer segment that looks different really is.
+The eight projects build on undergraduate coursework and team research. They
+examine whether skill features improve job-category classification, whether a
+forecast beats a simple benchmark, how market-linkage estimates depend on
+identifying assumptions, and whether data quality supports a business conclusion.
 
 Negative findings and methodological corrections are reported alongside the
 claims they qualify. Failure to reject a null hypothesis is not proof of no
 effect, and an observational association is not an intervention effect.
 
-The Python projects regenerate their figures and tables; the Java project runs
-behavioural tests. The two econometrics projects check input SHA-256 hashes
-and **586 numerical values** against stored references at `rtol=1e-6`.
+Existing CI runs for projects **01–07** have recorded successful numerical
+verification, analysis/figure rebuilds or Java tests, as appropriate to each
+project. The two econometrics projects check input SHA-256 hashes and **586
+numerical values** against stored references at `rtol=1e-6`. Project **08** adds
+an exactly reconstructed source cohort, completed classification and extraction
+runs, and prediction-level metric verification.
 
 ## A 30-second reading guide
 
-I study Big Data Management and Applications and use these coursework-based
-projects to demonstrate analysis, communication and engineering discipline.
-Start with **06** for a business question carried through to a decision note.
-Read **01 → 02** for forecasting and identification; **03 → 04 → 05** for
-industry-data traceability, visual communication and data quality; and **07**
-for data structures and invariant testing. No causal experiment is claimed.
+I study Big Data Management and Applications and am applying for Data Science /
+Business Analytics master's programmes in the **US, Singapore and Hong Kong**.
+This portfolio connects evaluation, data quality and analytical communication
+with decisions whose limits are made explicit.
 
-## Projects
+Start with **08 · Does the Skill Signal Help?** For Data Science, follow
+**08 → 01 → 02** through NLP evaluation, forecasting and identification
+assumptions. For Business Analytics, follow **08 → 06 → 03** through job
+information, customer segmentation and industry evidence. Projects **04, 05
+and 07** add visual communication, missing-data analysis and engineering.
 
-### 1 · [Equity Time-Series Forecasting](projects/01-equity-time-series-forecasting/)
+| Project | Focus |
+| --- | --- |
+| **[08 · Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md)** | Featured entry: NLP evaluation, negative findings and reproducibility |
+| [01 · Equity forecasting](projects/01-equity-time-series-forecasting/) | Benchmarks and residual diagnostics |
+| [02 · Market linkages](projects/02-shanghai-hongkong-market-linkages/) | Sensitivity to identifying assumptions |
+| [03 · NEV transition](projects/03-china-nev-industry-analytics/) | Source traceability and market denominators |
+| [04 · Bike sharing](projects/04-bike-sharing-interactive-visualization/) | Date reconciliation and interactive charts |
+| [05 · Beijing PM2.5](projects/05-beijing-air-quality-seaborn/) | Missingness and observational associations |
+| [06 · Consumer transactions](projects/06-consumer-behaviour-matplotlib/) | Segmentation evidence and decision limits |
+| [07 · Java workforce system](projects/07-workforce-system-java/) | Data structures and invariant testing |
+
+The reading order starts with 08; the original 01–07 directory numbers are retained.
+
+## Projects — 8 in total
+
+### 08 · [Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md)
+`Job-posting NLP` · `SkillSpan` · `21,663 postings` · `20 classes` · `employer-disjoint split`
+
+Adding SkillSpan Skill + Knowledge lexicon features does not clear the study's
+improvement criterion: test Macro-F1 is **0.7406** for text, **0.5003** for the
+lexicon and **0.7348** for equal-weight fusion. Classification and exact-span
+extraction answer different questions and are evaluated separately.
+
+**Evidence status:** the 21,663-posting cohort, 20 classes and employer-disjoint
+split were checked against fixed public sources. Full classification, extraction
+and TF-IDF/CNN/frozen-MiniLM comparison runs retain predictions for independent
+metric verification. Historical paper values are labelled separately where they
+differ from this rerun. The `+0.02` absolute Macro-F1 gain is a recorded study
+threshold; no independently timestamped preregistration was supplied.
+
+**Decision relevance:** retain the text baseline for broad-category routing.
+Evaluate extracted requirements directly before using them in a skills profile.
+
+**Attribution:** original team authors 闫佳玉 / 凌泳婷 / 王安娜.
+This portfolio version uses **AI-assisted integration**; team research
+contributions are documented in the
+[project README](https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/08-nlp-job-postings/README.md).
+[Read the research brief](https://jiayuyan117.github.io/academic-portfolio/projects/08-nlp-job-postings/report.html).
+
+### 01 · [Equity Time-Series Forecasting](projects/01-equity-time-series-forecasting/)
 `statsmodels` · `ARMA/ARIMA` · `fixed-origin holdout` · `252 values verified per run`
 
 Training-only BIC selects MA(2); it beats a zero-return forecast by **0.29% of
@@ -49,7 +92,7 @@ one window is not a model you would use.
 **Decision:** retain the benchmark until time-based validation across more
 windows and transaction-cost analysis establish a practically useful gain.
 
-### 2 · [Shanghai–Hong Kong Market Linkages](projects/02-shanghai-hongkong-market-linkages/)
+### 02 · [Shanghai–Hong Kong Market Linkages](projects/02-shanghai-hongkong-market-linkages/)
 `VAR / VECM` · `Johansen` · `Granger` · `334 values verified per run`
 
 A Shanghai shock appears to explain **32.4%** of Hong Kong's 10-step
@@ -61,7 +104,7 @@ MAE in both markets, and neither Granger direction is significant.
 **Decision:** do not derive a directional hedge or causal shock attribution
 from a result that changes this much under an alternative identification order.
 
-### 3 · [China's NEV Transition, 2015–2025](projects/03-china-nev-industry-analytics/)
+### 03 · [China's NEV Transition, 2015–2025](projects/03-china-nev-industry-analytics/)
 `pandas` · `matplotlib` · `7 compiled tables` · `16 figures, bilingual`
 
 In 2025, NEVs accounted for **47.9%** of CAAM's all-vehicle sales **including
@@ -74,7 +117,7 @@ is an illustrative scenario, not measured emissions savings.
 **Decision:** charging investment needs location, utilization and power data.
 National counts and a reporting break cannot establish where capacity is scarce.
 
-### 4 · [Bike-Sharing Interactive Visualisation](projects/04-bike-sharing-interactive-visualization/)
+### 04 · [Bike-Sharing Interactive Visualisation](projects/04-bike-sharing-interactive-visualization/)
 `Plotly` · `offline interactive charts` · `17,379 observations` · [live charts](https://jiayuyan117.github.io/academic-portfolio/projects/04-bike-sharing-interactive-visualization/charts/01_sunburst.html)
 
 The two files in the UCI Bike Sharing Dataset store dates as `2011/1/1` and
@@ -86,7 +129,7 @@ figures each label what every visual channel encodes.
 **Decision:** reconcile totals before demand planning. Station-level fleet
 rebalancing additionally needs local availability and service-cost data.
 
-### 5 · [Beijing PM2.5, 2010–2014](projects/05-beijing-air-quality-seaborn/)
+### 05 · [Beijing PM2.5, 2010–2014](projects/05-beijing-air-quality-seaborn/)
 `Seaborn` · `43,824 hourly observations` · `7 figures`
 
 **48.5% of observed hourly readings** exceed 75 µg/m³, used here as a
@@ -104,7 +147,7 @@ uses observed values only and excludes all 2,067 missing hours.
 later data and local monitoring. These associations do not identify the effect
 of changing emissions or schedules.
 
-### 6 · [Consumer Transactions: Testing Segmentation Claims](projects/06-consumer-behaviour-matplotlib/)
+### 06 · [Consumer Transactions: Testing Segmentation Claims](projects/06-consumer-behaviour-matplotlib/)
 `Matplotlib` · `8,000 transactions` · `bootstrap CIs · ANOVA · permutation null`
 
 The brief asks which customer groups spend more. Tested first: **four of the five
@@ -123,7 +166,7 @@ so inferential results remain exploratory pending customer-level validation.
 Evaluate a randomized offer experiment using incremental contribution margin;
 this is a proposed next step, not an experiment already performed.
 
-### 7 · [Workforce System in Java](projects/07-workforce-system-java/)
+### 07 · [Workforce System in Java](projects/07-workforce-system-java/)
 `Java 17` · `department tree` · `balanced employee index` · `JUnit 5`
 
 An organization tree and an employee search index must describe the same people.
@@ -138,15 +181,20 @@ Production use would also require persistence, authorization and audit history.
 
 ## Reproducibility
 
-| Project | Verifies its own numbers | Command |
+Each project has checks matched to its claims. The NLP workflow recomputes
+committed metrics and runs a real-data sample experiment; full-data model
+training is an explicit local command, not a claim about routine CI.
+
+| Project | Recorded CI success and scope | Reproduction command |
 | --- | --- | --- |
-| 01 Equity forecasting | 11 tables / 252 values, `rtol=1e-6` | `python run_analysis.py` |
-| 02 Market linkages | 8 tables / 334 values, `rtol=1e-6` | `python run_analysis.py` |
-| 03 NEV transition | Source records, year alignment and arithmetic audit | `python src/nev_visualization.py` then `python src/build_figures_en.py` |
-| 04 Bike sharing | Date reconciliation; outputs in `outputs/findings.json` | `python src/build_charts.py` |
-| 05 Beijing PM2.5 | Hourly-index and gap audit; `outputs/findings.json` | `python src/analyze.py` |
-| 06 Consumer transactions | Inference and fixed seeds; `outputs/findings.json` | `python src/analyze.py` |
-| 07 Workforce system | JUnit tests and deterministic reference model | `mvn verify` |
+| 01 Equity forecasting | Windows: 11 tables / 252 reference values, `rtol=1e-6` | `python run_analysis.py` |
+| 02 Market linkages | Linux and Windows: 8 tables / 334 reference values, `rtol=1e-6` | `python run_analysis.py` |
+| 03 NEV transition | Linux: figure rebuild and data/semantic checks; unresolved source records remain labelled | `python src/nev_visualization.py` then `python src/build_figures_en.py` |
+| 04 Bike sharing | Linux: chart rebuild and date-reconciliation checks | `python src/build_charts.py` |
+| 05 Beijing PM2.5 | Linux: analysis/figure rebuild, hourly-index and gap audit | `python src/analyze.py` |
+| 06 Consumer transactions | Linux: analysis/figure rebuild and inference-semantic checks | `python src/analyze.py` |
+| 07 Workforce system | Linux / Java 17: Maven verification, JUnit and reference-model tests | `mvn verify` |
+| 08 Job-posting NLP | Source reconstruction, saved-prediction verification and sample training checks | `python run.py verify`; `python run.py smoke` |
 
 
 Projects 01 and 02 ship a verifier rather than a runner. It checks the SHA-256 of
@@ -156,15 +204,17 @@ regenerated number against stored reference values. A silent change in a library
 version shows up as a failed build, not as a quietly different conclusion.
 
 Commands in the table run from the corresponding project directory.
-Each Python project has read-only dependency declarations; the root
-`constraints.txt` fixes the resolved versions. CPython 3.12.10 and JDK 17
-are the documented environments. GitHub Actions is configured to rebuild
-**01–07**. Project 01's strict numerical reference is verified on Windows;
-project 02 runs on Linux and Windows, and projects 03–07 run on Linux.
+For projects 01–06, dependency declarations and the root `constraints.txt`
+define the Python environment; CPython 3.12.10 and JDK 17 are the documented
+environments for 01–07. Their CI covers notebook re-execution, analysis/figure
+rebuilds and Java tests according to each project's task. Project 08 has separate
+reproduction instructions and is not covered by the successes above.
 Project 01's Linux optimizer output exceeds the original tolerance; that
 platform is not certified against the Windows reference.
-See the [actual workflow runs](https://github.com/jiayuyan117/academic-portfolio/actions/workflows/build.yml)
-for execution status and [REPRODUCING.md](REPRODUCING.md) for setup and limitations.
+See the [workflow runs](https://github.com/jiayuyan117/academic-portfolio/actions/workflows/build.yml)
+and [recorded CI history](docs/REVIEW_RESOLUTION.md#boundaries-of-this-evidence)
+for the existing evidence, and [REPRODUCING.md](REPRODUCING.md) for setup and limitations.
+README text is maintained separately; generated outputs do not update it automatically.
 
 
 
@@ -179,6 +229,10 @@ python tools/rebuild.py --project 01
 
 ## Skills these projects demonstrate
 
+**NLP research design** — text-only, lexicon-only and combined-feature comparisons;
+employer-disjoint evaluation; distinguishing category accuracy from exact-span
+extraction. Current reproduction status is stated separately from the original report.
+
 **Econometrics & forecasting** — ARMA/ARIMA, VAR/VECM, unit-root and cointegration
 testing, Granger causality, impulse responses and variance decomposition,
 residual and ARCH diagnostics, fixed-origin out-of-sample evaluation against
@@ -187,7 +241,7 @@ pre-specified benchmarks.
 **Inference discipline** — bootstrap and Fisher-z confidence intervals,
 one-way ANOVA and Kruskal-Wallis with Bonferroni correction for multiple
 groupings, permutation null bands, trimmed-mean robustness checks, and the
-judgement to report a precise null instead of a ranking.
+judgement to report uncertainty and limits on detectable differences.
 
 **Data engineering & quality** — hash-verified inputs, join-integrity checks,
 gap-length audits before imputation, date and unit normalisation, reconciliation
@@ -204,15 +258,21 @@ estimated, and what remains assumed; bilingual (English / Chinese) delivery.
 
 ## Academic integrity and AI use
 
-All seven projects originate in my own undergraduate coursework. Original course
-submissions and datasets are retained unmodified in each project's
+Projects 01–07 originate in my undergraduate coursework. Original course
+submissions and datasets are retained unmodified in those projects'
 `source_materials/` directory so the development from assignment to portfolio
 version can be inspected directly — including, in projects 04 and 05, the places
 where the portfolio version corrects a method error in my own earlier work.
 
 
+Project 08 originates in team research by **闫佳玉 / 凌泳婷 / 王安娜**.
+Team research contributions are documented in the
+[project README](projects/08-nlp-job-postings/README.md).
+The portfolio adaptation is **AI-assisted integration**.
+
 AI assistance was used for code structuring, English writing, verification
-tooling and review-driven revisions. Original coursework is retained separately.
+tooling and review-driven revisions, including integration of project 08.
+Original coursework is retained separately.
 Decision notes describe implications and proposed next steps, not interventions
 already tested. Estimates and scenarios — including the NEV carbon scenario —
 are distinguished from published statistics; unresolved source verification is

@@ -1,0 +1,16 @@
+{
+  "skill": {
+    "iterations": [
+      300
+    ],
+    "iteration_limit": 300,
+    "convergence_warning": true
+  },
+  "knowledge": {
+    "iterations": [
+      300
+    ],
+    "iteration_limit": 300,
+    "convergence_warning": true
+  }
+}

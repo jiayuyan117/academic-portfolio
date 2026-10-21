@@ -1,0 +1,9 @@
+# CPython 3.12; use an isolated environment for this project.
+# Exact versions are validated through training, metric recomputation and CI.
+numpy==2.5.3
+pandas==3.0.6
+scipy==1.18.1
+scikit-learn==1.9.1
+matplotlib==3.11.2
+joblib==1.6.0
+threadpoolctl==3.7.0

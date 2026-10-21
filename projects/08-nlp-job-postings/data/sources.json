@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-21",
+  "seek": [
+    {
+      "id": "job-listings-on-seek-2019",
+      "version": 1,
+      "publisher": "PromptCloud / DataStock",
+      "license": "CC0-1.0 (publisher declaration)",
+      "page": "https://www.kaggle.com/datasets/promptcloud/job-listings-on-seek-2019",
+      "metadata": "https://www.kaggle.com/api/v1/datasets/view/promptcloud/job-listings-on-seek-2019",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/promptcloud/job-listings-on-seek-2019?datasetVersionNumber=1",
+      "archive_member": "home/sdf/marketing_sample_for_seek_com_au-jobs__20190601_20190831__15k_data.ldjson",
+      "cache_name": "seek_a.ldjson",
+      "sha256": "2377ddea13f248ab64fcde195720d46f227602c45911c7b93c9583e9a201ae63",
+      "bytes": 40542064,
+      "rows": 15000
+    },
+    {
+      "id": "latest-seek-australia-job-dataset",
+      "version": 1,
+      "publisher": "PromptCloud / DataStock",
+      "license": "CC0-1.0 (publisher declaration)",
+      "page": "https://www.kaggle.com/datasets/promptcloud/latest-seek-australia-job-dataset",
+      "metadata": "https://www.kaggle.com/api/v1/datasets/view/promptcloud/latest-seek-australia-job-dataset",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/promptcloud/latest-seek-australia-job-dataset?datasetVersionNumber=1",
+      "archive_member": "marketing_sample_for_seek_au-jobs_listing__20190901_20191231__10k_data.json",
+      "cache_name": "seek_b.ldjson",
+      "sha256": "20648bf9f584d56234e4fcdb248ef5e83ce8bb89a3d5c609de555644767fb170",
+      "bytes": 28238415,
+      "rows": 10000
+    }
+  ],
+  "skillspan": {
+    "revision": "2ccf3de5b5af7a5409b8dd814fb1315dd6e0ae1b",
+    "license": "CC-BY-4.0 (dataset); MIT (upstream code)",
+    "data_card": "https://huggingface.co/datasets/jjzha/skillspan",
+    "paper": "https://aclanthology.org/2022.naacl-main.366/",
+    "files": [
+      {"split": "train", "cache_name": "skillspan_train.json", "sha256": "5e884c3426087d14fc437d328eb72132082edbfe1e776292ae0e6e9b36c1e1f6", "rows": 4800},
+      {"split": "dev", "cache_name": "skillspan_dev.json", "sha256": "3732937c6869fe191c749b4efe7ffd597ce84eea1192f09b7fe3bd1eb459e2b4", "rows": 3174},
+      {"split": "test", "cache_name": "skillspan_test.json", "sha256": "8438eda34939a5877b984ea5daf9e6ff39b2d5c7e3d73cca0499d3de3784d24a", "rows": 3569}
+    ]
+  },
+  "jobstreet": {
+    "revision": "b1937baac3ad7a2c7f18d0e24b14b00683a49f1d",
+    "page": "https://huggingface.co/datasets/azrai99/job-dataset",
+    "publisher": "Mohamad Azrai bin Mahadan",
+    "license_status": "YAML declares Apache-2.0; prose declares CC-BY-4.0",
+    "redistributed": false,
+    "reproduced_in_this_release": false,
+    "missing_delivery_inputs": ["JobStreet CSV", "archived 115812-record SEEK exclusion hash index"]
+  }
+}

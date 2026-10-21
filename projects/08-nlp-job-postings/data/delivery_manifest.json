@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "delivered_files": {
+    "jobs": {
+      "file": "01_岗位分类数据.csv",
+      "sha256": "c62424293b23ca534b3e1da5e93a06fdce1709819899743af87e65bac99780ea"
+    },
+    "skillspan_train": {
+      "file": "02_技能抽取数据/训练集.csv",
+      "sha256": "4ff33edd9739564d152a4c16684846722777c317a435743cdfdee7550fad702d"
+    },
+    "skillspan_dev": {
+      "file": "02_技能抽取数据/验证集.csv",
+      "sha256": "32280de7a7e35395830c62fa8c4b841063822f1384e0b6e579676a9704688e34"
+    },
+    "skillspan_test": {
+      "file": "02_技能抽取数据/测试集.csv",
+      "sha256": "0aeaa125b18e6d9d2ced87ff427a558ee060e6e0dc60600e7e2ffb90425aa3bb"
+    }
+  },
+  "cohort_sha256": "f325cf8ba8df11b2f4d69006cac40676e764ab9d2614274a027f3f3144480c01",
+  "content_id_algorithm": "SHA-256 of UTF-8 text.lower(); not the unmodified text hash",
+  "jobs": {
+    "rows": 21663,
+    "classes": 20,
+    "splits": {
+      "train": 15667,
+      "valid": 3052,
+      "test": 2944
+    },
+    "employer_groups": {
+      "train": 6357,
+      "valid": 1360,
+      "test": 1364
+    },
+    "source_references": 22213
+  },
+  "sample": {
+    "purpose": "Small real-data pipeline smoke test; not the reported research evaluation",
+    "jobs_per_split": 400,
+    "skill_sentences": {
+      "train": 200,
+      "dev": 100,
+      "test": 100
+    },
+    "selection_seeds": [
+      20261021,
+      20261022
+    ],
+    "files": {
+      "jobs.csv": {
+        "sha256": "0870f96f340ad7bda051ef7ef8d38a74f6bd153d78981465e374108ba4a8d8ad",
+        "bytes": 3269988
+      },
+      "skillspan_dev.csv": {
+        "sha256": "35311675319245d872d16c2646586727201d3686e7aacaed21512cdb707027d9",
+        "bytes": 37922
+      },
+      "skillspan_test.csv": {
+        "sha256": "fa535362abc0610d504ae7a6e63ddd90419db396531347b402ca5dd33e5bbcc3",
+        "bytes": 41495
+      },
+      "skillspan_train.csv": {
+        "sha256": "c17ed62a2b518b156db33ae55b024737f54af1064c8cd5b25b679fcaffff5e64",
+        "bytes": 100820
+      }
+    }
+  }
+}

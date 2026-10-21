@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "source_files_sha256": {
+    "seek_a.ldjson": "2377ddea13f248ab64fcde195720d46f227602c45911c7b93c9583e9a201ae63",
+    "seek_b.ldjson": "20648bf9f584d56234e4fcdb248ef5e83ce8bb89a3d5c609de555644767fb170",
+    "skillspan_train.json": "5e884c3426087d14fc437d328eb72132082edbfe1e776292ae0e6e9b36c1e1f6",
+    "skillspan_dev.json": "3732937c6869fe191c749b4efe7ffd597ce84eea1192f09b7fe3bd1eb459e2b4",
+    "skillspan_test.json": "8438eda34939a5877b984ea5daf9e6ff39b2d5c7e3d73cca0499d3de3784d24a"
+  },
+  "raw_seek_rows": 25000,
+  "jobs": 21663,
+  "classes": 20,
+  "splits": {
+    "train": 15667,
+    "valid": 3052,
+    "test": 2944
+  },
+  "unique_normalized_content_ids": 21663,
+  "verified_source_references": 22213,
+  "employer_overlap": {
+    "train/valid": 0,
+    "train/test": 0,
+    "valid/test": 0
+  },
+  "skillspan_sentences": {
+    "train": 4800,
+    "dev": 3174,
+    "test": 3569
+  },
+  "split_basis": "Archived cohort ledger, independently matched to fixed public source rows",
+  "limits": "Hashes and row matching establish integrity/traceability, not truth of every advertisement.",
+  "all_fields_and_order_match_delivery": {
+    "jobs.csv": true,
+    "skillspan_train.csv": true,
+    "skillspan_dev.csv": true,
+    "skillspan_test.csv": true
+  }
+}

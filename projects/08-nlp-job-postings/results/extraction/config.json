@@ -1,0 +1,25 @@
+{
+  "method": "Train-only exact lexicon vs token context LR; separate BIO channels",
+  "C": 1.0,
+  "max_iter": 300,
+  "seed": 42,
+  "feature_count": 130584,
+  "shared_feature_fit_seconds": 3.3891025999982958,
+  "prediction_sha256": {
+    "dev_skill_train_lexicon.json": "8bc6fd1f044d75f71594862113286d4531ea7ae7d10d104efc6f352a1fe1d5ff",
+    "dev_skill_context_BIO_LR.json": "64a6a25441384be973096616b71c85ffcd08243bb06f64bfac308bce8f16a20b",
+    "test_skill_train_lexicon.json": "637c29e1150a8e93e0cb9f309ccc2117d7e350e592d2de9c4c929c6529097d83",
+    "test_skill_context_BIO_LR.json": "02309029e5bbff207efb854a624155bab1ffcbc92d63fb6cf2c85e5f10610217",
+    "dev_knowledge_train_lexicon.json": "87b2585ebcafac0b501fe5dafafadb200a2c4a65dbecdfa2f3b2b13bdb08081a",
+    "dev_knowledge_context_BIO_LR.json": "7d8405eb171a15c856685a0e17cf79cf4f5d0037165fdce62a5f95ad16188640",
+    "test_knowledge_train_lexicon.json": "b3039a0d31790fd7d07a08bcd0835359d0fdbe03414bea00900d5122d7d8482a",
+    "test_knowledge_context_BIO_LR.json": "d327f7a1a526ddc935aa00dbc1f209d7e2e90da1bd05b833037e8133ade08d03"
+  },
+  "limits": [
+    "No CRF transition decoding",
+    "Case-insensitive lexicon",
+    "No test-driven threshold tuning",
+    "English benchmark only",
+    "Intervals condition on fitted models, not training-seed uncertainty"
+  ]
+}

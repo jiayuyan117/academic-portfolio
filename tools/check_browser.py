@@ -28,7 +28,7 @@ def main() -> None:
         errors: list[str] = []
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.goto((ROOT / "index.html").as_uri())
-        assert page.locator("section.card").count() == 7
+        assert page.locator("section.card").count() == 8
         assert page.title() == "Jiayu Yan — Data Analytics Portfolio"
         for width in (1280, 375):
             page.set_viewport_size({"width": width, "height": 900})
@@ -37,6 +37,20 @@ def main() -> None:
             ), f"Homepage overflows at {width}px"
             page.screenshot(path=str(OUTPUT / f"homepage-{width}.png"), full_page=True)
         assert not errors, errors
+        page.goto((ROOT / "projects/08-nlp-job-postings/report.html").as_uri())
+        assert page.title() == "Does the Skill Signal Help? | Jiayu Yan"
+        assert page.locator("figure img").count() == 3
+        page.wait_for_function(
+            "() => [...document.querySelectorAll('figure img')].every(img => img.complete && img.naturalWidth > 0)"
+        )
+        for width in (1280, 375):
+            page.set_viewport_size({"width": width, "height": 900})
+            assert page.evaluate(
+                "document.documentElement.scrollWidth <= window.innerWidth"
+            ), f"NLP report overflows at {width}px"
+            page.screenshot(path=str(OUTPUT / f"nlp-report-{width}.png"), full_page=True)
+        assert not errors, errors
+        assert not blocked, f"Research brief requested the network: {blocked}"
         page.set_viewport_size({"width": 1280, "height": 900})
         paths = sorted(CHARTS.glob("*.html"))
         assert len(paths) == 4, f"Expected four charts, found {len(paths)}"
@@ -58,7 +72,7 @@ def main() -> None:
             print(f"{path.name}: rendered with HTTP(S) blocked")
         context.close()
         browser.close()
-    print("Homepage desktop/mobile and four offline charts passed.")
+    print("Homepage and NLP brief desktop/mobile, plus four offline charts passed.")
 
 
 if __name__ == "__main__":

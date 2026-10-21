@@ -1,0 +1,25 @@
+{
+  "sentences": {
+    "train": 4800,
+    "dev": 3174,
+    "test": 3569
+  },
+  "tokens": {
+    "train": 93453,
+    "dev": 40057,
+    "test": 42786
+  },
+  "train_test_identical_sentences": 174,
+  "train_dev_identical_sentences": 151,
+  "dev_test_identical_sentences": 159,
+  "files_sha256": {
+    "train": "ccfee3b820b806085667625a52f68f272ef96502c8d1ebac6c52d740d5886484",
+    "dev": "1e08a38ee816bb9ae6fc80db328a4f0a28b0f9ae727c5a970bdcee771ebbaf17",
+    "test": "68ffee7cd3eae8906142d199c6f460006d6541f935bdffc892303f25a0de263c"
+  },
+  "evaluation_sentences_after_training_overlap_removal": {
+    "dev": 2515,
+    "test": 2757
+  },
+  "note": "Exact token tuple overlap only; train duplicates retained; channels scored separately."
+}

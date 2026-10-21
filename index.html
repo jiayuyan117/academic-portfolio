@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jiayu Yan — Data Analytics Portfolio</title>
-<meta name="description" content="Jiayu Yan's academic portfolio: reproducible forecasting, statistical inference, industry analysis, interactive visualisation and Java data structures, with evidence-led decision notes.">
+<meta name="description" content="Jiayu Yan's eight-project portfolio for Data Science and Business Analytics: job-posting NLP, forecasting, statistical inference, industry analysis, visualisation and Java data structures.">
 <style>
 :root{
   --ink:#16222e; --body:#425362; --muted:#586a79;
@@ -57,11 +57,16 @@ h2.section{font-size:13px;text-transform:uppercase;letter-spacing:1.4px;
   border-radius:4px;padding:2px 7px;margin:0 0 10px}
 .cardlinks{font-size:14px;padding-top:6px;border-top:1px solid var(--line)}
 .cardlinks a{margin-right:18px;white-space:nowrap}
+.project-index{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 24px;
+  list-style:none;padding:0;margin:0 0 28px;font-size:14px}
+.featured{border-top:3px solid var(--accent)}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent)}
 footer{margin:48px 0 0;padding:32px 0 56px;border-top:1px solid var(--line);
   font-size:14px;color:var(--muted)}
 footer p{margin:0 0 10px;max-width:70ch}
 @media(max-width:600px){
   header{padding:40px 0 32px} h1{font-size:27px} .card{padding:20px}
+  .project-index{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -76,9 +81,10 @@ footer p{margin:0 0 10px;max-width:70ch}
 
     <p class="lede">My work connects statistical analysis with decisions:
       <em>does this result survive being checked, and what should we do with it?</em>
-      These coursework-based projects cover forecasting, inference, visualisation
-      and information systems. Negative results and methodological corrections
-      are reported alongside the findings they qualify.</p>
+      Eight projects connect job-posting NLP, forecasting, inference, visualisation
+      and information systems. For Data Science, the emphasis is on evaluation and
+      data quality; for Business Analytics, on what the evidence can support in a
+      decision. Findings, limitations and methodological corrections appear together.</p>
 
 
     <p class="meta">Reproducibility is part of the deliverable: versioned inputs,
@@ -87,14 +93,18 @@ footer p{margin:0 0 10px;max-width:70ch}
       at a relative tolerance of 10⁻⁶.</p>
 
     <nav class="guide" aria-label="Suggested reading routes">
-      <p><strong>Start here:</strong> <a href="#project-06">06 · Consumer decisions</a>
-        for the path from a business question to an evidence-limited recommendation.</p>
-      <p><strong>Statistical depth:</strong> <a href="#project-01">01 · Forecasting</a>
+      <p><strong>Start here:</strong> <a href="#project-08">08 · Does the Skill Signal Help?</a>
+        for the research question, evaluation design and current reproduction status.</p>
+      <p><strong>Data Science route:</strong> <a href="#project-08">08 · NLP evaluation</a>
+        → <a href="#project-01">01 · Forecasting</a>
         → <a href="#project-02">02 · Market linkages</a>.</p>
-      <p><strong>Data and communication:</strong> <a href="#project-03">03 · Industry data</a>,
+      <p><strong>Business Analytics route:</strong> <a href="#project-08">08 · Job information</a>
+        → <a href="#project-06">06 · Consumer decisions</a>
+        → <a href="#project-03">03 · Industry data</a>.</p>
+      <p><strong>Supporting work:</strong>
         <a href="#project-04">04 · Interactive charts</a>,
-        <a href="#project-05">05 · Air quality</a>.
-        <strong>Engineering:</strong> <a href="#project-07">07 · Java</a>.</p>
+        <a href="#project-05">05 · Air quality</a>,
+        <a href="#project-07">07 · Java</a>.</p>
     </nav>
 
     <div class="links">
@@ -107,7 +117,44 @@ footer p{margin:0 0 10px;max-width:70ch}
 </header>
 
 <main class="wrap" id="projects">
-  <h2 class="section">Projects</h2>
+  <h2 class="section">8 projects · reading index</h2>
+  <nav aria-label="Project index">
+    <ul class="project-index">
+      <li><a href="#project-08">08 · Does the Skill Signal Help?</a></li>
+      <li><a href="#project-01">01 · Equity forecasting</a></li>
+      <li><a href="#project-02">02 · Market linkages</a></li>
+      <li><a href="#project-03">03 · NEV industry analysis</a></li>
+      <li><a href="#project-04">04 · Bike-sharing visualisation</a></li>
+      <li><a href="#project-05">05 · Beijing air quality</a></li>
+      <li><a href="#project-06">06 · Consumer transactions</a></li>
+      <li><a href="#project-07">07 · Java workforce system</a></li>
+    </ul>
+  </nav>
+
+  <section class="card featured" id="project-08">
+    <p class="eyebrow">Featured research · reproducible NLP evaluation</p>
+    <h3><span class="num">08</span>Does the Skill Signal Help?</h3>
+    <p class="stack">Job-posting NLP · SkillSpan · 21,663 postings · 20 classes · employer-disjoint split</p>
+    <p class="find">Adding a Skill + Knowledge lexicon does not clear the improvement criterion:
+      test Macro-F1 is <b>0.7406</b> for text and <b>0.7348</b> for equal-weight fusion.</p>
+    <p>The study compares text-only, lexicon-only and combined features. Category
+      classification and exact-span extraction address different tasks; their metrics
+      must be interpreted separately. The dataset size, class count and employer-disjoint
+      split have been independently confirmed, and the cohort can be rebuilt from its sources.</p>
+    <p><strong>Evidence.</strong> Completed classification, extraction and three-model
+      comparison runs retain predictions for independent metric checks. The research
+      brief reports uncertainty, optimization limits and differences from the original paper.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Retain the text baseline
+      for broad-category routing; evaluate extracted requirements directly before using
+      them in a skills profile.</p>
+    <p>Original team authors: 闫佳玉 / 凌泳婷 / 王安娜. This portfolio version uses
+      <strong>AI-assisted integration</strong>; team research contributions are documented
+      in the project README.</p>
+    <p class="cardlinks">
+      <a href="projects/08-nlp-job-postings/report.html">Research brief</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/08-nlp-job-postings/README.md">Project README &amp; contributions</a>
+    </p>
+  </section>
 
   <section class="card" id="project-01">
     <h3><span class="num">01</span>Equity Time-Series Forecasting</h3>
@@ -275,16 +322,16 @@ footer p{margin:0 0 10px;max-width:70ch}
   </section>
 
   <footer>
-    <p><strong>Academic integrity and AI use.</strong> These projects originate in my
-      own undergraduate coursework. The original course submissions and datasets are
-      retained unmodified in each project's <code>source_materials/</code> directory, so
-      the development from assignment to portfolio version can be inspected directly —
-      including the places where the portfolio version corrects a method error in my own
-      earlier work.</p>
+    <p><strong>Academic integrity and AI use.</strong> Projects 01–07 originate in my
+      undergraduate coursework; their original course submissions and datasets are
+      retained separately in <code>source_materials/</code> for comparison.
+      Project 08 originates in team research by 闫佳玉 / 凌泳婷 / 王安娜.
+      Team research contributions are documented in its
+      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/08-nlp-job-postings/README.md">project README</a>.</p>
 
     <p>AI assistance was used for code structuring, English writing, verification
-      tooling and this portfolio's review-driven revisions. Original coursework is
-      retained separately. Decision notes describe implications and proposed next steps,
+      tooling and review-driven revisions, including AI-assisted integration of project 08.
+      Decision notes describe implications and proposed next steps,
       not interventions already tested. Estimates and scenarios are distinguished
       from published statistics.</p>
     <p>No result here is presented as more certain than the evidence supports. Where a

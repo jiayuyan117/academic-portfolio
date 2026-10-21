@@ -1,0 +1,6 @@
+# Candidate versions from the supplied research environment.
+# Installation and compatibility must be validated separately.
+-r requirements.txt
+torch==2.14.1
+transformers==5.19.0
+# huggingface-hub is resolved through transformers; do not pin it separately.
