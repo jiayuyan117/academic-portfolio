@@ -77,12 +77,18 @@ I am claiming.
 
 ## Reproduce
 
-Use **Windows x86-64 and CPython 3.12.10** for the original strict numerical
-reference. The complete GitHub Windows run passed all 252 comparisons. Linux
+Use **Windows x86-64 with AVX2/FMA support and CPython 3.12.10** for the original
+strict numerical reference. The runner fixes OpenBLAS to the Haswell kernel,
+uses one numerical thread, and disables NumPy AVX-512 dispatch before starting
+the notebook kernel. Package versions alone did not prevent small fitting
+differences between cloud processors; the profile is recorded in
+`results/environment.json`. Linux
 produced `MAE_z=4.5313198708117` for the drift model versus the original
 `4.531076030729077`, outside `rtol=1e-6, atol=1e-8`; Linux reproduction is not
 certified against that reference. The runner retains the same strict checks
-on every platform. See [the environment notes](../../REPRODUCING.md).
+on every platform. Run through `run_analysis.py` to apply the profile; opening
+the notebook independently does not configure it. See
+[the environment notes](../../REPRODUCING.md).
 
 ```bash
 pip install -c ../../constraints.txt -r requirements.txt

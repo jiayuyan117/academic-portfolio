@@ -5,8 +5,8 @@ for project 07. Run commands from the repository root unless stated otherwise.
 The public reports and charts are committed, so reading them requires no Python
 installation. Rebuilding requires downloading packages once.
 
-Project 01's original strict numerical reference is supported on **Windows
-x86-64**. Project 02 is checked on Windows and Linux; 03–07 are checked on
+Project 01's original strict numerical reference uses **Windows x86-64 with
+AVX2/FMA support** and the runner's fixed CPU profile. Project 02 is checked on Windows and Linux; 03–07 are checked on
 Linux as well as the local Windows validation. On macOS/Linux, select projects
 02–06 rather than using the all-project command below. A Linux project 01 run
 still executes the checks and fails on excessive drift; it is not silently skipped.
@@ -43,6 +43,15 @@ The difference exceeds `rtol=1e-6, atol=1e-8`. The complete Windows CI run
 passed all 252 comparisons. CI therefore runs project 01 in its validated
 Windows environment; it neither loosens the tolerance nor replaces the reference.
 See [the recorded failure](https://github.com/jiayuyan117/academic-portfolio/actions/runs/39584285722/job/119169217969).
+
+A subsequent Windows runner also exceeded the tolerance for one fitted drift
+parameter (`0.08484973335815096` versus `0.0848496014331771`). Operating-system
+and version pins alone were therefore insufficient. Project 01's entry point
+now fixes `OPENBLAS_CORETYPE=Haswell`, one numerical thread, and disables NumPy
+AVX-512 dispatch before the notebook kernel starts. The local diagnostic
+reproduced the original drift-model parameters and errors exactly with this
+profile. These settings are recorded in `results/environment.json`; no
+reference values, optimizer settings or tolerances are changed.
 
 The existing numerical reference environment is retained deliberately.
 Downgrading a statistics library without measuring the numerical consequences

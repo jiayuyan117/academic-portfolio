@@ -1,6 +1,13 @@
 {
   "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
   "platform": "win32",
+  "numeric_runtime": {
+    "OPENBLAS_CORETYPE": "Haswell",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NPY_DISABLE_CPU_FEATURES": "AVX512F,AVX512_SKX,AVX512_CLX,AVX512_CNL,AVX512_ICL,AVX512_SPR"
+  },
   "requirements_sha256": "73fada71a5f6ef755d7ddb4527b5a8109439dfd4d6b2ea8995a6796594816688",
   "packages": {
     "ipykernel": "7.4.0",

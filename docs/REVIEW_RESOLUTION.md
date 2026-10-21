@@ -80,6 +80,12 @@ after inspecting installed `ipykernel 7.4.0` metadata: it explicitly requires
   drift-model MAE was `4.5313198708117`, versus `4.531076030729077`.
   Its supported CI environment is consequently Windows; no reference value or
   tolerance was changed. The failing Linux run remains available in GitHub history.
+- A subsequent Windows run also exposed processor-dependent drift in one fitted
+  parameter. Project 01 now pins OpenBLAS's Haswell kernel, disables NumPy
+  AVX-512 dispatch and fixes numerical thread counts before kernel startup.
+  The profile is recorded with the environment. Local diagnostics reproduce
+  the original drift-model result exactly; references and optimizer settings
+  remain unchanged.
 - The Docker recipe has not been executed locally; Docker is not installed.
   Its default command now rebuilds projects 02–06, consistent with the Linux
   verification scope. Project 01 retains full mandatory Windows verification.

@@ -85,6 +85,11 @@ def verify_environment(root):
     report = {
         "python": sys.version,
         "platform": sys.platform,
+        "numeric_runtime": {
+            key: os.environ.get(key)
+            for key in ("OPENBLAS_CORETYPE", "OPENBLAS_NUM_THREADS",
+                        "OMP_NUM_THREADS", "MKL_NUM_THREADS", "NPY_DISABLE_CPU_FEATURES")
+        },
         "requirements_sha256": digest(requirements),
         "packages": {},
         "declared_versions": {},
