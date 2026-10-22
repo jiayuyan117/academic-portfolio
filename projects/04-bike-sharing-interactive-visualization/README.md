@@ -1,5 +1,7 @@
 # Bike-Sharing Demand: Interactive Visualisation
 
+**Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
+
 **Four interactive figures with explicit encodings and offline support.**
 
 `Python` · `Plotly` · `17,379 hourly observations`

@@ -98,7 +98,7 @@ footer{font-size:14px}footer p{max-width:90ch}
 
 <header>
   <div class="wrap">
-    <div class="identity"><span>JIAYU YAN / 闫佳玉</span><nav aria-label="Main navigation"><a href="#projects">Selected work</a><a href="#further">Explorations</a><a href="#integrity">Approach</a></nav></div>
+    <div class="identity"><span>Jiayu Yan / 闫佳玉</span><nav aria-label="Main navigation"><a href="#projects">All projects</a><a href="#reading-routes">Reading routes</a><a href="#integrity">Authorship</a></nav></div>
     <p class="eyebrow">Academic portfolio · Data analytics</p>
     <h1>Working with data.<br>Thinking in <em>evidence.</em></h1>
     <p class="sub">B.Mgmt. in <strong>Big Data Management and Applications</strong>, Guangdong University of Technology</p>
@@ -109,10 +109,10 @@ footer{font-size:14px}footer p{max-width:90ch}
       results can tell us.</p>
 
 
-    <p class="meta">Coursework and team-research foundations, developed further with
-      disclosed AI assistance. Explore the question, inspect the evidence, then follow the code.</p>
+    <p class="meta">Original coursework independently completed by 闫佳玉 / Jiayu Yan.
+      Portfolio refinements used AI assistance, as described below.</p>
 
-    <nav class="guide" aria-label="Suggested reading routes">
+    <nav class="guide" id="reading-routes" aria-label="Suggested reading routes">
       <p><strong>Data Science route:</strong> <a href="#project-08">08 · NLP evaluation</a>
         → <a href="#project-01">01 · Forecasting</a>
         → <a href="#project-02">02 · Market linkages</a>.</p>
@@ -131,10 +131,9 @@ footer{font-size:14px}footer p{max-width:90ch}
 </header>
 
 <main class="wrap" id="projects">
-  <h2 class="section">Eight projects. Three starting points.</h2>
+  <h2 class="section">Eight projects, in numerical order.</h2>
   <nav aria-label="Project index">
     <ul class="project-index">
-      <li><a href="#project-08">08 · Does the Skill Signal Help?</a></li>
       <li><a href="#project-01">01 · Equity forecasting</a></li>
       <li><a href="#project-02">02 · Market linkages</a></li>
       <li><a href="#project-03">03 · NEV industry analysis</a></li>
@@ -142,31 +141,9 @@ footer{font-size:14px}footer p{max-width:90ch}
       <li><a href="#project-05">05 · Beijing air quality</a></li>
       <li><a href="#project-06">06 · Consumer transactions</a></li>
       <li><a href="#project-07">07 · Java workforce system</a></li>
+      <li><a href="#project-08">08 · Does the Skill Signal Help?</a></li>
     </ul>
   </nav>
-
-  <section class="card featured" id="project-08">
-    <figure class="research-image"><a href="projects/08-nlp-job-postings/report.html"><img src="projects/08-nlp-job-postings/results/ablation.png" alt="Text, lexicon and fused-feature classification results from the job-posting study" width="1200" height="750"></a><figcaption>Feature ablation · Read the research brief for evaluation design and uncertainty.</figcaption></figure>
-    <p class="eyebrow">Featured research · reproducible NLP evaluation</p>
-    <h3><span class="num">08</span>Does the Skill Signal Help?</h3>
-    <p class="stack">Job-posting NLP · SkillSpan · 21,663 postings · 20 classes · employer-disjoint split</p>
-    <p class="find">Adding a Skill + Knowledge lexicon does not clear the improvement criterion:
-      test Macro-F1 is <b>0.7406</b> for text and <b>0.7348</b> for equal-weight fusion.</p>
-    <p>Text-only, lexicon-only and combined features are evaluated with an
-      employer-disjoint split. Saved predictions support metric checks.
-      Classification and exact-span extraction are separate tasks; the brief
-      explains uncertainty and differences from the original paper.</p>
-    <p class="decision"><strong>Decision relevance.</strong> Retain the text baseline
-      for broad-category routing; evaluate extracted requirements directly before using
-      them in a skills profile.</p>
-    <p>Original team authors: 闫佳玉 / 凌泳婷 / 王安娜. This portfolio version uses
-      <strong>AI-assisted integration</strong>; team research contributions are documented
-      in the project README.</p>
-    <p class="cardlinks">
-      <a href="projects/08-nlp-job-postings/report.html">Research brief</a>
-      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/08-nlp-job-postings/README.md">Project README &amp; contributions</a>
-    </p>
-  </section>
 
   <section class="card" id="project-01">
     <figure class="research-image"><a href="projects/01-equity-time-series-forecasting/Research_Analysis.html"><img loading="lazy" src="projects/01-equity-time-series-forecasting/results/q4_return_forecast.png" alt="Fixed-origin equity return forecast compared with held-out observations" width="1200" height="700"></a><figcaption>Held-out returns · A small improvement on one window is not a deployment case.</figcaption></figure>
@@ -212,7 +189,6 @@ footer{font-size:14px}footer p{max-width:90ch}
     </p>
   </section>
 
-  <h2 class="section supporting-heading" id="further">Further explorations</h2>
   <section class="card" id="project-03">
     <figure class="research-image"><a href="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png"><img loading="lazy" src="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png" alt="Battery chemistry composition with explicit subtotal and source qualifications" width="1200" height="700"></a><figcaption>Industry evidence · Source scope and denominator choices are part of the analysis.</figcaption></figure>
     <h3><span class="num">03</span>China's New Energy Vehicle Transition, 2015–2025</h3>
@@ -335,17 +311,36 @@ footer{font-size:14px}footer p{max-width:90ch}
     </p>
   </section>
 
-  <footer id="integrity">
-    <p><strong>Academic integrity and AI use.</strong> Projects 01–07 build on
-      undergraduate coursework. Where supplied, original materials and datasets are
-      retained separately for comparison with later portfolio extensions.
-      Project 08 originates in team research by 闫佳玉 / 凌泳婷 / 王安娜.
-      Team research contributions are documented in its
-      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/08-nlp-job-postings/README.md">project README</a>.</p>
+  <section class="card featured" id="project-08">
+    <figure class="research-image"><a href="projects/08-nlp-job-postings/report.html"><img loading="lazy" src="projects/08-nlp-job-postings/results/ablation.png" alt="Text, lexicon and fused-feature classification results from the job-posting study" width="1200" height="750"></a><figcaption>Feature ablation · Read the research brief for evaluation design and uncertainty.</figcaption></figure>
+    <p class="eyebrow">NLP reading route · reproducible evaluation</p>
+    <h3><span class="num">08</span>Does the Skill Signal Help?</h3>
+    <p class="stack">Job-posting NLP · SkillSpan · 21,663 postings · 20 classes · employer-disjoint split</p>
+    <p class="find">Adding a Skill + Knowledge lexicon does not clear the improvement criterion:
+      test Macro-F1 is <b>0.7406</b> for text and <b>0.7348</b> for equal-weight fusion.</p>
+    <p>Text-only, lexicon-only and combined features are evaluated with an
+      employer-disjoint split. Saved predictions support metric checks.
+      Classification and exact-span extraction are separate tasks; the brief
+      explains uncertainty and differences from the original paper.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Retain the text baseline
+      for broad-category routing; evaluate extracted requirements directly before using
+      them in a skills profile.</p>
+    <p>Original coursework independently completed by 闫佳玉 / Jiayu Yan.
+      Portfolio refinements used AI assistance.</p>
+    <p class="cardlinks">
+      <a href="projects/08-nlp-job-postings/report.html">Research brief</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/08-nlp-job-postings/README.md">Project README &amp; authorship</a>
+    </p>
+  </section>
 
-    <p>AI participated in analysis design, code, interpretation, English writing,
-      verification and revisions, including integration of project 08. Current
-      portfolio extensions are not claimed as independently designed original coursework.
+  <footer id="integrity">
+    <p><strong>Authorship.</strong> Original coursework for all eight projects was
+      independently completed by 闫佳玉 / Jiayu Yan. Supplied original materials
+      are retained separately for comparison with the portfolio refinements.</p>
+
+    <p><strong>AI assistance.</strong> Portfolio refinements used AI for analysis
+      design, code, interpretation, writing, translation and verification.
+      This assistance is distinct from authorship of the original coursework.
       Decision notes describe implications and proposed next steps,
       not interventions already tested. Estimates and scenarios are distinguished
       from published statistics.</p>

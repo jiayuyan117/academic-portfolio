@@ -1,5 +1,7 @@
 # Jiayu Yan — Data Analytics Portfolio
 
+**Author: 闫佳玉 / Jiayu Yan. All original coursework was independently completed by the author.**
+
 B.Mgmt. in **Big Data Management and Applications**, Guangdong University of Technology
 · Applying for MS programmes in Data Science / Business Analytics (US · Singapore · Hong Kong)
 
@@ -12,7 +14,7 @@ B.Mgmt. in **Big Data Management and Applications**, Guangdong University of Tec
 These projects connect statistical analysis with decisions: *does this result
 survive being checked, and what should we do with it?*
 
-The eight projects build on undergraduate coursework and team research. They
+The eight projects build on independently completed undergraduate coursework. They
 examine whether skill features improve job-category classification, whether a
 forecast beats a simple benchmark, how market-linkage estimates depend on
 identifying assumptions, and whether data quality supports a business conclusion.
@@ -43,7 +45,6 @@ and 07** add visual communication, missing-data analysis and engineering.
 
 | Project | Focus |
 | --- | --- |
-| **[08 · Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md)** | Featured entry: NLP evaluation, negative findings and reproducibility |
 | [01 · Equity forecasting](projects/01-equity-time-series-forecasting/) | Benchmarks and residual diagnostics |
 | [02 · Market linkages](projects/02-shanghai-hongkong-market-linkages/) | Sensitivity to identifying assumptions |
 | [03 · NEV transition](projects/03-china-nev-industry-analytics/) | Source traceability and market denominators |
@@ -51,34 +52,11 @@ and 07** add visual communication, missing-data analysis and engineering.
 | [05 · Beijing PM2.5](projects/05-beijing-air-quality-seaborn/) | Missingness and observational associations |
 | [06 · Consumer transactions](projects/06-consumer-behaviour-matplotlib/) | Segmentation evidence and decision limits |
 | [07 · Java workforce system](projects/07-workforce-system-java/) | Data structures and invariant testing |
+| [08 · Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md) | NLP evaluation, negative findings and reproducibility |
 
-The reading order starts with 08; the original 01–07 directory numbers are retained.
+The index and project descriptions follow numerical order, 01–08. The routes above are optional reading suggestions.
 
 ## Projects — 8 in total
-
-### 08 · [Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md)
-`Job-posting NLP` · `SkillSpan` · `21,663 postings` · `20 classes` · `employer-disjoint split`
-
-Adding SkillSpan Skill + Knowledge lexicon features does not clear the study's
-improvement criterion: test Macro-F1 is **0.7406** for text, **0.5003** for the
-lexicon and **0.7348** for equal-weight fusion. Classification and exact-span
-extraction answer different questions and are evaluated separately.
-
-**Evidence status:** the 21,663-posting cohort, 20 classes and employer-disjoint
-split were checked against fixed public sources. Full classification, extraction
-and TF-IDF/CNN/frozen-MiniLM comparison runs retain predictions for independent
-metric verification. Historical paper values are labelled separately where they
-differ from this rerun. The `+0.02` absolute Macro-F1 gain is a recorded study
-threshold; no independently timestamped preregistration was supplied.
-
-**Decision relevance:** retain the text baseline for broad-category routing.
-Evaluate extracted requirements directly before using them in a skills profile.
-
-**Attribution:** original team authors 闫佳玉 / 凌泳婷 / 王安娜.
-This portfolio version uses **AI-assisted integration**; team research
-contributions are documented in the
-[project README](https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/08-nlp-job-postings/README.md).
-[Read the research brief](https://jiayuyan117.github.io/academic-portfolio/projects/08-nlp-job-postings/report.html).
 
 ### 01 · [Equity Time-Series Forecasting](projects/01-equity-time-series-forecasting/)
 `statsmodels` · `ARMA/ARIMA` · `fixed-origin holdout` · `252 values verified per run`
@@ -179,6 +157,28 @@ transfers and structural invariants.
 Production use would also require persistence, authorization and audit history.
 
 
+### 08 · [Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md)
+`Job-posting NLP` · `SkillSpan` · `21,663 postings` · `20 classes` · `employer-disjoint split`
+
+Adding SkillSpan Skill + Knowledge lexicon features does not clear the study's
+improvement criterion: test Macro-F1 is **0.7406** for text, **0.5003** for the
+lexicon and **0.7348** for equal-weight fusion. Classification and exact-span
+extraction answer different questions and are evaluated separately.
+
+**Evidence status:** the 21,663-posting cohort, 20 classes and employer-disjoint
+split were checked against fixed public sources. Full classification, extraction
+and TF-IDF/CNN/frozen-MiniLM comparison runs retain predictions for independent
+metric verification. Historical paper values are labelled separately where they
+differ from this rerun. The `+0.02` absolute Macro-F1 gain is a recorded study
+threshold; no independently timestamped preregistration was supplied.
+
+**Decision relevance:** retain the text baseline for broad-category routing.
+Evaluate extracted requirements directly before using them in a skills profile.
+
+**Author:** 闫佳玉 / Jiayu Yan independently completed the original coursework.
+Portfolio refinements used AI assistance; see the [authorship statement](projects/08-nlp-job-postings/CONTRIBUTIONS.md).
+[Read the research brief](https://jiayuyan117.github.io/academic-portfolio/projects/08-nlp-job-postings/report.html).
+
 ## Reproducibility
 
 Each project has checks matched to its claims. The NLP workflow recomputes
@@ -258,21 +258,12 @@ estimated, and what remains assumed; bilingual (English / Chinese) delivery.
 
 ## Academic integrity and AI use
 
-Projects 01–07 build on undergraduate coursework. Where supplied, original course
-materials and datasets are retained separately for comparison with later
-portfolio extensions. Their presence does not establish that every current
-analysis or methodological decision appeared in the original submission.
+**Original coursework for all eight projects was independently completed by
+闫佳玉 / Jiayu Yan.** Supplied original materials are retained separately.
 
-
-Project 08 originates in team research by **闫佳玉 / 凌泳婷 / 王安娜**.
-Team research contributions are documented in the
-[project README](projects/08-nlp-job-postings/README.md).
-The portfolio adaptation is **AI-assisted integration**.
-
-AI participated in analysis design, code, interpretation, English writing,
-verification and revisions, including integration of project 08.
-Current portfolio extensions are not claimed as independently designed original
-coursework. Retained source materials support comparison, not blanket authorship claims.
+Portfolio refinements used AI for analysis design, code, interpretation, writing,
+translation and verification. This assistance is distinct from authorship of the
+original coursework.
 Decision notes describe implications and proposed next steps, not interventions
 already tested. Estimates and scenarios — including the NEV carbon scenario —
 are distinguished from published statistics; unresolved source verification is

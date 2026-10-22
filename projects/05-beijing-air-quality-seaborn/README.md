@@ -1,5 +1,7 @@
 # Beijing PM2.5, 2010–2014
 
+**Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
+
 **Observed-hour associations and an explicit audit of missing-data policy**
 
 `Python` · `Seaborn` · `43,824 hourly observations` · `7 figures`

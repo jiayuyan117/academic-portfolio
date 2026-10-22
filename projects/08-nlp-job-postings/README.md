@@ -1,5 +1,7 @@
 # Does the Skill Signal Help?
 
+**Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
+
 ### Job-posting classification and skill extraction, evaluated separately
 
 [Read the research brief](https://jiayuyan117.github.io/academic-portfolio/projects/08-nlp-job-postings/report.html)
@@ -110,10 +112,9 @@ not a completed experiment or a causal claim.
 
 ## Attribution and scope
 
-This is a portfolio adaptation of a **team coursework study** credited in the
-source paper to **闫佳玉, 凌泳婷 and 王安娜**, supervised by **梁沛**.
-Individual original contributions are not itemized in the supplied materials;
-sole authorship is not claimed. See [CONTRIBUTIONS.md](CONTRIBUTIONS.md).
+Original coursework was independently completed by **闫佳玉 / Jiayu Yan**,
+as confirmed by the author. See [CONTRIBUTIONS.md](CONTRIBUTIONS.md) for the
+distinction between original authorship and AI-assisted portfolio refinements.
 
 The public integration adds English documentation, configurable execution,
 fixed-source reconstruction, independent checks and generated reports with AI

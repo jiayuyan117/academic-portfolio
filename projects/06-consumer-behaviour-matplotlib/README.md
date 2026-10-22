@@ -1,5 +1,7 @@
 # Consumer Transactions: Evidence for a Segmentation Decision
 
+**Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
+
 **8,020 raw rows → remove 20 exact duplicates →
 8,000 analysed transactions. Non-significance does not prove equality.**
 

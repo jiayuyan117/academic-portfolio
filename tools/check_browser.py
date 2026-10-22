@@ -33,8 +33,13 @@ def main() -> None:
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.goto((ROOT / "index.html").as_uri())
         assert page.locator("section.card").count() == 8
+        expected = [f"{number:02d}" for number in range(1, 9)]
+        assert page.locator("section.card h3 .num").all_text_contents() == expected
+        assert page.locator(".project-index a").evaluate_all(
+            "(links) => links.map(a => a.hash)"
+        ) == [f"#project-{number}" for number in expected]
         assert page.title() == "Jiayu Yan — Data Analytics Portfolio"
-        for width in (1280, 375):
+        for width in (1280, 375, 320):
             page.set_viewport_size({"width": width, "height": 900})
             assert page.evaluate(
                 "document.documentElement.scrollWidth <= window.innerWidth"

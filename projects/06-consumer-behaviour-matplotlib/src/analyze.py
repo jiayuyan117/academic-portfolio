@@ -490,6 +490,8 @@ def render_readme(findings: dict, tests: pd.DataFrame, correlations: pd.DataFram
     missing = ", ".join(f"`{name}`: {count}" for name, count in data["missing_by_field"].items())
     return f"""# Consumer Transactions: Evidence for a Segmentation Decision
 
+**Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
+
 **{data['rows']:,} raw rows → remove {data['duplicate_rows']:,} exact duplicates →
 {findings['rows_after_dedup']:,} analysed transactions. Non-significance does not prove equality.**
 

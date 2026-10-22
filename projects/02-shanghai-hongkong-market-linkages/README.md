@@ -1,5 +1,7 @@
 # Shanghai–Hong Kong Market Linkages
 
+**Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
+
 **VAR forecasting, Granger testing, and how much an "identified shock" really tells you**
 
 `Python` · `statsmodels` · `VAR / VECM` · `Johansen` · `fully re-executed on every run`

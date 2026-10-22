@@ -337,6 +337,8 @@ def render_readme(findings: dict) -> str:
              / f["rides_by_time_period"]["Morning peak"])
     return f"""# Bike-Sharing Demand: Interactive Visualisation
 
+**Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
+
 **Four interactive figures with explicit encodings and offline support.**
 
 `Python` · `Plotly` · `{f['hourly_rows']:,} hourly observations`

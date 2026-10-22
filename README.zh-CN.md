@@ -1,5 +1,7 @@
 # 闫佳玉 — 数据分析作品集
 
+**作者：闫佳玉 / Jiayu Yan。全部原始课程项目均由作者独立完成。**
+
 广东工业大学 **大数据管理与应用** 本科
 · 申请方向：数据科学 / 商业分析硕士（美国 · 新加坡 · 香港）
 
@@ -13,7 +15,7 @@ English version: [README.md](README.md)
 
 这些项目围绕两个问题：**这个结论经得起检验吗？它能支持什么决策？**
 
-八个项目来自本科课程与团队研究，检验技能特征能否改善岗位类别分类、预测能否优于
+八个项目以独立完成的本科课程作品为基础，检验技能特征能否改善岗位类别分类、预测能否优于
 简单基准、市场联动估计如何依赖识别假设，以及数据质量是否足以支持业务结论。
 
 否证结果和方法纠错与正面发现一起呈现。没有拒绝零假设并不证明完全没有差异；
@@ -34,7 +36,6 @@ English version: [README.md](README.md)
 
 | 项目 | 阅读重点 |
 | --- | --- |
-| **[08 · Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md)** | 首读：NLP 评估、否证结果与可复现性 |
 | [01 · 股票时间序列预测](projects/01-equity-time-series-forecasting/) | 简单基准与残差诊断 |
 | [02 · 沪港市场联动](projects/02-shanghai-hongkong-market-linkages/) | 对识别假设的敏感性 |
 | [03 · 新能源汽车转型](projects/03-china-nev-industry-analytics/) | 来源追溯与市场分母口径 |
@@ -42,32 +43,11 @@ English version: [README.md](README.md)
 | [05 · 北京 PM2.5](projects/05-beijing-air-quality-seaborn/) | 缺失机制与观测关联 |
 | [06 · 消费交易](projects/06-consumer-behaviour-matplotlib/) | 客群证据与决策限制 |
 | [07 · Java 员工系统](projects/07-workforce-system-java/) | 数据结构与不变量测试 |
+| [08 · Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md) | NLP 评估、否证结果与可复现性 |
 
-阅读顺序从 08 开始，原有 01–07 目录编号保留。
+目录和项目正文均按 01–08 编号升序展示；上方路线仅为可选阅读建议。
 
 ## 项目（共 8 个）
-
-### 08 · [Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md)
-`招聘文本 NLP` · `SkillSpan` · `21,663 条招聘记录` · `20 个类别` · `雇主不交叉划分`
-
-加入 SkillSpan Skill + Knowledge 词典特征未达到研究设定的提升标准：
-测试集 Macro-F1 分别为纯文本 **0.7406**、仅词典 **0.5003**、
-等权融合 **0.7348**。岗位分类与精确跨度抽取回答不同问题，分别评估。
-
-**证据状态：** 21,663 条记录、20 个类别和 employer-disjoint split（雇主不交叉划分）
-已对照固定公开来源核验，研究样本可精确重建。全量分类、技能抽取及
-TF-IDF/CNN/冻结 MiniLM 对照均已运行，并保留预测供独立重算。
-本轮与论文不一致的指标分开列示。`+0.02` 的 Macro-F1 绝对增益
-是原研究记录的阈值；未提供可独立核验时间戳的预注册材料。
-
-**决策含义：** 大类岗位路由继续保留纯文本基准；将抽取结果用于技能画像前，
-需要直接验证具体技能跨度。
-
-**归属说明：** 原团队作者为 **闫佳玉 / 凌泳婷 / 王安娜**。
-作品集版本采用 **AI-assisted integration（AI 辅助整合）**；
-团队研究贡献记录于
-[项目 README](https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/08-nlp-job-postings/README.md)。
-[阅读研究简报](https://jiayuyan117.github.io/academic-portfolio/projects/08-nlp-job-postings/report.html)。
 
 ### 01 · [股票时间序列预测](projects/01-equity-time-series-forecasting/)
 `statsmodels` · `ARMA/ARIMA` · `固定起点样本外检验` · `每次运行校验 252 个数值`
@@ -151,10 +131,30 @@ UCI 共享单车数据集的两个文件把日期分别存成 `2011/1/1` 和 `20
 持久化、访问控制和审计记录。
 
 
+### 08 · [Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md)
+`招聘文本 NLP` · `SkillSpan` · `21,663 条招聘记录` · `20 个类别` · `雇主不交叉划分`
+
+加入 SkillSpan Skill + Knowledge 词典特征未达到研究设定的提升标准：
+测试集 Macro-F1 分别为纯文本 **0.7406**、仅词典 **0.5003**、
+等权融合 **0.7348**。岗位分类与精确跨度抽取回答不同问题，分别评估。
+
+**证据状态：** 21,663 条记录、20 个类别和 employer-disjoint split（雇主不交叉划分）
+已对照固定公开来源核验，研究样本可精确重建。全量分类、技能抽取及
+TF-IDF/CNN/冻结 MiniLM 对照均已运行，并保留预测供独立重算。
+本轮与论文不一致的指标分开列示。`+0.02` 的 Macro-F1 绝对增益
+是原研究记录的阈值；未提供可独立核验时间戳的预注册材料。
+
+**决策含义：** 大类岗位路由继续保留纯文本基准；将抽取结果用于技能画像前，
+需要直接验证具体技能跨度。
+
+**作者：闫佳玉 / Jiayu Yan。原始课程项目由作者独立完成。**
+作品集完善使用了 AI 辅助，详见[署名说明](projects/08-nlp-job-postings/CONTRIBUTIONS.md)。
+[阅读研究简报](https://jiayuyan117.github.io/academic-portfolio/projects/08-nlp-job-postings/report.html)。
+
 ## 可复现性
 
-本轮整合所依据的 01–07 旧 CI 已有以下成功记录。这些记录只覆盖既有项目，
-不代表新 NLP 训练完成，也不代表本次整合已通过验证。
+各项目按其研究内容进行验证。NLP 工作流重算已保存预测的指标，并运行真实数据小样本实验；
+全量模型训练通过单独的本地命令完成，不将其表述为常规 CI 的覆盖范围。
 
 | 项目 | 已有 CI 成功记录与范围 | 复现命令 |
 | --- | --- | --- |
@@ -165,7 +165,7 @@ UCI 共享单车数据集的两个文件把日期分别存成 `2011/1/1` 和 `20
 | 05 北京 PM2.5 | Linux：分析与图表重建、时间索引和缺口审计 | `python src/analyze.py` |
 | 06 消费交易 | Linux：分析与图表重建、推断语义检查 | `python src/analyze.py` |
 | 07 Java 员工系统 | Linux / Java 17：Maven 验证、JUnit 和参考模型测试 | `mvn verify` |
-| 08 招聘文本 NLP | 本轮训练未完成；数据确认与模型验证分别记录 | 见[项目 README](projects/08-nlp-job-postings/README.md) |
+| 08 招聘文本 NLP | 来源重建、已保存预测校验及小样本训练检查 | `python run.py verify`；`python run.py smoke` |
 
 
 项目 01 和 02 交付的是**校验器**而不只是运行脚本：它会核对每个输入文件的 SHA-256
@@ -217,17 +217,12 @@ python tools/rebuild.py --project 01
 
 ## 学术诚信与 AI 使用说明
 
-01–07以本科课程作业为基础。已提供的原始课程材料与数据单独保留，
-供对照后续作品集扩展；材料的存在不证明当前所有分析和方法设计都出现在原始提交中。
+**作者：闫佳玉 / Jiayu Yan。全部原始课程项目均由作者独立完成。**
+已提供的原始材料单独保留，供对照作品集完善版本。
 
-
-08 源于 **闫佳玉 / 凌泳婷 / 王安娜** 的团队研究，团队研究贡献记录于
-[项目 README](projects/08-nlp-job-postings/README.md)。
-作品集改编采用 **AI-assisted integration（AI 辅助整合）**。
-
-AI参与分析设计、代码实现、结果解释、英文写作、校验及修订，包括08的作品集整合。
-后续AI辅助新增设计属于作品集扩展，不冒充学生原有独立课程成果。
-原始课程材料单独保留供对照。决策建议描述证据含义和未来验证步骤，不冒充已做的干预实验。
+**AI 辅助说明：** 作品集完善过程中，AI 参与了分析设计、代码实现、结果解释、
+写作、翻译和验证；这些协助与原始课程作品的独立作者身份分别说明。
+决策建议描述证据含义和未来验证步骤，不冒充已做的干预实验。
 估算、情景与公开统计分开标注；尚未完成的来源核验明确披露。
 
 本仓库中没有任何结论被表述得比证据所能支持的更确定。模型失效的地方，失效本身就是

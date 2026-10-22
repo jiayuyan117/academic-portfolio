@@ -1,5 +1,7 @@
 # 07 · Workforce System in Java
 
+**Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
+
 **Independent undergraduate coursework · Data structures and information systems**
 
 This project models an organization as a department tree and indexes employees in a self-balancing AVL tree. Adding, transferring, and removing an employee must preserve the correspondence between the two structures. Ordered IDs do not turn the employee index into a linear chain.
