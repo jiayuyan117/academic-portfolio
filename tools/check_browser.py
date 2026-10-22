@@ -16,6 +16,7 @@ def main() -> None:
     """Check desktop/mobile and offline rendering; save screenshots or raise on failure."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--browser", help="Optional installed Chromium/Chrome executable")
+    parser.add_argument("--live-url", help="Also verify the deployed homepage and its same-site links")
     args = parser.parse_args()
     OUTPUT.mkdir(parents=True, exist_ok=True)
     with sync_playwright() as playwright:
@@ -95,6 +96,33 @@ def main() -> None:
             page.screenshot(path=str(OUTPUT / f"{path.stem}.png"), full_page=True)
             print(f"{path.name}: rendered with HTTP(S) blocked")
         context.close()
+        if args.live_url:
+            live = browser.new_context()
+            page = live.new_page()
+            response = page.goto(args.live_url, wait_until="networkidle")
+            assert response and response.status == 200
+            assert page.locator("h1").inner_text() == "Data analytics.\nEvidence for decisions."
+            assert page.locator("section.card h3 .num").all_text_contents() == expected
+            for width in (1280, 375, 320):
+                page.set_viewport_size({"width": width, "height": 900})
+                assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+                for image in page.locator(".research-image img").all():
+                    image.scroll_into_view_if_needed()
+                    page.wait_for_function(
+                        "(img) => img.complete && img.naturalWidth > 0",
+                        arg=image.element_handle(),
+                    )
+                    assert image.evaluate("(img) => img.complete && img.naturalWidth > 0")
+                page.screenshot(path=str(OUTPUT / f"live-homepage-{width}.png"), full_page=True)
+            links = page.locator("a").evaluate_all(
+                "(links) => [...new Set(links.map(a => a.href).filter("
+                "url => url.startsWith(location.origin) && !url.includes('#')))]"
+            )
+            for url in links:
+                result = live.request.get(url)
+                assert result.status == 200, f"{url}: HTTP {result.status}"
+            print(f"Live homepage: three viewport widths, images, order and {len(links)} same-site links passed.")
+            live.close()
         browser.close()
     print("Homepage and NLP brief desktop/mobile, plus four offline charts passed.")
 
