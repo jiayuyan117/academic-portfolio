@@ -37,10 +37,10 @@ Business Analytics master's programmes in the **US, Singapore and Hong Kong**.
 This portfolio connects evaluation, data quality and analytical communication
 with decisions whose limits are made explicit.
 
-Start with **08 · Does the Skill Signal Help?** For Data Science, follow
+For Data Science, start with **08 · Does the Skill Signal Help?** and follow
 **08 → 01 → 02** through NLP evaluation, forecasting and identification
-assumptions. For Business Analytics, follow **08 → 06 → 03** through job
-information, customer segmentation and industry evidence. Projects **04, 05
+assumptions. For Business Analytics, follow **06 → 03 → 08** through marketing
+allocation, market assessment and job-information quality. Projects **04, 05
 and 07** add visual communication, missing-data analysis and engineering.
 
 | Project | Focus |
@@ -55,6 +55,20 @@ and 07** add visual communication, missing-data analysis and engineering.
 | [08 · Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md) | NLP evaluation, negative findings and reproducibility |
 
 The index and project descriptions follow numerical order, 01–08. The routes above are optional reading suggestions.
+
+### Business Analytics: from question to decision
+
+| Project | Decision question and method | Evidence and action boundary |
+| --- | --- | --- |
+| [03 · Market assessment](projects/03-china-nev-industry-analytics/README.md) | Reconcile public sales, battery and charging statistics before assessing market transition. | 47.9% NEV share uses all-vehicle sales including exports. Site investment still needs local utilization, power and cost data. |
+| [06 · Marketing allocation](projects/06-consumer-behaviour-matplotlib/README.md) | Compare recorded amount per transaction across segments using exploratory tests and intervals. | Repeated customers and undocumented provenance prevent a validated allocation rule. A randomized offer study is proposed, not performed. |
+| [08 · Job-information quality](projects/08-nlp-job-postings/README.md) | Compare text and skill features on held-out employers; evaluate extraction separately. | Fusion Macro-F1 of 0.7348 versus 0.7406 for text does not justify the added features under this study's criterion. Operational value remains unmeasured. |
+
+Read each project as **question → data and method → result → decision implication
+→ limitation**. The recommendations are academic interpretations, not deployed
+interventions or measured ROI. The environmental study (05) demonstrates transferable
+missing-data analysis and uncertainty communication; the Java project (07)
+demonstrates data consistency rather than a measured business improvement.
 
 ## Projects — 8 in total
 

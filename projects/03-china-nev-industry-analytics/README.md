@@ -8,6 +8,23 @@
 
 ---
 
+## Decision brief
+
+**Question:** What do national statistics establish about the NEV transition,
+and are they sufficient to support a charging-investment assessment?
+
+**Data and method:** Seven compiled tables, explicit source and denominator
+reconciliation, and bilingual descriptive figures. This is an industry evidence
+audit, not a demand forecast or investment-return model.
+
+**Finding and implication:** NEVs reach 47.9% of 2025 all-vehicle sales including
+exports. This supports a description of market composition, not a site-selection
+decision. The charging-series break prevents a continuous cross-break comparison.
+
+**Next evidence needed:** Local demand, connector power, utilization, electricity
+and site costs would be needed before evaluating capacity or returns. No investment
+was implemented, and no ROI or measured emissions reduction is claimed.
+
 ## Headline
 
 Between 2015 and 2025 China's NEV sales grew roughly **50×**, from 0.33 to 16.49

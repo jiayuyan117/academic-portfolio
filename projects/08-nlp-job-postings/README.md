@@ -20,6 +20,20 @@ The study distinguishes two decisions: which broad category a posting belongs
 to, and which requirements can be extracted accurately from its sentences.
 Category accuracy does not establish the quality of a skills explanation.
 
+## Decision brief
+
+**Operational question:** Does an additional skill-feature pipeline improve
+broad-category routing, and can extracted requirements support a skills profile?
+
+**Measured result:** On held-out employers, text Macro-F1 is 0.7406 versus 0.7348
+for equal-weight fusion. The added features do not clear the recorded +0.02
+improvement criterion. Exact-span extraction is a separate evaluation.
+
+**Recommendation and boundary:** Keep text as the reference for further routing
+evaluation. Before any deployment, assess category-specific errors, human review
+needs, latency and data drift in the intended setting. These are proposed checks;
+this study does not measure recruiter time savings, hiring quality or production ROI.
+
 ## What to read
 
 1. [Research brief](report.html): question, measured results, decision implications

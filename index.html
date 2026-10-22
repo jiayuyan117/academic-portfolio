@@ -100,13 +100,13 @@ footer{font-size:14px}footer p{max-width:90ch}
   <div class="wrap">
     <div class="identity"><span>Jiayu Yan / 闫佳玉</span><nav aria-label="Main navigation"><a href="#projects">All projects</a><a href="#reading-routes">Reading routes</a><a href="#integrity">Authorship</a></nav></div>
     <p class="eyebrow">Academic portfolio · Data analytics</p>
-    <h1>Working with data.<br>Thinking in <em>evidence.</em></h1>
+    <h1>Data analytics.<br>Evidence for <em>decisions.</em></h1>
     <p class="sub">B.Mgmt. in <strong>Big Data Management and Applications</strong>, Guangdong University of Technology</p>
     <p class="sub">Applying for MS programmes in Data Science / Business Analytics — US · Singapore · Hong Kong</p>
 
-    <p class="lede">Eight studies in language, markets and applied analytics.
-      Research questions, reproducible methods and the limits of what the
-      results can tell us.</p>
+    <p class="lede">Eight academic projects connecting business questions with
+      data quality, statistical evaluation and clear recommendations.
+      Each separates measured results from proposed action and unresolved limitations.</p>
 
 
     <p class="meta">Original coursework independently completed by 闫佳玉 / Jiayu Yan.
@@ -116,9 +116,12 @@ footer{font-size:14px}footer p{max-width:90ch}
       <p><strong>Data Science route:</strong> <a href="#project-08">08 · NLP evaluation</a>
         → <a href="#project-01">01 · Forecasting</a>
         → <a href="#project-02">02 · Market linkages</a>.</p>
-      <p><strong>Business Analytics route:</strong> <a href="#project-08">08 · Job information</a>
-        → <a href="#project-06">06 · Consumer decisions</a>
-        → <a href="#project-03">03 · Industry data</a>.</p>
+      <p><strong>Business Analytics route:</strong> <a href="#project-06">06 · Marketing allocation</a>
+        → <a href="#project-03">03 · Market assessment</a>
+        → <a href="#project-08">08 · Job-information quality</a>.</p>
+      <p>For each project: identify the decision, inspect the data and method,
+        read the result, then check what would be needed before acting.
+        These are academic analyses; no deployed business impact is claimed.</p>
     </nav>
 
     <div class="links">
@@ -193,6 +196,9 @@ footer{font-size:14px}footer p{max-width:90ch}
     <figure class="research-image"><a href="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png"><img loading="lazy" src="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png" alt="Battery chemistry composition with explicit subtotal and source qualifications" width="1200" height="700"></a><figcaption>Industry evidence · Source scope and denominator choices are part of the analysis.</figcaption></figure>
     <h3><span class="num">03</span>China's New Energy Vehicle Transition, 2015–2025</h3>
     <p class="stack">pandas · matplotlib · 7 compiled tables · 16 figures, bilingual</p>
+    <p><strong>Business question.</strong> What can national industry statistics
+      establish about market transition, and what additional evidence would a
+      charging-investment assessment require?</p>
     <p class="find">In 2025, NEVs accounted for <b>47.9%</b> of CAAM's all-vehicle
       sales, <b>including exports</b>. The important analytical distinctions are the
       denominators: domestic sales, registrations, fleet stock and battery-chemistry
@@ -252,9 +258,10 @@ footer{font-size:14px}footer p{max-width:90ch}
       sit inside gaps longer than a day — the longest is 155 consecutive hours.
       A short-gap policy audit leaves 91% unfilled. The headline figures and
       correlations use only original observations, excluding all 2,067 missing hours.</p>
-    <p class="decision"><strong>Decision relevance.</strong> Evaluate ventilation
-      indicators for outdoor-work warnings alongside current local monitoring.
-      The associations do not identify the effects of changing emissions or schedules.</p>
+    <p class="decision"><strong>Transferable analytical skills.</strong> Auditing
+      missingness, distinguishing measurement periods and communicating observational
+      uncertainty. This environmental study does not validate a business intervention
+      or identify the effects of changing emissions or schedules.</p>
     <p class="cardlinks">
       <a href="projects/05-beijing-air-quality-seaborn/figures/03_ventilation_wind_speed.png">Ventilation</a>
       <a href="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png">Gap audit</a>
@@ -264,9 +271,13 @@ footer{font-size:14px}footer p{max-width:90ch}
   </section>
 
   <section class="card" id="project-06">
+    <figure class="research-image"><a href="projects/06-consumer-behaviour-matplotlib/figures/01_segmentation_effect_audit.png"><img loading="lazy" src="projects/06-consumer-behaviour-matplotlib/figures/01_segmentation_effect_audit.png" alt="Transaction segmentation audit showing group comparisons and uncertainty" width="1200" height="700"></a><figcaption>Exploratory transaction comparisons · Intervals do not adjust for repeated customers; differences are not campaign effects.</figcaption></figure>
     <h3><span class="num">06</span>Consumer Transactions: Testing Segmentation Claims</h3>
     <p class="stack">Matplotlib · 8,000 transactions · bootstrap CIs · ANOVA · permutation null</p>
     <span class="tag">Exploratory comparisons</span>
+    <p><strong>Business question.</strong> Does recorded amount per transaction
+      justify prioritising a demographic segment or a membership offer?
+      This metric does not measure margin, conversion or customer lifetime value.</p>
     <p class="find negative">Four of five groupings have non-significant nominal
       ANOVA comparisons. Income has a small sample correlation with amount
       (<b>−0.010</b>). Repeated user IDs limit independent-row tests and intervals;
@@ -316,6 +327,9 @@ footer{font-size:14px}footer p{max-width:90ch}
     <p class="eyebrow">NLP reading route · reproducible evaluation</p>
     <h3><span class="num">08</span>Does the Skill Signal Help?</h3>
     <p class="stack">Job-posting NLP · SkillSpan · 21,663 postings · 20 classes · employer-disjoint split</p>
+    <p><strong>Business question.</strong> Does adding skill-lexicon features
+      improve broad-category routing enough to justify the added feature pipeline?
+      Offline category accuracy and useful requirement extraction are evaluated separately.</p>
     <p class="find">Adding a Skill + Knowledge lexicon does not clear the improvement criterion:
       test Macro-F1 is <b>0.7406</b> for text and <b>0.7348</b> for equal-weight fusion.</p>
     <p>Text-only, lexicon-only and combined features are evaluated with an
@@ -323,8 +337,9 @@ footer{font-size:14px}footer p{max-width:90ch}
       Classification and exact-span extraction are separate tasks; the brief
       explains uncertainty and differences from the original paper.</p>
     <p class="decision"><strong>Decision relevance.</strong> Retain the text baseline
-      for broad-category routing; evaluate extracted requirements directly before using
-      them in a skills profile.</p>
+      as the reference for further routing evaluation; assess extracted requirements
+      directly before using them in a skills profile. These offline results do not
+      establish production readiness, recruiter time savings or hiring outcomes.</p>
     <p>Original coursework independently completed by 闫佳玉 / Jiayu Yan.
       Portfolio refinements used AI assistance.</p>
     <p class="cardlinks">

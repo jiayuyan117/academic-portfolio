@@ -16,6 +16,21 @@ describes a typical order; a 10%-per-tail trimmed mean describes the central 80%
 These are different estimands. None measures margin, conversion, purchase frequency
 or lifetime value. The unit is a transaction, not a customer.
 
+## Decision brief
+
+**Data and method:** Remove 20 exact duplicate rows from 8,020 records; compare
+8,000 transactions with exploratory group tests, sensitivity checks and intervals.
+
+**Result:** Four of five demographic/payment/membership groupings do not reject
+equal means in the primary ANOVA family. Membership differences are descriptive
+associations, not evidence of an offer's incremental effect.
+
+**Recommendation:** Do not reallocate marketing budget from these rankings alone.
+First establish data provenance and customer-level dependence, then consider a
+randomized offer study with incremental contribution margin as the outcome.
+That study has not been performed; campaign lift, ROI and business impact are
+not measured here. The detailed evidence and assumptions follow.
+
 ## Evidence and statistical scope
 
 The table uses the 8,000 deduplicated transactions, dropping
