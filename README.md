@@ -150,14 +150,14 @@ of changing emissions or schedules.
 ### 06 · [Consumer Transactions: Testing Segmentation Claims](projects/06-consumer-behaviour-matplotlib/)
 `Matplotlib` · `8,000 transactions` · `bootstrap CIs · ANOVA · permutation null`
 
-The brief asks which customer groups spend more. Tested first: **four of the five
-candidate groupings show no detectable mean-spend difference** (age band *p* = 0.44, gender 0.52,
-city tier 0.77, payment method 0.90). Income's correlation with spend is −0.010
-with a 95% CI of [−0.032, +0.012], constraining the linear association in this
-sample without proving independence. Only membership tier separates (*p* = 1.0 × 10⁻⁶, robust to
-trimming), and its direction is unidentified: the undocumented assignment rule
-may depend on prior spending. Monthly revenue falls inside a permutation null band in **all 12
-months**, so this analysis does not establish a seasonal pattern.
+Four of five groupings have non-significant **nominal, exploratory ANOVA**
+comparisons. Income's sample correlation with amount is −0.010. Independent-row
+intervals do not account for repeated user IDs and cannot establish absence of
+association. Membership groups differ descriptively, but their assignment rules
+and causal direction are unknown. All twelve monthly totals fall within pointwise
+permutation ranges: this is not a joint seasonality test or evidence that
+seasonality is absent. Original collection and synthetic status are undocumented;
+the file is not established to represent real customers.
 The source has **8,020 rows → 20 exact duplicates removed → 8,000 transactions**.
 These transaction-level tests and intervals do not adjust for repeated customers,
 so inferential results remain exploratory pending customer-level validation.
@@ -258,11 +258,10 @@ estimated, and what remains assumed; bilingual (English / Chinese) delivery.
 
 ## Academic integrity and AI use
 
-Projects 01–07 originate in my undergraduate coursework. Original course
-submissions and datasets are retained unmodified in those projects'
-`source_materials/` directory so the development from assignment to portfolio
-version can be inspected directly — including, in projects 04 and 05, the places
-where the portfolio version corrects a method error in my own earlier work.
+Projects 01–07 build on undergraduate coursework. Where supplied, original course
+materials and datasets are retained separately for comparison with later
+portfolio extensions. Their presence does not establish that every current
+analysis or methodological decision appeared in the original submission.
 
 
 Project 08 originates in team research by **闫佳玉 / 凌泳婷 / 王安娜**.
@@ -270,9 +269,10 @@ Team research contributions are documented in the
 [project README](projects/08-nlp-job-postings/README.md).
 The portfolio adaptation is **AI-assisted integration**.
 
-AI assistance was used for code structuring, English writing, verification
-tooling and review-driven revisions, including integration of project 08.
-Original coursework is retained separately.
+AI participated in analysis design, code, interpretation, English writing,
+verification and revisions, including integration of project 08.
+Current portfolio extensions are not claimed as independently designed original
+coursework. Retained source materials support comparison, not blanket authorship claims.
 Decision notes describe implications and proposed next steps, not interventions
 already tested. Estimates and scenarios — including the NEV carbon scenario —
 are distinguished from published statistics; unresolved source verification is

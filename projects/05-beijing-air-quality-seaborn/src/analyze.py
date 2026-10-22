@@ -293,7 +293,7 @@ def fig_pearson_vs_spearman(table: pd.DataFrame) -> None:
 
 
 def fig_temperature_shape(df: pd.DataFrame) -> pd.DataFrame:
-    """Show the non-monotonic temperature relationship the coefficients hide."""
+    """Inspect binned temperature associations without identifying their cause."""
     observed = df.dropna(subset=["pm2.5"]).copy()
     observed["temp_bin"] = pd.cut(observed["TEMP"], bins=range(-20, 45, 5))
     table = observed.groupby("temp_bin", observed=True).agg(
@@ -313,14 +313,14 @@ def fig_temperature_shape(df: pd.DataFrame) -> pd.DataFrame:
     ax.set_ylabel("PM2.5 (µg/m³)")
     peak_cold = table.loc[table["temp_mid"] < 10, "median_pm25"].idxmax()
     peak_warm = table.loc[table["temp_mid"] >= 10, "median_pm25"].idxmax()
-    ax.set_title("Temperature's association with PM2.5 is non-monotonic\n"
+    ax.set_title("Binned temperature summaries vary across the observed range\n"
                  f"local maxima near {table.loc[peak_cold, 'temp_mid']:.0f} °C and "
                  f"{table.loc[peak_warm, 'temp_mid']:.0f} °C, cleanest air at both extremes")
     ax.legend(loc="upper center")
     save(fig, "06_temperature_shape",
-         "Binned conditional medians. The curve rises and falls twice, so a single "
-         "linear coefficient cannot summarise it -- which is why Pearson r = -0.091 "
-         "and Spearman rho = +0.011 disagree on the sign.")
+         "Binned medians and IQR, not confidence intervals. Shape depends on bins "
+         "and uncontrolled factors such as season. Opposite correlation signs alone "
+         "do not establish non-monotonicity.")
 
     return table.drop(columns="temp_bin")
 

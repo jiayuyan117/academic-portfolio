@@ -37,6 +37,23 @@ class ChartSemanticsTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unmatched"):
             charts.daily_crosscheck(incomplete)
 
+    def test_reconciliation_rejects_shared_missing_date_and_wrong_totals(self):
+        hourly = charts.load_hourly()
+        day = pd.read_csv(charts.DATA / "day.csv")
+        missing = hourly["date"].min()
+        with patch.object(charts.pd, "read_csv", return_value=day.iloc[1:]):
+            with self.assertRaisesRegex(ValueError, "731"):
+                charts.daily_crosscheck(hourly[hourly["date"] != missing])
+        for label, corrupted in (
+            ("missing count", day.assign(cnt=day["cnt"].mask(day.index == 0))),
+            ("wrong count", day.assign(cnt=day["cnt"] + 1)),
+            ("missing key", day.assign(dteday=day["dteday"].mask(day.index == 0))),
+        ):
+            with self.subTest(label=label), patch.object(
+                    charts.pd, "read_csv", return_value=corrupted):
+                with self.assertRaises(ValueError):
+                    charts.daily_crosscheck(hourly)
+
     def test_offline_validator_rejects_external_resources_and_missing_runtime(self):
         for resource in (
             '<script src="https://cdn.example/plotly.js"></script>',

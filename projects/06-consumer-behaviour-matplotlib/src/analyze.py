@@ -643,7 +643,9 @@ The build rewrites seven PNG figures, six CSV tables, `outputs/findings.json` an
 this README via `render_readme()`. A seed of {SEED} is reset at each full run;
 reproducibility also depends on dependency versions. Reports/PNG figures can be
 viewed offline. Original coursework is retained in `source_materials/`; source data
-is unmodified. AI assistance was used for code structuring and English writing.
+is unmodified. AI participated in analysis design, code, interpretation and
+English writing. Tests, intervals and methodological revisions are portfolio
+extensions, not claimed as independently designed original coursework.
 """
 
 

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import argparse
 import re
 
 from playwright.sync_api import sync_playwright
@@ -13,9 +14,12 @@ CHARTS = ROOT / "projects" / "04-bike-sharing-interactive-visualization" / "char
 
 def main() -> None:
     """Check desktop/mobile and offline rendering; save screenshots or raise on failure."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--browser", help="Optional installed Chromium/Chrome executable")
+    args = parser.parse_args()
     OUTPUT.mkdir(parents=True, exist_ok=True)
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch()
+        browser = playwright.chromium.launch(executable_path=args.browser)
         context = browser.new_context(viewport={"width": 1280, "height": 900})
         blocked: list[str] = []
 
@@ -35,7 +39,13 @@ def main() -> None:
             assert page.evaluate(
                 "document.documentElement.scrollWidth <= window.innerWidth"
             ), f"Homepage overflows at {width}px"
+            for image in page.locator(".research-image img").all():
+                image.scroll_into_view_if_needed()
+                assert image.evaluate("(img) => img.complete && img.naturalWidth > 0")
+            assert page.locator(".research-image img").count() >= 3
             page.screenshot(path=str(OUTPUT / f"homepage-{width}.png"), full_page=True)
+            page.evaluate("window.scrollTo({top: 0, behavior: 'instant'})")
+            page.screenshot(path=str(OUTPUT / f"homepage-{width}-viewport.png"))
         assert not errors, errors
         page.goto((ROOT / "projects/08-nlp-job-postings/report.html").as_uri())
         assert page.title() == "Does the Skill Signal Help? | Jiayu Yan"
@@ -67,6 +77,15 @@ def main() -> None:
                 );
             }""", timeout=20000)
             assert not errors, f"{path.name}: {errors}"
+            if path.name == "03_calendar_heatmap.html":
+                page.wait_for_selector(".heatmaplayer image")
+                assert page.evaluate(
+                    "document.querySelector('.js-plotly-plot')._fullData[0].z.length"
+                ) == 7
+                page.get_by_text("2012", exact=True).click()
+                page.wait_for_function(
+                    "document.querySelector('.js-plotly-plot').data[1].visible === true"
+                )
             assert not blocked, f"Offline page requested the network: {blocked}"
             page.screenshot(path=str(OUTPUT / f"{path.stem}.png"), full_page=True)
             print(f"{path.name}: rendered with HTTP(S) blocked")

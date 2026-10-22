@@ -217,13 +217,20 @@ def daily_crosscheck(df: pd.DataFrame) -> pd.DataFrame:
         ["dteday", "cnt", "season", "yr", "mnth", "workingday", "holiday"]
     ].rename(columns={"cnt": "day_csv_cnt"})
     day["date"] = parse_dates(day["dteday"])
+    if hourly["date"].isna().any() or day["date"].isna().any():
+        raise ValueError("Hourly/daily reconciliation has missing date keys")
     daily = hourly.merge(day.drop(columns="dteday"), on="date", how="outer",
                          validate="one_to_one")
     if daily[["hourly_cnt", "day_csv_cnt"]].isna().any().any():
         raise ValueError("Hourly/daily reconciliation has unmatched calendar dates")
+    expected = pd.date_range("2011-01-01", "2012-12-31", freq="D")
+    if not pd.DatetimeIndex(daily["date"].sort_values()).equals(expected):
+        raise ValueError("Hourly/daily reconciliation requires all 731 calendar dates")
     daily["year"] = daily["date"].dt.year
     daily["weekday"] = daily["date"].dt.day_name()
     daily["crosscheck_diff"] = daily["hourly_cnt"] - daily["day_csv_cnt"]
+    if not daily["crosscheck_diff"].eq(0).all():
+        raise ValueError("Hourly/daily reconciliation has inconsistent ride totals")
     return daily.sort_values("date").reset_index(drop=True)
 
 
@@ -413,8 +420,10 @@ with networking disabled remains the final visual acceptance check.
 
 [UCI Bike Sharing Dataset](https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset),
 Fanaee-T & Gama (2013), Washington D.C. Capital Bikeshare, 2011–2012; inputs are
-unmodified. Developed from a course visualisation assignment. AI assistance was
-used for code structuring and English writing.
+unmodified. Developed from a course visualisation assignment. AI participated in
+analysis design, data-quality investigation, visual encoding, code, interpretation
+and English writing. Portfolio extensions are not claimed as independently
+designed original coursework.
 """
 
 

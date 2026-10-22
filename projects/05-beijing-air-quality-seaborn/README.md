@@ -125,7 +125,8 @@ readings paired with Beijing Capital International Airport meteorology,
 2010-01-01 to 2014-12-31, used unmodified.
 
 Developed from a course Seaborn assignment; the original script is kept in
-`source_materials/` for comparison. The gap-length audit, the switch to rank
-correlation, and the ventilation framing are changes I made for this portfolio
-version. AI assistance was used for code structuring and English writing; the
-methodological decisions and all interpretation are my own.
+`source_materials/` for comparison. AI participated in the gap-audit design,
+statistical framing, code, interpretation and writing. Current methodological
+additions are portfolio extensions, not claimed as independently designed
+original coursework. Opposite Pearson/Spearman signs alone do not establish
+non-monotonicity; binned summaries are descriptive and subject to confounding.

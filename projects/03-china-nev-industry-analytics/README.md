@@ -163,6 +163,7 @@ uses LFP + ternary only, and the gap against a reported full-market total is
 unallocated, not proven to be another chemistry.
 
 The annual project does not add a monthly series. No global avoided-emissions
-claim is used to validate the carbon scenario. AI assistance was used to integrate
-the supplied source audit, update code and prose, and check local consistency.
+claim is used to validate the carbon scenario. AI participated in analysis design,
+code, interpretation, source-audit integration, writing and local consistency checks.
+Current extensions are not claimed as independently designed original coursework.
 Original source materials and historical Office files were not edited.

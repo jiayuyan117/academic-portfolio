@@ -143,6 +143,6 @@ and dataset are retained unmodified in `source_materials/` for comparison. The
 data were provided with the course: the upstream vendor, adjustment policy and
 dividend treatment were **not** independently verified, so the study describes
 the supplied closing-price series rather than a total-return investment. AI
-assistance was used for code completion, analytical organisation, verification
-and English writing; the analytical design, the decisions in the table above and
-all interpretation are my own.
+participated in analysis design, code, verification, interpretation and English
+writing. Current portfolio extensions are not claimed as independently designed
+original coursework; retained source materials support comparison.
