@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jiayu Yan — Data Analytics Portfolio</title>
-<meta name="description" content="Jiayu Yan's eight-project portfolio for Data Science and Business Analytics: job-posting NLP, forecasting, statistical inference, industry analysis, visualisation and Java data structures.">
+<meta name="description" content="Seven evidence-led projects in data analytics, information systems and Java Web development.">
 <style>
 :root{
-  --ink:#16222e; --body:#425362; --muted:#586a79;
+  --ink:#16222e; --body:#425362; --muted:#7a8a99;
   --line:#dde4ea; --bg:#f6f8fa; --card:#ffffff;
   --accent:#1f6fb2; --accent-dark:#164f80; --flag:#b4532f;
 }
@@ -17,13 +17,6 @@ body{margin:0;background:var(--bg);color:var(--body);
   -webkit-font-smoothing:antialiased}
 a{color:var(--accent);text-decoration:none}
 a:hover{color:var(--accent-dark);text-decoration:underline}
-a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
-.skip{position:absolute;left:16px;top:-80px;background:#fff;padding:10px;z-index:1}
-.skip:focus{top:12px}
-.guide{margin-top:24px;padding:18px 22px;background:var(--bg);border-left:3px solid var(--accent)}
-.guide p{margin:4px 0}
-.decision{font-size:15px}
-section[id]{scroll-margin-top:24px}
 .wrap{max-width:900px;margin:0 auto;padding:0 24px}
 header{background:var(--card);border-bottom:1px solid var(--line);padding:64px 0 48px}
 h1{margin:0 0 6px;font-size:34px;line-height:1.2;color:var(--ink);letter-spacing:-.4px}
@@ -57,99 +50,44 @@ h2.section{font-size:13px;text-transform:uppercase;letter-spacing:1.4px;
   border-radius:4px;padding:2px 7px;margin:0 0 10px}
 .cardlinks{font-size:14px;padding-top:6px;border-top:1px solid var(--line)}
 .cardlinks a{margin-right:18px;white-space:nowrap}
-.project-index{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 24px;
-  list-style:none;padding:0;margin:0 0 28px;font-size:14px}
-.featured{border-top:3px solid var(--accent)}
-.eyebrow{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent)}
 footer{margin:48px 0 0;padding:32px 0 56px;border-top:1px solid var(--line);
   font-size:14px;color:var(--muted)}
 footer p{margin:0 0 10px;max-width:70ch}
 @media(max-width:600px){
   header{padding:40px 0 32px} h1{font-size:27px} .card{padding:20px}
-  .project-index{grid-template-columns:1fr}
 }
-/* Editorial layout: research evidence first, with original reading paths retained. */
-:root{--ink:#192c32;--body:#52646a;--muted:#52646a;--line:#d4ddda;--bg:#f6f5f0;--accent:#176e69;--accent-dark:#103f40}
-html{scroll-behavior:smooth}.wrap{max-width:1180px;padding:0 32px}
-header{background:var(--bg);padding:64px 0 48px}
-.identity{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:55px;font-size:13px;font-weight:700;letter-spacing:.08em}
-.identity nav{display:flex;gap:24px;letter-spacing:0}
-.identity>span{flex-shrink:0;white-space:nowrap}
-h1{font:clamp(42px,5.5vw,72px)/1.1 Georgia,serif;letter-spacing:-.035em;max-width:950px;margin:18px 0 26px}
-h1 em{color:var(--accent);font-weight:normal}.sub{font-size:15px}.lede{font-size:19px;max-width:80ch}
-.guide{background:#edf1ed;padding:22px 26px;border-radius:0 8px 8px 0;font-size:14px}
-.meta{max-width:85ch}.btn{border-radius:4px}.btn.primary{background:var(--ink);border-color:var(--ink)}
-h2.section{font:32px/1.3 Georgia,serif;letter-spacing:-.02em;text-transform:none;color:var(--ink);margin:15px 0 25px}
-.project-index{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 24px;margin-bottom:45px}
-.card{padding:34px;margin-bottom:26px;display:flow-root}.card h3{font:29px/1.25 Georgia,serif;margin-bottom:12px}
-.card p{font-size:15px}.card .stack{font:12px/1.6 system-ui,sans-serif;letter-spacing:.02em}
-.research-image{float:right;width:45%;margin:0 0 26px 32px;padding:18px;background:#edf1ef;border-radius:6px}
-.research-image img{display:block;width:100%;height:auto}.research-image figcaption{font-size:12px;line-height:1.5;margin-top:12px;color:var(--muted)}
-.cardlinks{clear:both;display:flex;flex-wrap:wrap;gap:10px 24px;padding-top:18px}.cardlinks a{margin:0;white-space:normal;text-decoration:underline;text-underline-offset:4px}
-.find.negative{border-left-color:#ba9252}.tag{background:#f6f1e8;color:#78572c;border-color:#ded1b9}
-.supporting-heading{padding-top:32px;border-top:1px solid var(--line);margin-top:50px!important}
-footer{font-size:14px}footer p{max-width:90ch}
-@media(max-width:760px){.wrap{padding:0 20px}header{padding:25px 0 30px}.identity{margin-bottom:35px;gap:20px}.identity nav{gap:12px;flex-wrap:wrap;justify-content:flex-end}.project-index{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:23px}.research-image{float:none;width:100%;margin:0 0 24px;padding:14px}.card h3{font-size:25px}.lede{font-size:17px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-<a class="skip" href="#projects">Skip to projects</a>
 
 <header>
   <div class="wrap">
-    <div class="identity"><span>Jiayu Yan / 闫佳玉</span><nav aria-label="Main navigation"><a href="#projects">All projects</a><a href="#reading-routes">Reading routes</a><a href="#integrity">Authorship</a></nav></div>
-    <p class="eyebrow">Academic portfolio · Data analytics</p>
-    <h1>Data analytics.<br>Evidence for <em>decisions.</em></h1>
+    <h1>Jiayu Yan</h1>
     <p class="sub">B.Mgmt. in <strong>Big Data Management and Applications</strong>, Guangdong University of Technology</p>
     <p class="sub">Applying for MS programmes in Data Science / Business Analytics — US · Singapore · Hong Kong</p>
 
-    <p class="lede">Eight academic projects connecting business questions with
-      data quality, statistical evaluation and clear recommendations.
-      Each separates measured results from proposed action and unresolved limitations.</p>
+    <p class="lede">Seven projects, each built around a single question:
+      <em>does this result survive being checked?</em> Coursework usually ends at the
+      first plausible number. These go on to the part that decides whether the number
+      means anything. Five of the seven headline findings below are negative or
+      corrective results — and those are the ones I would most want to be asked about.</p>
 
 
-    <p class="meta">Original coursework independently completed by 闫佳玉 / Jiayu Yan.
-      Portfolio refinements used AI assistance, as described below.</p>
-
-    <nav class="guide" id="reading-routes" aria-label="Suggested reading routes">
-      <p><strong>Data Science route:</strong> <a href="#project-08">08 · NLP evaluation</a>
-        → <a href="#project-01">01 · Forecasting</a>
-        → <a href="#project-02">02 · Market linkages</a>.</p>
-      <p><strong>Business Analytics route:</strong> <a href="#project-06">06 · Marketing allocation</a>
-        → <a href="#project-03">03 · Market assessment</a>
-        → <a href="#project-08">08 · Job-information quality</a>.</p>
-      <p>For each project: identify the decision, inspect the data and method,
-        read the result, then check what would be needed before acting.
-        These are academic analyses; no deployed business impact is claimed.</p>
-    </nav>
+    <p class="meta">Every project regenerates its own figures and tables from a clean
+      checkout. Two of them verify every output number against stored reference values
+      on each run and fail loudly if anything drifts.</p>
 
     <div class="links">
       <a class="btn primary" href="https://github.com/jiayuyan117/academic-portfolio">Repository on GitHub</a>
       <a class="btn" href="https://github.com/jiayuyan117/academic-portfolio/blob/main/README.zh-CN.md">中文版</a>
-      <a class="btn" href="https://github.com/jiayuyan117/academic-portfolio/blob/main/REPRODUCING.md">Reproduce the work</a>
-      <a class="btn" href="https://github.com/jiayuyan117/academic-portfolio/actions/workflows/build.yml">Build &amp; verification</a>
     </div>
   </div>
 </header>
 
-<main class="wrap" id="projects">
-  <h2 class="section">Eight projects, in numerical order.</h2>
-  <nav aria-label="Project index">
-    <ul class="project-index">
-      <li><a href="#project-01">01 · Equity forecasting</a></li>
-      <li><a href="#project-02">02 · Market linkages</a></li>
-      <li><a href="#project-03">03 · NEV industry analysis</a></li>
-      <li><a href="#project-04">04 · Bike-sharing visualisation</a></li>
-      <li><a href="#project-05">05 · Beijing air quality</a></li>
-      <li><a href="#project-06">06 · Consumer transactions</a></li>
-      <li><a href="#project-07">07 · Java workforce system</a></li>
-      <li><a href="#project-08">08 · Does the Skill Signal Help?</a></li>
-    </ul>
-  </nav>
+<main class="wrap">
+  <h2 class="section">Projects</h2>
 
-  <section class="card" id="project-01">
-    <figure class="research-image"><a href="projects/01-equity-time-series-forecasting/Research_Analysis.html"><img loading="lazy" src="projects/01-equity-time-series-forecasting/results/q4_return_forecast.png" alt="Fixed-origin equity return forecast compared with held-out observations" width="1200" height="700"></a><figcaption>Held-out returns · A small improvement on one window is not a deployment case.</figcaption></figure>
+  <section class="card">
     <h3><span class="num">01</span>Equity Time-Series Forecasting</h3>
     <p class="stack">statsmodels · ARMA/ARIMA · fixed-origin holdout · 252 values verified per run</p>
     <span class="tag">Negative result</span>
@@ -157,11 +95,10 @@ footer{font-size:14px}footer p{max-width:90ch}
       forecast by <b>0.29% of RMSE</b> on an untouched 20-day holdout — while Ljung–Box
       <b>rejects</b> residual adequacy at lag 20 and ARCH-LM rejects constant variance
       (<i>p</i> = 4e-09).</p>
-    <p>Model selection uses training data only. Fit, residual adequacy and holdout
-      performance are reported separately, against fixed benchmarks.</p>
-    <p class="decision"><strong>Decision relevance.</strong> Keep the zero-return
-      benchmark: this small advantage on one window does not justify deploying
-      a trading model. Wider time-based validation and transaction costs remain necessary.</p>
+    <p>Fit, residual adequacy and out-of-sample performance are kept as three separate
+      questions, because a model can win the first and fail the other two. Here it does.
+      Selection is specified before the holdout is touched, benchmarks are fixed in
+      advance, and return and log-price errors are never compared on the same scale.</p>
     <p class="cardlinks">
       <a href="projects/01-equity-time-series-forecasting/FIRST_READ.html">Read the report</a>
       <a href="projects/01-equity-time-series-forecasting/Research_Analysis.html">Full analysis</a>
@@ -169,8 +106,7 @@ footer{font-size:14px}footer p{max-width:90ch}
     </p>
   </section>
 
-  <section class="card" id="project-02">
-    <figure class="research-image"><a href="projects/02-shanghai-hongkong-market-linkages/Research_Analysis.html"><img loading="lazy" src="projects/02-shanghai-hongkong-market-linkages/results/fevd_order_sensitivity.png" alt="Market variance decomposition under two Cholesky orderings" width="1200" height="700"></a><figcaption>Identification sensitivity · The same data can support very different shock attributions.</figcaption></figure>
+  <section class="card">
     <h3><span class="num">02</span>Shanghai–Hong Kong Market Linkages</h3>
     <p class="stack">VAR / VECM · Johansen · Granger · 334 values verified per run</p>
     <span class="tag">Negative result</span>
@@ -182,9 +118,6 @@ footer{font-size:14px}footer p{max-width:90ch}
       Granger direction is significant at 5%. Johansen selects rank 2 stably, yet every
       fitted VECM rejects residual whiteness — so no long-run equilibrium claim is made
       and no VECM forecast is deployed on the back of it.</p>
-    <p class="decision"><strong>Decision relevance.</strong> Treat shock attribution
-      as sensitive to identification assumptions. It is insufficient evidence for
-      a directional hedging rule or a causal claim about either market.</p>
     <p class="cardlinks">
       <a href="projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html">Read the report</a>
       <a href="projects/02-shanghai-hongkong-market-linkages/Research_Analysis.html">Full analysis</a>
@@ -192,35 +125,27 @@ footer{font-size:14px}footer p{max-width:90ch}
     </p>
   </section>
 
-  <section class="card" id="project-03">
-    <figure class="research-image"><a href="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png"><img loading="lazy" src="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png" alt="Battery chemistry composition with explicit subtotal and source qualifications" width="1200" height="700"></a><figcaption>Industry evidence · Source scope and denominator choices are part of the analysis.</figcaption></figure>
+  <section class="card">
     <h3><span class="num">03</span>China's New Energy Vehicle Transition, 2015–2025</h3>
     <p class="stack">pandas · matplotlib · 7 compiled tables · 16 figures, bilingual</p>
-    <p><strong>Business question.</strong> What can national industry statistics
-      establish about market transition, and what additional evidence would a
-      charging-investment assessment require?</p>
-    <p class="find">In 2025, NEVs accounted for <b>47.9%</b> of CAAM's all-vehicle
-      sales, <b>including exports</b>. The important analytical distinctions are the
-      denominators: domestic sales, registrations, fleet stock and battery-chemistry
-      subtotals answer different questions.</p>
-    <p>A source audit records publication dates and evidence levels, corrects the
-      2021 PHEV sales input, and flags the <b>2025 charging-statistics break</b>.
-      Historical observations still awaiting verification remain labelled.
-      The carbon calculation is an illustrative scenario, not measured emissions savings.</p>
-    <p class="decision"><strong>Decision relevance.</strong> Charging investment
-      needs location, utilization and power data. National connector counts and a
-      series with a reporting break cannot alone establish where capacity is scarce.</p>
+    <p class="find">NEV share of new vehicle sales went from <b>1.3% to 47.9%</b> in
+      eleven years. The findings that complicate that story: charging capacity outgrew
+      the fleet but almost entirely through <b>private</b> chargers (public share fell
+      48% → 23%); battery chemistry reversed toward LFP (40% → <b>81%</b>); and plug-in
+      hybrids <i>gained</i> share (17% → <b>36%</b>).</p>
+    <p>Every denominator, definition change and scenario assumption is documented —
+      including a 0.3 GWh discrepancy against an official battery total, and a carbon
+      estimate captioned on the figure itself as a scenario rather than a statistic.</p>
     <p class="cardlinks">
       <a href="projects/03-china-nev-industry-analytics/charts_en/08_dashboard.png">Dashboard</a>
       <a href="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png">Battery chemistry</a>
-      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/docs/NEV_SOURCE_AUDIT.md">Source audit</a>
       <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/03-china-nev-industry-analytics">Code &amp; data</a>
     </p>
   </section>
 
-  <section class="card" id="project-04">
+  <section class="card">
     <h3><span class="num">04</span>Bike-Sharing Demand: Interactive Visualisation</h3>
-    <p class="stack">Plotly · standalone offline charts · 17,379 hourly observations</p>
+    <p class="stack">Plotly · Pyecharts · 17,379 hourly observations</p>
     <span class="tag">Data-quality finding</span>
     <p class="find negative">The two files in the UCI Bike Sharing Dataset store dates as
       <code>2011/1/1</code> and <code>2011-01-01</code>, so the obvious join between them
@@ -229,10 +154,6 @@ footer{font-size:14px}footer p{max-width:90ch}
     <p>Four interactive figures, each labelling what every visual channel encodes. The
       density contour is a count of <i>observations</i>; ride volume is carried only by
       marker size on a separate layer, so the two can never be read off the same channel.</p>
-    <p class="decision"><strong>Decision relevance.</strong> Reconcile hourly and
-      daily totals before using demand patterns to inform fleet planning. These
-      historical aggregates support exploration; station-level rebalancing requires
-      station availability and service-cost data.</p>
     <p class="cardlinks">
       <a href="projects/04-bike-sharing-interactive-visualization/charts/01_sunburst.html">Sunburst</a>
       <a href="projects/04-bike-sharing-interactive-visualization/charts/02_density_contour.html">Density</a>
@@ -242,26 +163,21 @@ footer{font-size:14px}footer p{max-width:90ch}
     </p>
   </section>
 
-  <section class="card" id="project-05">
-    <figure class="research-image"><a href="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png"><img loading="lazy" src="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png" alt="Missing PM2.5 hours grouped by gap length" width="1200" height="700"></a><figcaption>Missingness audit · Long gaps remain unfilled; headline analysis uses observed values.</figcaption></figure>
+  <section class="card">
     <h3><span class="num">05</span>Beijing PM2.5, 2010–2014</h3>
     <p class="stack">Seaborn · 43,824 hourly observations · 7 figures</p>
     <span class="tag">Method correction</span>
-    <p class="find negative"><b>48.5%</b> of observed hourly PM2.5 readings exceed
-      75 µg/m³, a daily-standard reference value, not an hourly compliance limit.
-      Spearman ρ is <b>−0.360</b> for cumulated wind speed and <b>+0.011</b> for
-      temperature. Median PM2.5 is <b>6.3× higher</b> in the lowest cumulated-wind-speed
-      decile than in the highest.</p>
-    <p>Temperature's Pearson <i>r</i> (−0.091) and Spearman ρ (+0.011) have different
-      signs. This alone does not establish non-monotonicity; conditional medians
-      offer an additional descriptive view. Separately, 1,341 of the 2,067 missing hours
-      sit inside gaps longer than a day — the longest is 155 consecutive hours.
-      A short-gap policy audit leaves 91% unfilled. The headline figures and
-      correlations use only original observations, excluding all 2,067 missing hours.</p>
-    <p class="decision"><strong>Transferable analytical skills.</strong> Auditing
-      missingness, distinguishing measurement periods and communicating observational
-      uncertainty. This environmental study does not validate a business intervention
-      or identify the effects of changing emissions or schedules.</p>
+    <p class="find negative">PM2.5 exceeded China's grade II daily limit in
+      <b>48.5%</b> of hours. What explains the variation is ventilation, not
+      temperature: Spearman ρ = <b>−0.360</b> for wind speed against <b>+0.011</b> for
+      temperature, and median PM2.5 is <b>6.3× higher</b> in the calmest wind decile
+      than the windiest.</p>
+    <p>Temperature's Pearson <i>r</i> (−0.091) and Spearman ρ (+0.011) disagree on the
+      sign, so the linear coefficient my coursework version led with was describing an
+      association that is not monotonic. Separately, 1,341 of the 2,067 missing hours
+      sit inside gaps longer than a day — the longest is 155 consecutive hours — so 91%
+      of them are left missing rather than interpolated into a smooth ramp through a
+      possible haze episode.</p>
     <p class="cardlinks">
       <a href="projects/05-beijing-air-quality-seaborn/figures/03_ventilation_wind_speed.png">Ventilation</a>
       <a href="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png">Gap audit</a>
@@ -270,31 +186,19 @@ footer{font-size:14px}footer p{max-width:90ch}
     </p>
   </section>
 
-  <section class="card" id="project-06">
-    <figure class="research-image"><a href="projects/06-consumer-behaviour-matplotlib/figures/01_segmentation_effect_audit.png"><img loading="lazy" src="projects/06-consumer-behaviour-matplotlib/figures/01_segmentation_effect_audit.png" alt="Transaction segmentation audit showing group comparisons and uncertainty" width="1200" height="700"></a><figcaption>Exploratory transaction comparisons · Intervals do not adjust for repeated customers; differences are not campaign effects.</figcaption></figure>
-    <h3><span class="num">06</span>Consumer Transactions: Testing Segmentation Claims</h3>
+  <section class="card">
+    <h3><span class="num">06</span>Consumer Transactions: A Segmentation That Isn't There</h3>
     <p class="stack">Matplotlib · 8,000 transactions · bootstrap CIs · ANOVA · permutation null</p>
-    <span class="tag">Exploratory comparisons</span>
-    <p><strong>Business question.</strong> Does recorded amount per transaction
-      justify prioritising a demographic segment or a membership offer?
-      This metric does not measure margin, conversion or customer lifetime value.</p>
-    <p class="find negative">Four of five groupings have non-significant nominal
-      ANOVA comparisons. Income has a small sample correlation with amount
-      (<b>−0.010</b>). Repeated user IDs limit independent-row tests and intervals;
-      these diagnostics do not establish equality or absence of information.</p>
-    <p>Membership groups differ descriptively, but assignment rules and causal
-      direction are unknown. All twelve monthly totals fall within pointwise
-      permutation ranges; this is not a joint seasonal test and cannot establish
-      absence of seasonality. The input
-      contains 8,020 rows; 20 exact duplicates are removed, leaving 8,000 transactions.</p>
-    <p>Original collection and synthetic status are unknown; real customer data
-      are not established. These are exploratory tests. Repeated user IDs create
-      dependence that the reported tests and intervals do not adjust for;
-      customer-level validation is needed before acting on the results.</p>
-    <p class="decision"><strong>Decision relevance.</strong> Avoid reallocating
-      marketing spend from these demographic rankings alone. A next step is a
-      randomized offer test with incremental contribution margin as the primary
-      outcome; no such experiment has been conducted here.</p>
+    <span class="tag">Null result</span>
+    <p class="find negative">The brief asks which customer groups spend more. Tested
+      first: <b>four of the five candidate segmentations do not differ at all</b> — age
+      band <i>p</i> = 0.45, gender 0.52, city tier 0.77, payment method 0.90. Income's
+      correlation with spend is <b>−0.010</b>, 95% CI [−0.032, +0.012]: narrow enough to
+      be a measured absence rather than a missing finding.</p>
+    <p>Only membership tier separates (<i>p</i> = 1.0 × 10⁻⁶, robust to 10% trimming),
+      and its direction is unidentified because loyalty tiers are awarded <i>for</i>
+      spending. Monthly revenue falls inside a permutation null band in all 12 months,
+      so there is no seasonality to explain either.</p>
     <p class="cardlinks">
       <a href="projects/06-consumer-behaviour-matplotlib/figures/01_segmentation_effect_audit.png">Segmentation audit</a>
       <a href="projects/06-consumer-behaviour-matplotlib/figures/02_correlation_forest.png">Correlation intervals</a>
@@ -303,62 +207,36 @@ footer{font-size:14px}footer p{max-width:90ch}
     </p>
   </section>
 
-  <section class="card" id="project-07">
-    <h3><span class="num">07</span>Workforce System in Java</h3>
-    <p class="stack">Java 17 · department tree · employee search index · invariant testing</p>
+
+  <section class="card">
+    <h3><span class="num">07</span>Personal Learning Knowledge Base</h3>
+    <p class="stack">Java 21 · embedded Tomcat 9 · JSP/Servlet/JDBC · H2 · security review</p>
     <span class="tag">Information systems</span>
-    <p class="find">A department tree and an employee search index must describe the same people.
-      Transfers, deletion, membership and ordering are checked against explicit invariants.</p>
-    <p>Immutable employee records, integer salary cents and reference-model tests
-      make state changes inspectable. Ordered inputs and deletion edge cases
-      test behaviour beyond a single random workload.</p>
-    <p class="decision"><strong>Decision relevance.</strong> Consistent department
-      membership supports reliable headcount reporting. This in-memory teaching
-      system demonstrates core invariants; production use would also require
-      persistence, access control and audit history.</p>
+    <p class="find">A course materials manager reframed as a bounded personal learning
+      workspace: users, keyword retrieval and owner-scoped attachments.</p>
+    <p>The report confirms password hashing, remember-me tokens, CSRF, multipart limits,
+      a reported <b>66-check integration suite</b> and a 390px mobile check. The original
+      Java Web source is absent from this checkout, so the page exposes the evidence boundary
+      instead of presenting a reconstructed server as completed code.</p>
     <p class="cardlinks">
-      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/07-workforce-system-java#readme">Read the report</a>
-      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/07-workforce-system-java">Code &amp; tests</a>
+      <a href="projects/07-workforce-system-java/PROJECT.html">Project page</a>
+      <a href="projects/07-workforce-system-java/README.zh-CN.md">中文说明</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/07-workforce-system-java">Evidence &amp; runnable manifest</a>
     </p>
   </section>
 
-  <section class="card featured" id="project-08">
-    <figure class="research-image"><a href="projects/08-nlp-job-postings/report.html"><img loading="lazy" src="projects/08-nlp-job-postings/results/ablation.png" alt="Text, lexicon and fused-feature classification results from the job-posting study" width="1200" height="750"></a><figcaption>Feature ablation · Read the research brief for evaluation design and uncertainty.</figcaption></figure>
-    <p class="eyebrow">NLP reading route · reproducible evaluation</p>
-    <h3><span class="num">08</span>Does the Skill Signal Help?</h3>
-    <p class="stack">Job-posting NLP · SkillSpan · 21,663 postings · 20 classes · employer-disjoint split</p>
-    <p><strong>Business question.</strong> Does adding skill-lexicon features
-      improve broad-category routing enough to justify the added feature pipeline?
-      Offline category accuracy and useful requirement extraction are evaluated separately.</p>
-    <p class="find">Adding a Skill + Knowledge lexicon does not clear the improvement criterion:
-      test Macro-F1 is <b>0.7406</b> for text and <b>0.7348</b> for equal-weight fusion.</p>
-    <p>Text-only, lexicon-only and combined features are evaluated with an
-      employer-disjoint split. Saved predictions support metric checks.
-      Classification and exact-span extraction are separate tasks; the brief
-      explains uncertainty and differences from the original paper.</p>
-    <p class="decision"><strong>Decision relevance.</strong> Retain the text baseline
-      as the reference for further routing evaluation; assess extracted requirements
-      directly before using them in a skills profile. These offline results do not
-      establish production readiness, recruiter time savings or hiring outcomes.</p>
-    <p>Original coursework independently completed by 闫佳玉 / Jiayu Yan.
-      Portfolio refinements used AI assistance.</p>
-    <p class="cardlinks">
-      <a href="projects/08-nlp-job-postings/report.html">Research brief</a>
-      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/08-nlp-job-postings/README.md">Project README &amp; authorship</a>
-    </p>
-  </section>
+  <footer>
+    <p><strong>Academic integrity and AI use.</strong> All seven projects originate in my
+      own undergraduate coursework. The original course submissions and datasets are
+      retained unmodified in each project's <code>source_materials/</code> directory, so
+      the development from assignment to portfolio version can be inspected directly —
+      including the places where the portfolio version corrects a method error in my own
+      earlier work.</p>
 
-  <footer id="integrity">
-    <p><strong>Authorship.</strong> Original coursework for all eight projects was
-      independently completed by 闫佳玉 / Jiayu Yan. Supplied original materials
-      are retained separately for comparison with the portfolio refinements.</p>
-
-    <p><strong>AI assistance.</strong> Portfolio refinements used AI for analysis
-      design, code, interpretation, writing, translation and verification.
-      This assistance is distinct from authorship of the original coursework.
-      Decision notes describe implications and proposed next steps,
-      not interventions already tested. Estimates and scenarios are distinguished
-      from published statistics.</p>
+    <p>AI assistance was used for code structuring, English writing and verification
+      tooling. The research questions, the sensitivity analyses that produce the findings
+      above, and all interpretation are my own. Where a number is my estimate rather than
+      a published statistic, it is labelled as such in the figure.</p>
     <p>No result here is presented as more certain than the evidence supports. Where a
       model fails, the failure is the finding.</p>
     <p>Code MIT licensed · third-party datasets under their original terms ·
