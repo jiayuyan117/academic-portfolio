@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>07 · Workforce System in Java</title>
+  <style>
+    :root{--ink:#192c32;--body:#52646a;--line:#d4ddda;--paper:#f6f5f0;--accent:#176e69}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--body);font:16px/1.7 system-ui,-apple-system,"Segoe UI",sans-serif}
+    main{max-width:920px;margin:auto;padding:clamp(36px,8vw,76px) 20px}h1,h2{color:var(--ink);line-height:1.2}h1{font:clamp(36px,7vw,62px)/1.1 Georgia,serif;max-width:760px;margin:0 0 18px}h2{margin-top:42px}.kicker{color:var(--accent);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:13px}.lead{font-size:20px;max-width:720px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:21px}.card strong{color:var(--ink)}a{color:var(--accent)}code{background:#eaf2f0;padding:2px 5px;border-radius:4px}pre{overflow:auto;background:#fff;border:1px solid var(--line);padding:16px;border-radius:8px}@media(max-width:600px){.grid{grid-template-columns:1fr}.lead{font-size:18px}}
+  </style>
+</head>
+<body>
+<main>
+  <p class="kicker">Project 07 · Java coursework</p>
+  <h1>Workforce System in Java</h1>
+  <p class="lead">An in-memory information-system exercise that keeps a department tree and an employee search index consistent as records are added, transferred, and removed.</p>
+  <p><a href="README.md">English README</a> · <a href="README.zh-CN.md">中文 README</a> · <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/07-workforce-system-java">Source and tests</a></p>
+  <h2>What can be inspected</h2>
+  <div class="grid">
+    <div class="card"><strong>Structures</strong><br>Department tree · AVL employee index · membership sets</div>
+    <div class="card"><strong>Records</strong><br>Immutable employee data · integer salary cents · ordered snapshots</div>
+    <div class="card"><strong>Checks</strong><br>Height, balance, ordering, membership and count invariants</div>
+    <div class="card"><strong>Tests</strong><br>JUnit 5 · TreeMap reference model · reproducible random operations</div>
+  </div>
+  <h2>Evidence boundary</h2>
+  <p>The implementation and tests are present in this repository and can be run with Maven. The system is a single-threaded teaching example; it does not claim persistence, authorization, payroll processing or production HR readiness.</p>
+  <h2>Run it</h2>
+  <pre><code>mvn clean test
+java -cp target/classes Workforce</code></pre>
+</main>
+</body>
+</html>

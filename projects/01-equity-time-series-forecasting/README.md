@@ -1,7 +1,5 @@
 # Equity Time-Series Forecasting
 
-**Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
-
 **ARMA/ARIMA selection, residual diagnostics, and honest benchmark evaluation**
 
 `Python` · `statsmodels` · `fixed-origin holdout` · `fully re-executed on every run`
