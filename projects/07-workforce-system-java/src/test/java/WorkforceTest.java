@@ -247,6 +247,27 @@ final class WorkforceTest {
         app.verify();
     }
 
+    @Test
+    void idRangePrunesBranchesAndSubtreeSalaryCentsPreventsOverflow() {
+        Workforce app = organization();
+        app.add(new Workforce.Employee(10, "A", 1, Long.MAX_VALUE));
+        app.add(new Workforce.Employee(20, "B", 3, Long.MAX_VALUE));
+        app.add(new Workforce.Employee(30, "C", 2, 500L));
+        app.add(new Workforce.Employee(40, "D", 0, 250L));
+        assertEquals(List.of(app.find(20), app.find(30)), app.idRange(15, 30));
+        assertEquals(List.of(app.find(10)), app.idRange(10, 10));
+        assertEquals(List.of(), app.idRange(11, 19));
+        assertThrows(IllegalArgumentException.class, () -> app.idRange(0, 10));
+        assertThrows(IllegalArgumentException.class, () -> app.idRange(20, 10));
+        assertEquals(java.math.BigInteger.valueOf(Long.MAX_VALUE).multiply(java.math.BigInteger.TWO),
+                app.subtreeSalaryCents(1));
+        assertEquals(java.math.BigInteger.valueOf(Long.MAX_VALUE), app.subtreeSalaryCents(3));
+        assertEquals(java.math.BigInteger.valueOf(500L), app.subtreeSalaryCents(2));
+        assertEquals(4, app.departmentCount());
+        assertTrue(app.treeHeight() >= 2 && app.treeHeight() <= 3);
+        app.verify();
+    }
+
     @ParameterizedTest(name = "descending={0}, 50000 employees")
     @ValueSource(booleans = {false, true})
     void largeOrderedInputsTransfersAndAlternatingDeletesStayBalanced(boolean descending) {

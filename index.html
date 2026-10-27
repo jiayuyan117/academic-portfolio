@@ -7,89 +7,362 @@
 <meta name="description" content="Jiayu Yan's eight-project portfolio for Data Science and Business Analytics: job-posting NLP, forecasting, statistical inference, industry analysis, visualisation and Java data structures.">
 <style>
 :root{
-  --ink:#16222e; --body:#425362; --muted:#586a79;
-  --line:#dde4ea; --bg:#f6f8fa; --card:#ffffff;
-  --accent:#1f6fb2; --accent-dark:#164f80; --flag:#b4532f;
+  --ink:#14252c;
+  --body:#3d5058;
+  --muted:#586c74;
+  --line:#d2ddd9;
+  --bg:#f6f5f0;
+  --card:#ffffff;
+  --surface-alt:#edf2ef;
+  --accent:#146964;
+  --accent-dark:#0d4744;
+  --accent-soft:#e1efed;
+  --flag:#9c6724;
+  --flag-bg:#f8f1e6;
+  --flag-border:#e1d1b8;
+  --shadow:0 10px 30px rgba(20,37,44,.045);
+  --shadow-hover:0 16px 38px rgba(20,37,44,.085);
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--body);
-  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;
-  -webkit-font-smoothing:antialiased}
-a{color:var(--accent);text-decoration:none}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--body);
+  font:16px/1.68 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent);text-decoration:none;transition:color .15s ease}
 a:hover{color:var(--accent-dark);text-decoration:underline}
 a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
-.skip{position:absolute;left:16px;top:-80px;background:#fff;padding:10px;z-index:1}
+.skip{position:absolute;left:16px;top:-80px;background:#fff;padding:10px 14px;border-radius:6px;z-index:50;font-weight:600}
 .skip:focus{top:12px}
-.guide{margin-top:24px;padding:18px 22px;background:var(--bg);border-left:3px solid var(--accent)}
-.guide p{margin:4px 0}
-.decision{font-size:15px}
-section[id]{scroll-margin-top:24px}
-.wrap{max-width:900px;margin:0 auto;padding:0 24px}
-header{background:var(--card);border-bottom:1px solid var(--line);padding:64px 0 48px}
-h1{margin:0 0 6px;font-size:34px;line-height:1.2;color:var(--ink);letter-spacing:-.4px}
-.sub{font-size:17px;color:var(--body);margin:0 0 4px}
-.sub strong{color:var(--ink)}
-.meta{font-size:14px;color:var(--muted);margin:14px 0 0}
-.lede{margin:28px 0 0;font-size:16px;max-width:66ch}
-.lede em{color:var(--ink);font-style:normal;font-weight:600}
-.links{margin:26px 0 0;display:flex;flex-wrap:wrap;gap:10px}
-.btn{display:inline-block;padding:9px 16px;border-radius:6px;font-size:14px;
-  border:1px solid var(--line);background:#fff;color:var(--body)}
-.btn:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-.btn.primary:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:#fff}
-main{padding:52px 0 0}
-h2.section{font-size:13px;text-transform:uppercase;letter-spacing:1.4px;
-  color:var(--muted);font-weight:700;margin:0 0 20px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;
-  padding:26px 28px;margin:0 0 20px}
-.card h3{margin:0 0 4px;font-size:21px;color:var(--ink);line-height:1.3}
-.card h3 .num{color:var(--muted);font-weight:400;margin-right:8px}
-.stack{margin:0 0 14px;font-size:12.5px;color:var(--muted);
-  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-.card p{margin:0 0 14px}
-.find{border-left:3px solid var(--accent);padding:2px 0 2px 14px;margin:0 0 16px;
-  color:var(--ink)}
-.find.negative{border-left-color:var(--flag)}
-.find b{color:var(--ink)}
-.tag{display:inline-block;font-size:11px;letter-spacing:.6px;text-transform:uppercase;
-  font-weight:700;color:var(--flag);border:1px solid #e8cdc2;background:#fdf4f0;
-  border-radius:4px;padding:2px 7px;margin:0 0 10px}
-.cardlinks{font-size:14px;padding-top:6px;border-top:1px solid var(--line)}
-.cardlinks a{margin-right:18px;white-space:nowrap}
-.project-index{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 24px;
-  list-style:none;padding:0;margin:0 0 28px;font-size:14px}
-.featured{border-top:3px solid var(--accent)}
-.eyebrow{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent)}
-footer{margin:48px 0 0;padding:32px 0 56px;border-top:1px solid var(--line);
-  font-size:14px;color:var(--muted)}
-footer p{margin:0 0 10px;max-width:70ch}
-@media(max-width:600px){
-  header{padding:40px 0 32px} h1{font-size:27px} .card{padding:20px}
-  .project-index{grid-template-columns:1fr}
+section[id]{scroll-margin-top:28px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+
+/* Header & Hero */
+header{
+  background:linear-gradient(180deg,#f9f8f4 0%,var(--bg) 100%);
+  border-bottom:1px solid var(--line);
+  padding:42px 0 48px;
 }
-/* Editorial layout: research evidence first, with original reading paths retained. */
-:root{--ink:#192c32;--body:#52646a;--muted:#52646a;--line:#d4ddda;--bg:#f6f5f0;--accent:#176e69;--accent-dark:#103f40}
-html{scroll-behavior:smooth}.wrap{max-width:1180px;padding:0 32px}
-header{background:var(--bg);padding:64px 0 48px}
-.identity{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:55px;font-size:13px;font-weight:700;letter-spacing:.08em}
-.identity nav{display:flex;gap:24px;letter-spacing:0}
+.identity{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid var(--line);
+  padding-bottom:18px;
+  margin-bottom:44px;
+  font-size:13.5px;
+  font-weight:700;
+  letter-spacing:.06em;
+  color:var(--ink);
+}
+.identity nav{display:flex;gap:24px;letter-spacing:0;font-weight:600}
 .identity>span{flex-shrink:0;white-space:nowrap}
-h1{font:clamp(42px,5.5vw,72px)/1.1 Georgia,serif;letter-spacing:-.035em;max-width:950px;margin:18px 0 26px}
-h1 em{color:var(--accent);font-weight:normal}.sub{font-size:15px}.lede{font-size:19px;max-width:80ch}
-.guide{background:#edf1ed;padding:22px 26px;border-radius:0 8px 8px 0;font-size:14px}
-.meta{max-width:85ch}.btn{border-radius:4px}.btn.primary{background:var(--ink);border-color:var(--ink)}
-h2.section{font:32px/1.3 Georgia,serif;letter-spacing:-.02em;text-transform:none;color:var(--ink);margin:15px 0 25px}
-.project-index{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 24px;margin-bottom:45px}
-.card{padding:34px;margin-bottom:26px;display:flow-root}.card h3{font:29px/1.25 Georgia,serif;margin-bottom:12px}
-.card p{font-size:15px}.card .stack{font:12px/1.6 system-ui,sans-serif;letter-spacing:.02em}
-.research-image{float:right;width:45%;margin:0 0 26px 32px;padding:18px;background:#edf1ef;border-radius:6px}
-.research-image img{display:block;width:100%;height:auto}.research-image figcaption{font-size:12px;line-height:1.5;margin-top:12px;color:var(--muted)}
-.cardlinks{clear:both;display:flex;flex-wrap:wrap;gap:10px 24px;padding-top:18px}.cardlinks a{margin:0;white-space:normal;text-decoration:underline;text-underline-offset:4px}
-.find.negative{border-left-color:#ba9252}.tag{background:#f6f1e8;color:#78572c;border-color:#ded1b9}
-.supporting-heading{padding-top:32px;border-top:1px solid var(--line);margin-top:50px!important}
-footer{font-size:14px}footer p{max-width:90ch}
-@media(max-width:760px){.wrap{padding:0 20px}header{padding:25px 0 30px}.identity{margin-bottom:35px;gap:20px}.identity nav{gap:12px;flex-wrap:wrap;justify-content:flex-end}.project-index{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:23px}.research-image{float:none;width:100%;margin:0 0 24px;padding:14px}.card h3{font-size:25px}.lede{font-size:17px}}
+.eyebrow{
+  display:inline-block;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1.1px;
+  text-transform:uppercase;
+  color:var(--accent);
+  background:var(--accent-soft);
+  padding:4px 11px;
+  border-radius:999px;
+  margin:0 0 12px;
+}
+h1{
+  font:700 clamp(40px,5.2vw,68px)/1.08 Georgia,"Times New Roman",serif;
+  letter-spacing:-.035em;
+  color:var(--ink);
+  max-width:940px;
+  margin:8px 0 22px;
+}
+h1 em{color:var(--accent);font-weight:400;font-style:italic}
+.sub{font-size:16px;color:var(--body);margin:0 0 5px}
+.sub strong{color:var(--ink)}
+.lede{
+  margin:22px 0 0;
+  font-size:18.5px;
+  line-height:1.62;
+  color:var(--ink);
+  max-width:76ch;
+}
+.meta{font-size:14px;color:var(--muted);margin:14px 0 0;max-width:82ch}
+
+/* KPI Strip */
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  margin:30px 0 26px;
+}
+.kpi-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:16px 18px;
+  box-shadow:var(--shadow);
+}
+.kpi-val{
+  display:block;
+  font:700 26px/1.15 Georgia,serif;
+  color:var(--ink);
+  margin-bottom:4px;
+}
+.kpi-lbl{
+  font-size:12.5px;
+  color:var(--muted);
+  line-height:1.4;
+}
+
+/* Guide & Interactive Route Filter */
+.guide{
+  margin-top:22px;
+  padding:20px 24px;
+  background:var(--surface-alt);
+  border-left:4px solid var(--accent);
+  border-radius:0 10px 10px 0;
+  font-size:14.5px;
+}
+.guide p{margin:5px 0}
+.route-bar{
+  margin-top:14px;
+  padding-top:12px;
+  border-top:1px solid var(--line);
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+}
+.route-btn{
+  appearance:none;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--ink);
+  padding:5px 12px;
+  border-radius:999px;
+  font-size:12.5px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .15s ease;
+}
+.route-btn:hover{border-color:var(--accent);color:var(--accent)}
+.route-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+.links{margin:24px 0 0;display:flex;flex-wrap:wrap;gap:10px}
+.btn{
+  display:inline-block;
+  padding:9px 16px;
+  border-radius:6px;
+  font-size:14px;
+  font-weight:600;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--ink);
+  transition:all .15s ease;
+}
+.btn:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+.btn.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.primary:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:#fff}
+
+/* Main Content & Matrix */
+main{padding:48px 0 0}
+h2.section{
+  font:700 30px/1.28 Georgia,serif;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  margin:10px 0 18px;
+}
+.project-index{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px 16px;
+  list-style:none;
+  padding:0;
+  margin:0 0 36px;
+  font-size:14px;
+}
+.project-index li a{
+  display:block;
+  padding:10px 14px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:8px;
+  color:var(--ink);
+  font-weight:600;
+  box-shadow:0 2px 6px rgba(20,37,44,.03);
+  transition:all .15s ease;
+}
+.project-index li a:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+  text-decoration:none;
+  transform:translateY(-1px);
+}
+
+/* Evidence Matrix Table */
+.matrix-box{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:20px 24px;
+  margin-bottom:38px;
+  box-shadow:var(--shadow);
+}
+.matrix-box summary{
+  cursor:pointer;
+  font-weight:700;
+  color:var(--ink);
+  font-size:15.5px;
+  list-style:none;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.matrix-box summary::-webkit-details-marker{display:none}
+.matrix-table-wrap{overflow-x:auto;margin-top:16px}
+.matrix-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13.5px;
+}
+.matrix-table th,.matrix-table td{
+  padding:10px 12px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+  vertical-align:top;
+}
+.matrix-table th{
+  background:var(--surface-alt);
+  color:var(--ink);
+  font-weight:700;
+  white-space:nowrap;
+}
+
+/* Project Cards */
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:34px;
+  margin:0 0 26px;
+  display:flow-root;
+  box-shadow:var(--shadow);
+  transition:box-shadow .2s ease,border-color .2s ease,opacity .2s ease;
+}
+.card:hover{box-shadow:var(--shadow-hover)}
+.card.dimmed{opacity:1}
+.card.highlighted{border-color:var(--accent);box-shadow:0 0 0 2px rgba(20,105,100,.18),var(--shadow-hover)}
+.card h3{
+  font:700 28px/1.25 Georgia,serif;
+  color:var(--ink);
+  margin:0 0 10px;
+}
+.card h3 .num{
+  color:var(--accent);
+  font-weight:700;
+  margin-right:10px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:20px;
+}
+.stack{
+  margin:0 0 14px;
+  font:600 12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color:var(--muted);
+  letter-spacing:.02em;
+}
+.card p{margin:0 0 14px;font-size:15.5px}
+.decision{
+  font-size:15px;
+  background:var(--surface-alt);
+  padding:12px 16px;
+  border-radius:8px;
+  border-left:3px solid var(--accent);
+}
+.find{
+  border-left:3.5px solid var(--accent);
+  padding:6px 0 6px 16px;
+  margin:0 0 16px;
+  color:var(--ink);
+  background:linear-gradient(90deg,rgba(20,105,100,.05) 0%,transparent 100%);
+}
+.find.negative{
+  border-left-color:var(--flag);
+  background:linear-gradient(90deg,rgba(156,103,36,.07) 0%,transparent 100%);
+}
+.find b{color:var(--ink)}
+.tag{
+  display:inline-block;
+  font-size:11px;
+  letter-spacing:.65px;
+  text-transform:uppercase;
+  font-weight:700;
+  color:var(--flag);
+  border:1px solid var(--flag-border);
+  background:var(--flag-bg);
+  border-radius:4px;
+  padding:3px 8px;
+  margin:0 0 12px;
+}
+.research-image{
+  float:right;
+  width:46%;
+  margin:0 0 22px 30px;
+  padding:16px;
+  background:var(--surface-alt);
+  border:1px solid var(--line);
+  border-radius:8px;
+}
+.research-image img{display:block;width:100%;height:auto;border-radius:4px}
+.research-image figcaption{font-size:12px;line-height:1.5;margin-top:10px;color:var(--muted)}
+.cardlinks{
+  clear:both;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px 22px;
+  padding-top:16px;
+  margin-top:16px;
+  border-top:1px solid var(--line);
+  font-size:14px;
+  font-weight:600;
+}
+.cardlinks a{margin:0;white-space:normal;text-decoration:underline;text-underline-offset:4px}
+.featured{border-top:4px solid var(--accent)}
+
+footer{
+  margin:52px 0 0;
+  padding:36px 0 64px;
+  border-top:1px solid var(--line);
+  font-size:14px;
+  color:var(--muted);
+}
+footer p{margin:0 0 10px;max-width:88ch}
+
+@media(max-width:860px){
+  .kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .project-index{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  .wrap{padding:0 20px}
+  header{padding:26px 0 32px}
+  .identity{margin-bottom:30px;gap:16px}
+  .identity nav{gap:12px;flex-wrap:wrap;justify-content:flex-end}
+  .card{padding:22px}
+  .research-image{float:none;width:100%;margin:0 0 20px;padding:12px}
+  .card h3{font-size:24px}
+  .lede{font-size:17px}
+}
+@media(max-width:520px){
+  .kpi-grid,.project-index{grid-template-columns:1fr}
+  .identity{align-items:flex-start;flex-direction:column}
+  .identity nav{justify-content:flex-start}
+  .matrix-box{padding:16px}
+  .matrix-box summary{flex-wrap:wrap;gap:10px}
+}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.route-btn{min-height:44px;max-width:100%;white-space:normal}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
@@ -98,7 +371,7 @@ footer{font-size:14px}footer p{max-width:90ch}
 
 <header>
   <div class="wrap">
-    <div class="identity"><span>Jiayu Yan / 闫佳玉</span><nav aria-label="Main navigation"><a href="#projects">All projects</a><a href="#reading-routes">Reading routes</a><a href="#integrity">Authorship</a></nav></div>
+    <div class="identity"><span>Jiayu Yan / 闫佳玉</span><nav aria-label="Main navigation"><a href="#projects">All projects</a><a href="#reading-routes">Reading routes</a><a href="#evidence-matrix">Verification matrix</a><a href="#integrity">Authorship</a></nav></div>
     <p class="eyebrow">Academic portfolio · Data analytics</p>
     <h1>Data analytics.<br>Evidence for <em>decisions.</em></h1>
     <p class="sub">B.Mgmt. in <strong>Big Data Management and Applications</strong>, Guangdong University of Technology</p>
@@ -108,9 +381,27 @@ footer{font-size:14px}footer p{max-width:90ch}
       data quality, statistical evaluation and clear recommendations.
       Each separates measured results from proposed action and unresolved limitations.</p>
 
-
     <p class="meta">Original coursework independently completed by 闫佳玉 / Jiayu Yan.
       Portfolio refinements used AI assistance, as described below.</p>
+
+    <div class="kpi-grid" aria-label="Portfolio verification summary">
+      <div class="kpi-card">
+        <span class="kpi-val">8 Projects</span>
+        <span class="kpi-lbl">Econometrics · NLP · Statistical Inference · Data Engineering</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-val">586 Values</span>
+        <span class="kpi-lbl">Checked in econometrics pipelines at rtol = 1e-6</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-val">21,663 Jobs</span>
+        <span class="kpi-lbl">Employer-disjoint NLP cohort with SHA-256 manifest</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-val">Local viewing</span>
+        <span class="kpi-lbl">Bundled briefs &amp; charts; reproduction may require downloads and installed dependencies</span>
+      </div>
+    </div>
 
     <nav class="guide" id="reading-routes" aria-label="Suggested reading routes">
       <p><strong>Data Science route:</strong> <a href="#project-08">08 · NLP evaluation</a>
@@ -122,6 +413,13 @@ footer{font-size:14px}footer p{max-width:90ch}
       <p>For each project: identify the decision, inspect the data and method,
         read the result, then check what would be needed before acting.
         These are academic analyses; no deployed business impact is claimed.</p>
+      <div class="route-bar" role="group" aria-label="Highlight reading track">
+        <span style="font-size:12.5px;font-weight:700;color:var(--ink)">Interactive track highlight:</span>
+        <button type="button" class="route-btn active" onclick="filterTrack('all', this)">All 8 Projects</button>
+        <button type="button" class="route-btn" onclick="filterTrack('ds', this)">Data Science Track (08 · 01 · 02 · 05)</button>
+        <button type="button" class="route-btn" onclick="filterTrack('ba', this)">Business Analytics Track (06 · 03 · 08 · 04)</button>
+        <button type="button" class="route-btn" onclick="filterTrack('eng', this)">Systems &amp; Data Quality (04 · 05 · 07)</button>
+      </div>
     </nav>
 
     <div class="links">
@@ -148,7 +446,85 @@ footer{font-size:14px}footer p{max-width:90ch}
     </ul>
   </nav>
 
-  <section class="card" id="project-01">
+  <details class="matrix-box" id="evidence-matrix" open>
+    <summary>
+      <span>Methodological &amp; Reproducibility Verification Matrix (01–08)</span>
+      <span style="font-size:12px;color:var(--accent);font-weight:600">Click to toggle</span>
+    </summary>
+    <div class="matrix-table-wrap">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th>Sample &amp; Granularity</th>
+            <th>Core Methodology</th>
+            <th>Key Finding / Diagnostic</th>
+            <th>Verification Scope</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="#project-01"><strong>01 · Equity</strong></a></td>
+            <td>Daily equity series · 20-day fixed holdout</td>
+            <td>ARMA/ARIMA · BIC · Ljung–Box · ARCH-LM</td>
+            <td>0.29% RMSE edge fails residual whiteness &amp; homoscedasticity (<i>p</i> = 4e-09)</td>
+            <td>11 tables · 252 values at <code>rtol=1e-6</code></td>
+          </tr>
+          <tr>
+            <td><a href="#project-02"><strong>02 · Linkages</strong></a></td>
+            <td>Paired Shanghai–HK index series</td>
+            <td>VAR(7) / VECM · Johansen · Cholesky FEVD</td>
+            <td>10-step FEVD flips from 32.4% to 0.35% when Cholesky order reverses</td>
+            <td>8 tables · 334 values at <code>rtol=1e-6</code></td>
+          </tr>
+          <tr>
+            <td><a href="#project-03"><strong>03 · NEV</strong></a></td>
+            <td>2015–2025 macro series · 7 tables</td>
+            <td>Denominator reconciliation · Provenance audit</td>
+            <td>47.9% share includes exports; 2025 NEA charging scope break isolated</td>
+            <td>16 bilingual figures · field provenance check</td>
+          </tr>
+          <tr>
+            <td><a href="#project-04"><strong>04 · Bike</strong></a></td>
+            <td>17,379 hourly &amp; 731 daily rows</td>
+            <td>Date-format normalisation · Offline Plotly</td>
+            <td>String join matches 0/731 days; parsed timestamps reconcile with 0 diff</td>
+            <td>4 standalone offline HTML charts</td>
+          </tr>
+          <tr>
+            <td><a href="#project-05"><strong>05 · PM2.5</strong></a></td>
+            <td>43,824 hourly rows · 2,067 missing</td>
+            <td>Run-length gap audit · Rank vs. linear corr</td>
+            <td>155h max gap (91% unfilled under ≤3h rule); TEMP Pearson/Spearman sign flip</td>
+            <td>7 figures · gap-free hourly index assert</td>
+          </tr>
+          <tr>
+            <td><a href="#project-06"><strong>06 · Consumer</strong></a></td>
+            <td>8,020 raw → 8,000 deduplicated rows</td>
+            <td>ANOVA · Welch-Yuen trimmed · User-cluster bootstrap</td>
+            <td>4/5 segment nulls not rejected; 2,372 repeated users require cluster caution</td>
+            <td>7 figures · 11 inference tests · 2,000 cluster draws</td>
+          </tr>
+          <tr>
+            <td><a href="#project-07"><strong>07 · Workforce</strong></a></td>
+            <td>50,000 ordered + 5,000 random ops</td>
+            <td>Java 17 AVL tree + Department hierarchy</td>
+            <td>Logarithmic height &amp; exact membership bijection across rotations/deletes</td>
+            <td>Maven JUnit 5 + TreeMap oracle + <code>verify()</code></td>
+          </tr>
+          <tr>
+            <td><a href="#project-08"><strong>08 · Job NLP</strong></a></td>
+            <td>21,663 postings · 2,757 SkillSpan sents</td>
+            <td>Employer-disjoint TF-IDF/SVM · BIO LR · CNN/MiniLM</td>
+            <td>Fusion Macro-F1 (0.7348) vs. Text (0.7406): Δ = −0.0059 [−0.0176, +0.0070]</td>
+            <td>SHA-256 manifest · 22,213 source refs</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <section class="card" id="project-01" data-tracks="ds">
     <figure class="research-image"><a href="projects/01-equity-time-series-forecasting/Research_Analysis.html"><img loading="lazy" src="projects/01-equity-time-series-forecasting/results/q4_return_forecast.png" alt="Fixed-origin equity return forecast compared with held-out observations" width="1200" height="700"></a><figcaption>Held-out returns · A small improvement on one window is not a deployment case.</figcaption></figure>
     <h3><span class="num">01</span>Equity Time-Series Forecasting</h3>
     <p class="stack">statsmodels · ARMA/ARIMA · fixed-origin holdout · 252 values verified per run</p>
@@ -169,7 +545,7 @@ footer{font-size:14px}footer p{max-width:90ch}
     </p>
   </section>
 
-  <section class="card" id="project-02">
+  <section class="card" id="project-02" data-tracks="ds">
     <figure class="research-image"><a href="projects/02-shanghai-hongkong-market-linkages/Research_Analysis.html"><img loading="lazy" src="projects/02-shanghai-hongkong-market-linkages/results/fevd_order_sensitivity.png" alt="Market variance decomposition under two Cholesky orderings" width="1200" height="700"></a><figcaption>Identification sensitivity · The same data can support very different shock attributions.</figcaption></figure>
     <h3><span class="num">02</span>Shanghai–Hong Kong Market Linkages</h3>
     <p class="stack">VAR / VECM · Johansen · Granger · 334 values verified per run</p>
@@ -192,7 +568,7 @@ footer{font-size:14px}footer p{max-width:90ch}
     </p>
   </section>
 
-  <section class="card" id="project-03">
+  <section class="card" id="project-03" data-tracks="ba">
     <figure class="research-image"><a href="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png"><img loading="lazy" src="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png" alt="Battery chemistry composition with explicit subtotal and source qualifications" width="1200" height="700"></a><figcaption>Industry evidence · Source scope and denominator choices are part of the analysis.</figcaption></figure>
     <h3><span class="num">03</span>China's New Energy Vehicle Transition, 2015–2025</h3>
     <p class="stack">pandas · matplotlib · 7 compiled tables · 16 figures, bilingual</p>
@@ -211,6 +587,7 @@ footer{font-size:14px}footer p{max-width:90ch}
       needs location, utilization and power data. National connector counts and a
       series with a reporting break cannot alone establish where capacity is scarce.</p>
     <p class="cardlinks">
+      <a href="projects/03-china-nev-industry-analytics/FIRST_READ.html">Research brief</a>
       <a href="projects/03-china-nev-industry-analytics/charts_en/08_dashboard.png">Dashboard</a>
       <a href="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png">Battery chemistry</a>
       <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/docs/NEV_SOURCE_AUDIT.md">Source audit</a>
@@ -218,7 +595,7 @@ footer{font-size:14px}footer p{max-width:90ch}
     </p>
   </section>
 
-  <section class="card" id="project-04">
+  <section class="card" id="project-04" data-tracks="ba eng">
     <h3><span class="num">04</span>Bike-Sharing Demand: Interactive Visualisation</h3>
     <p class="stack">Plotly · standalone offline charts · 17,379 hourly observations</p>
     <span class="tag">Data-quality finding</span>
@@ -234,6 +611,7 @@ footer{font-size:14px}footer p{max-width:90ch}
       historical aggregates support exploration; station-level rebalancing requires
       station availability and service-cost data.</p>
     <p class="cardlinks">
+      <a href="projects/04-bike-sharing-interactive-visualization/FIRST_READ.html">Research brief</a>
       <a href="projects/04-bike-sharing-interactive-visualization/charts/01_sunburst.html">Sunburst</a>
       <a href="projects/04-bike-sharing-interactive-visualization/charts/02_density_contour.html">Density</a>
       <a href="projects/04-bike-sharing-interactive-visualization/charts/03_calendar_heatmap.html">Calendar</a>
@@ -242,7 +620,7 @@ footer{font-size:14px}footer p{max-width:90ch}
     </p>
   </section>
 
-  <section class="card" id="project-05">
+  <section class="card" id="project-05" data-tracks="ds eng">
     <figure class="research-image"><a href="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png"><img loading="lazy" src="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png" alt="Missing PM2.5 hours grouped by gap length" width="1200" height="700"></a><figcaption>Missingness audit · Long gaps remain unfilled; headline analysis uses observed values.</figcaption></figure>
     <h3><span class="num">05</span>Beijing PM2.5, 2010–2014</h3>
     <p class="stack">Seaborn · 43,824 hourly observations · 7 figures</p>
@@ -263,6 +641,7 @@ footer{font-size:14px}footer p{max-width:90ch}
       uncertainty. This environmental study does not validate a business intervention
       or identify the effects of changing emissions or schedules.</p>
     <p class="cardlinks">
+      <a href="projects/05-beijing-air-quality-seaborn/FIRST_READ.html">Research brief</a>
       <a href="projects/05-beijing-air-quality-seaborn/figures/03_ventilation_wind_speed.png">Ventilation</a>
       <a href="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png">Gap audit</a>
       <a href="projects/05-beijing-air-quality-seaborn/figures/07_season_hour_heatmap.png">Season × hour</a>
@@ -270,7 +649,7 @@ footer{font-size:14px}footer p{max-width:90ch}
     </p>
   </section>
 
-  <section class="card" id="project-06">
+  <section class="card" id="project-06" data-tracks="ba">
     <figure class="research-image"><a href="projects/06-consumer-behaviour-matplotlib/figures/01_segmentation_effect_audit.png"><img loading="lazy" src="projects/06-consumer-behaviour-matplotlib/figures/01_segmentation_effect_audit.png" alt="Transaction segmentation audit showing group comparisons and uncertainty" width="1200" height="700"></a><figcaption>Exploratory transaction comparisons · Intervals do not adjust for repeated customers; differences are not campaign effects.</figcaption></figure>
     <h3><span class="num">06</span>Consumer Transactions: Testing Segmentation Claims</h3>
     <p class="stack">Matplotlib · 8,000 transactions · bootstrap CIs · ANOVA · permutation null</p>
@@ -289,13 +668,15 @@ footer{font-size:14px}footer p{max-width:90ch}
       contains 8,020 rows; 20 exact duplicates are removed, leaving 8,000 transactions.</p>
     <p>Original collection and synthetic status are unknown; real customer data
       are not established. These are exploratory tests. Repeated user IDs create
-      dependence that the reported tests and intervals do not adjust for;
-      customer-level validation is needed before acting on the results.</p>
+      dependence that the original tests and figure intervals do not adjust for.
+      A separate 2,000-draw user-cluster bootstrap now preserves all transactions
+      per sampled user; its pointwise intervals remain exploratory and non-causal.</p>
     <p class="decision"><strong>Decision relevance.</strong> Avoid reallocating
       marketing spend from these demographic rankings alone. A next step is a
       randomized offer test with incremental contribution margin as the primary
       outcome; no such experiment has been conducted here.</p>
     <p class="cardlinks">
+      <a href="projects/06-consumer-behaviour-matplotlib/FIRST_READ.html">Research brief</a>
       <a href="projects/06-consumer-behaviour-matplotlib/figures/01_segmentation_effect_audit.png">Segmentation audit</a>
       <a href="projects/06-consumer-behaviour-matplotlib/figures/02_correlation_forest.png">Correlation intervals</a>
       <a href="projects/06-consumer-behaviour-matplotlib/figures/07_monthly_trend_vs_noise.png">Trend vs noise</a>
@@ -303,7 +684,7 @@ footer{font-size:14px}footer p{max-width:90ch}
     </p>
   </section>
 
-  <section class="card" id="project-07">
+  <section class="card" id="project-07" data-tracks="eng">
     <h3><span class="num">07</span>Workforce System in Java</h3>
     <p class="stack">Java 17 · department tree · employee search index · invariant testing</p>
     <span class="tag">Information systems</span>
@@ -317,14 +698,14 @@ footer{font-size:14px}footer p{max-width:90ch}
       system demonstrates core invariants; production use would also require
       persistence, access control and audit history.</p>
     <p class="cardlinks">
-      <a href="projects/07-workforce-system-java/PROJECT.html">Project brief</a>
+      <a href="projects/07-workforce-system-java/PROJECT.html">Architecture brief &amp; illustrated scenarios</a>
       <a href="projects/07-workforce-system-java/README.md">English README</a>
       <a href="projects/07-workforce-system-java/README.zh-CN.md">中文 README</a>
       <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/07-workforce-system-java">Code &amp; tests</a>
     </p>
   </section>
 
-  <section class="card featured" id="project-08">
+  <section class="card featured" id="project-08" data-tracks="ds ba">
     <figure class="research-image"><a href="projects/08-nlp-job-postings/report.html"><img loading="lazy" src="projects/08-nlp-job-postings/results/ablation.png" alt="Text, lexicon and fused-feature classification results from the job-posting study" width="1200" height="750"></a><figcaption>Feature ablation · Read the research brief for evaluation design and uncertainty.</figcaption></figure>
     <p class="eyebrow">NLP reading route · reproducible evaluation</p>
     <h3><span class="num">08</span>Does the Skill Signal Help?</h3>
@@ -366,10 +747,28 @@ footer{font-size:14px}footer p{max-width:90ch}
     <p>Code MIT licensed · third-party datasets under their original terms ·
       <a href="https://github.com/jiayuyan117">@jiayuyan117</a></p>
   </footer>
-
-
 </main>
 
+<script>
+function filterTrack(track, btn) {
+  document.querySelectorAll('.route-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-pressed', String(b === btn));
+  });
+  btn.classList.add('active');
+  document.querySelectorAll('section.card').forEach(card => {
+    card.classList.remove('dimmed', 'highlighted');
+    if (track === 'all') return;
+    const tracks = (card.getAttribute('data-tracks') || '').split(/\s+/);
+    if (tracks.includes(track)) {
+      card.classList.add('highlighted');
+    } else {
+      card.classList.add('dimmed');
+    }
+  });
+}
+document.querySelectorAll('.route-btn').forEach(b =>
+  b.setAttribute('aria-pressed', String(b.classList.contains('active'))));
+</script>
 </body>
 </html>
-

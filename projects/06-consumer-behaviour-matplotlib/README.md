@@ -16,21 +16,6 @@ describes a typical order; a 10%-per-tail trimmed mean describes the central 80%
 These are different estimands. None measures margin, conversion, purchase frequency
 or lifetime value. The unit is a transaction, not a customer.
 
-## Decision brief
-
-**Data and method:** Remove 20 exact duplicate rows from 8,020 records; compare
-8,000 transactions with exploratory group tests, sensitivity checks and intervals.
-
-**Result:** Four of five demographic/payment/membership groupings do not reject
-equal means in the primary ANOVA family. Membership differences are descriptive
-associations, not evidence of an offer's incremental effect.
-
-**Recommendation:** Do not reallocate marketing budget from these rankings alone.
-First establish data provenance and customer-level dependence, then consider a
-randomized offer study with incremental contribution margin as the outcome.
-That study has not been performed; campaign lift, ROI and business impact are
-not measured here. The detailed evidence and assumptions follow.
-
 ## Evidence and statistical scope
 
 The table uses the 8,000 deduplicated transactions, dropping
@@ -50,7 +35,7 @@ establish that any segment is commercially equivalent.
 **These are nominal, exploratory transaction-level tests.** There are
 3,997 unique user IDs and
 2,372 IDs with repeated transactions.
-Independence is therefore unverified; no customer-cluster correction is implemented.
+Independence is therefore unverified for these transaction-level tests.
 P-values and confidence intervals must not be treated as calibrated customer-level
 evidence or as causal estimates.
 
@@ -73,12 +58,72 @@ evidence or as causal estimates.
   Each sensitivity family also has five-test adjusted p-values in the CSV, but
   there is no joint correction over all methods. Sensitivity checks are exploratory,
   not extra opportunities to declare a discovery. Omnibus rejection does not
-  identify which tiers differ; no pairwise comparisons are claimed.
-- **Intervals:** bootstrap mean intervals and Fisher-z correlation intervals are
+  identify which tiers differ; no pairwise comparisons are claimed from omnibus tests.
+- **Figure intervals:** IID bootstrap mean intervals and Fisher-z correlation intervals are
   pointwise and assume independent observations. They are not simultaneous,
   cluster-adjusted or pairwise difference intervals. Overlap is not a hypothesis test.
 
 ![Segmentation audit](figures/01_segmentation_effect_audit.png)
+
+## User-cluster bootstrap sensitivity
+
+The target is the **difference in transaction-weighted arithmetic mean amount**
+(comparison minus reference), not the equal-weighted mean of customer means.
+For each of 2,000 draws, sample all 3,997
+unique user IDs with replacement. Each selected ID contributes all its transactions,
+including records in different groups, with the same multiplicity in every group.
+Recompute each mean as total amount / transaction count. Group counts may vary.
+Missing labels are excluded only from that grouping's means; all users remain in
+the sampling frame. Seed: 20261013; the local RNG is independent of plotting calls.
+
+Within-group customer averaging followed by independent-group ANOVA/Welch was
+removed: it changes weighting and does not resolve dependence across groups.
+The cluster bootstrap permits dependence within a user, including across groups,
+but assumes independent, representative user clusters and reliable IDs.
+It does not address dependence between users, selection or confounding.
+
+| Grouping | Comparison − reference | Difference (¥/transaction) | Pointwise 95% CI | Users crossing groups | Valid draws |
+| --- | --- | ---: | --- | ---: | --- |
+| Age band | 26-35 − 18-25 | 73.56 | [-25.05, 177.13] | 1965 | 2000/2000 |
+| Age band | 36-45 − 18-25 | 54.47 | [-40.71, 153.56] | 1965 | 2000/2000 |
+| Age band | 46-55 − 18-25 | 32.76 | [-81.52, 153.17] | 1965 | 2000/2000 |
+| Age band | 56+ − 18-25 | -80.53 | [-272.50, 122.42] | 1965 | 2000/2000 |
+| Age band | 36-45 − 26-35 | -19.09 | [-101.35, 63.48] | 1965 | 2000/2000 |
+| Age band | 46-55 − 26-35 | -40.80 | [-145.75, 65.56] | 1965 | 2000/2000 |
+| Age band | 56+ − 26-35 | -154.09 | [-335.82, 40.03] | 1965 | 2000/2000 |
+| Age band | 46-55 − 36-45 | -21.71 | [-125.69, 84.24] | 1965 | 2000/2000 |
+| Age band | 56+ − 36-45 | -135.00 | [-321.07, 45.69] | 1965 | 2000/2000 |
+| Age band | 56+ − 46-55 | -113.29 | [-310.21, 89.18] | 1965 | 2000/2000 |
+| Gender | Male − Female | 21.12 | [-41.38, 84.24] | 1482 | 2000/2000 |
+| City tier | Tier 1 − New Tier 1 | -35.53 | [-137.06, 65.12] | 1983 | 2000/2000 |
+| City tier | Tier 2 − New Tier 1 | -36.21 | [-114.49, 47.21] | 1983 | 2000/2000 |
+| City tier | Tier 3+ − New Tier 1 | -2.52 | [-85.60, 87.62] | 1983 | 2000/2000 |
+| City tier | Tier 2 − Tier 1 | -0.69 | [-101.25, 99.01] | 1983 | 2000/2000 |
+| City tier | Tier 3+ − Tier 1 | 33.01 | [-70.94, 135.59] | 1983 | 2000/2000 |
+| City tier | Tier 3+ − Tier 2 | 33.69 | [-56.33, 119.98] | 1983 | 2000/2000 |
+| Payment method | Credit card − Alipay | 21.06 | [-86.84, 116.40] | 1948 | 2000/2000 |
+| Payment method | Debit card − Alipay | -24.21 | [-119.67, 81.59] | 1948 | 2000/2000 |
+| Payment method | WeChat Pay − Alipay | 3.91 | [-75.49, 87.16] | 1948 | 2000/2000 |
+| Payment method | Debit card − Credit card | -45.27 | [-153.42, 71.72] | 1948 | 2000/2000 |
+| Payment method | WeChat Pay − Credit card | -17.15 | [-110.83, 79.71] | 1948 | 2000/2000 |
+| Payment method | WeChat Pay − Debit card | 28.12 | [-73.36, 118.86] | 1948 | 2000/2000 |
+| Membership tier | Platinum − Gold | 25.20 | [-143.12, 202.00] | 1776 | 2000/2000 |
+| Membership tier | Silver − Gold | -168.57 | [-266.04, -67.94] | 1776 | 2000/2000 |
+| Membership tier | Standard − Gold | -215.54 | [-309.62, -119.73] | 1776 | 2000/2000 |
+| Membership tier | Silver − Platinum | -193.76 | [-364.42, -30.08] | 1776 | 2000/2000 |
+| Membership tier | Standard − Platinum | -240.74 | [-402.66, -86.89] | 1776 | 2000/2000 |
+| Membership tier | Standard − Silver | -46.98 | [-123.73, 27.51] | 1776 | 2000/2000 |
+
+All observed pairs are exported, without selecting them by their results.
+These exploratory percentile intervals are not simultaneous or multiplicity-adjusted;
+they provide no omnibus p-value or confirmatory pairwise discoveries.
+An interval containing zero does not establish equivalence; excluding zero does
+not establish causality or commercial relevance. If any draw has an empty member
+of a pair, its interval is withheld (CSV blank / JSON null), with valid-draw counts.
+`outputs/07_user_cluster_sensitivity.csv` and `user_cluster_sensitivity` in
+`outputs/findings.json` contain matching estimates, intervals, denominators,
+cross-group user counts, seed and draw status. The original tests and figure
+intervals above remain nominal; this separate sensitivity does not calibrate them.
 
 ## Linear associations and basket arithmetic
 
@@ -114,7 +159,8 @@ Mean amount is ¥1,338.04 for Standard and
 Membership omnibus p-values are ANOVA 1.04e-06,
 Welch 1.33e-05, Kruskal-Wallis 0.000112 and
 trimmed Welch-Yuen 0.000355; they address different nulls.
-These are neither an adjusted Standard–Platinum pairwise test nor an upgrade effect.
+These omnibus p-values are neither an adjusted Standard–Platinum pairwise test
+nor an upgrade effect. The separate cluster interval above is pointwise only.
 
 Membership is a candidate for further investigation, not a reason to spend more
 on upgrades. Tier eligibility may depend on prior spending, and the assignment
@@ -175,7 +221,7 @@ python src/analyze.py
 python -m unittest discover -s tests -v
 ```
 
-The build rewrites seven PNG figures, six CSV tables, `outputs/findings.json` and
+The build rewrites seven PNG figures, seven CSV tables, `outputs/findings.json` and
 this README via `render_readme()`. A seed of 20261013 is reset at each full run;
 reproducibility also depends on dependency versions. Reports/PNG figures can be
 viewed offline. Original coursework is retained in `source_materials/`; source data

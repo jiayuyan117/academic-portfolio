@@ -11,7 +11,7 @@ This project models an organization as a department tree and indexes employees i
 - AVL insertion and deletion with cached heights and single/double rotations.
 - Immutable `Employee` records with salary represented as nonnegative `long` integer cents.
 - A single employee-node lookup during transfer; transferring replaces the record without changing its ID or the tree shape.
-- Department membership sets, iterative department subtree counts, immutable ID-ordered snapshots, and inclusive salary-range queries.
+- Department membership sets, iterative department subtree counts, exact `BigInteger` subtree salary totals (`subtreeSalaryCents`), pruned `O(log n + k)` ID-range queries (`idRange`), immutable ID-ordered snapshots, and inclusive salary-range queries.
 - A `verify()` method that checks strict ID ordering, actual versus cached heights, AVL balance, exact department membership, and total counts.
 - JUnit 5 tests using an independent `TreeMap` oracle and a reproducible `Random(42)` operation sequence.
 

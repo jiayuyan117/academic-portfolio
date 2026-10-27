@@ -53,19 +53,51 @@ def main() -> None:
             page.evaluate("window.scrollTo({top: 0, behavior: 'instant'})")
             page.screenshot(path=str(OUTPUT / f"homepage-{width}-viewport.png"))
         assert not errors, errors
+        buttons = page.locator(".route-btn")
+        for index, track in enumerate(("all", "ds", "ba", "eng")):
+            buttons.nth(index).click()
+            assert buttons.nth(index).get_attribute("aria-pressed") == "true"
+            assert page.locator('.route-btn[aria-pressed="true"]').count() == 1
+            for card in page.locator("section.card").all():
+                assert card.evaluate("(el) => getComputedStyle(el).opacity") == "1"
+                selected = track != "all" and track in card.get_attribute("data-tracks").split()
+                assert ("highlighted" in (card.get_attribute("class") or "")) == selected
+        for number in range(3, 8):
+            folder = next((ROOT / "projects").glob(f"{number:02d}-*"))
+            brief = folder / ("PROJECT.html" if number == 7 else "FIRST_READ.html")
+            page.goto(brief.as_uri())
+            for width in (1280, 375, 320):
+                page.set_viewport_size({"width": width, "height": 900})
+                assert page.evaluate(
+                    "document.documentElement.scrollWidth <= innerWidth"
+                ), f"{brief}: overflow at {width}px"
+                for image in page.locator("img").all():
+                    assert image.evaluate("(img) => img.complete && img.naturalWidth > 0")
+                page.screenshot(path=str(OUTPUT / f"brief-{number:02d}-{width}.png"), full_page=True)
+            if number == 7:
+                for button in page.locator(".sim-controls button").all():
+                    button.click()
+                    assert page.locator("#avl-svg circle").count() in (3, 4)
+                    assert page.locator("#dept-list li").count() == 4
+            assert not errors, errors
         page.goto((ROOT / "projects/08-nlp-job-postings/report.html").as_uri())
         assert page.title() == "Does the Skill Signal Help? | Jiayu Yan"
         assert page.locator("figure img").count() == 3
         page.wait_for_function(
             "() => [...document.querySelectorAll('figure img')].every(img => img.complete && img.naturalWidth > 0)"
         )
-        for width in (1280, 375):
+        for width in (1280, 375, 320):
             page.set_viewport_size({"width": width, "height": 900})
             assert page.evaluate(
                 "document.documentElement.scrollWidth <= window.innerWidth"
             ), f"NLP report overflows at {width}px"
             page.screenshot(path=str(OUTPUT / f"nlp-report-{width}.png"), full_page=True)
         assert not errors, errors
+        for button in page.locator(".sim-btn").all():
+            button.click()
+            assert button.get_attribute("aria-pressed") == "true"
+            assert page.locator('.sim-btn[aria-pressed="true"]').count() == 1
+            assert page.locator("#case-body").inner_text()
         assert not blocked, f"Research brief requested the network: {blocked}"
         page.set_viewport_size({"width": 1280, "height": 900})
         paths = sorted(CHARTS.glob("*.html"))
@@ -124,7 +156,7 @@ def main() -> None:
             print(f"Live homepage: three viewport widths, images, order and {len(links)} same-site links passed.")
             live.close()
         browser.close()
-    print("Homepage and NLP brief desktop/mobile, plus four offline charts passed.")
+    print("Homepage, briefs 03–08, route/scenario controls and four offline charts passed.")
 
 
 if __name__ == "__main__":

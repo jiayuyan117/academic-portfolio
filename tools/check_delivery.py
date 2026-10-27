@@ -85,6 +85,10 @@ def check_project(number: str) -> None:
         print("Project 08: evidence manifest and report links passed")
         return
     folder = ROOT / "projects" / PROJECTS[number][0]
+    if number in {"03", "04", "05", "06"}:
+        brief = Page(folder / "FIRST_READ.html")
+        for link in brief.links + brief.resources:
+            check_local_link(brief, link)
     if number in {"01", "02"}:
         result = json.loads((folder / "results/verification.json").read_text(encoding="utf-8"))
         tables, values = {"01": (11, 252), "02": (8, 334)}[number]

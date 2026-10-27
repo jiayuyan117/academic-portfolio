@@ -3,31 +3,548 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>07 · Workforce System in Java</title>
+  <title>07 · Workforce System in Java — Dual-Index Invariant Architecture</title>
+  <meta name="description" content="Java 17 AVL employee index and department hierarchy, with preset architecture illustrations and separate executable JUnit tests.">
   <style>
-    :root{--ink:#192c32;--body:#52646a;--line:#d4ddda;--paper:#f6f5f0;--accent:#176e69}
-    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--body);font:16px/1.7 system-ui,-apple-system,"Segoe UI",sans-serif}
-    main{max-width:920px;margin:auto;padding:clamp(36px,8vw,76px) 20px}h1,h2{color:var(--ink);line-height:1.2}h1{font:clamp(36px,7vw,62px)/1.1 Georgia,serif;max-width:760px;margin:0 0 18px}h2{margin-top:42px}.kicker{color:var(--accent);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:13px}.lead{font-size:20px;max-width:720px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:21px}.card strong{color:var(--ink)}a{color:var(--accent)}code{background:#eaf2f0;padding:2px 5px;border-radius:4px}pre{overflow:auto;background:#fff;border:1px solid var(--line);padding:16px;border-radius:8px}@media(max-width:600px){.grid{grid-template-columns:1fr}.lead{font-size:18px}}
+    :root {
+      --ink: #14242b;
+      --body: #3e525a;
+      --muted: #60737b;
+      --line: #d2dcd9;
+      --paper: #f6f5f0;
+      --surface: #ffffff;
+      --surface-alt: #edf2f0;
+      --accent: #146964;
+      --accent-dark: #0e4a46;
+      --accent-soft: #e2efed;
+      --amber: #9c6724;
+      --amber-bg: #f9f2e7;
+      --danger: #a8383b;
+      --radius: 12px;
+      --shadow: 0 8px 28px rgba(20, 36, 43, 0.05);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--body);
+      font: 16px/1.68 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; font-weight: 500; }
+    a:hover { color: var(--accent-dark); text-decoration: underline; }
+    .topbar {
+      background: rgba(246, 245, 240, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .topbar-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 14px;
+    }
+    .topbar-nav { display: flex; gap: 18px; flex-wrap: wrap; }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 44px 24px 80px;
+    }
+    .kicker {
+      display: inline-block;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 12px;
+      background: var(--accent-soft);
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font: 700 clamp(32px, 5vw, 54px)/1.12 Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      letter-spacing: -0.025em;
+      margin: 0 0 16px;
+      max-width: 860px;
+    }
+    h2 {
+      font: 700 24px/1.28 Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      margin: 48px 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    h3 {
+      font: 600 17px/1.35 system-ui, sans-serif;
+      color: var(--ink);
+      margin: 0 0 8px;
+    }
+    .lead {
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--ink);
+      max-width: 78ch;
+      margin: 0 0 24px;
+    }
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin: 28px 0 36px;
+    }
+    .kpi {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+    }
+    .kpi .val {
+      display: block;
+      font: 700 26px/1.15 Georgia, serif;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .kpi .lbl {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+    }
+    .card strong { color: var(--ink); }
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--amber-bg);
+      color: var(--amber);
+      margin-bottom: 8px;
+    }
+    /* Interactive Simulator */
+    .sim-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-top: 18px;
+    }
+    .sim-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 20px;
+    }
+    .btn {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn.primary:hover { background: var(--accent-dark); }
+    .sim-status {
+      margin-left: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12.5px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+    .sim-canvases {
+      display: grid;
+      grid-template-columns: 1.25fr 0.95fr;
+      gap: 18px;
+    }
+    .sim-panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .sim-panel h4 {
+      margin: 0 0 10px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    svg.tree-svg {
+      width: 100%;
+      height: 250px;
+      display: block;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+    }
+    .dept-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 14px;
+    }
+    .dept-item {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .dept-members {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      color: var(--accent-dark);
+      background: var(--accent-soft);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      font-size: 14.5px;
+    }
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+    th {
+      background: var(--surface-alt);
+      color: var(--ink);
+      font-weight: 600;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9em;
+      background: var(--surface-alt);
+      color: var(--ink);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    pre {
+      overflow-x: auto;
+      background: #14242b;
+      color: #e7f0ef;
+      padding: 18px 20px;
+      border-radius: var(--radius);
+      font-size: 13.5px;
+      line-height: 1.55;
+    }
+    pre code { background: none; color: inherit; padding: 0; }
+    .boundary-box {
+      border-left: 4px solid var(--amber);
+      background: var(--amber-bg);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      color: var(--ink);
+    }
+    @media (max-width: 820px) {
+      .kpi-strip, .grid-2, .sim-canvases { grid-template-columns: 1fr; }
+      .sim-status { margin-left: 0; width: 100%; }
+      main { padding:24px 16px 48px; }
+      .card,.sim-box,.sim-panel { padding:14px;min-width:0; }
+      .dept-item { flex-wrap:wrap;gap:8px; }
+    }
+    .table-wrap { overflow-x:auto; }
+    .sim-status,code { overflow-wrap:anywhere; }
+    .btn { min-height:44px; }
+    a:focus-visible,button:focus-visible { outline:3px solid var(--accent);outline-offset:4px; }
   </style>
 </head>
 <body>
-<main>
-  <p class="kicker">Project 07 · Java coursework</p>
-  <h1>Workforce System in Java</h1>
-  <p class="lead">An in-memory information-system exercise that keeps a department tree and an employee search index consistent as records are added, transferred, and removed.</p>
-  <p><a href="README.md">English README</a> · <a href="README.zh-CN.md">中文 README</a> · <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/07-workforce-system-java">Source and tests</a></p>
-  <h2>What can be inspected</h2>
-  <div class="grid">
-    <div class="card"><strong>Structures</strong><br>Department tree · AVL employee index · membership sets</div>
-    <div class="card"><strong>Records</strong><br>Immutable employee data · integer salary cents · ordered snapshots</div>
-    <div class="card"><strong>Checks</strong><br>Height, balance, ordering, membership and count invariants</div>
-    <div class="card"><strong>Tests</strong><br>JUnit 5 · TreeMap reference model · reproducible random operations</div>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div><strong>07 · Workforce System in Java</strong> · Jiayu Yan (闫佳玉)</div>
+    <nav class="topbar-nav" aria-label="Project navigation">
+      <a href="../../index.html">← Portfolio Home</a>
+      <a href="README.md">English README</a>
+      <a href="README.zh-CN.md">中文 README</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/07-workforce-system-java">Source &amp; JUnit Tests</a>
+    </nav>
   </div>
-  <h2>Evidence boundary</h2>
-  <p>The implementation and tests are present in this repository and can be run with Maven. The system is a single-threaded teaching example; it does not claim persistence, authorization, payroll processing or production HR readiness.</p>
-  <h2>Run it</h2>
+</header>
+
+<main>
+  <span class="kicker">Project 07 · Data Structures &amp; Invariant Verification</span>
+  <h1>Dual-Index Workforce Architecture in Java 17</h1>
+  <p class="lead">An in-memory information-system model that maintains exact bidirectional correspondence between a hierarchical department tree and a self-balancing AVL employee index across additions, transfers, range queries, and deletions.</p>
+
+  <div class="kpi-strip">
+    <div class="kpi">
+      <span class="val">O(log n)</span>
+      <span class="lbl">Worst-case AVL lookup, insert &amp; delete</span>
+    </div>
+    <div class="kpi">
+      <span class="val">50,000</span>
+      <span class="lbl">Ordered-ID stress test per direction</span>
+    </div>
+    <div class="kpi">
+      <span class="val">5,000</span>
+      <span class="lbl">Seeded random ops vs. TreeMap oracle</span>
+    </div>
+    <div class="kpi">
+      <span class="val">7 Corruptions</span>
+      <span class="lbl">Reflective fault-injection checks</span>
+    </div>
+  </div>
+
+  <h2>Illustrated Dual-Index Scenarios</h2>
+  <p>These selectable, hand-authored snapshots explain rotation, transfer and deletion. The browser does not execute Java, calculate AVL mutations, or run <code>verify()</code>. Each button selects a fixed example; the deletion example follows the illustrated transfer. Executable implementation checks live in the separate JUnit suite.</p>
+
+  <div class="sim-box">
+    <div class="sim-controls">
+      <button class="btn primary" type="button" onclick="runScenario('ll')">1. Ordered Insert (RR Rotation)</button>
+      <button class="btn" type="button" onclick="runScenario('lr')">2. Zig-Zag Insert (LR Double Rotation)</button>
+      <button class="btn" type="button" onclick="runScenario('transfer')">3. Cross-Dept Transfer (O(log n) in-place)</button>
+      <button class="btn" type="button" onclick="runScenario('delete')">4. Root Delete (Successor Replacement)</button>
+      <div class="sim-status" id="sim-status" role="status">Preset illustration</div>
+    </div>
+
+    <div class="sim-canvases">
+      <div class="sim-panel">
+        <h4>AVL Employee Index (Ordered by Employee ID, Height-Balanced)</h4>
+        <svg class="tree-svg" id="avl-svg" viewBox="0 0 560 240" aria-label="AVL Tree diagram"></svg>
+        <p style="margin:10px 0 0;font-size:12.5px;color:var(--muted)" id="avl-caption">Each node displays <code>ID (Dept) [height, balance]</code>. Strict BST ordering and |balance| ≤ 1 hold after every mutation.</p>
+      </div>
+      <div class="sim-panel">
+        <h4>Organization Department Hierarchy &amp; Subtree Counts</h4>
+        <ul class="dept-list" id="dept-list"></ul>
+        <p style="margin:10px 0 0;font-size:12.5px;color:var(--muted)"><code>count(0)</code> traverses the department graph iteratively with an explicit <code>ArrayDeque</code> stack, avoiding call-stack overflow even at depth 20,000.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>Core Engineering &amp; Verification Design</h2>
+  <div class="grid-2">
+    <div class="card">
+      <span class="badge">Data Integrity</span>
+      <h3>Bidirectional Structural Invariants</h3>
+      <p>Every employee record in the AVL tree must belong to exactly one department set, and every ID in any department set must resolve to an AVL node whose <code>department()</code> matches. <code>verify()</code> checks strict key bounds, cached node heights, balance factors in <code>{-1, 0, +1}</code>, bijection of memberships, and <code>count(0) == n</code>.</p>
+    </div>
+    <div class="card">
+      <span class="badge">Value Semantics</span>
+      <h3>Immutable Records &amp; Exact Monetary Types</h3>
+      <p>Employees are modeled as Java 17 <code>record Employee(int id, String name, int department, long salaryCents)</code>. Storing salaries in integer cents and aggregating department payrolls via <code>BigInteger</code> in <code>subtreeSalaryCents()</code> eliminates floating-point rounding drift and 64-bit overflow.</p>
+    </div>
+    <div class="card">
+      <span class="badge">Algorithmic Efficiency</span>
+      <h3>Pruned Range Search &amp; In-Place Transfers</h3>
+      <p>Transferring an employee between departments locates the AVL node in a single <code>O(log n)</code> search and swaps the immutable record reference without altering keys or tree topology. <code>idRange(minId, maxId)</code> prunes subtrees outside the target interval in <code>O(log n + k)</code> time.</p>
+    </div>
+    <div class="card">
+      <span class="badge">Adversarial Testing</span>
+      <h3>Reference Oracle &amp; Fault Injection</h3>
+      <p>JUnit 5 tests pair the implementation against a <code>java.util.TreeMap</code> oracle across 50,000 ascending/descending keys and 5,000 seeded random operations, plus reflective corruption of heights, balance, ordering, and membership to verify that <code>verify()</code> detects every violation.</p>
+    </div>
+  </div>
+
+  <h2>Complexity &amp; Operational Guarantees</h2>
+  <div class="table-wrap"><table>
+    <thead>
+      <tr>
+        <th>Operation</th>
+        <th>Time Complexity</th>
+        <th>Auxiliary Working Space</th>
+        <th>Key Invariant / Design Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>find(id)</code></td>
+        <td><code>O(log n)</code> worst-case</td>
+        <td><code>O(1)</code> iterative</td>
+        <td>Guaranteed logarithmic depth via AVL balancing</td>
+      </tr>
+      <tr>
+        <td><code>add(emp)</code> / <code>remove(id)</code></td>
+        <td><code>O(log n)</code> AVL + expected <code>O(1)</code> set</td>
+        <td><code>O(log n)</code> recursion stack</td>
+        <td>Single or double rotation restores <code>|bf| &le; 1</code>; successor replacement preserves dept</td>
+      </tr>
+      <tr>
+        <td><code>transfer(id, dept)</code></td>
+        <td><code>O(log n)</code> lookup + expected <code>O(1)</code> set</td>
+        <td><code>O(1)</code></td>
+        <td>Replaces immutable <code>Employee</code> record in-place without tree rotation</td>
+      </tr>
+      <tr>
+        <td><code>idRange(minId, maxId)</code></td>
+        <td><code>O(log n + k)</code> pruned traversal</td>
+        <td><code>O(k)</code> result + <code>O(log n)</code> stack</td>
+        <td>Skips left/right subtrees outside <code>[minId, maxId]</code></td>
+      </tr>
+      <tr>
+        <td><code>count(dept)</code> / <code>subtreeSalaryCents(dept)</code></td>
+        <td><code>O(s)</code> / <code>O(s + m log n)</code></td>
+        <td><code>O(s)</code> explicit <code>ArrayDeque</code></td>
+        <td>Iterative traversal handles 20,000-deep hierarchies without stack overflow</td>
+      </tr>
+      <tr>
+        <td><code>verify()</code></td>
+        <td>Expected <code>O(n + d)</code></td>
+        <td><code>O(n + d)</code> diagnostic maps</td>
+        <td>Validates BST bounds, AVL height/balance, and exact membership bijection</td>
+      </tr>
+    </tbody>
+  </table></div>
+
+  <h2>Evidence Boundary</h2>
+  <div class="boundary-box">
+    <strong>Scope &amp; Honest Limitations.</strong> The Java implementation uses the standard library; executing its tests requires JUnit 5 and a JDK (Maven is the documented build route). The illustrations above are not test results. This is a single-threaded, in-memory teaching system without persistence, access control or production payroll validation.
+  </div>
+
+  <h2>Build &amp; Run</h2>
   <pre><code>mvn clean test
 java -cp target/classes Workforce</code></pre>
 </main>
+
+<script>
+const SCENARIOS = {
+  ll: {
+    status: "Scenario 1 · Ordered IDs [10, 20, 30, 40] -> RR single rotation keeps root at 20 (height = 3)",
+    caption: "Inserting 10, 20, 30 triggers a left rotation around 10 -> 20 becomes root; adding 40 keeps |balance| <= 1.",
+    nodes: [
+      { id: 20, dept: 1, h: 3, bf: -1, x: 280, y: 48, left: 10, right: 30 },
+      { id: 10, dept: 1, h: 1, bf: 0, x: 150, y: 125 },
+      { id: 30, dept: 2, h: 2, bf: -1, x: 410, y: 125, right: 40 },
+      { id: 40, dept: 3, h: 1, bf: 0, x: 485, y: 198 }
+    ],
+    depts: [
+      { id: "Dept 0 (Root)", desc: "Subtree count: 4 · Direct: []", members: "Total = 4" },
+      { id: "├─ Dept 1 (Engineering)", desc: "Subtree count: 3 · Direct: [10, 20]", members: "IDs: 10, 20" },
+      { id: "│  └─ Dept 3 (Data Platform)", desc: "Subtree count: 1 · Direct: [40]", members: "IDs: 40" },
+      { id: "└─ Dept 2 (Operations)", desc: "Subtree count: 1 · Direct: [30]", members: "IDs: 30" }
+    ]
+  },
+  lr: {
+    status: "Scenario 2 · Zig-Zag IDs [30, 10, 20] -> LR double rotation promotes 20 to root (height = 2)",
+    caption: "Left-Right imbalance at 30 rotates left on child 10 then right on 30, yielding a perfectly balanced height-2 tree.",
+    nodes: [
+      { id: 20, dept: 3, h: 2, bf: 0, x: 280, y: 58, left: 10, right: 30 },
+      { id: 10, dept: 1, h: 1, bf: 0, x: 160, y: 150 },
+      { id: 30, dept: 2, h: 1, bf: 0, x: 400, y: 150 }
+    ],
+    depts: [
+      { id: "Dept 0 (Root)", desc: "Subtree count: 3 · Direct: []", members: "Total = 3" },
+      { id: "├─ Dept 1 (Engineering)", desc: "Subtree count: 2 · Direct: [10]", members: "IDs: 10" },
+      { id: "│  └─ Dept 3 (Data Platform)", desc: "Subtree count: 1 · Direct: [20]", members: "IDs: 20" },
+      { id: "└─ Dept 2 (Operations)", desc: "Subtree count: 1 · Direct: [30]", members: "IDs: 30" }
+    ]
+  },
+  transfer: {
+    status: "Scenario 3 · transfer(40, Dept 2) -> In-place record replacement; AVL shape unchanged",
+    caption: "Employee 40 moves from Dept 3 to Dept 2 via one O(log n) search. Immutable record swapped; zero rotations needed.",
+    nodes: [
+      { id: 20, dept: 1, h: 3, bf: -1, x: 280, y: 48, left: 10, right: 30 },
+      { id: 10, dept: 1, h: 1, bf: 0, x: 150, y: 125 },
+      { id: 30, dept: 2, h: 2, bf: -1, x: 410, y: 125, right: 40 },
+      { id: 40, dept: 2, h: 1, bf: 0, x: 485, y: 198, highlight: true }
+    ],
+    depts: [
+      { id: "Dept 0 (Root)", desc: "Subtree count: 4 · Direct: []", members: "Total = 4" },
+      { id: "├─ Dept 1 (Engineering)", desc: "Subtree count: 2 · Direct: [10, 20]", members: "IDs: 10, 20" },
+      { id: "│  └─ Dept 3 (Data Platform)", desc: "Subtree count: 0 · Direct: []", members: "Empty" },
+      { id: "└─ Dept 2 (Operations)", desc: "Subtree count: 2 · Direct: [30, 40]", members: "IDs: 30, 40" }
+    ]
+  },
+  delete: {
+    status: "Scenario 4 · remove(20) on two-child root -> In-order successor (30) replaces root & preserves Dept 2",
+    caption: "Deleting root 20 promotes its in-order successor 30 without corrupting 30's Dept 2 membership.",
+    nodes: [
+      { id: 30, dept: 2, h: 2, bf: 0, x: 280, y: 58, left: 10, right: 40, highlight: true },
+      { id: 10, dept: 1, h: 1, bf: 0, x: 160, y: 150 },
+      { id: 40, dept: 2, h: 1, bf: 0, x: 400, y: 150 }
+    ],
+    depts: [
+      { id: "Dept 0 (Root)", desc: "Subtree count: 3 · Direct: []", members: "Total = 3" },
+      { id: "├─ Dept 1 (Engineering)", desc: "Subtree count: 1 · Direct: [10]", members: "IDs: 10" },
+      { id: "│  └─ Dept 3 (Data Platform)", desc: "Subtree count: 0 · Direct: []", members: "Empty" },
+      { id: "└─ Dept 2 (Operations)", desc: "Subtree count: 2 · Direct: [30, 40]", members: "IDs: 30, 40" }
+    ]
+  }
+};
+
+function runScenario(key) {
+  const s = SCENARIOS[key];
+  document.getElementById("sim-status").textContent = s.status;
+  document.getElementById("avl-caption").textContent = s.caption;
+  const svg = document.getElementById("avl-svg");
+  const byId = Object.fromEntries(s.nodes.map(n => [n.id, n]));
+  let edges = "";
+  for (const n of s.nodes) {
+    for (const childId of [n.left, n.right]) {
+      if (childId && byId[childId]) {
+        const c = byId[childId];
+        edges += `<line x1="${n.x}" y1="${n.y}" x2="${c.x}" y2="${c.y}" stroke="#9ab0ae" stroke-width="2"/>`;
+      }
+    }
+  }
+  let circles = "";
+  for (const n of s.nodes) {
+    const fill = n.highlight ? "#146964" : "#ffffff";
+    const stroke = "#146964";
+    const textCol = n.highlight ? "#ffffff" : "#14242b";
+    circles += `
+      <g>
+        <circle cx="${n.x}" cy="${n.y}" r="26" fill="${fill}" stroke="${stroke}" stroke-width="2.5"/>
+        <text x="${n.x}" y="${n.y - 2}" text-anchor="middle" fill="${textCol}" font-size="13" font-weight="700">ID ${n.id}</text>
+        <text x="${n.x}" y="${n.y + 13}" text-anchor="middle" fill="${textCol}" font-size="10">D${n.dept}·h${n.h}</text>
+      </g>`;
+  }
+  svg.innerHTML = edges + circles;
+
+  const list = document.getElementById("dept-list");
+  list.innerHTML = s.depts.map(d => `
+    <li class="dept-item">
+      <div><strong>${d.id}</strong><br><span style="font-size:12px;color:var(--muted)">${d.desc}</span></div>
+      <span class="dept-members">${d.members}</span>
+    </li>
+  `).join("");
+}
+runScenario("ll");
+</script>
 </body>
 </html>

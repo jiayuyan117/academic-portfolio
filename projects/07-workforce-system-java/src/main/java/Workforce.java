@@ -236,6 +236,63 @@ public final class Workforce {
                 .toList();
     }
 
+    /** Returns an immutable ID-ordered snapshot of employees in [minimumId, maximumId] in O(log n + k) time. */
+    public List<Employee> idRange(int minimumId, int maximumId) {
+        if (minimumId <= 0 || maximumId < minimumId) {
+            throw new IllegalArgumentException("Invalid ID range");
+        }
+        List<Employee> result = new ArrayList<>();
+        collectRange(root, minimumId, maximumId, result);
+        return List.copyOf(result);
+    }
+
+    private void collectRange(Node node, int minId, int maxId, List<Employee> result) {
+        if (node == null) {
+            return;
+        }
+        int id = node.employee.id();
+        if (id > minId) {
+            collectRange(node.left, minId, maxId, result);
+        }
+        if (id >= minId && id <= maxId) {
+            result.add(node.employee);
+        }
+        if (id < maxId) {
+            collectRange(node.right, minId, maxId, result);
+        }
+    }
+
+    /** Returns the sum of salaryCents across the department and all its descendants using exact big-integer arithmetic. */
+    public java.math.BigInteger subtreeSalaryCents(int departmentId) {
+        ArrayDeque<Department> pending = new ArrayDeque<>();
+        pending.push(department(departmentId));
+        java.math.BigInteger total = java.math.BigInteger.ZERO;
+        while (!pending.isEmpty()) {
+            Department current = pending.pop();
+            for (int employeeId : current.employees) {
+                Employee emp = find(employeeId);
+                if (emp == null) {
+                    throw new IllegalStateException("Department membership without employee");
+                }
+                total = total.add(java.math.BigInteger.valueOf(emp.salaryCents()));
+            }
+            for (Department child : current.children) {
+                pending.push(child);
+            }
+        }
+        return total;
+    }
+
+    /** Returns the height of the underlying AVL employee search tree (0 if empty). */
+    public int treeHeight() {
+        return height(root);
+    }
+
+    /** Returns the number of registered departments including root department 0. */
+    public int departmentCount() {
+        return departments.size();
+    }
+
     /** Checks AVL structure and exact correspondence between both indexes. */
     public void verify() {
         Map<Integer, Integer> memberships = new HashMap<>();

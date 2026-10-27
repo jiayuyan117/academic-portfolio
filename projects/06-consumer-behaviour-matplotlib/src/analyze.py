@@ -9,12 +9,13 @@ Mean transaction amount is the primary estimand. Classical ANOVA is accompanied
 by Welch, Kruskal-Wallis and a Welch-Yuen trimmed-mean sensitivity check. These
 tests do not all estimate the same thing. Non-rejection does not establish equality.
 Repeated user IDs also make transaction-level p-values and intervals nominal:
-customer dependence is not corrected by any of these sensitivity checks.
+customer dependence is addressed separately by a user_id cluster bootstrap.
 """
 
 from __future__ import annotations
 
 import json
+from itertools import combinations
 from pathlib import Path
 
 import matplotlib
@@ -189,6 +190,67 @@ def group_tests(df: pd.DataFrame) -> pd.DataFrame:
             # Five groupings are tested, so the 5% threshold is Bonferroni-corrected.
             "significant_bonferroni": p_anova < 0.05 / len(GROUPINGS),
         })
+    return pd.DataFrame(rows)
+
+
+def cluster_mean_draws(df, column, *, draws=BOOTSTRAP, seed=SEED):
+    """Resample all unique users jointly; retain transaction-weighted group means.
+
+    User/group sums and counts are sufficient statistics, not user-mean weights.
+    Missing labels contribute to no group; their users remain in the sampling frame.
+    A replicate with an empty group has an undefined (NaN) mean for that group.
+    """
+    if draws < 2 or df.empty or df["user_id"].isna().any():
+        raise ValueError("Need >=2 draws, nonempty data and nonmissing user_id")
+    if not np.isfinite(df["amount"].to_numpy(dtype=float)).all():
+        raise ValueError("Amounts must be finite")
+    users = pd.Index(df["user_id"].unique())
+    levels = sorted(df[column].dropna().unique())
+    if len(users) < 2 or len(levels) < 2:
+        raise ValueError("Need >=2 users and >=2 observed groups")
+    sums = np.zeros((len(users), len(levels)))
+    counts = np.zeros_like(sums)
+    for j, level in enumerate(levels):
+        sub = df.loc[df[column] == level]
+        codes = users.get_indexer(sub["user_id"])
+        np.add.at(sums[:, j], codes, sub["amount"].to_numpy())
+        np.add.at(counts[:, j], codes, 1)
+    rng = np.random.default_rng(seed)
+    samples = np.full((draws, len(levels)), np.nan)
+    for b in range(draws):
+        # One shared multiplicity vector preserves within- AND cross-group dependence.
+        weights = np.bincount(rng.integers(len(users), size=len(users)), minlength=len(users))
+        denominator = weights @ counts
+        np.divide(weights @ sums, denominator, out=samples[b], where=denominator > 0)
+    return levels, sums.sum(axis=0) / counts.sum(axis=0), samples
+
+
+def cluster_sensitivity(df, *, draws=BOOTSTRAP, seed=SEED):
+    """All pairwise transaction-mean differences; pointwise percentile intervals."""
+    rows = []
+    for column, label in GROUPINGS:
+        levels, means, samples = cluster_mean_draws(df, column, draws=draws, seed=seed)
+        cross = df.dropna(subset=[column]).groupby("user_id")[column].nunique()
+        for i, j in combinations(range(len(levels)), 2):
+            differences = samples[:, j] - samples[:, i]
+            valid = np.isfinite(differences)
+            # Do not silently condition inference on nonempty-group replicates.
+            complete = bool(valid.all())
+            low, high = np.percentile(differences, [2.5, 97.5]) if complete else (None, None)
+            rows.append({
+                "variable": column, "label": label,
+                "reference": str(levels[i]), "comparison": str(levels[j]),
+                "estimand": "transaction-weighted mean amount: comparison minus reference",
+                "mean_difference": float(means[j] - means[i]),
+                "ci_low": low, "ci_high": high,
+                "interval": "pointwise 95% percentile; no multiplicity adjustment",
+                "resampling_unit": "user_id", "n_users": int(df["user_id"].nunique()),
+                "users_crossing_groups": int((cross > 1).sum()),
+                "n_used": int(df[column].notna().sum()),
+                "n_missing_group": int(df[column].isna().sum()),
+                "draws": draws, "valid_draws": int(valid.sum()), "seed": seed,
+                "status": "ok" if complete else "undefined: empty group in bootstrap draws",
+            })
     return pd.DataFrame(rows)
 
 
@@ -488,6 +550,12 @@ def render_readme(findings: dict, tests: pd.DataFrame, correlations: pd.DataFram
     mem_test = tests.set_index("variable").loc["membership"]
     identity = findings["basket_identity"]
     missing = ", ".join(f"`{name}`: {count}" for name, count in data["missing_by_field"].items())
+    cluster_rows = "\n".join(
+        f"| {r['label']} | {r['comparison']} − {r['reference']} | "
+        f"{r['mean_difference']:.2f} | "
+        + (f"[{r['ci_low']:.2f}, {r['ci_high']:.2f}]" if r["status"] == "ok" else "undefined")
+        + f" | {r['users_crossing_groups']} | {r['valid_draws']}/{r['draws']} |"
+        for r in findings["user_cluster_sensitivity"])
     return f"""# Consumer Transactions: Evidence for a Segmentation Decision
 
 **Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
@@ -521,7 +589,7 @@ establish that any segment is commercially equivalent.
 **These are nominal, exploratory transaction-level tests.** There are
 {data['unique_users_after_dedup']:,} unique user IDs and
 {data['users_with_multiple_transactions']:,} IDs with repeated transactions.
-Independence is therefore unverified; no customer-cluster correction is implemented.
+Independence is therefore unverified for these transaction-level tests.
 P-values and confidence intervals must not be treated as calibrated customer-level
 evidence or as causal estimates.
 
@@ -544,12 +612,44 @@ evidence or as causal estimates.
   Each sensitivity family also has five-test adjusted p-values in the CSV, but
   there is no joint correction over all methods. Sensitivity checks are exploratory,
   not extra opportunities to declare a discovery. Omnibus rejection does not
-  identify which tiers differ; no pairwise comparisons are claimed.
-- **Intervals:** bootstrap mean intervals and Fisher-z correlation intervals are
+  identify which tiers differ; no pairwise comparisons are claimed from omnibus tests.
+- **Figure intervals:** IID bootstrap mean intervals and Fisher-z correlation intervals are
   pointwise and assume independent observations. They are not simultaneous,
   cluster-adjusted or pairwise difference intervals. Overlap is not a hypothesis test.
 
 ![Segmentation audit](figures/01_segmentation_effect_audit.png)
+
+## User-cluster bootstrap sensitivity
+
+The target is the **difference in transaction-weighted arithmetic mean amount**
+(comparison minus reference), not the equal-weighted mean of customer means.
+For each of {BOOTSTRAP:,} draws, sample all {data['unique_users_after_dedup']:,}
+unique user IDs with replacement. Each selected ID contributes all its transactions,
+including records in different groups, with the same multiplicity in every group.
+Recompute each mean as total amount / transaction count. Group counts may vary.
+Missing labels are excluded only from that grouping's means; all users remain in
+the sampling frame. Seed: {SEED}; the local RNG is independent of plotting calls.
+
+Within-group customer averaging followed by independent-group ANOVA/Welch was
+removed: it changes weighting and does not resolve dependence across groups.
+The cluster bootstrap permits dependence within a user, including across groups,
+but assumes independent, representative user clusters and reliable IDs.
+It does not address dependence between users, selection or confounding.
+
+| Grouping | Comparison − reference | Difference (¥/transaction) | Pointwise 95% CI | Users crossing groups | Valid draws |
+| --- | --- | ---: | --- | ---: | --- |
+{cluster_rows}
+
+All observed pairs are exported, without selecting them by their results.
+These exploratory percentile intervals are not simultaneous or multiplicity-adjusted;
+they provide no omnibus p-value or confirmatory pairwise discoveries.
+An interval containing zero does not establish equivalence; excluding zero does
+not establish causality or commercial relevance. If any draw has an empty member
+of a pair, its interval is withheld (CSV blank / JSON null), with valid-draw counts.
+`outputs/07_user_cluster_sensitivity.csv` and `user_cluster_sensitivity` in
+`outputs/findings.json` contain matching estimates, intervals, denominators,
+cross-group user counts, seed and draw status. The original tests and figure
+intervals above remain nominal; this separate sensitivity does not calibrate them.
 
 ## Linear associations and basket arithmetic
 
@@ -580,7 +680,8 @@ Mean amount is ¥{standard['mean_amount']:,.2f} for Standard and
 Membership omnibus p-values are ANOVA {mem_test['anova_p']:.3g},
 Welch {mem_test['welch_p']:.3g}, Kruskal-Wallis {mem_test['kruskal_p']:.3g} and
 trimmed Welch-Yuen {mem_test['trimmed_welch_p']:.3g}; they address different nulls.
-These are neither an adjusted Standard–Platinum pairwise test nor an upgrade effect.
+These omnibus p-values are neither an adjusted Standard–Platinum pairwise test
+nor an upgrade effect. The separate cluster interval above is pointwise only.
 
 Membership is a candidate for further investigation, not a reason to spend more
 on upgrades. Tier eligibility may depend on prior spending, and the assignment
@@ -641,7 +742,7 @@ python src/analyze.py
 python -m unittest discover -s tests -v
 ```
 
-The build rewrites seven PNG figures, six CSV tables, `outputs/findings.json` and
+The build rewrites seven PNG figures, seven CSV tables, `outputs/findings.json` and
 this README via `render_readme()`. A seed of {SEED} is reset at each full run;
 reproducibility also depends on dependency versions. Reports/PNG figures can be
 viewed offline. Original coursework is retained in `source_materials/`; source data
@@ -659,6 +760,7 @@ def main() -> None:
 
     df, defects = load()
     tests = group_tests(df)
+    clusters = cluster_sensitivity(df)
     correlations = correlation_table(df)
 
     group_detail = fig_effect_audit(df, tests)
@@ -675,11 +777,13 @@ def main() -> None:
     membership.to_csv(OUTPUTS / "04_membership_detail.csv", index=False)
     category.to_csv(OUTPUTS / "05_category_revenue.csv", index=False)
     monthly.to_csv(OUTPUTS / "06_monthly_revenue_vs_null.csv", index=False)
+    clusters.to_csv(OUTPUTS / "07_user_cluster_sensitivity.csv", index=False)
 
     indexed = tests.set_index("variable")
     income = correlations.set_index("variable").loc["income"]
     findings = {
         "data": defects,
+        "user_cluster_sensitivity": json.loads(clusters.to_json(orient="records")),
         "rows_after_dedup": int(len(df)),
         "segmentation": {
             row.variable: {"anova_p": float(row.anova_p),
@@ -695,7 +799,10 @@ def main() -> None:
             "unit": "transaction", "primary_estimand": "arithmetic mean amount",
             "primary_family": "five ANOVA tests; Bonferroni alpha=0.05/5",
             "sensitivity": "Welch means; Kruskal-Wallis ranks; 10%-per-tail Welch-Yuen means",
-            "user_cluster_adjusted": False, "causal_identification": False,
+            "user_cluster_adjusted": False,
+            "user_cluster_adjusted_scope": "False refers to original ANOVA/Welch/rank tests and figure intervals; separate sensitivity is cluster-resampled",
+            "causal_identification": False,
+            "cluster_sensitivity": "Separate user_id bootstrap of transaction-mean differences; pointwise 95% intervals",
             "non_rejection_is_equivalence": False},
         "income_amount": {"r": round(float(income["pearson_r"]), 4),
                           "ci": [round(float(income["ci_low"]), 4),

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>04 · Bike-sharing research brief</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f6f5f0;color:#243c45;font:17px/1.7 system-ui,sans-serif}main{max-width:900px;margin:auto;padding:32px 20px 64px}h1,h2{color:#14252c;line-height:1.2}h1{font:700 clamp(30px,5vw,48px)/1.15 Georgia,serif}a{color:#146964}a:focus-visible{outline:3px solid #146964;outline-offset:4px}section{background:white;border:1px solid #d2ddd9;border-radius:10px;padding:20px;margin:20px 0}footer{font-size:14px}p{overflow-wrap:anywhere}li{margin:12px 0}
+</style></head><body><main>
+<nav aria-label="Project navigation"><a href="../../index.html#project-04">Portfolio</a> · <a href="README.md">Full project report</a> · <a href="outputs/findings.json">Saved findings</a></nav>
+<p>04 / Visual analytics · Jiayu Yan</p><h1>Reconcile demand before visualizing it.</h1>
+<p>Can historical ride patterns help frame fleet-planning questions without confusing observation density with demand?</p>
+<section><h2>Data and quality check</h2><p>The UCI Capital Bikeshare data contain 17,379 hourly observations and 731 daily rows from Washington D.C., 2011–2012. Raw date strings use different formats: a string join matches no days. Parsed dates reconcile hourly and daily totals with <strong>zero ride difference</strong>; unmatched dates now raise an error.</p></section>
+<section><h2>Findings and visual encodings</h2><p>Registered riders account for <strong>81.2% of recorded rides</strong>, not unique people. The busiest day is 15 September 2012 with 8,714 rides. Just three severe-weather hours preclude a reliable severe-weather recommendation.</p><ul>
+<li><a href="charts/01_sunburst.html">Sunburst</a>: area encodes ride totals; hover shows share of parent.</li>
+<li><a href="charts/02_density_contour.html">Density contour</a>: contours count observed hours; marker size encodes rides per hour.</li>
+<li><a href="charts/03_calendar_heatmap.html">Calendar</a>: inspect actual dates and switch years on a common colour scale.</li>
+<li><a href="charts/04_season_timeline.html">Season animation</a>: a seeded sample excludes the quietest decile; it is not the full distribution.</li>
+</ul><p>Each chart bundles its data and Plotly runtime for local viewing.</p></section>
+<section><h2>Decision and next evidence</h2><p>Check evening availability and regular-user service reliability. Citywide totals cannot locate stockouts or explain why people ride. Join station inventories, failed rentals and operating costs before evaluating a scheduling pilot against a comparable baseline. No pilot or causal effect is claimed.</p></section>
+<p><a href="README.md">Continue to full methods, provenance and reproduction commands</a></p>
+<footer>Original coursework independently completed by 闫佳玉 / Jiayu Yan. Portfolio refinements used AI assistance. Original charts and the full report remain available.</footer>
+</main></body></html>

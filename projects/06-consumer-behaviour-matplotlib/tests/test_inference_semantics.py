@@ -70,6 +70,7 @@ class InferenceSemanticsTests(unittest.TestCase):
                 np.minimum(1, self.tests[f"{method}_p"] * len(analysis.GROUPINGS)))
         self.assertGreater(indexed.loc["membership", "anova_p"], 0)
         self.assertLess(indexed.loc["membership", "anova_p"], 0.01)
+        self.assertNotIn("user_mean_welch_p", indexed.columns)
         self.assertFalse(indexed.loc["age_group", "significant_bonferroni"])
 
     def test_generated_report_states_estimands_counts_and_unperformed_experiment(self):
@@ -77,6 +78,7 @@ class InferenceSemanticsTests(unittest.TestCase):
         membership = self.df.groupby("membership")["amount"].mean().reset_index(
             name="mean_amount")
         findings = {
+            "user_cluster_sensitivity": analysis.cluster_sensitivity(self.df, draws=20).to_dict("records"),
             "data": self.defects, "rows_after_dedup": len(self.df),
             "not_rejected_segmentations": int((~self.tests.significant_bonferroni).sum()),
             "basket_identity": {"r_vs_expected": 0.937, "r2_vs_expected": 0.878,
@@ -87,7 +89,7 @@ class InferenceSemanticsTests(unittest.TestCase):
         report = analysis.render_readme(findings, self.tests, correlations, membership)
         for required in ("8,020 raw rows", "8,000 analysed transactions", "20 exact duplicates",
                          "arithmetic means", "trimmed means", "comparable distribution shapes",
-                         "no customer-cluster correction", "not rejected",
+                         "User-cluster bootstrap sensitivity", "not rejected",
                          "no pairwise comparisons", "proposed, not performed",
                          "No A/B test", "intention to treat"):
             self.assertIn(required, report)
@@ -109,6 +111,66 @@ class InferenceSemanticsTests(unittest.TestCase):
         self.assertIn("0.43", caption)
         self.assertNotIn("1.6e-09", caption)
         self.assertIn("Different estimands", caption)
+
+    def test_cluster_draws_match_literal_whole_user_resampling(self):
+        # Unequal transaction counts distinguish transaction vs customer weighting.
+        frame = pd.DataFrame({
+            "user_id": ["a", "a", "a", "b", "b", "c", "c"],
+            "segment": ["A", "A", "B", "A", "B", "A", "B"],
+            "amount": [0., 6., 13., 30., 40., 60., 70.]})
+        levels, means, actual = analysis.cluster_mean_draws(frame, "segment", draws=40, seed=8)
+        self.assertEqual(levels, ["A", "B"])
+        np.testing.assert_allclose(means, [24., 41.])
+        self.assertNotAlmostEqual(means[0], (3 + 30 + 60) / 3)
+        rng = np.random.default_rng(8)
+        expected = []
+        users = frame.user_id.unique()
+        for _ in range(40):
+            selected = rng.choice(users, size=len(users), replace=True)
+            expanded = pd.concat([frame.loc[frame.user_id == user] for user in selected])
+            expected.append(expanded.groupby("segment").amount.mean().reindex(levels))
+        np.testing.assert_allclose(actual, expected)
+
+    def test_cross_group_shared_customer_variation_cancels(self):
+        # Every user's B value is A+7: whole-cluster draws must preserve that contrast.
+        frame = pd.DataFrame({
+            "user_id": np.repeat(np.arange(8), 2),
+            "segment": ["A", "B"] * 8,
+            "amount": np.repeat(np.arange(8) * 100., 2) + np.tile([0., 7.], 8)})
+        with patch.object(analysis, "GROUPINGS", [("segment", "Segment")]):
+            result = analysis.cluster_sensitivity(frame, draws=100).iloc[0]
+        self.assertEqual(result.users_crossing_groups, 8)
+        np.testing.assert_allclose([result.mean_difference, result.ci_low, result.ci_high], 7.)
+        # Independent group resampling would introduce spurious contrast variation.
+
+    def test_empty_groups_missing_labels_and_invalid_ids(self):
+        frame = pd.DataFrame({"user_id": ["a", "b", "c"],
+                              "segment": ["A", "B", None], "amount": [1., 8., 99.]})
+        with patch.object(analysis, "GROUPINGS", [("segment", "Segment")]):
+            result = analysis.cluster_sensitivity(frame, draws=100).iloc[0]
+        self.assertEqual(result.n_users, 3)
+        self.assertEqual(result.n_used, 2)
+        self.assertEqual(result.n_missing_group, 1)
+        self.assertLess(result.valid_draws, 100)
+        self.assertTrue(pd.isna(result.ci_low))
+        self.assertIn("undefined", result.status)
+        frame.loc[0, "user_id"] = None
+        with self.assertRaises(ValueError):
+            analysis.cluster_mean_draws(frame, "segment")
+
+    def test_cluster_reproducibility_and_percentiles(self):
+        with patch.object(analysis, "GROUPINGS", [("membership", "Membership tier")]):
+            table = analysis.cluster_sensitivity(self.df, draws=60, seed=23)
+            analysis.RNG = np.random.default_rng(999)
+            repeated = analysis.cluster_sensitivity(self.df, draws=60, seed=23)
+        pd.testing.assert_frame_equal(table, repeated)
+        levels, means, draws = analysis.cluster_mean_draws(
+            self.df, "membership", draws=60, seed=23)
+        for row in table.itertuples():
+            i, j = levels.index(row.reference), levels.index(row.comparison)
+            self.assertAlmostEqual(row.mean_difference, means[j] - means[i])
+            np.testing.assert_allclose([row.ci_low, row.ci_high],
+                                       np.percentile(draws[:, j] - draws[:, i], [2.5, 97.5]))
 
 
 if __name__ == "__main__":
