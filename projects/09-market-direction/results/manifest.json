@@ -1,0 +1,19 @@
+{
+  "source_url": "https://archive.ics.uci.edu/static/public/247/istanbul+stock+exchange.zip",
+  "source_sha256": "a30838316290a83a98a52a46c30174e0204c963c0877627954ebc74111668922",
+  "source_rows": 536,
+  "source_first": "2009-01-05",
+  "source_last": "2011-02-22",
+  "usable_rows": 516,
+  "development_rows": 300,
+  "test_rows": 216,
+  "selected": "prior",
+  "seed": 20261029,
+  "bootstrap_draws": 4000,
+  "python": "3.12.10",
+  "numpy": "2.5.4",
+  "pandas": "3.0.6",
+  "sklearn": "1.9.1",
+  "license": "CC BY 4.0",
+  "doi": "10.24432/C54P4J"
+}

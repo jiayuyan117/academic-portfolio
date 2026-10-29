@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jiayu Yan — Data Analytics Portfolio</title>
-<meta name="description" content="Jiayu Yan's eight-project portfolio for Data Science and Business Analytics: job-posting NLP, forecasting, statistical inference, industry analysis, visualisation and Java data structures.">
+<meta name="description" content="Jiayu Yan's nine-project portfolio for Data Science and Business Analytics: temporal machine learning, job-posting NLP, forecasting, statistical inference, industry analysis and data engineering.">
 <style>
 :root{
   --ink:#14252c;
@@ -377,16 +377,16 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     <p class="sub">B.Mgmt. in <strong>Big Data Management and Applications</strong>, Guangdong University of Technology</p>
     <p class="sub">Applying for MS programmes in Data Science / Business Analytics — US · Singapore · Hong Kong</p>
 
-    <p class="lede">Eight academic projects connecting business questions with
+    <p class="lede">Nine academic projects connecting business questions with
       data quality, statistical evaluation and clear recommendations.
       Each separates measured results from proposed action and unresolved limitations.</p>
 
-    <p class="meta">Original coursework independently completed by 闫佳玉 / Jiayu Yan.
-      Portfolio refinements used AI assistance, as described below.</p>
+    <p class="meta">Coursework and research extensions by 闫佳玉 / Jiayu Yan.
+      Instructor frameworks and AI-assisted portfolio refinements are credited in the project reports.</p>
 
     <div class="kpi-grid" aria-label="Portfolio verification summary">
       <div class="kpi-card">
-        <span class="kpi-val">8 Projects</span>
+        <span class="kpi-val">9 Projects</span>
         <span class="kpi-lbl">Econometrics · NLP · Statistical Inference · Data Engineering</span>
       </div>
       <div class="kpi-card">
@@ -404,7 +404,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </div>
 
     <nav class="guide" id="reading-routes" aria-label="Suggested reading routes">
-      <p><strong>Data Science route:</strong> <a href="#project-08">08 · NLP evaluation</a>
+      <p><strong>Data Science route:</strong> <a href="#project-09">09 · Temporal ML</a>
+        → <a href="#project-08">08 · NLP evaluation</a>
         → <a href="#project-01">01 · Forecasting</a>
         → <a href="#project-02">02 · Market linkages</a>.</p>
       <p><strong>Business Analytics route:</strong> <a href="#project-06">06 · Marketing allocation</a>
@@ -415,8 +416,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
         These are academic analyses; no deployed business impact is claimed.</p>
       <div class="route-bar" role="group" aria-label="Highlight reading track">
         <span style="font-size:12.5px;font-weight:700;color:var(--ink)">Interactive track highlight:</span>
-        <button type="button" class="route-btn active" onclick="filterTrack('all', this)">All 8 Projects</button>
-        <button type="button" class="route-btn" onclick="filterTrack('ds', this)">Data Science Track (08 · 01 · 02 · 05)</button>
+        <button type="button" class="route-btn active" onclick="filterTrack('all', this)">All 9 Projects</button>
+        <button type="button" class="route-btn" onclick="filterTrack('ds', this)">Data Science Track (09 · 08 · 01 · 02 · 05)</button>
         <button type="button" class="route-btn" onclick="filterTrack('ba', this)">Business Analytics Track (06 · 03 · 08 · 04)</button>
         <button type="button" class="route-btn" onclick="filterTrack('eng', this)">Systems &amp; Data Quality (04 · 05 · 07)</button>
       </div>
@@ -432,7 +433,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
 </header>
 
 <main class="wrap" id="projects">
-  <h2 class="section">Eight projects, in numerical order.</h2>
+  <h2 class="section">Nine projects, in numerical order.</h2>
   <nav aria-label="Project index">
     <ul class="project-index">
       <li><a href="#project-01">01 · Equity forecasting</a></li>
@@ -443,12 +444,13 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       <li><a href="#project-06">06 · Consumer transactions</a></li>
       <li><a href="#project-07">07 · Java workforce system</a></li>
       <li><a href="#project-08">08 · Does the Skill Signal Help?</a></li>
+      <li><a href="#project-09">09 · When the Baseline Wins</a></li>
     </ul>
   </nav>
 
   <details class="matrix-box" id="evidence-matrix" open>
     <summary>
-      <span>Methodological &amp; Reproducibility Verification Matrix (01–08)</span>
+      <span>Methodological &amp; Reproducibility Verification Matrix (01–09)</span>
       <span style="font-size:12px;color:var(--accent);font-weight:600">Click to toggle</span>
     </summary>
     <div class="matrix-table-wrap">
@@ -518,6 +520,13 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
             <td>Employer-disjoint TF-IDF/SVM · BIO LR · CNN/MiniLM</td>
             <td>Fusion Macro-F1 (0.7348) vs. Text (0.7406): Δ = −0.0059 [−0.0176, +0.0070]</td>
             <td>SHA-256 manifest · 22,213 source refs</td>
+          </tr>
+          <tr>
+            <td><a href="#project-09"><strong>09 · Temporal ML</strong></a></td>
+            <td>536 public return observations · 216 test days</td>
+            <td>Purged rolling evaluation · train-only scaling · paired block bootstrap</td>
+            <td>Development selects the prior; local logistic ΔBrier +0.001006 [−0.002279, +0.004296]</td>
+            <td>7 temporal tests · 6 reproduced tables · 24 interval checks</td>
           </tr>
         </tbody>
       </table>
@@ -731,10 +740,35 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </p>
   </section>
 
+  <section class="card featured" id="project-09" data-tracks="ds">
+    <figure class="research-image"><a href="projects/09-market-direction/report.html"><img loading="lazy" src="projects/09-market-direction/results/uncertainty.png" alt="All six candidate Brier differences have pointwise block-bootstrap intervals crossing zero" width="1800" height="864"></a><figcaption>216 later trading days · Pointwise uncertainty does not establish a useful forecasting edge.</figcaption></figure>
+    <p class="eyebrow">Lab 6 research extension · temporal machine learning</p>
+    <h3><span class="num">09</span>When the Baseline Wins</h3>
+    <p class="stack">scikit-learn · purged rolling evaluation · ablations · block-bootstrap intervals</p>
+    <span class="tag">Negative result · open licensed data</span>
+    <p class="find negative">Development-only model selection chooses the <b>historical up-rate</b>.
+      On five subsequent test blocks its Brier score is <b>0.245605</b>.
+      Local logistic regression changes loss by <b>+0.001006</b>,
+      with a 95% interval of <b>[−0.002279, +0.004296]</b>; lower is better.</p>
+    <p>A new implementation on CC BY 4.0 UCI market returns separates model selection,
+      rolling refitting and exploratory ablations. A return-only model's small apparent
+      gain also has an interval crossing zero. Seven tests check time alignment and
+      preprocessing, and a full rerun verifies six evidence tables.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Keep the simple benchmark
+      for this sample. One historical market and 216 test dates cannot establish
+      trading profitability or general forecasting ability.</p>
+    <p>The instructor's original teaching framework is credited; this AI-assisted
+      extension publishes neither the course dataset nor instructor code.</p>
+    <p class="cardlinks"><a href="projects/09-market-direction/report.html">Research brief &amp; methods</a>
+      <a href="projects/09-market-direction/results/predictions.csv">Auditable predictions</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/09-market-direction">Code &amp; tests</a></p>
+  </section>
+
   <footer id="integrity">
-    <p><strong>Authorship.</strong> Original coursework for all eight projects was
-      independently completed by 闫佳玉 / Jiayu Yan. Supplied original materials
-      are retained separately for comparison with the portfolio refinements.</p>
+    <p><strong>Authorship.</strong> Coursework and research extensions by
+      闫佳玉 / Jiayu Yan. Instructor-provided frameworks are acknowledged in the
+      relevant reports. Original Lab 6 materials remain private because redistribution
+      permission was not established.</p>
 
     <p><strong>AI assistance.</strong> Portfolio refinements used AI for analysis
       design, code, interpretation, writing, translation and verification.

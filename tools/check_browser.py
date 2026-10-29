@@ -33,8 +33,8 @@ def main() -> None:
         errors: list[str] = []
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.goto((ROOT / "index.html").as_uri())
-        assert page.locator("section.card").count() == 8
-        expected = [f"{number:02d}" for number in range(1, 9)]
+        assert page.locator("section.card").count() == 9
+        expected = [f"{number:02d}" for number in range(1, 10)]
         assert page.locator("section.card h3 .num").all_text_contents() == expected
         assert page.locator(".project-index a").evaluate_all(
             "(links) => links.map(a => a.hash)"
@@ -47,6 +47,10 @@ def main() -> None:
             ), f"Homepage overflows at {width}px"
             for image in page.locator(".research-image img").all():
                 image.scroll_into_view_if_needed()
+                page.wait_for_function(
+                    "(img) => img.complete && img.naturalWidth > 0",
+                    arg=image.element_handle(),
+                )
                 assert image.evaluate("(img) => img.complete && img.naturalWidth > 0")
             assert page.locator(".research-image img").count() >= 3
             page.screenshot(path=str(OUTPUT / f"homepage-{width}.png"), full_page=True)
@@ -98,6 +102,14 @@ def main() -> None:
             assert button.get_attribute("aria-pressed") == "true"
             assert page.locator('.sim-btn[aria-pressed="true"]').count() == 1
             assert page.locator("#case-body").inner_text()
+        page.goto((ROOT / "projects/09-market-direction/report.html").as_uri())
+        assert page.title() == "When the baseline wins | Jiayu Yan"
+        for width in (1280, 375, 320):
+            page.set_viewport_size({"width": width, "height": 900})
+            assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+            for image in page.locator("img").all():
+                assert image.evaluate("(img) => img.complete && img.naturalWidth > 0")
+        assert not errors, errors
         assert not blocked, f"Research brief requested the network: {blocked}"
         page.set_viewport_size({"width": 1280, "height": 900})
         paths = sorted(CHARTS.glob("*.html"))
@@ -156,7 +168,7 @@ def main() -> None:
             print(f"Live homepage: three viewport widths, images, order and {len(links)} same-site links passed.")
             live.close()
         browser.close()
-    print("Homepage, briefs 03–08, route/scenario controls and four offline charts passed.")
+    print("Homepage, briefs 03–09, route/scenario controls and four offline charts passed.")
 
 
 if __name__ == "__main__":

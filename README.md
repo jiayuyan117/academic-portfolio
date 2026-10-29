@@ -1,6 +1,6 @@
 # Jiayu Yan — Data Analytics Portfolio
 
-**Author: 闫佳玉 / Jiayu Yan. All original coursework was independently completed by the author.**
+**Author: 闫佳玉 / Jiayu Yan. Instructor frameworks and AI-assisted research extensions are credited in the individual reports.**
 
 B.Mgmt. in **Big Data Management and Applications**, Guangdong University of Technology
 · Applying for MS programmes in Data Science / Business Analytics (US · Singapore · Hong Kong)
@@ -14,7 +14,7 @@ B.Mgmt. in **Big Data Management and Applications**, Guangdong University of Tec
 These projects connect statistical analysis with decisions: *does this result
 survive being checked, and what should we do with it?*
 
-The eight projects build on independently completed undergraduate coursework. They
+The nine projects build on undergraduate coursework. They
 examine whether skill features improve job-category classification, whether a
 forecast beats a simple benchmark, how market-linkage estimates depend on
 identifying assumptions, and whether data quality supports a business conclusion.
@@ -53,8 +53,9 @@ and 07** add visual communication, missing-data analysis and engineering.
 | [06 · Consumer transactions](projects/06-consumer-behaviour-matplotlib/) | Segmentation evidence and decision limits |
 | [07 · Java workforce system](projects/07-workforce-system-java/) | Data structures and invariant testing |
 | [08 · Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md) | NLP evaluation, negative findings and reproducibility |
+| [09 · When the Baseline Wins](projects/09-market-direction/report.html) | Purged temporal ML, baseline-inclusive selection and block-bootstrap uncertainty |
 
-The index and project descriptions follow numerical order, 01–08. The routes above are optional reading suggestions.
+The index and project descriptions follow numerical order, 01–09. Project 09 is an additional starting point for temporal machine-learning evaluation.
 
 ### Business Analytics: from question to decision
 
@@ -70,7 +71,7 @@ interventions or measured ROI. The environmental study (05) demonstrates transfe
 missing-data analysis and uncertainty communication; the Java project (07)
 demonstrates data consistency rather than a measured business improvement.
 
-## Projects — 8 in total
+## Projects — 9 in total
 
 ### 01 · [Equity Time-Series Forecasting](projects/01-equity-time-series-forecasting/)
 `statsmodels` · `ARMA/ARIMA` · `fixed-origin holdout` · `252 values verified per run`
@@ -193,6 +194,31 @@ Evaluate extracted requirements directly before using them in a skills profile.
 Portfolio refinements used AI assistance; see the [authorship statement](projects/08-nlp-job-postings/CONTRIBUTIONS.md).
 [Read the research brief](https://jiayuyan117.github.io/academic-portfolio/projects/08-nlp-job-postings/report.html).
 
+### 09 · [When the Baseline Wins](projects/09-market-direction/report.html)
+
+An independent, AI-assisted research extension of Lab 6 on the openly licensed
+UCI Istanbul Stock Exchange dataset (Akbilgic, 2013; CC BY 4.0; DOI 10.24432/C54P4J).
+The instructor supplied the original course framework, including classifiers,
+chronological splitting, scaling, K-means/PCA and five exercises. The public
+extension implements a new evaluation pipeline; course data and instructor code
+are not redistributed.
+
+Development selection includes the baseline and chooses the historical up-rate.
+Five later test blocks contain 216 dates: Brier **0.245605** for the prior versus
+**0.246611** for local logistic regression. The paired difference is **+0.001006**
+with a pointwise 95% moving-block interval **[−0.002279, +0.004296]**.
+Feature ablations and block-length sensitivity do not establish a predictive edge.
+These are retrospective results on one market, not a profitability claim.
+
+The project saves predictions and checks all metrics, split boundaries and
+24 bootstrap intervals, then reruns the analysis and compares six reference tables.
+Seven tests cover scientific failure modes such as future-feature leakage.
+Use the project-specific `requirements.txt` in a separate environment, then run
+`python run.py`, `python -m unittest discover -s tests -v` and `python verify.py`
+from the project directory. The first run downloads the hash-pinned UCI workbook.
+The [English research brief](https://jiayuyan117.github.io/academic-portfolio/projects/09-market-direction/report.html)
+contains methods, source discrepancies, attribution and limitations.
+
 ## Reproducibility
 
 Each project has checks matched to its claims. The NLP workflow recomputes
@@ -209,6 +235,7 @@ training is an explicit local command, not a claim about routine CI.
 | 06 Consumer transactions | Linux: analysis/figure rebuild and inference-semantic checks | `python src/analyze.py` |
 | 07 Workforce system | Linux / Java 17: Maven verification, JUnit and reference-model tests | `mvn verify` |
 | 08 Job-posting NLP | Source reconstruction, saved-prediction verification and sample training checks | `python run.py verify`; `python run.py smoke` |
+| 09 Market direction | Local full rerun, seven temporal tests and prediction-level verification; dedicated CI workflow | `python verify.py`; `python -m unittest discover -s tests -v` |
 
 
 Projects 01 and 02 ship a verifier rather than a runner. It checks the SHA-256 of
@@ -272,8 +299,10 @@ estimated, and what remains assumed; bilingual (English / Chinese) delivery.
 
 ## Academic integrity and AI use
 
-**Original coursework for all eight projects was independently completed by
-闫佳玉 / Jiayu Yan.** Supplied original materials are retained separately.
+**Coursework and research extensions by 闫佳玉 / Jiayu Yan.**
+Instructor-provided frameworks are credited in individual reports. Lab 6's
+original teaching code and course data remain private; its public extension uses
+a new implementation and CC BY 4.0 data.
 
 Portfolio refinements used AI for analysis design, code, interpretation, writing,
 translation and verification. This assistance is distinct from authorship of the
