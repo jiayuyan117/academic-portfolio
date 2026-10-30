@@ -14,10 +14,13 @@ B.Mgmt. in **Big Data Management and Applications**, Guangdong University of Tec
 These projects connect statistical analysis with decisions: *does this result
 survive being checked, and what should we do with it?*
 
-The nine projects build on undergraduate coursework. They
+Projects 01–09 build on undergraduate coursework. They
 examine whether skill features improve job-category classification, whether a
 forecast beats a simple benchmark, how market-linkage estimates depend on
 identifying assumptions, and whether data quality supports a business conclusion.
+
+Project 10 is a newly implemented, AI-assisted product-catalog engineering
+supplement, with explicit source and contribution disclosures.
 
 Negative findings and methodological corrections are reported alongside the
 claims they qualify. Failure to reject a null hypothesis is not proof of no
@@ -54,8 +57,9 @@ and 07** add visual communication, missing-data analysis and engineering.
 | [07 · Java workforce system](projects/07-workforce-system-java/) | Data structures and invariant testing |
 | [08 · Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md) | NLP evaluation, negative findings and reproducibility |
 | [09 · When the Baseline Wins](projects/09-market-direction/report.html) | Purged temporal ML, baseline-inclusive selection and block-bootstrap uncertainty |
+| [10 · Product catalog](projects/10-product-catalog/PROJECT.html) | Persistent records, stale-edit rejection and HTTP boundary tests |
 
-The index and project descriptions follow numerical order, 01–09. Project 09 is an additional starting point for temporal machine-learning evaluation.
+The index and project descriptions follow numerical order, 01–10. Project 09 is an additional starting point for temporal machine-learning evaluation.
 
 ### Business Analytics: from question to decision
 
@@ -71,7 +75,7 @@ interventions or measured ROI. The environmental study (05) demonstrates transfe
 missing-data analysis and uncertainty communication; the Java project (07)
 demonstrates data consistency rather than a measured business improvement.
 
-## Projects — 9 in total
+## Projects — 10 in total
 
 ### 01 · [Equity Time-Series Forecasting](projects/01-equity-time-series-forecasting/)
 `statsmodels` · `ARMA/ARIMA` · `fixed-origin holdout` · `252 values verified per run`
@@ -219,6 +223,19 @@ from the project directory. The first run downloads the hash-pinned UCI workbook
 The [English research brief](https://jiayuyan117.github.io/academic-portfolio/projects/09-market-direction/report.html)
 contains methods, source discrepancies, attribution and limitations.
 
+### 10 · [Product Catalog: Protecting Small Data Changes](projects/10-product-catalog/PROJECT.html)
+
+New AI-assisted Java engineering exercise inspired by a textbook's product-management
+topic; no textbook code is redistributed. Local HTTP CRUD, exact CNY cents,
+atomic file snapshots and version checks complement project 07's in-memory structures.
+Ten failure-oriented test groups passed locally, including real HTTP requests,
+restart recovery, competing edits and failed storage writes.
+
+GitHub Pages displays the static brief only; the backend requires a local JDK.
+This is not independently completed historical coursework, research or a deployed
+business system. See [setup and evidence](projects/10-product-catalog/README.md)
+and [contributions](projects/10-product-catalog/PROVENANCE.md).
+
 ## Reproducibility
 
 Each project has checks matched to its claims. The NLP workflow recomputes
@@ -236,6 +253,7 @@ training is an explicit local command, not a claim about routine CI.
 | 07 Workforce system | Linux / Java 17: Maven verification, JUnit and reference-model tests | `mvn verify` |
 | 08 Job-posting NLP | Source reconstruction, saved-prediction verification and sample training checks | `python run.py verify`; `python run.py smoke` |
 | 09 Market direction | Local full rerun, seven temporal tests and prediction-level verification; dedicated CI workflow | `python verify.py`; `python -m unittest discover -s tests -v` |
+| 10 Product catalog | Local Windows / JDK 21, Java 17 compilation target: 10 test groups; no workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 test` |
 
 
 Projects 01 and 02 ship a verifier rather than a runner. It checks the SHA-256 of
@@ -299,7 +317,9 @@ estimated, and what remains assumed; bilingual (English / Chinese) delivery.
 
 ## Academic integrity and AI use
 
-**Coursework and research extensions by 闫佳玉 / Jiayu Yan.**
+**Projects 01–09: coursework and research extensions by 闫佳玉 / Jiayu Yan.**
+Project 10 is a new AI-generated implementation under user authorization, with
+tests and documentation also AI-assisted; independent historical authorship is not claimed.
 Instructor-provided frameworks are credited in individual reports. Lab 6's
 original teaching code and course data remain private; its public extension uses
 a new implementation and CC BY 4.0 data.

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jiayu Yan — Data Analytics Portfolio</title>
-<meta name="description" content="Jiayu Yan's nine-project portfolio for Data Science and Business Analytics: temporal machine learning, job-posting NLP, forecasting, statistical inference, industry analysis and data engineering.">
+<meta name="description" content="Jiayu Yan's ten-project portfolio for Data Science and Business Analytics: temporal machine learning, NLP, forecasting, statistical inference and AI-assisted engineering.">
 <style>
 :root{
   --ink:#14252c;
@@ -377,16 +377,17 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     <p class="sub">B.Mgmt. in <strong>Big Data Management and Applications</strong>, Guangdong University of Technology</p>
     <p class="sub">Applying for MS programmes in Data Science / Business Analytics — US · Singapore · Hong Kong</p>
 
-    <p class="lede">Nine academic projects connecting business questions with
+    <p class="lede">Ten academic projects and engineering exercises connecting business questions with
       data quality, statistical evaluation and clear recommendations.
       Each separates measured results from proposed action and unresolved limitations.</p>
 
-    <p class="meta">Coursework and research extensions by 闫佳玉 / Jiayu Yan.
-      Instructor frameworks and AI-assisted portfolio refinements are credited in the project reports.</p>
+    <p class="meta">Projects 01–09: coursework and research extensions by 闫佳玉 / Jiayu Yan.
+      Project 10 is a newly implemented AI-assisted engineering exercise.
+      Sources and contributions are credited in the project reports.</p>
 
     <div class="kpi-grid" aria-label="Portfolio verification summary">
       <div class="kpi-card">
-        <span class="kpi-val">9 Projects</span>
+        <span class="kpi-val">10 Projects</span>
         <span class="kpi-lbl">Econometrics · NLP · Statistical Inference · Data Engineering</span>
       </div>
       <div class="kpi-card">
@@ -416,10 +417,10 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
         These are academic analyses; no deployed business impact is claimed.</p>
       <div class="route-bar" role="group" aria-label="Highlight reading track">
         <span style="font-size:12.5px;font-weight:700;color:var(--ink)">Interactive track highlight:</span>
-        <button type="button" class="route-btn active" onclick="filterTrack('all', this)">All 9 Projects</button>
+        <button type="button" class="route-btn active" onclick="filterTrack('all', this)">All 10 Projects</button>
         <button type="button" class="route-btn" onclick="filterTrack('ds', this)">Data Science Track (09 · 08 · 01 · 02 · 05)</button>
         <button type="button" class="route-btn" onclick="filterTrack('ba', this)">Business Analytics Track (06 · 03 · 08 · 04)</button>
-        <button type="button" class="route-btn" onclick="filterTrack('eng', this)">Systems &amp; Data Quality (04 · 05 · 07)</button>
+        <button type="button" class="route-btn" onclick="filterTrack('eng', this)">Systems &amp; Data Quality (04 · 05 · 07 · 10)</button>
       </div>
     </nav>
 
@@ -433,7 +434,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
 </header>
 
 <main class="wrap" id="projects">
-  <h2 class="section">Nine projects, in numerical order.</h2>
+  <h2 class="section">Ten projects, in numerical order.</h2>
   <nav aria-label="Project index">
     <ul class="project-index">
       <li><a href="#project-01">01 · Equity forecasting</a></li>
@@ -445,12 +446,13 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       <li><a href="#project-07">07 · Java workforce system</a></li>
       <li><a href="#project-08">08 · Does the Skill Signal Help?</a></li>
       <li><a href="#project-09">09 · When the Baseline Wins</a></li>
+      <li><a href="#project-10">10 · Product catalog</a></li>
     </ul>
   </nav>
 
   <details class="matrix-box" id="evidence-matrix" open>
     <summary>
-      <span>Methodological &amp; Reproducibility Verification Matrix (01–09)</span>
+      <span>Methodological &amp; Reproducibility Verification Matrix (01–10)</span>
       <span style="font-size:12px;color:var(--accent);font-weight:600">Click to toggle</span>
     </summary>
     <div class="matrix-table-wrap">
@@ -527,6 +529,13 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
             <td>Purged rolling evaluation · train-only scaling · paired block bootstrap</td>
             <td>Development selects the prior; local logistic ΔBrier +0.001006 [−0.002279, +0.004296]</td>
             <td>7 temporal tests · 6 reproduced tables · 24 interval checks</td>
+          </tr>
+          <tr>
+            <td><a href="#project-10"><strong>10 · Product catalog</strong></a></td>
+            <td>Synthetic test inputs; no user dataset</td>
+            <td>Local Java HTTP · atomic snapshots · optimistic versions</td>
+            <td>Stale edits rejected; failed writes do not publish memory</td>
+            <td>10 local test groups · real HTTP · no workflow</td>
           </tr>
         </tbody>
       </table>
@@ -764,11 +773,32 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/09-market-direction">Code &amp; tests</a></p>
   </section>
 
+  <section class="card" id="project-10" data-tracks="eng">
+    <h3><span class="num">10</span>Product Catalog: Protecting Small Data Changes</h3>
+    <p class="stack">Java 17 target · local HTTP · atomic file snapshots · version conflicts</p>
+    <span class="tag">New AI-assisted engineering exercise</span>
+    <p class="find">Two browser tabs should not silently overwrite each other.
+      Version checks reject stale edits; a failed snapshot write does not publish new state in memory.</p>
+    <p>Product CRUD, search, exact CNY cents and persistent records complement
+      project 07's in-memory data structures. Ten local test groups cover real
+      HTTP requests, competing edits, restart recovery and storage failures.</p>
+    <p class="decision"><strong>Scope.</strong> Inspired by a textbook topic with no
+      textbook source copied. Newly generated with AI assistance; no independent
+      historical authorship, real users or research results are claimed.
+      GitHub Pages hosts the brief only; the Java backend runs locally.</p>
+    <p class="cardlinks">
+      <a href="projects/10-product-catalog/PROJECT.html">Architecture brief / 双语简报</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/10-product-catalog">Code, tests &amp; attribution</a>
+    </p>
+  </section>
+
   <footer id="integrity">
-    <p><strong>Authorship.</strong> Coursework and research extensions by
+    <p><strong>Authorship.</strong> Projects 01–09: coursework and research extensions by
       闫佳玉 / Jiayu Yan. Instructor-provided frameworks are acknowledged in the
       relevant reports. Original Lab 6 materials remain private because redistribution
-      permission was not established.</p>
+      permission was not established. Project 10 is a newly implemented AI-assisted
+      supplement; its code, tests and documentation were generated with AI under
+      user authorization, not claimed as independent historical coursework.</p>
 
     <p><strong>AI assistance.</strong> Portfolio refinements used AI for analysis
       design, code, interpretation, writing, translation and verification.

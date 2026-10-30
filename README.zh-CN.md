@@ -18,6 +18,8 @@ English version: [README.md](README.md)
 九个项目以本科课程作品为基础，检验技能特征能否改善岗位类别分类、预测能否优于
 简单基准、市场联动估计如何依赖识别假设，以及数据质量是否足以支持业务结论。
 
+另新增 **10 · 商品目录**，作为本次新编写的 AI 辅助工程补充，明确披露来源与分工。
+
 否证结果和方法纠错与正面发现一起呈现。没有拒绝零假设并不证明完全没有差异；
 观测数据的相关性也不等于干预效果。
 
@@ -45,8 +47,9 @@ English version: [README.md](README.md)
 | [07 · Java 员工系统](projects/07-workforce-system-java/) | 数据结构与不变量测试 |
 | [08 · Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md) | NLP 评估、否证结果与可复现性 |
 | [09 · When the Baseline Wins](projects/09-market-direction/report.html) | 时序机器学习、包含基准的模型选择与分块置信区间 |
+| [10 · 商品目录](projects/10-product-catalog/PROJECT.html) | 文件持久化、旧版本冲突与 HTTP 边界测试 |
 
-目录和项目正文均按 01–09 编号升序展示；09 也可作为时序机器学习方向的阅读起点。
+目录和项目正文均按 01–10 编号升序展示；09 也可作为时序机器学习方向的阅读起点。
 
 ### 商业分析：从问题到决策
 
@@ -60,7 +63,7 @@ English version: [README.md](README.md)
 建议属于学术分析解释，不是已部署的干预或实测 ROI。环境研究（05）展示可迁移的
 缺失数据分析与不确定性表达；Java 项目（07）展示数据一致性，不声称已实现业务改善。
 
-## 项目（共 9 个）
+## 项目（共 10 个）
 
 ### 01 · [股票时间序列预测](projects/01-equity-time-series-forecasting/)
 `statsmodels` · `ARMA/ARIMA` · `固定起点样本外检验` · `每次运行校验 252 个数值`
@@ -181,6 +184,17 @@ TF-IDF/CNN/冻结 MiniLM 对照均已运行，并保留预测供独立重算。
 在项目目录使用独立环境安装项目依赖后运行 `python verify.py` 和
 `python -m unittest discover -s tests -v`，首次运行自动下载并校验公开数据。
 
+### 10 · [商品目录：可核验的数据修改](projects/10-product-catalog/PROJECT.html)
+
+受教材商品管理主题启发的新写 Java 工程练习，不转载教材代码。提供本地 HTTP
+增删改查、整数分金额、原子文件快照和旧版本冲突检查，与 07 的内存数据结构互补。
+本机实际通过 10 组测试，包括真实 HTTP 请求、重启恢复、竞争修改和写入失败。
+GitHub Pages 只能展示静态简报，Java 后端需本地运行。
+
+AI 参与了实现、测试和文档，不宣称用户独立完成过此项目、存在真实用户或研究成果。
+详见[运行说明与测试证据](projects/10-product-catalog/README.md)及
+[来源与分工](projects/10-product-catalog/PROVENANCE.md)。本补充不使用 workflow。
+
 ## 可复现性
 
 各项目按其研究内容进行验证。NLP 工作流重算已保存预测的指标，并运行真实数据小样本实验；
@@ -247,7 +261,9 @@ python tools/rebuild.py --project 01
 
 ## 学术诚信与 AI 使用说明
 
-**课程作品与研究扩展作者：闫佳玉 / Jiayu Yan。**
+**01–09 课程作品与研究扩展作者：闫佳玉 / Jiayu Yan。**
+10 是用户授权下新编写的 AI 辅助工程补充，代码、测试及文档由 AI 协助生成，
+不声称属于独立完成的历史课程作品。
 教师提供的框架在相关报告中注明。实验课 6 原始材料本地保留；
 公开版采用独立实现与明确许可的数据，研究扩展使用 AI 辅助。
 

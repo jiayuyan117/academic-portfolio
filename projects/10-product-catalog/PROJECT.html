@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="An honestly attributed Java engineering exercise: product catalog persistence, stale-edit rejection and failure-oriented tests.">
+<title>10 · Product Catalog — Jiayu Yan</title>
+<style>
+:root{color-scheme:light;--ink:#14252c;--accent:#146964;--line:#d2ddd9}
+*{box-sizing:border-box}body{margin:0;background:#f6f5f0;color:var(--ink);font:17px/1.7 system-ui,sans-serif}
+main{max-width:1000px;margin:auto;padding:36px 24px 72px}a{color:var(--accent);text-underline-offset:4px}
+a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+h1{font:700 clamp(34px,6vw,60px)/1.12 Georgia,serif;margin:22px 0}
+h2{font:700 28px/1.25 Georgia,serif}h3{font-size:19px}
+.eyebrow{color:var(--accent);font-weight:700;letter-spacing:.08em;font-size:13px}
+.notice{padding:18px 22px;background:#e1efed;border-left:4px solid var(--accent)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+section,.panel{background:white;border:1px solid var(--line);border-radius:10px;padding:24px;margin-top:22px}
+.grid .panel{margin:0}.muted{color:#586c74}.flow{font-family:monospace;background:#edf2ef;padding:16px;overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line);vertical-align:top}
+code{background:#edf2ef;padding:2px 4px}footer{margin-top:30px;border-top:1px solid var(--line);padding-top:20px}
+@media(max-width:650px){.grid{grid-template-columns:1fr}main{padding:24px 16px}section{padding:18px}}
+</style>
+</head>
+<body><main>
+<nav aria-label="Project navigation"><a href="../../index.html">Portfolio</a> ·
+<a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/10-product-catalog">Code &amp; tests</a> ·
+<a href="#chinese">中文说明</a></nav>
+<p class="eyebrow">10 / ENGINEERING SUPPLEMENT / AI-ASSISTED</p>
+<h1>A small catalog.<br>Changes that can be checked.</h1>
+<p>What happens when two browser tabs edit the same product, or a save fails?
+This Java exercise treats those failures as part of the interface.</p>
+<p class="notice"><strong>Static architecture brief.</strong> GitHub Pages cannot run Java.
+The working application runs locally with a JDK. This page contains illustrated
+scenarios, not a connected catalog or a simulated backend.</p>
+<div class="grid">
+<div class="panel"><h2>Practical scope</h2><p>Create, search, edit and delete products.
+Unique SKU, Unicode names, integer CNY cents and bounded stock. Local file
+persistence restores records after restart.</p></div>
+<div class="panel"><h2>Distinct contribution</h2><p>Project 07 explores in-memory
+trees. This exercise adds HTTP validation, persistent state and stale-edit
+rejection. No research novelty or measured business improvement is claimed.</p></div>
+</div>
+<section><h2>One edit, from form to disk</h2>
+<p class="flow">Browser form → HTTP boundary → record validation + version check → temporary snapshot → atomic replacement → publish memory → redirect</p>
+<p>The server binds to <code>127.0.0.1</code>. A per-process form token, Host/Origin
+checks and escaped HTML protect the local form boundary. A file lock excludes
+another opener. Successful writes receive a monotonically increasing revision.</p>
+<p>If a snapshot cannot be replaced atomically, the new state is not published
+in memory. This design is intentionally small; it is not an ACID database or a
+power-loss recovery guarantee.</p></section>
+<section><h2>Illustrated failure cases</h2><p class="muted">Synthetic examples;
+these are explanatory states, not recorded user activity.</p>
+<table><thead><tr><th>Trigger</th><th>Required behavior</th></tr></thead><tbody>
+<tr><td>Two tabs load version 1. Tab A saves first.</td><td>Tab B receives HTTP 409; it must reload instead of overwriting A.</td></tr>
+<tr><td>A product is deleted and its SKU recreated.</td><td>The global revision prevents an earlier form from matching the new record.</td></tr>
+<tr><td>Price is <code>0.001</code> or stock is negative.</td><td>Reject the input; do not silently round money or change state.</td></tr>
+<tr><td>Disk destination cannot be replaced.</td><td>Return a storage failure; retain the previous in-memory state.</td></tr>
+<tr><td>A stored name includes <code>&lt;script&gt;</code>.</td><td>Render it as text, not executable markup.</td></tr>
+</tbody></table></section>
+<section><h2>Verification with stated limits</h2>
+<p><strong>10 test groups passed, 0 failed</strong> on Windows with Temurin
+21.0.12.1, compiled using <code>--release 17</code>. Tests execute real loopback
+HTTP requests, storage round trips, competing edits, corrupt snapshots and
+failed-write scenarios. Assertions are explicit and do not depend on
+<code>-ea</code>.</p>
+<p>No JDK 17 runtime, cross-platform, separate-process crash, browser visual or
+production load validation is claimed. No workflow was added or invoked.
+The catalog has no login, audit trail, backup tooling or multi-host storage.</p>
+<p><a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/10-product-catalog/README.md">Commands, complete test output &amp; limitations</a></p></section>
+<section><h2>Source and assistance</h2>
+<p>The topic comes from chapter05 of a supplied Java Web textbook archive;
+chapter13's member-management example was not selected. Redistribution permission
+was not established, so no textbook code, binaries or database configuration is
+published. This new implementation uses JDK HttpServer and a TSV snapshot, not
+the textbook's JSP/Servlet/JDBC stack.</p>
+<p>The AI assistant generated implementation, tests and documentation under the
+user's authorization. This is a newly built AI-assisted exercise, not evidence of
+independently written historical coursework, completed research or real users.</p>
+<p><a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/10-product-catalog/PROVENANCE.md">Full provenance &amp; contribution statement</a></p></section>
+<section id="chinese" lang="zh-CN"><h2>中文说明：小系统，明确的证据边界</h2>
+<p>本项目以教材商品管理为选题背景，新编写本地 Java 应用，侧重持久化、
+金额校验和并发冲突。它与已有员工系统的数据结构内容互补，不包装成研究成果。</p>
+<p>10 组测试在本机实际运行通过，包括 HTTP 请求、重启恢复、旧版本拒绝及写入失败。
+这不代表生产可用或已完成跨平台验证。所有示例数据均为构造数据。
+AI 参与实现、测试和文档；不声称用户独立写过这份新实现。</p>
+<p>本页仅为静态展示。运行后端需要本地 JDK；GitHub Pages 不能运行 Java。</p></section>
+<footer>Jiayu Yan / 闫佳玉 · Academic portfolio · Newly implemented engineering supplement · 2026</footer>
+</main></body></html>
