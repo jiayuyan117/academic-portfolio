@@ -14,7 +14,8 @@ B.Mgmt. in **Big Data Management and Applications**, Guangdong University of Tec
 These projects connect statistical analysis with decisions: *does this result
 survive being checked, and what should we do with it?*
 
-All ten projects build on undergraduate coursework. They
+Projects 01–10 build on undergraduate coursework; project 11 is an AI-assisted
+measurement study added for this portfolio. They
 examine whether skill features improve job-category classification, whether a
 forecast beats a simple benchmark, how market-linkage estimates depend on
 identifying assumptions, whether data quality supports a business conclusion,
@@ -61,6 +62,7 @@ concurrent edits.
 | [08 · Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md) | NLP evaluation, negative findings and reproducibility |
 | [09 · When the Baseline Wins](projects/09-market-direction/report.html) | Purged temporal ML, baseline-inclusive selection and block-bootstrap uncertainty |
 | [10 · Product catalog](projects/10-product-catalog/PROJECT.html) | Persistent records, stale-edit rejection and HTTP boundary tests |
+| [11 · Cart event funnel](projects/11-cart-event-funnel/README.md) | Session vs event counting, simulated ground truth and interval coverage |
 
 
 ### Business Analytics: from question to decision
@@ -77,7 +79,7 @@ interventions or measured ROI. The environmental study (05) demonstrates transfe
 missing-data analysis and uncertainty communication; the Java project (07)
 demonstrates data consistency rather than a measured business improvement.
 
-## Projects — 10 in total
+## Projects — 11 in total
 
 ### 01 · [Equity Time-Series Forecasting](projects/01-equity-time-series-forecasting/)
 `statsmodels` · `ARMA/ARIMA` · `fixed-origin holdout` · `252 values verified per run`
@@ -241,6 +243,20 @@ No research results or deployed business system are claimed. See
 [setup and evidence](projects/10-product-catalog/README.md)
 and [sources and contributions](projects/10-product-catalog/PROVENANCE.md).
 
+### 11 · [Counting Sessions, Not Clicks](projects/11-cart-event-funnel/README.md)
+`Java 17` · `idempotent event log` · `seeded simulation with known truth` · `coverage study`
+
+A Java cart event log accepts or rejects every client attempt (repeated order
+keys, empty carts, invalid removals, events after the order). On 3,000 simulated
+sessions, raw ORDER attempts give **15.6%** purchase conversion; the validated
+log counted per session gives **12.47%** [11.30%, 13.60%] against a true rate of
+**12.25%**. Across 200 replicates, the session interval covers the truth **95.5%**
+of the time and the event-count interval **34.0%**.
+
+**Decision:** report conversion per session from a server-validated log, ordered
+by server sequence rather than client timestamps. All data are synthetic.
+Built with substantial AI assistance; the textbook supplied only the topic.
+
 ## Reproducibility
 
 Each project has checks matched to its claims. The NLP workflow recomputes
@@ -259,6 +275,7 @@ training is an explicit local command, not a claim about routine CI.
 | 08 Job-posting NLP | Source reconstruction, saved-prediction verification and sample training checks | `python run.py verify`; `python run.py smoke` |
 | 09 Market direction | Local full rerun, seven temporal tests and prediction-level verification; dedicated CI workflow | `python verify.py`; `python -m unittest discover -s tests -v` |
 | 10 Product catalog | Local Windows / JDK 21, Java 17 compilation target: 13 test groups; no workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 test` |
+| 11 Cart event funnel | Local Windows / JDK 21 (`--release 17`) and CPython 3.12: 9 Java test groups, 6 findings tests, byte-identical rerun; no workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1` |
 
 
 Projects 01 and 02 ship a verifier rather than a runner. It checks the SHA-256 of
@@ -322,7 +339,8 @@ estimated, and what remains assumed; bilingual (English / Chinese) delivery.
 
 ## Academic integrity and AI use
 
-**All ten projects by 闫佳玉 / Jiayu Yan.**
+**Projects 01–10 by 闫佳玉 / Jiayu Yan.** Project 11 was built for this portfolio
+with substantial AI assistance in design, code, analysis and writing.
 Instructor-provided frameworks are credited in individual reports. Lab 6's
 original teaching code and course data remain private; its public extension uses
 a new implementation and CC BY 4.0 data.

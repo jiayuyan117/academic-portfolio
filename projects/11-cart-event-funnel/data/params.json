@@ -1,0 +1,14 @@
+{
+  "seed": 20261102,
+  "sessions": 3000,
+  "replicates": 200,
+  "replicate_sessions": 1000,
+  "p_add": 0.35,
+  "p_checkout_given_add": 0.50,
+  "p_order_given_checkout": 0.70,
+  "p_double_submit": 0.15,
+  "p_clock_skew": 0.04,
+  "p_bad_remove": 0.03,
+  "p_empty_cart_order": 0.02,
+  "p_event_after_order": 0.05
+}

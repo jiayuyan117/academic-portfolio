@@ -17,7 +17,7 @@ English version: [README.md](README.md)
 
 如果评审时间有限，建议先看 **09 → 08 → 07 → 10**：这条路线集中展示时序机器学习、NLP 评估、Java 数据结构、不变量测试、持久化和 HTTP 边界测试；再根据申请方向阅读其余项目。
 
-十个项目均以本科课程作品为基础，检验技能特征能否改善岗位类别分类、预测能否优于
+01–10 均以本科课程作品为基础，11 是为作品集新增、在 AI 大量辅助下完成的测量研究。它们检验技能特征能否改善岗位类别分类、预测能否优于
 简单基准、市场联动估计如何依赖识别假设、数据质量是否足以支持业务结论，
 以及小型系统在数据修改时能否保持一致。
 
@@ -51,6 +51,7 @@ English version: [README.md](README.md)
 | [08 · Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md) | NLP 评估、否证结果与可复现性 |
 | [09 · When the Baseline Wins](projects/09-market-direction/report.html) | 时序机器学习、包含基准的模型选择与分块置信区间 |
 | [10 · 商品目录](projects/10-product-catalog/PROJECT.html) | 文件持久化、旧版本冲突与 HTTP 边界测试 |
+| [11 · 购物车事件漏斗](projects/11-cart-event-funnel/README.md) | 会话口径与事件口径、模拟真实值与区间覆盖率 |
 
 
 ### 商业分析：从问题到决策
@@ -65,7 +66,7 @@ English version: [README.md](README.md)
 建议属于学术分析解释，不是已部署的干预或实测 ROI。环境研究（05）展示可迁移的
 缺失数据分析与不确定性表达；Java 项目（07）展示数据一致性，不声称已实现业务改善。
 
-## 项目（共 10 个）
+## 项目（共 11 个）
 
 ### 01 · [股票时间序列预测](projects/01-equity-time-series-forecasting/)
 `statsmodels` · `ARMA/ARIMA` · `固定起点样本外检验` · `每次运行校验 252 个数值`
@@ -199,6 +200,15 @@ GitHub Pages 只能展示静态简报，Java 后端需本地运行。
 详见[运行说明与测试证据](projects/10-product-catalog/README.md)及
 [来源与分工](projects/10-product-catalog/PROVENANCE.md)。本项目不使用 workflow。
 
+### 11 · [按会话计数，而不是按点击计数](projects/11-cart-event-funnel/README.md)
+
+Java 购物车事件日志对每次客户端请求做校验并记录拒绝原因（重复下单、空购物车、
+删除不存在的商品、下单后的事件）。3,000 个模拟会话中，按原始下单事件计算的转化率为
+**15.6%**，按已验证日志、每会话计一次为 **12.47%**（95% 区间 [11.30%, 13.60%]），
+真实值 **12.25%**。200 次独立重复中，会话口径区间覆盖真实值 **95.5%**，事件口径仅 **34.0%**。
+所有数据均为模拟数据。本项目在 AI 大量辅助下完成，教材只提供选题。
+
+
 ## 可复现性
 
 各项目按其研究内容进行验证。NLP 工作流重算已保存预测的指标，并运行真实数据小样本实验；
@@ -265,7 +275,7 @@ python tools/rebuild.py --project 01
 
 ## 学术诚信与 AI 使用说明
 
-**全部十个项目作者：闫佳玉 / Jiayu Yan。**
+**01–10 作者：闫佳玉 / Jiayu Yan。11 为作品集新增项目，设计、代码、分析与写作均有 AI 大量参与。**
 
 教师提供的框架在相关报告中注明。实验课 6 原始材料本地保留；
 公开版采用独立实现与明确许可的数据，研究扩展使用 AI 辅助。

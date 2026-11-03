@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jiayu Yan — Data Analytics Portfolio</title>
-<meta name="description" content="Jiayu Yan's ten-project portfolio for Data Science and Business Analytics: temporal machine learning, NLP, forecasting, statistical inference and data engineering.">
+<meta name="description" content="Jiayu Yan's eleven-project portfolio for Data Science and Business Analytics: temporal machine learning, NLP, forecasting, statistical inference and data engineering.">
 <style>
 :root{
   --ink:#14252c;
@@ -377,18 +377,18 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     <p class="sub">B.Mgmt. in <strong>Big Data Management and Applications</strong>, Guangdong University of Technology</p>
     <p class="sub">Applying for MS programmes in Data Science / Business Analytics — US · Singapore · Hong Kong</p>
 
-    <p class="lede">Ten projects, each built around one question: does this result survive
+    <p class="lede">Eleven projects, each built around one question: does this result survive
       being checked? Headline numbers are tested against a benchmark, a data-quality
       audit, an alternative assumption or explicit invariant tests, and each project
       states what would be needed before acting on it.</p>
 
-    <p class="meta">All projects by 闫佳玉 / Jiayu Yan, developed from undergraduate coursework.
-      Portfolio refinements used AI assistance; instructor frameworks and data sources
-      are credited in each report.</p>
+    <p class="meta">Projects 01–10 by 闫佳玉 / Jiayu Yan, developed from undergraduate coursework.
+      Project 11 was built with substantial AI assistance. Portfolio refinements used AI
+      assistance; instructor frameworks and data sources are credited in each report.</p>
 
     <div class="kpi-grid" aria-label="Portfolio verification summary">
       <div class="kpi-card">
-        <span class="kpi-val">10 Projects</span>
+        <span class="kpi-val">11 Projects</span>
         <span class="kpi-lbl">Econometrics · NLP · Statistical Inference · Data Engineering</span>
       </div>
       <div class="kpi-card">
@@ -417,15 +417,16 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
         → <a href="#project-04">04 · Data reconciliation</a>.</p>
       <p><strong>Systems &amp; data quality:</strong> <a href="#project-04">04</a>
         → <a href="#project-05">05</a> → <a href="#project-07">07 · Java workforce system</a>
-        → <a href="#project-10">10 · Product catalog</a>.</p>
+        → <a href="#project-10">10 · Product catalog</a>
+        → <a href="#project-11">11 · Cart event funnel</a>.</p>
       <p>Each card reads as question → method → result → what is needed before acting.
         These are academic analyses; no deployed business impact is claimed.</p>
       <div class="route-bar" role="group" aria-label="Highlight reading track">
         <span style="font-size:12.5px;font-weight:700;color:var(--ink)">Interactive track highlight:</span>
-        <button type="button" class="route-btn active" onclick="filterTrack('all', this)">All 10 Projects</button>
+        <button type="button" class="route-btn active" onclick="filterTrack('all', this)">All 11 Projects</button>
         <button type="button" class="route-btn" onclick="filterTrack('ds', this)">Data Science Track (09 · 08 · 01 · 02 · 05)</button>
-        <button type="button" class="route-btn" onclick="filterTrack('ba', this)">Business Analytics Track (06 · 03 · 08 · 04)</button>
-        <button type="button" class="route-btn" onclick="filterTrack('eng', this)">Systems &amp; Data Quality (04 · 05 · 07 · 10)</button>
+        <button type="button" class="route-btn" onclick="filterTrack('ba', this)">Business Analytics Track (06 · 03 · 08 · 04 · 11)</button>
+        <button type="button" class="route-btn" onclick="filterTrack('eng', this)">Systems &amp; Data Quality (04 · 05 · 07 · 10 · 11)</button>
       </div>
     </nav>
 
@@ -452,12 +453,13 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       <li><a href="#project-08">08 · Does the Skill Signal Help?</a></li>
       <li><a href="#project-09">09 · When the Baseline Wins</a></li>
       <li><a href="#project-10">10 · Product catalog</a></li>
+      <li><a href="#project-11">11 · Cart event funnel</a></li>
     </ul>
   </nav>
 
   <details class="matrix-box" id="evidence-matrix" open>
     <summary>
-      <span>Methodological &amp; Reproducibility Verification Matrix (01–10)</span>
+      <span>Methodological &amp; Reproducibility Verification Matrix (01–11)</span>
       <span style="font-size:12px;color:var(--accent);font-weight:600">Click to toggle</span>
     </summary>
     <div class="matrix-table-wrap">
@@ -541,6 +543,13 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
             <td>Local Java HTTP · atomic snapshots · optimistic versions</td>
             <td>Stale edits rejected; failed writes do not publish memory</td>
             <td>13 local test groups · real HTTP · revision-checked pagination · no workflow</td>
+          </tr>
+          <tr>
+            <td><a href="#project-11"><strong>11 · Cart funnel</strong></a></td>
+            <td>3,000 simulated sessions · 200 × 1,000 replicates</td>
+            <td>Idempotent Java log · session bootstrap · coverage study</td>
+            <td>Event count 15.6% vs session 12.47% (truth 12.25%); coverage 34.0% vs 95.5%</td>
+            <td>9 Java test groups · 6 findings tests · deterministic rerun · no workflow</td>
           </tr>
         </tbody>
       </table>
@@ -795,11 +804,36 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </p>
   </section>
 
+  <section class="card" id="project-11" data-tracks="ba eng">
+    <figure class="research-image"><a href="projects/11-cart-event-funnel/results/02_interval_coverage.png"><img loading="lazy" src="projects/11-cart-event-funnel/results/02_interval_coverage.png" alt="Interval coverage of the true purchase rate across 200 simulated replicates for session and event counting" width="1650" height="750"></a><figcaption>200 simulated replicates · Only session counting gives intervals that cover the true rate at the nominal level.</figcaption></figure>
+    <h3><span class="num">11</span>Counting Sessions, Not Clicks</h3>
+    <p class="stack">Java 17 · idempotent event log · seeded simulation with known truth · session bootstrap</p>
+    <span class="tag">Measurement validation · AI-assisted</span>
+    <p class="find negative">Counting raw ORDER attempts reports <b>15.6%</b> purchase conversion.
+      The validated log, counted per session, reports <b>12.47%</b> [11.30%, 13.60%]
+      against a true simulated rate of <b>12.25%</b>.</p>
+    <p>A Java event log rejects repeated order keys, empty-cart orders and invalid edits.
+      Over 200 independent replicates, the session interval covers the true rate
+      <b>95.5%</b> of the time; the event-count interval only <b>34.0%</b>.
+      Sorting by client timestamps would make 25 sessions' funnels impossible.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Report conversion per session
+      from a server-validated log ordered by server sequence. All data are synthetic,
+      so this validates the measurement pipeline, not customer behaviour.</p>
+    <p class="cardlinks">
+      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/11-cart-event-funnel/README.md">Study, results &amp; limitations</a>
+      <a href="projects/11-cart-event-funnel/results/01_funnel_recovery.png">Funnel recovery</a>
+      <a href="projects/11-cart-event-funnel/results/03_log_quality_audit.png">Log audit</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/11-cart-event-funnel">Code &amp; tests</a>
+    </p>
+  </section>
+
   <footer id="integrity">
-    <p><strong>Authorship.</strong> All ten projects are by 闫佳玉 / Jiayu Yan.
+    <p><strong>Authorship.</strong> Projects 01–10 are by 闫佳玉 / Jiayu Yan.
+      Project 11 was built for this portfolio with substantial AI assistance in
+      design, code, analysis and writing.
       Instructor-provided frameworks are acknowledged in the relevant reports.
       Original Lab 6 materials remain private because redistribution permission
-      was not established; no textbook code is published in project 10.</p>
+      was not established; no textbook code is published in projects 10 and 11.</p>
 
     <p><strong>AI assistance.</strong> Portfolio refinements used AI for analysis
       design, code, interpretation, writing, translation and verification.
