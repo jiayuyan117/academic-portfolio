@@ -37,6 +37,11 @@ Business Analytics master's programmes in the **US, Singapore and Hong Kong**.
 This portfolio connects evaluation, data quality and analytical communication
 with decisions whose limits are made explicit.
 
+If a reviewer has limited time, start with **09 → 08 → 07 → 10**: temporal
+machine learning, NLP evaluation, Java data structures, invariant testing,
+persistence and HTTP boundary tests. Then choose the remaining projects by
+programme focus.
+
 For Data Science, follow **09 → 08 → 01 → 02 → 05** through temporal machine
 learning, NLP evaluation, forecasting, identification assumptions and missing
 data. For Business Analytics, follow **06 → 03 → 08 → 04** through marketing
