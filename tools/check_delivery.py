@@ -67,8 +67,8 @@ def findings(folder: Path) -> dict:
 
 def check_project(number: str) -> None:
     """Check artifacts and recorded invariants for a selected Python project."""
-    if number == "08":
-        folder = ROOT / "projects/08-market-direction"
+    if number == "07":
+        folder = ROOT / "projects/07-market-direction"
         count_files(folder / "results", "*.csv", 6)
         count_files(folder / "results", "*.png", 2)
         report = Page(folder / "report.html")
@@ -77,10 +77,10 @@ def check_project(number: str) -> None:
         manifest = json.loads((folder / "results/manifest.json").read_text(encoding="utf-8"))
         assert manifest["test_rows"] == 216 and manifest["source_rows"] == 536
         assert manifest["license"] == "CC BY 4.0"
-        print("Project 08: artifacts, provenance and report links passed")
+        print("Project 07: artifacts, provenance and report links passed")
         return
-    if number == "07":
-        folder = ROOT / "projects/07-nlp-job-postings"
+    if number == "06":
+        folder = ROOT / "projects/06-nlp-job-postings"
         manifest = json.loads((folder / "results/manifest.json").read_text(encoding="utf-8"))
         for name, expected in manifest["sha256"].items():
             target = (folder / name).resolve()
@@ -94,7 +94,7 @@ def check_project(number: str) -> None:
         source = json.loads((folder / "results/source_audit.json").read_text(encoding="utf-8"))
         assert source["jobs"] == 21663 and source["verified_source_references"] == 22213
         assert source["status"] == "passed" and not any(source["employer_overlap"].values())
-        print("Project 07: evidence manifest and report links passed")
+        print("Project 06: evidence manifest and report links passed")
         return
     folder = ROOT / "projects" / PROJECTS[number][0]
     if number in {"03", "04", "05"}:
@@ -122,10 +122,19 @@ def check_project(number: str) -> None:
         for name in ("FIRST_READ.html", "Research_Analysis.html"):
             if not (folder / name).is_file():
                 raise AssertionError(f"{folder}: missing {name}")
+        if number == "02":
+            robust = json.loads((folder / "results/robustness_summary.json").read_text(encoding="utf-8"))
+            assert robust["evaluation"]["days"] == 500, robust
+            fevd = robust["fevd_xgh_from_szh_h10_pct"]
+            assert fevd["Cholesky [XGH, SZH]"] < fevd["Generalized (order-free)"] < fevd["Cholesky [SZH, XGH]"], fevd
     elif number == "03":
         count_files(folder / "data", "*.csv", 7)
         count_files(folder / "charts", "*.png", 8)
         count_files(folder / "charts_en", "*.png", 8)
+        count_files(folder / "results", "*.csv", 4)
+        backtest = json.loads((folder / "results/backtest_findings.json").read_text(encoding="utf-8"))
+        assert backtest["origins"] == [2020, 2021, 2022, 2023, 2024], backtest
+        assert backtest["actual_2025"] == 47.9, backtest
     elif number == "04":
         count_files(folder / "charts", "*.html", 4)
         data = findings(folder)
@@ -140,36 +149,40 @@ def check_project(number: str) -> None:
                     raise AssertionError(f"{path}: network resource {resource}")
                 check_local_link(page, resource)
     elif number == "05":
-        count_files(folder / "figures", "*.png", 7)
+        count_files(folder / "figures", "*.png", 8)
         data = findings(folder)
         assert data["hourly_rows"] == 43824, data
         assert data["longest_gap_hours"] == 155, data
         assert data["hours_left_missing"] == 1891, data
         assert data["observed_pm25_hours"] == 41757, data
         assert data["analysis_excluded_missing_hours"] == 2067, data
+        alert = json.loads((folder / "outputs/alert_findings.json").read_text(encoding="utf-8"))
+        assert alert["split"] == "fit 2010-2012, threshold 2013, test 2014", alert
+        assert set(alert["rules"]) == {"Persistence (baseline)", "Logistic, today's data",
+                                       "Logistic + perfect weather forecast"}, alert
     print(f"Project {number}: delivery checks passed")
 
 
 def main() -> None:
     """Check dependency encoding, selected artifacts, and homepage local links."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--project", choices=[*PROJECTS, "07", "08"])
+    parser.add_argument("--project", choices=[*PROJECTS, "06", "07"])
     args = parser.parse_args()
     for path in [ROOT / "requirements.txt", *sorted((ROOT / "projects").glob("*/requirements.txt"))]:
         data = path.read_bytes()
         if data.startswith(b"\xef\xbb\xbf"):
             raise AssertionError(f"{path}: UTF-8 BOM is not permitted")
         data.decode("utf-8")
-    for number in [args.project] if args.project else [*PROJECTS, "07", "08"]:
+    for number in [args.project] if args.project else [*PROJECTS, "06", "07"]:
         check_project(number)
     if not args.project:
         page = Page(ROOT / "index.html")
-        expected = {f"project-{n:02}" for n in range(1, 10)}
+        expected = {f"project-{n:02}" for n in range(1, 9)}
         actual = {value for value in page.ids if re.fullmatch(r"project-\d+", value)}
         assert actual == expected, (actual, expected)
         for link in page.links + page.resources:
             check_local_link(page, link)
-        print("Homepage: nine project anchors and all local links checked")
+        print("Homepage: eight project anchors and all local links checked")
         for name in ("README.md", "README.zh-CN.md"):
             text = (ROOT / name).read_text(encoding="utf-8")
             for value in re.findall(r"\[[^\]]+\]\(([^)\s]+)\)", text):

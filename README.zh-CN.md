@@ -3,7 +3,7 @@
 **作者：闫佳玉 / Jiayu Yan**
 
 广东工业大学 **大数据管理与应用** 本科
-· 申请方向：数据科学 / 商业分析硕士（美国 · 新加坡 · 香港）
+· 申请方向：商业分析 / 数据科学硕士（美国 · 新加坡 · 香港）
 
 **[→ 浏览作品集网站](https://jiayuyan117.github.io/academic-portfolio/)**
 
@@ -15,51 +15,48 @@ English version: [README.md](README.md)
 
 这些项目围绕两个问题：**这个结论经得起检验吗？它能支持什么决策？**
 
-如果评审时间有限，先看 **07 → 08 → 05**；偏计量或量化的项目可用 **02** 替换 05。
+8 个项目均由本科课程作业深化为可复现研究。它们检验：计入决策成本后，次日预警模型
+能否胜过"明天同今天"的持续性规则；市场规模能否提前预测；技能特征能否改善岗位分类；
+多个预测起点下模型能否胜过简单基准；以及数据质量是否足以支持结论。
 
-9 个项目均由本科课程作业深化为可复现研究。它们检验技能特征能否改善岗位类别分类、预测能否优于
-简单基准、市场联动估计如何依赖识别假设、数据质量是否足以支持业务结论，
-以及小型系统在数据修改时能否保持一致。
+所有预测类结论都在未参与拟合和调参的数据上评分。否证结果和方法纠错与正面发现
+一起呈现。没有拒绝零假设并不证明完全没有差异；观测数据的相关性也不等于干预效果。
 
-否证结果和方法纠错与正面发现一起呈现。没有拒绝零假设并不证明完全没有差异；
-观测数据的相关性也不等于干预效果。
-
-**01–05 与 06** 的既有 CI 已分别留下数值校验、分析与图表重建或 Java 测试的成功记录。
-两个计量项目检查输入 SHA-256，并以 `rtol=1e-6` 比对合计 **586 个数值**。
-**07** 已完成来源重建、分类与抽取实验，并保留预测供独立重算指标。
+**01–05** 的 CI 已留下数值校验与分析重建记录。两个计量项目检查输入 SHA-256，
+并以 `rtol=1e-6` 比对合计 **586 个数值**。**06** 已完成来源重建、分类与抽取实验，
+并保留预测供独立重算指标。
 
 ## 30 秒导读
 
-我以大数据管理与应用的本科训练为基础，申请**美国、新加坡、香港的数据科学 /
-商业分析硕士**。作品集将模型评估、数据质量与研究表达连接到具体决策，并明确证据边界。
+我以大数据管理与应用的本科训练为基础，申请**美国、新加坡、香港的商业分析 /
+数据科学硕士**。
+
+**商业分析路线：05 → 03 → 06 → 04。数据科学路线：06 → 07 → 02 → 05。**
+按专业方向取舍，不假定美港新存在统一录取标准。
 
 | 精选 | 筛选理由 | 证据入口 |
 | --- | --- | --- |
-| [07 · NLP 评估](projects/07-nlp-job-postings/report.html) | 雇主隔离的特征比较，分类与抽取独立评估 | [预测与校验说明](projects/07-nlp-job-postings/README.md#what-is-independently-checkable) |
-| [08 · 时序机器学习](projects/08-market-direction/report.html) | 模型选择包含基准，后续测试区间报告不确定性 | [验证程序](projects/08-market-direction/verify.py) |
-| [05 · 缺失数据](projects/05-beijing-air-quality-seaborn/FIRST_READ.html) | 先审计缺口，再确定插值与分析口径 | [分析结果](projects/05-beijing-air-quality-seaborn/outputs/findings.json) |
-| [02 · 计量替代项](projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html) | 展示识别假设如何改变同一模型的解释 | [数值验证记录](projects/02-shanghai-hongkong-market-linkages/results/verification.json) |
+| [05 · 次日预警决策](projects/05-beijing-air-quality-seaborn/FIRST_READ.html) | 2013 年按成本选阈值、2014 年一次性测试；每日成本比持续性规则低 0.126，95% CI [0.066, 0.195] | [测试日预测](projects/05-beijing-air-quality-seaborn/outputs/08_alert_test_predictions.csv) |
+| [03 · 提前测算市场规模](projects/03-china-nev-industry-analytics/FIRST_READ.html) | 滚动起点回测：所有测算模型平均都低估；S 曲线拟合上限从 6% 到 100% 再到 54% | [回测预测](projects/03-china-nev-industry-analytics/results/backtest_forecasts.csv) |
+| [06 · NLP 评估](projects/06-nlp-job-postings/report.html) | 雇主隔离的特征比较，分类与抽取独立评估 | [预测与校验说明](projects/06-nlp-job-postings/README.md#what-is-independently-checkable) |
+| [07 · 时序机器学习](projects/07-market-direction/report.html) | 模型选择包含基准，后续测试区间报告不确定性 | [验证程序](projects/07-market-direction/verify.py) |
+| [02 · 预测检验与识别假设](projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html) | 500 个起点的 Diebold–Mariano 检验；不依赖变量排序的方差分解 | [稳健性结果](projects/02-shanghai-hongkong-market-linkages/results/robustness_summary.json) |
 
-**DS 路线：07 → 08 → 05 → 02。BA 路线：07 → 05 → 03 → 04。**
-BA 从特征价值、数据质量进入市场分母和需求数据对账；按专业方向取舍，不假定美港新存在统一录取标准。
-
-**工程补充：** 09 展示持久化、版本校验分页与 HTTP 测试；06 展示数据结构与不变量。
-**其他补充：** 01 预测诊断、03 市场来源、04 可视化。
+**补充：** 04 需求数据对账与交互图表；01 预测诊断；08 持久化、版本校验分页与 HTTP 测试。
 
 <details>
-<summary>完整项目目录：精选与补充</summary>
+<summary>完整项目目录</summary>
 
 | 项目 | 阅读重点 |
 | --- | --- |
 | [01 · 股票时间序列预测](projects/01-equity-time-series-forecasting/) | 简单基准与残差诊断 |
-| [02 · 沪港市场联动](projects/02-shanghai-hongkong-market-linkages/) | 对识别假设的敏感性 |
-| [03 · 新能源汽车转型](projects/03-china-nev-industry-analytics/) | 来源追溯与市场分母口径 |
+| [02 · 沪港市场联动](projects/02-shanghai-hongkong-market-linkages/) | 滚动预测检验与识别假设敏感性 |
+| [03 · 新能源汽车转型](projects/03-china-nev-industry-analytics/) | 市场测算回测、分母口径与来源追溯 |
 | [04 · 共享单车可视化](projects/04-bike-sharing-interactive-visualization/) | 日期对账与交互图表 |
-| [05 · 北京 PM2.5](projects/05-beijing-air-quality-seaborn/) | 缺失机制与观测关联 |
-| [06 · Java 员工系统](projects/06-workforce-system-java/) | 数据结构与不变量测试 |
-| [07 · Does the Skill Signal Help?](projects/07-nlp-job-postings/README.md) | NLP 评估、否证结果与可复现性 |
-| [08 · When the Baseline Wins](projects/08-market-direction/report.html) | 时序机器学习、包含基准的模型选择与分块置信区间 |
-| [09 · 商品目录](projects/09-product-catalog/PROJECT.html) | 文件持久化、旧版本冲突与 HTTP 边界测试 |
+| [05 · 北京 PM2.5](projects/05-beijing-air-quality-seaborn/) | 缺失数据审计与按成本决策的次日预警 |
+| [06 · Does the Skill Signal Help?](projects/06-nlp-job-postings/README.md) | NLP 评估、否证结果与可复现性 |
+| [07 · When the Baseline Wins](projects/07-market-direction/report.html) | 时序机器学习、包含基准的模型选择与分块置信区间 |
+| [08 · 商品目录](projects/08-product-catalog/PROJECT.html) | 文件持久化、旧版本冲突与 HTTP 边界测试 |
 
 </details>
 
@@ -67,49 +64,50 @@ BA 从特征价值、数据质量进入市场分母和需求数据对账；按�
 
 | 项目 | 决策问题与方法 | 证据及行动边界 |
 | --- | --- | --- |
-| [03 · 市场评估](projects/03-china-nev-industry-analytics/README.md) | 对齐公开销量、电池与充电统计口径，再评估市场转型。 | 新能源占比 47.9% 使用含出口的全车型销量口径；选址投资仍需要当地利用率、功率与成本数据。 |
-| [05 · 数据质量](projects/05-beijing-air-quality-seaborn/README.md) | 解释观测关联前审计小时测量缺失。 | 长缺口保留缺失，相关模式需要后续验证，不能解释为干预效果。 |
-| [07 · 岗位信息质量](projects/07-nlp-job-postings/README.md) | 在隔离雇主的留出集上比较文本与技能特征，并独立评估抽取。 | 融合 Macro-F1 为 0.7348，文本为 0.7406，未达到研究设定的改善标准；实际运营价值尚未测量。 |
+| [05 · 运营预警](projects/05-beijing-air-quality-seaborn/README.md) | 今晚要不要为明天发预警？2010–2012 拟合，2013 按成本选阈值，2014 一次性测试。 | 模型抓到 181 个预警日中的 174 个，误报 103 次，持续性规则误报 168 次。3:1 的漏报/误报成本比是假设，需与承担成本的团队确认。 |
+| [03 · 市场测算](projects/03-china-nev-industry-analytics/README.md) | 新能源渗透率能否提前预测？在 2020–2024 每个起点重新拟合各测算模型。 | 所有模型都低估；拐点之前数据无法确定 S 曲线上限。市场规模应按上限情景呈现，国内口径（50.8%）与含出口口径分开。 |
+| [06 · 岗位信息质量](projects/06-nlp-job-postings/README.md) | 在隔离雇主的留出集上比较文本与技能特征，并独立评估抽取。 | 融合 Macro-F1 为 0.7348，文本为 0.7406，未达到研究设定的改善标准；实际运营价值尚未测量。 |
+| [04 · 需求数据](projects/04-bike-sharing-interactive-visualization/README.md) | 规划前先对账小时与日需求文件。 | 直接连接 731 天一天都对不上；正确解析后两个文件完全一致。 |
 
 每个项目按 **问题 → 数据与方法 → 结果 → 决策意义 → 限制** 阅读。
-建议属于学术分析解释，不是已部署的干预或实测 ROI。环境研究（05）展示可迁移的
-缺失数据分析与不确定性表达；Java 项目（06）展示数据一致性，不声称已实现业务改善。
+建议属于学术分析解释，不是已部署的干预或实测 ROI。
 
 ## 补充简报与完整证据
 
 <details>
-<summary>展开全部 9 项简报（建议先读上面的精选入口）</summary>
+<summary>展开全部 8 项简报（建议先读上面的精选入口）</summary>
 
 ### 01 · [股票时间序列预测](projects/01-equity-time-series-forecasting/)
 `statsmodels` · `ARMA/ARIMA` · `固定起点样本外检验` · `每次运行校验 252 个数值`
 
 仅用训练集的 BIC 选出 MA(2)，在完全未被触碰的 20 天留出样本上比"零收益率"预测
 的 RMSE 好 **0.29%**——但 Ljung–Box 在滞后 20 阶**拒绝**残差无自相关，ARCH-LM
-也拒绝方差恒定（*p* = 4e-09）。项目的设计目的就是让这两个事实同时可见：单个窗口上
-0.29% 的优势，并不是一个可以拿去用的模型。
+也拒绝方差恒定（*p* = 4e-09）。单个窗口上 0.29% 的优势，并不是一个可以拿去用的模型。
 
 **决策含义：** 保留简单基准，先补充多个时间窗口和交易成本验证，再考虑部署。
 
 ### 02 · [沪港市场联动](projects/02-shanghai-hongkong-market-linkages/)
-`VAR / VECM` · `Johansen` · `格兰杰检验` · `每次运行校验 334 个数值`
+`VAR / VECM` · `Johansen` · `广义方差分解` · `Diebold–Mariano` · `每次运行校验 334 个数值`
 
-上证冲击看起来能解释恒生指数 10 步预测误差方差的 **32.4%**——直到把 Cholesky
-排序反过来，同一个量变成 **0.35%**。数据、模型、样本完全一样，只换了识别假设。
-同时 VAR(7) 在两个市场的 MAE 上都输给零收益率基准，两个方向的格兰杰检验都不显著。
+上证冲击看起来能解释恒生指数 10 步预测误差方差的 **32.4%**——把 Cholesky 排序
+反过来，同一个量变成 **0.35%**。不依赖排序的广义方差分解给出 **24.6%**；同日残差
+相关系数 0.568 的平方（≈32.3%）几乎解释了全部份额，说明所谓联动是同日共振，
+而不是可预测的滞后溢出。在 **500 个滚动一步预测**中，VAR(7) 在两个市场都显著
+劣于零收益率预测（Diebold–Mariano *p* = 0.042 和 0.012）。
 
-**决策含义：** 不据此形成方向性对冲策略，也不把排序敏感的方差分解当成因果归因。
+**决策含义：** 共振可用于当日风险与对冲规模；不应基于上证滞后收益构建次日方向信号。
 
 ### 03 · [中国新能源汽车转型 2015–2025](projects/03-china-nev-industry-analytics/)
-`pandas` · `matplotlib` · `7 张整理数据表` · `16 张中英文图表`
+`pandas` · `scipy` · `7 张整理数据表` · `16 张中英文图表` · `滚动起点回测`
 
-2025 年中汽协**含出口、全车型**汽车销量中，新能源汽车占 **47.9%**；
-这与国内销量、注册登记量口径不同。[来源审计](docs/NEV_SOURCE_AUDIT.md)
-纠正 2021 年插混输入，披露 **2025 年充电设施统计口径断点**，
-区分电池两类小计与全市场总量，并标明舍入和尚未核实的历史记录。
-减碳计算是示意情景，不是实测减排量。
+2025 年中汽协**含出口、全车型**销量中新能源占 **47.9%**，国内口径为 **50.8%**。
+回测在 2020–2024 每个起点只用当时可得的数据，重新拟合朴素、线性趋势和 S 曲线
+测算模型：所有模型**平均都低估**（−3.1 至 −20.1 个百分点），S 曲线拟合上限
+随数据到来从 **6% 变为 100% 再变为 54%**。[来源审计](docs/NEV_SOURCE_AUDIT.md)
+纠正 2021 年插混输入，并披露 **2025 年充电设施统计口径断点**。减碳计算是示意情景，
+不是实测减排量。
 
-**决策含义：** 充电投资需要位置、利用率和功率数据；全国数量及有统计断点的
-时间序列不能单独说明哪里服务能力不足。
+**决策含义：** 市场规模应按上限情景呈现并每年重估；充电投资还需要位置、利用率和功率数据。
 
 ### 04 · [共享单车交互可视化](projects/04-bike-sharing-interactive-visualization/)
 `Plotly` · `可离线交互图表` · `17,379 条观测` · [在线图表](https://jiayuyan117.github.io/academic-portfolio/projects/04-bike-sharing-interactive-visualization/charts/01_sunburst.html)
@@ -121,33 +119,23 @@ UCI 共享单车数据集的两个文件把日期分别存成 `2011/1/1` 和 `20
 
 **决策含义：** 需求规划前先对账；具体站点调度仍需车辆可用量和服务成本数据。
 
-### 05 · [北京 PM2.5，2010–2014](projects/05-beijing-air-quality-seaborn/)
-`Seaborn` · `43,824 条小时观测` · `7 张图`
+### 05 · [北京 PM2.5：从缺失数据到次日预警](projects/05-beijing-air-quality-seaborn/)
+`Seaborn` · `statsmodels` · `43,824 条小时观测` · `8 张图` · `分块 bootstrap`
 
-**48.5% 的有效小时观测**高于 75 µg/m³；这里借用日标准数值作为参考，不能解释为
-小时超标率或日达标率。累计风速的 Spearman ρ = **−0.360**，温度为 **+0.011**；
+先做审计：2,067 个缺失小时里有 1,341 个落在超过一天的缺口里（最长 155 个连续小时），
+因此不做插值，所有核心结论只用原始观测。累计风速与 PM2.5 的 Spearman ρ = **−0.360**；
 累计风速最低十分位的 PM2.5 中位数是最高十分位的 **6.3 倍**。
-温度的 Pearson *r*（−0.091）和 Spearman ρ（+0.011）符号不同，
-需结合条件中位数曲线理解关系，不能仅凭符号断言非单调性。另外，2,067 个
-缺失小时里有 1,341 个落在超过一天的缺口里（最长 155 个连续小时）。
-短缺口策略审计仍保留 **91% 缺失**。核心图表及统计只使用原始有效观测，
-排除全部 2,067 个缺失小时，不使用审计中生成的插值序列。
 
-**决策含义：** 可将通风指标作为户外作业预警的待验证候选变量，结合实时监测和
-后续时间段检验；不能由这些相关性推断限产或调度的效果。
+这些关联被转化为可检验的决策。日均值超过 75 µg/m³ 且至少有 20 个有效小时记为预警日。
+基于当天数据的 logistic 模型在 2010–2012 拟合，在 2013 按成本选阈值（假设漏报一个
+预警日的成本等于三次误报），在 2014 一次性测试。模型抓到 **181 个预警日中的 174 个**，
+误报 **103 次**；最优持续性规则每天都发预警，误报 168 次。每日成本降低 **0.126，
+95% 分块 bootstrap 置信区间 [0.066, 0.195]**，成本比从 1:1 到 10:1 排名都不变。
+加入次日实测气象（相当于完美天气预报的上限）还能再减少 55 次误报。
 
-### 06 · [Java 员工信息系统](projects/06-workforce-system-java/)
-`Java 17` · `部门树` · `平衡员工索引` · `JUnit 5`
+**决策含义：** 以该模型替代持续性规则做试点，确认成本比，部署前接入天气预报数据。
 
-部门层级和员工索引必须始终描述同一批员工。系统实现新增、转岗、删除、
-薪资区间查询，并在每次操作后检查部门归属、唯一性、排序和总人数是否一致。
-使用 `TreeMap` 参考模型，并覆盖有序输入、删除、转岗和结构不变量。
-
-**决策含义：** 部门与员工索引一致性是可靠人数报表的基础；实际生产系统还需要
-持久化、访问控制和审计记录。
-
-
-### 07 · [Does the Skill Signal Help?](projects/07-nlp-job-postings/README.md)
+### 06 · [Does the Skill Signal Help?](projects/06-nlp-job-postings/README.md)
 `招聘文本 NLP` · `SkillSpan` · `21,663 条招聘记录` · `20 个类别` · `雇主不交叉划分`
 
 加入 SkillSpan Skill + Knowledge 词典特征未达到研究设定的提升标准：
@@ -162,9 +150,9 @@ TF-IDF/CNN/冻结 MiniLM 对照均已运行，并保留预测供独立重算。
 
 **决策含义：** 大类岗位路由继续保留纯文本基准；将抽取结果用于技能画像前，
 需要直接验证具体技能跨度。
-[阅读研究简报](https://jiayuyan117.github.io/academic-portfolio/projects/07-nlp-job-postings/report.html)。
+[阅读研究简报](https://jiayuyan117.github.io/academic-portfolio/projects/06-nlp-job-postings/report.html)。
 
-### 08 · [When the Baseline Wins](projects/08-market-direction/report.html)
+### 07 · [When the Baseline Wins](projects/07-market-direction/report.html)
 
 在课程机器学习实验的基础上深化的研究，采用全新实现和 UCI Istanbul Stock Exchange
 公开数据（Akbilgic，2013；CC BY 4.0），没有上传课程原始数据或课程代码。
@@ -176,22 +164,21 @@ TF-IDF/CNN/冻结 MiniLM 对照均已运行，并保留预测供独立重算。
 这是单市场历史研究，不是盈利证明。
 
 七项时序约束测试、六张结果表完整重跑及 24 组区间复算已在本地通过；
-项目带独立 CI 工作流。英文报告记录数据日期说明不一致和研究限制。
-在项目目录使用独立环境安装项目依赖后运行 `python verify.py` 和
+项目带独立 CI 工作流。在项目目录使用独立环境安装项目依赖后运行 `python verify.py` 和
 `python -m unittest discover -s tests -v`，首次运行自动下载并校验公开数据。
 
-### 09 · [商品目录：可核验的数据修改](projects/09-product-catalog/PROJECT.html)
+### 08 · [商品目录：可核验的数据修改](projects/08-product-catalog/PROJECT.html)
 
 以教材商品管理章节为选题的 Java 工程项目，代码为本人独立实现，不转载教材代码。提供本地 HTTP
-增删改查、整数分金额、原子文件快照和旧版本冲突检查，与 06 的内存数据结构互补。
+增删改查、整数分金额、原子文件快照和旧版本冲突检查。
 新增版本校验分页、SKU／价格确定性排序；写入后旧分页链接返回 409。
 本机实际通过 13 组测试，包括真实 HTTP 请求、完整分页遍历、重启恢复、
 竞争修改和写入失败。查询仍为扫描，不宣称索引性能提升。
 GitHub Pages 只能展示静态简报，Java 后端需本地运行。
 
 不声称存在真实用户、研究成果或已部署的业务系统。
-详见[运行说明与测试证据](projects/09-product-catalog/README.md)及
-[来源说明](projects/09-product-catalog/PROVENANCE.md)。本项目不使用 workflow。
+详见[运行说明与测试证据](projects/08-product-catalog/README.md)及
+[来源说明](projects/08-product-catalog/PROVENANCE.md)。本项目不使用 workflow。
 
 </details>
 
@@ -203,15 +190,13 @@ GitHub Pages 只能展示静态简报，Java 后端需本地运行。
 | 项目 | 已有 CI 成功记录与范围 | 复现命令 |
 | --- | --- | --- |
 | 01 股票预测 | Windows：11 张表 / 252 个参考数值，`rtol=1e-6` | `python run_analysis.py` |
-| 02 市场联动 | Linux 与 Windows：8 张表 / 334 个参考数值，`rtol=1e-6` | `python run_analysis.py` |
-| 03 新能源汽车 | Linux：图表重建与数据/语义检查；未核实来源仍保留标注 | 依次运行 `python src/nev_visualization.py` 和 `python src/build_figures_en.py` |
+| 02 市场联动 | Linux 与 Windows：8 张表 / 334 个参考数值，`rtol=1e-6`；滚动起点与广义方差分解扩展 | `python robustness.py`；`python run_analysis.py` |
+| 03 新能源汽车 | Linux：图表重建、数据/语义检查及回测防泄漏测试；未核实来源仍保留标注 | `python src/nev_visualization.py`；`python src/build_figures_en.py`；`python src/market_backtest.py` |
 | 04 共享单车 | Linux：交互图重建与日期对账检查 | `python src/build_charts.py` |
-| 05 北京 PM2.5 | Linux：分析与图表重建、时间索引和缺口审计 | `python src/analyze.py` |
-| 06 Java 员工系统 | Linux / Java 17：Maven 验证、JUnit 和参考模型测试 | `mvn verify` |
-| 07 招聘文本 NLP | 来源重建、已保存预测校验及小样本训练检查 | `python run.py verify`；`python run.py smoke` |
-| 08 时序机器学习 | 本地完整重跑、7 项时序测试、预测与区间校验；已有独立 CI | `python verify.py`；`python -m unittest discover -s tests -v` |
-| 09 商品目录 | Windows / JDK 21，Java 17 编译目标；13 组测试，无 workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 test` |
-
+| 05 北京 PM2.5 | Linux：分析与图表重建、缺口审计及次日目标测试 | `python src/analyze.py`；`python src/alert_model.py` |
+| 06 招聘文本 NLP | 来源重建、已保存预测校验及小样本训练检查 | `python run.py verify`；`python run.py smoke` |
+| 07 时序机器学习 | 本地完整重跑、7 项时序测试、预测与区间校验；已有独立 CI | `python verify.py`；`python -m unittest discover -s tests -v` |
+| 08 商品目录 | Windows / JDK 21，Java 17 编译目标；13 组测试，无 workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 test` |
 
 项目 01 和 02 交付的是**校验器**而不只是运行脚本：它会核对每个输入文件的 SHA-256
 是否与 `provenance.json` 一致，清空 notebook 所有输出后从零重跑，任何单元格报错
@@ -219,14 +204,12 @@ GitHub Pages 只能展示静态简报，Java 后端需本地运行。
 失败，而不是一个悄悄变了的结论。
 
 表中命令在各项目目录运行。01–05 使用项目依赖声明与根目录 `constraints.txt`，
-01–06 的文档环境为 CPython 3.12.10 和 JDK 17。CI 按任务分别重跑 notebook、
-重建分析与图表或执行 Java 测试。07、08 有各自的 workflow 和复现说明。
+文档环境为 CPython 3.12.10。06、07 有各自的 workflow 和复现说明。
 01 的 Linux 优化器结果超出原有容差，因此未声称它能在 Linux 上通过 Windows
 数值基准；参考值和容差均未修改。
 已有证据见 [workflow 运行记录](https://github.com/jiayuyan117/academic-portfolio/actions/workflows/build.yml)。
 安装、统一重建和容器说明见 [REPRODUCING.md](REPRODUCING.md)。
-README 为独立维护的文案，生成 `findings.json` 不会自动更新 README。
-
+README 为独立维护的文案，生成的结果文件不会自动更新 README。
 
 ```bash
 git clone https://github.com/jiayuyan117/academic-portfolio.git
@@ -234,39 +217,37 @@ cd academic-portfolio
 python -m venv .venv
 # 01 使用 Windows；按 REPRODUCING.md 激活虚拟环境。
 python -m pip install -c constraints.txt -r requirements.txt
-python tools/rebuild.py --project 01
+python tools/rebuild.py --project 05
 ```
 
 ## 这些项目体现的能力
 
+**决策分析** — 在验证年按成本选择预警阈值、检验不同成本比假设下的结论、按明确上限
+情景测算市场规模，并区分模型能支持什么、还缺什么证据。
+
+**预测评估** — 滚动起点与严格时间切分、每次比较都保留简单基准、Diebold–Mariano 检验、
+配对移动分块 bootstrap 置信区间，以及针对目标和特征的防泄漏测试。
+
 **NLP 研究设计** — 纯文本、仅词典与融合特征对照；雇主不交叉评估；
-区分类别准确率与精确跨度抽取；将当前复现状态与原报告结果分开陈述。
+区分类别准确率与精确跨度抽取。
 
-**计量经济学与预测** — ARMA/ARIMA、VAR/VECM、单位根与协整检验、格兰杰因果、
-脉冲响应与方差分解、残差与 ARCH 诊断、对预先设定基准的固定起点样本外评估。
-
-**推断纪律** — 雇主聚类 Bootstrap 与移动分块 Bootstrap 置信区间、相对预设基准的配对模型比较、
-残差白噪声与 ARCH 检验、识别假设敏感性检查，以及
-如实报告不确定性及可检测差异边界的判断力。
+**计量经济学** — ARMA/ARIMA、VAR/VECM、单位根与协整检验、格兰杰因果、
+Cholesky 与广义方差分解、残差与 ARCH 诊断。
 
 **数据工程与数据质量** — 输入文件哈希校验、连接完整性检查、插值前的缺口长度审计、
-日期与单位归一化、独立来源之间的交叉核对、随机种子固定的确定性端到端流水线。
+数据完整性规则、日期与单位归一化、来源交叉核对、随机种子固定的确定性流水线。
 
-**可视化** — Matplotlib 与 Seaborn 做静态图，Plotly 提供可离线交互；
-原始 Pyecharts 课程材料保留供对照；
-显式说明每个视觉通道的编码；每张图都标注数据来源、分母口径和已知局限。
-
-
-**研究表达** — 把"测量到的""估算的""仍然是假设的"三类内容分开陈述；中英文双语交付。
+**可视化与表达** — Matplotlib、Seaborn 与可离线 Plotly 图表，每张图标注来源、分母口径
+和已知局限；把"测量到的""估算的""仍是假设的"分开陈述；中英文双语交付。
 
 ## 作者声明
 
 **作者：闫佳玉 / Jiayu Yan。** 本仓库全部项目均为作者本人作品，由本科课程作业和
 自主学习深化而成。AI 工具用于编程辅助与英文润色；全部代码、结果与结论均经作者本人
-审核与验证。课程材料与教材代码均未转载；08 采用全新实现和 CC BY 4.0 公开数据。
+审核与验证。课程材料与教材代码均未转载；07 采用全新实现和 CC BY 4.0 公开数据。
 
 决策建议描述证据含义和未来验证步骤，不冒充已做的干预实验。
-估算、情景与公开统计分开标注；尚未完成的来源核验明确披露。
+估算、假设的成本比、情景与公开统计分开标注；尚未完成的来源核验明确披露。
 
 本仓库中没有任何结论被表述得比证据所能支持的更确定。模型失效的地方，失效本身就是
 发现。

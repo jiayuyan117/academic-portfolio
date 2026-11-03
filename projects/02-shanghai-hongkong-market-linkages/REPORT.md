@@ -9,7 +9,9 @@ variance decomposition rather than treating them as interchangeable evidence of 
 VAR(7) marginally improves Shanghai holdout RMSE relative to zero returns but does not improve
 Hong Kong RMSE. Neither Granger direction is significant at 5%. The shock contribution is
 highly sensitive to Cholesky ordering, and the separate macro-financial cointegration exercise
-does not establish a robust long-run equilibrium.
+does not establish a robust long-run equilibrium. A 500-origin rolling evaluation finds VAR(7)
+significantly worse than zero returns in both markets, and an order-free generalized FEVD
+(24.6%) shows the apparent linkage is same-day co-movement rather than lagged spillover.
 
 ## Data and research design
 
@@ -177,15 +179,60 @@ Consequently the cointegration output remains a conditional teaching result,
 not a robust investment, policy, or equilibrium claim. The analysis does not deploy a VECM
 forecast or select the return VAR using XZSJ.
 
+## Robustness: 500 forecast origins and an order-free decomposition
+
+`robustness.py` answers the two questions the single holdout and the Cholesky
+table leave open. It reads the same return data and writes its own
+`results/robustness_*` files; it does not alter the verified notebook outputs.
+
+**Many origins.** The last 500 returns (2019-11-21 to 2021-12-31) are forecast
+one step ahead. VAR(1) and VAR(7) are re-estimated every 20 trading days on an
+expanding window that ends before the forecast day, so each forecast uses only
+earlier data. Diebold–Mariano tests use a Newey–West variance (5 lags) with the
+Harvey–Leybourne–Newbold correction.
+
+| Model | Series | MSE vs zero return | DM p (squared loss) | MAE vs zero return | DM p (absolute loss) |
+| --- | --- | ---: | ---: | ---: | ---: |
+| VAR(1) | SZH | +0.16% | 0.749 | +0.39% | 0.161 |
+| VAR(1) | XGH | +0.54% | 0.152 | +0.11% | 0.521 |
+| VAR(7) | SZH | **+2.78%** | **0.042** | **+2.13%** | **0.011** |
+| VAR(7) | XGH | **+2.50%** | **0.012** | +0.94% | 0.078 |
+| Historical mean | SZH | −0.01% | 0.836 | −0.03% | 0.395 |
+| Historical mean | XGH | +0.05% | 0.141 | 0.00% | 0.972 |
+
+Across 500 origins, no model beats the zero-return forecast in either market.
+VAR(7), the specification carried forward by AIC, is **significantly worse**
+than predicting no change on squared loss in both markets. The single-holdout
+Shanghai RMSE edge was noise.
+
+**Order-free decomposition.** The generalized FEVD of Pesaran and Shin (1998)
+does not depend on variable order. For SZH shocks explaining XGH at ten steps:
+
+| Method | Share at h=1 | h=5 | h=10 |
+| --- | ---: | ---: | ---: |
+| Cholesky [SZH, XGH] | 32.29% | 32.41% | 32.43% |
+| Cholesky [XGH, SZH] | 0.00% | 0.30% | 0.35% |
+| Generalized (order-free) | 24.41% | 24.53% | 24.55% |
+
+The same-day residual correlation is **0.568**, and 0.568² ≈ 0.323 is almost
+exactly the 32.3% one-step Cholesky share. The shares barely move from h=1 to
+h=10. The "linkage" is therefore same-day co-movement, which each Cholesky
+order assigns wholly to one market. Lagged dynamics add almost nothing, which
+is consistent with the forecast results. The generalized measure gives one
+order-free number, but it still describes correlated shocks, not causation.
+
+![Robustness](results/robustness.png)
+
 ## Methods, provenance and reproducibility
 
 This analysis develops the author's econometrics coursework and retains its original datasets and course notebook in source_materials. AI tools were used for coding support and English editing; the author reviewed and verified all code, results and conclusions. The data were supplied with the course; upstream vendor and price-adjustment details were not independently established.
 
 The English research notebook is fully executed. The runner verifies source hashes, recomputes the analysis and compares numerical evidence with the established reference results before exporting self-contained HTML and a file manifest. Exact dependency versions and the Python environment are recorded.
 
-Future work could use preregistered rolling-origin evaluation on additional data, robust
-inference for financial residuals, structural-break tests, and economically justified shock
-identification. These are proposed next steps, not completed analyses.
+Rolling-origin evaluation and an order-free decomposition are reported above.
+Remaining next steps are robust inference for heavy-tailed financial residuals,
+structural-break tests, and shock identification justified by trading hours
+and overnight information flow. These are proposed, not completed.
 
 
 ## Visual evidence

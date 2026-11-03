@@ -1,0 +1,31 @@
+model,horizon,mae_pp,origins
+Naive (last value),1,8.507046527247551,5
+Naive (last value),2,17.515565170631984,4
+Naive (last value),3,25.325620279232627,3
+Naive (last value),4,35.03113034126397,2
+Naive (last value),5,42.53523263623776,1
+"Linear trend, last 3 years",1,4.203981996496713,5
+"Linear trend, last 3 years",2,9.273582500869889,4
+"Linear trend, last 3 years",3,15.950432408621083,3
+"Linear trend, last 3 years",4,26.031936868290053,2
+"Linear trend, last 3 years",5,40.300720119569675,1
+"S-curve, fitted ceiling",1,5.050968238060058,5
+"S-curve, fitted ceiling",2,10.853778994960592,4
+"S-curve, fitted ceiling",3,18.346029542708106,3
+"S-curve, fitted ceiling",4,17.851594320194312,2
+"S-curve, fitted ceiling",5,41.94362856827562,1
+"S-curve, ceiling 50%",1,4.339432089392373,5
+"S-curve, ceiling 50%",2,7.353529451823789,4
+"S-curve, ceiling 50%",3,11.350817415183817,3
+"S-curve, ceiling 50%",4,20.204427986900182,2
+"S-curve, ceiling 50%",5,31.462446779183633,1
+"S-curve, ceiling 70%",1,5.119698518877653,5
+"S-curve, ceiling 70%",2,9.193007514806439,4
+"S-curve, ceiling 70%",3,12.978588936028522,3
+"S-curve, ceiling 70%",4,16.86601237410361,2
+"S-curve, ceiling 70%",5,30.658948553372014,1
+"S-curve, ceiling 100%",1,6.798024212708867,5
+"S-curve, ceiling 100%",2,12.401925151773083,4
+"S-curve, ceiling 100%",3,16.452585129613386,3
+"S-curve, ceiling 100%",4,13.596433438969429,2
+"S-curve, ceiling 100%",5,30.018822205520404,1

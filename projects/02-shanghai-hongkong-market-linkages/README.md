@@ -28,6 +28,30 @@ identifying assumption changed.
 That table is the project. Any variance decomposition quoted without its ordering
 is an assumption dressed up as a finding.
 
+## Robustness: 500 origins and an order-free answer
+
+Two follow-ups (`robustness.py`, results in `results/robustness_*`) settle what
+the single holdout and the ordering table leave open.
+
+- **Over 500 rolling one-step forecasts** (2019-11 to 2021-12, re-estimated
+  every 20 days on data before each forecast day), no model beats the
+  zero-return forecast. VAR(7) is **significantly worse**: MSE +2.8% for
+  Shanghai (Diebold–Mariano *p* = 0.042) and +2.5% for Hong Kong (*p* = 0.012).
+  The single-holdout Shanghai RMSE edge was noise.
+- **The order-free generalized FEVD** (Pesaran–Shin) puts the Shanghai share of
+  Hong Kong's 10-step variance at **24.6%**, between the 0.35% and 32.4%
+  Cholesky extremes. The same-day residual correlation is 0.568, and
+  0.568² ≈ 32.3% is almost exactly the one-step Cholesky share. The shares
+  barely change with horizon, so the "linkage" is **same-day co-movement**, not
+  a lagged spillover a trader could exploit.
+
+![Robustness](results/robustness.png)
+
+**Decision relevance:** use these markets' co-movement for same-day risk and
+hedge sizing, where the correlation matters. Do not build a next-day
+directional signal on lagged Shanghai returns; it lost to "no change" out of
+sample.
+
 ## Research question
 
 Do lagged Shanghai and Hong Kong index returns carry useful incremental
@@ -97,18 +121,21 @@ on the back of it.
 
 ## What I would do differently with more time
 
-Pre-registered rolling-origin evaluation on more data, inference robust to the
-heavy tails and conditional heteroskedasticity that financial residuals actually
-have, structural-break tests before assuming constant parameters, and shock
-identification justified by economics (trading hours, overnight information flow)
-rather than by variable order in a list.
+Inference robust to the heavy tails and conditional heteroskedasticity that
+financial residuals actually have, structural-break tests before assuming
+constant parameters, and shock identification justified by economics (trading
+hours, overnight information flow) rather than by variable order in a list.
 
 ## Reproduce
 
 ```bash
 pip install -r requirements.txt
+python robustness.py
 python run_analysis.py
 ```
+
+`robustness.py` writes the rolling-origin and generalized-FEVD results; its
+Cholesky shares reproduce the notebook's 32.43% and 0.35%.
 
 The runner verifies input hashes against `provenance.json`, re-executes the
 notebook from cleared outputs, fails on any cell error, and compares every
@@ -141,6 +168,7 @@ Last verified run: **8 reference tables, 334 numeric values matched, 0 errors**
 - `REPORT.md` / `FIRST_READ.html` — the full written report, including the
   complete lag-diagnostic and FEVD-sensitivity tables
 - `analysis.py` — the analysis as a plain module
+- `robustness.py` — rolling-origin Diebold–Mariano tests and generalized FEVD
 - `results/` — regenerated tables and figures
 - `VARSJ.csv`, `XZSJ.csv` — the two input datasets
 - `source_materials/` — the original course notebook and datasets, unmodified

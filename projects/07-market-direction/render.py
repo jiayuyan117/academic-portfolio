@@ -79,8 +79,8 @@ summary{{cursor:pointer;font-weight:700;padding:12px 0}}a:focus-visible,summary:
 .steps{{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}}.steps div{{padding:16px;background:#eef3ef}}
 @media(max-width:700px){{main,header,footer{{padding:22px}}section{{padding:22px}}.grid,.steps{{grid-template-columns:1fr}}.lede{{font-size:19px}}}}
 </style></head><body>
-<header><nav aria-label="Navigation"><a href="../../index.html#project-08">Portfolio</a><a href="#method">Study design</a><a href="#results">Results</a><a href="#reproduce">Reproduce</a><a href="#credit">Authorship</a></nav>
-<p class="eyebrow">08 / Financial machine learning / Research extension of Lab 6</p>
+<header><nav aria-label="Navigation"><a href="../../index.html#project-07">Portfolio</a><a href="#method">Study design</a><a href="#results">Results</a><a href="#reproduce">Reproduce</a><a href="#credit">Authorship</a></nav>
+<p class="eyebrow">07 / Financial machine learning / Research extension of Lab 6</p>
 <h1>When the<br><em>baseline wins.</em></h1>
 <p class="lede">Can recent market returns predict tomorrow’s direction well enough to beat historical class frequency? In this small historical sample, model selection says: keep the baseline.</p>
 <p>Jiayu Yan · Undergraduate research portfolio · UCI Istanbul Stock Exchange</p>
@@ -150,7 +150,7 @@ python verify.py</pre>
 development scores, test metrics, split boundaries, uncertainty tables, figures and this report.
 Verification recomputes every saved metric, all interval endpoints and development selection, checks source SHA-256,
 and compares a fresh complete rerun against committed reference tables. The tests perturb future inputs to detect feature look-ahead.</p>
-<p><a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/08-market-direction">Code and reproducibility files on GitHub</a></p></section>
+<p><a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/07-market-direction">Code and reproducibility files on GitHub</a></p></section>
 <section id="credit"><h2>Course origin &amp; authorship</h2>
 <p>This project grows out of Lab 6, “Traditional Machine Learning in Financial Data Analysis.”
 The course lab covered next-day direction classification, logistic/tree/forest models, chronological splitting, training-only scaling, K-means/PCA and five exercises, which Jiayu Yan completed.</p>

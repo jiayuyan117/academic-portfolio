@@ -4,7 +4,7 @@
 
 ### Job-posting classification and skill extraction, evaluated separately
 
-[Read the research brief](https://jiayuyan117.github.io/academic-portfolio/projects/07-nlp-job-postings/report.html)
+[Read the research brief](https://jiayuyan117.github.io/academic-portfolio/projects/06-nlp-job-postings/report.html)
 · [Data card](DATA_CARD.md) · [Methods and evidence](METHODS.md)
 
 

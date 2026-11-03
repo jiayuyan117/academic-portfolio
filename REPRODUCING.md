@@ -1,19 +1,19 @@
 # Reproduce the portfolio
 
-Use **CPython 3.12** for projects 01–05 and **JDK 17 + Maven 3.9**
-for project 07. Run commands from the repository root unless stated otherwise.
-Project 07 has a separate CPython 3.12 environment and task runner. From
-`projects/07-nlp-job-postings`, install its `requirements.txt`, run
+Use **CPython 3.12** for projects 01–05. Run commands from the repository root
+unless stated otherwise.
+Project 06 has a separate CPython 3.12 environment and task runner. From
+`projects/06-nlp-job-postings`, install its `requirements.txt`, run
 `python run.py verify` for the committed research evidence, `python run.py smoke`
 for sample training, and `python run.py data` / `python run.py reproduce` for
 full baseline retraining. Its optional deep models use `requirements-deep.txt`.
-Project 08 has its own `requirements.txt`, CI workflow and `verify.py`; project 09
+Project 07 has its own `requirements.txt`, CI workflow and `verify.py`; project 08
 uses `run.ps1` with a local JDK. The root runner and aggregate requirements cover 01–05.
 The public reports and charts are committed, so reading them requires no Python
 installation. Rebuilding requires downloading packages once.
 
 Project 01's original strict numerical reference uses **Windows x86-64 with
-AVX2/FMA support** and the runner's fixed CPU profile. Project 02 is checked on Windows and Linux; 03–05 and 06 are checked on
+AVX2/FMA support** and the runner's fixed CPU profile. Project 02 is checked on Windows and Linux; 03–05 are checked on
 Linux as well as the local Windows validation. On macOS/Linux, select projects
 02–05 rather than using the all-project command below. A Linux project 01 run
 still executes the checks and fails on excessive drift; it is not silently skipped.
@@ -71,32 +71,26 @@ with the numerical regression checks reviewed before accepting new results.
 - **01–02:** verify input SHA-256 hashes, execute cleared notebooks, reject
   execution errors and unexpected Chinese content, and compare the numeric
   output tables with committed references at `rtol=1e-6`. Reference values are
-  not automatically replaced when a check fails.
-- **03:** rebuild the data audit and bilingual industry figures; source
-  traceability and arithmetic checks do not turn unverified numbers into
-  verified statistics.
+  not automatically replaced when a check fails. Project 02's `robustness.py`
+  runs first and adds 500-origin Diebold–Mariano tests and a generalized FEVD;
+  its Cholesky shares reproduce the notebook's values.
+- **03:** rebuild the data audit and bilingual industry figures, then the
+  rolling-origin market-sizing backtest; source traceability and arithmetic
+  checks do not turn unverified numbers into verified statistics. Tests confirm
+  that changing data after an origin leaves that origin's forecasts unchanged.
 - **04:** reconcile hourly and daily demand, then rebuild four standalone
   interactive charts.
-- **05:** rebuild figures, underlying tables and `outputs/findings.json`.
+- **05:** rebuild figures, underlying tables and `outputs/findings.json`, then
+  the next-day alert test (`outputs/alert_findings.json`). Tests check that each
+  target is the next calendar day and that no feature uses day *d*+1.
   The 04 pipeline also regenerates its project README. The 05 README,
   root overviews and homepage are maintained separately and must be checked
   when results change.
-- **07:** run deterministic and randomized reference-model tests, including
-  ordered employee IDs and structural invariants.
 
 Rebuilding intentionally updates generated notebooks, HTML, figures, tables,
 environment records and manifests. This is different from modifying an input
 dataset or a dependency declaration. Original coursework in `source_materials/`
 is retained unchanged. Git attributes preserve input CSV bytes across platforms.
-
-## Java
-
-```bash
-mvn -B -f projects/06-workforce-system-java/pom.xml verify
-```
-
-See the project's README for the lightweight `javac` demonstration and the
-scope of the data structure tests.
 
 ## Delivery checks
 
@@ -105,6 +99,7 @@ python tools/check_delivery.py
 python -m unittest discover -s portfolio_common/tests -v
 python -m unittest discover -s projects/03-china-nev-industry-analytics/tests -v
 python -m unittest discover -s projects/04-bike-sharing-interactive-visualization/tests -v
+python -m unittest discover -s projects/05-beijing-air-quality-seaborn/tests -v
 ```
 
 For a real browser check, install the optional testing tools:
@@ -130,7 +125,7 @@ docker run --rm academic-portfolio
 The Dockerfile fixes the Python patch version and Debian release and installs
 the same dependency constraints. It includes CJK fonts for the Chinese figures.
 It rebuilds Python projects 02–05 inside the Linux container; project 01 requires
-the documented Windows reference environment, and Java is tested separately.
+the documented Windows reference environment, and projects 06–08 have their own instructions.
 Building the image requires network access. Container execution is a supported
 recipe only to the extent recorded in the delivery verification report; do not
 infer a successful Docker run from the presence of this file alone.

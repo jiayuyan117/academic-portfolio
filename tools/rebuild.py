@@ -10,11 +10,11 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 PROJECTS = {
     "01": ("01-equity-time-series-forecasting", ["run_analysis.py"]),
-    "02": ("02-shanghai-hongkong-market-linkages", ["run_analysis.py"]),
+    "02": ("02-shanghai-hongkong-market-linkages", ["robustness.py", "run_analysis.py"]),
     "03": ("03-china-nev-industry-analytics",
-           ["src/nev_visualization.py", "src/build_figures_en.py"]),
+           ["src/nev_visualization.py", "src/build_figures_en.py", "src/market_backtest.py"]),
     "04": ("04-bike-sharing-interactive-visualization", ["src/build_charts.py"]),
-    "05": ("05-beijing-air-quality-seaborn", ["src/analyze.py"]),
+    "05": ("05-beijing-air-quality-seaborn", ["src/analyze.py", "src/alert_model.py"]),
 
 }
 

@@ -1,0 +1,10 @@
+method,response,shock,horizon,share_pct
+"Cholesky [SZH, XGH]",XGH,SZH,1,32.28895096082189
+"Cholesky [SZH, XGH]",XGH,SZH,5,32.40705065234689
+"Cholesky [SZH, XGH]",XGH,SZH,10,32.42815216115743
+"Cholesky [XGH, SZH]",XGH,SZH,1,0.0
+"Cholesky [XGH, SZH]",XGH,SZH,5,0.2968144881265061
+"Cholesky [XGH, SZH]",XGH,SZH,10,0.3509709113708979
+Generalized (order-free),XGH,SZH,1,24.407897051345163
+Generalized (order-free),XGH,SZH,5,24.530310135895228
+Generalized (order-free),XGH,SZH,10,24.552425978737972

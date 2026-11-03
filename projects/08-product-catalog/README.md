@@ -1,4 +1,4 @@
-# 09 · Product Catalog: Protecting Small Data Changes
+# 08 · Product Catalog: Protecting Small Data Changes
 
 An engineering project by Jiayu Yan / 闫佳玉, built around the
 **product-management topic** of a Java Web textbook example; no textbook code is copied.
@@ -15,8 +15,7 @@ editing; names support Unicode; prices use integer CNY cents; stock is a
 nonnegative integer. The initial catalog is empty. Any example products entered
 for demonstration are synthetic.
 
-Project 06 already covers in-memory trees and workforce membership invariants.
-This project instead covers HTTP input boundaries, file persistence, restart
+The project covers HTTP input boundaries, file persistence, restart
 recovery and competing edits. It deliberately uses **JDK HttpServer and a versioned
 TSV snapshot**, not JSP, Servlet, JDBC or SSH. The local JDK was available but Maven
 was not; avoiding downloaded dependencies makes this bounded exercise reproducible.
@@ -140,7 +139,7 @@ modified or invoked for this project.
 或研究成果。第 13 章会员管理未采用。AI 工具用于编程辅助与英文润色；全部代码、结果与结论均经作者本人审核与验证。
 
 实现覆盖商品增删改查、金额与库存校验、文件持久化、并发版本冲突及
-HTTP 表单边界。与项目 06 的内存数据结构侧重点不同。本机实际运行了
+HTTP 表单边界。本机实际运行了
 13 组测试并全部通过；静态简报不能执行 Java 服务。详细来源说明见
 [PROVENANCE.md](PROVENANCE.md)。未来可在需要时替换为 JDBC 事务存储，
 补充用户权限及审计；这些属于未实现的后续工作。

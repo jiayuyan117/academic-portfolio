@@ -1,0 +1,73 @@
+{
+  "evaluation": {
+    "days": 500,
+    "first": "2019-11-21",
+    "last": "2021-12-31",
+    "refit_every_days": 20,
+    "window": "expanding, ends before each forecast day"
+  },
+  "squared_loss": {
+    "var1 SZH": {
+      "relative_mse_to_zero": 1.0016,
+      "dm_stat": 0.321,
+      "p": 0.749
+    },
+    "var7 SZH": {
+      "relative_mse_to_zero": 1.0278,
+      "dm_stat": 2.034,
+      "p": 0.042
+    },
+    "mean SZH": {
+      "relative_mse_to_zero": 0.9999,
+      "dm_stat": -0.207,
+      "p": 0.836
+    },
+    "var1 XGH": {
+      "relative_mse_to_zero": 1.0054,
+      "dm_stat": 1.435,
+      "p": 0.152
+    },
+    "var7 XGH": {
+      "relative_mse_to_zero": 1.025,
+      "dm_stat": 2.536,
+      "p": 0.012
+    },
+    "mean XGH": {
+      "relative_mse_to_zero": 1.0005,
+      "dm_stat": 1.474,
+      "p": 0.141
+    }
+  },
+  "absolute_loss": {
+    "var1 SZH": {
+      "relative_mae_to_zero": 1.0039,
+      "p": 0.161
+    },
+    "var7 SZH": {
+      "relative_mae_to_zero": 1.0213,
+      "p": 0.011
+    },
+    "mean SZH": {
+      "relative_mae_to_zero": 0.9997,
+      "p": 0.395
+    },
+    "var1 XGH": {
+      "relative_mae_to_zero": 1.0011,
+      "p": 0.521
+    },
+    "var7 XGH": {
+      "relative_mae_to_zero": 1.0094,
+      "p": 0.078
+    },
+    "mean XGH": {
+      "relative_mae_to_zero": 1.0,
+      "p": 0.972
+    }
+  },
+  "fevd_xgh_from_szh_h10_pct": {
+    "Cholesky [SZH, XGH]": 32.43,
+    "Cholesky [XGH, SZH]": 0.35,
+    "Generalized (order-free)": 24.55
+  },
+  "same_day_residual_correlation": 0.568
+}

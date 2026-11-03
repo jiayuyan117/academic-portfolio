@@ -1,0 +1,55 @@
+{
+  "target": "NEV share of CAAM all-vehicle sales including exports, percent",
+  "origins": [
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "forecast_count_per_model": 15,
+  "mae_all_horizons_pp": {
+    "Naive (last value)": 20.08,
+    "Linear trend, last 3 years": 13.22,
+    "S-curve, fitted ceiling": 13.42,
+    "S-curve, ceiling 50%": 10.47,
+    "S-curve, ceiling 70%": 11.05,
+    "S-curve, ceiling 100%": 12.68
+  },
+  "mean_error_pp": {
+    "Naive (last value)": -20.08,
+    "Linear trend, last 3 years": -10.73,
+    "S-curve, fitted ceiling": -6.99,
+    "S-curve, ceiling 50%": -9.98,
+    "S-curve, ceiling 70%": -6.34,
+    "S-curve, ceiling 100%": -3.05
+  },
+  "mae_horizon_1_pp": {
+    "Naive (last value)": 8.51,
+    "Linear trend, last 3 years": 4.2,
+    "S-curve, fitted ceiling": 5.05,
+    "S-curve, ceiling 50%": 4.34,
+    "S-curve, ceiling 70%": 5.12,
+    "S-curve, ceiling 100%": 6.8
+  },
+  "forecast_2025_from_2021": {
+    "Naive (last value)": 13.4,
+    "Linear trend, last 3 years": 29.6,
+    "S-curve, fitted ceiling": 47.2,
+    "S-curve, ceiling 50%": 34.8,
+    "S-curve, ceiling 70%": 41.0,
+    "S-curve, ceiling 100%": 47.2
+  },
+  "actual_2025": 47.9,
+  "fitted_ceiling_by_origin": {
+    "2020": 6.0,
+    "2021": 100.0,
+    "2022": 100.0,
+    "2023": 52.2,
+    "2024": 54.2
+  },
+  "domestic_vs_all_sales_2025_pp": {
+    "all_sales_incl_exports": 47.9,
+    "domestic": 50.8
+  }
+}

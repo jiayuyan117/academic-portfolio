@@ -60,7 +60,7 @@ jobs:
         if: matrix.project == '01' || matrix.project == '02'
         run: python -m unittest discover -s portfolio_common/tests -v
       - name: Test data and inference semantics
-        if: matrix.project == '03' || matrix.project == '04'
+        if: matrix.project == '03' || matrix.project == '04' || matrix.project == '05'
         run: python -m unittest discover -s projects/${{ matrix.folder }}/tests -v
       - name: Rebuild and verify
         run: python tools/rebuild.py --project ${{ matrix.project }}
@@ -81,26 +81,6 @@ jobs:
             projects/${{ matrix.folder }}/charts_en
             projects/${{ matrix.folder }}/figures
             projects/${{ matrix.folder }}/environment.json
-
-  java:
-    name: Java 17 / JUnit
-    runs-on: ubuntu-22.04
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-          cache: maven
-      - name: Verify project 06
-        run: mvn -B -f projects/06-workforce-system-java/pom.xml verify
-      - name: Preserve JUnit results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: java-tests
-          path: projects/06-workforce-system-java/target/surefire-reports
 
   site:
     name: Published artifact and link checks
