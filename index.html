@@ -330,6 +330,41 @@ h2.section{
 }
 .cardlinks a{margin:0;white-space:normal;text-decoration:underline;text-underline-offset:4px}
 .featured{border-top:4px solid var(--accent)}
+.card.has-figure{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,.8fr);
+  column-gap:36px;
+  align-items:start;
+}
+.card.has-figure .card-body{grid-column:1;grid-row:1;min-width:0}
+.card.has-figure .research-image{grid-column:2;grid-row:1;float:none;width:auto;margin:4px 0 0}
+.card.has-figure .cardlinks{grid-column:1/-1}
+.card .eyebrow{display:table;font-size:11px}
+.card-body>*:last-child{margin-bottom:0}
+.nw{white-space:nowrap}
+
+/* Selected studies */
+#selected-studies{gap:16px;margin-bottom:40px}
+#selected-studies .kpi-card{
+  display:flex;
+  flex-direction:column;
+  border-top:3px solid var(--accent);
+  padding:20px 20px 18px;
+  transition:box-shadow .2s ease,transform .2s ease;
+}
+#selected-studies .kpi-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+#selected-studies h3{font:700 19px/1.3 Georgia,serif;margin:0 0 12px;letter-spacing:-.01em}
+#selected-studies h3 a{color:var(--ink)}
+#selected-studies h3 a:hover{color:var(--accent);text-decoration:none}
+#selected-studies .sel-num{
+  display:block;
+  margin-bottom:6px;
+  font:700 12px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  letter-spacing:.08em;
+  color:var(--accent);
+}
+#selected-studies p{margin:0 0 10px;font-size:14px;line-height:1.6}
+#selected-studies p:last-child{margin:auto 0 0;padding-top:10px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
 
 footer{
   margin:52px 0 0;
@@ -343,6 +378,10 @@ footer p{margin:0 0 10px;max-width:88ch}
 @media(max-width:860px){
   .kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .project-index{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card.has-figure{grid-template-columns:minmax(0,1fr)}
+  .card.has-figure .research-image{grid-column:1;grid-row:1;margin:0 0 22px}
+  .card.has-figure .card-body{grid-row:2}
+  .card.has-figure .cardlinks{grid-column:1}
 }
 @media(max-width:760px){
   .wrap{padding:0 20px}
@@ -393,11 +432,11 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       </div>
       <div class="kpi-card">
         <span class="kpi-val">586 Values</span>
-        <span class="kpi-lbl">Checked in econometrics pipelines at rtol = 1e-6</span>
+        <span class="kpi-lbl">Checked in econometrics pipelines at <span class="nw">rtol = 1e-6</span></span>
       </div>
       <div class="kpi-card">
         <span class="kpi-val">21,663 Jobs</span>
-        <span class="kpi-lbl">Employer-disjoint NLP cohort with SHA-256 manifest</span>
+        <span class="kpi-lbl">Employer-disjoint NLP cohort with <span class="nw">SHA-256</span> manifest</span>
       </div>
       <div class="kpi-card">
         <span class="kpi-val">Python · Java</span>
@@ -441,10 +480,10 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
   <p>Start with 07, 08 and 05. For an econometrics-focused programme, substitute 02
     for 05. Each entry opens the research evidence directly.</p>
   <div class="kpi-grid" id="selected-studies">
-    <article class="kpi-card"><h3><a href="projects/07-nlp-job-postings/report.html">07 · Does the Skill Signal Help?</a></h3><p>Employer-disjoint NLP evaluation on 21,663 postings. Text Macro-F1 0.7406 versus fusion 0.7348.</p><p>Read for feature value, held-out evaluation and prediction-level checks.</p></article>
-    <article class="kpi-card"><h3><a href="projects/08-market-direction/report.html">08 · When the Baseline Wins</a></h3><p>Purged temporal evaluation across 216 later dates; development selection retains the prior.</p><p>Read for leakage control, baseline selection and uncertainty.</p></article>
-    <article class="kpi-card"><h3><a href="projects/05-beijing-air-quality-seaborn/FIRST_READ.html">05 · Missing Data Before Modelling</a></h3><p>43,824 hourly rows; a 155-hour gap makes indiscriminate interpolation unsuitable.</p><p>Read for data-quality judgment and observed-only analysis.</p></article>
-    <article class="kpi-card"><h3><a href="projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html">02 · Identification Matters</a></h3><p>Shock attribution changes from 32.4% to 0.35% with ordering.</p><p>Quantitative alternative: assumptions, sensitivity and 334 numerical checks.</p></article>
+    <article class="kpi-card"><h3><a href="projects/07-nlp-job-postings/report.html"><span class="sel-num">07</span>Does the Skill Signal Help?</a></h3><p>Employer-disjoint NLP evaluation on 21,663 postings. Text Macro-F1 0.7406 versus fusion 0.7348.</p><p>Read for feature value, held-out evaluation and prediction-level checks.</p></article>
+    <article class="kpi-card"><h3><a href="projects/08-market-direction/report.html"><span class="sel-num">08</span>When the Baseline Wins</a></h3><p>Purged temporal evaluation across 216 later dates; development selection retains the prior.</p><p>Read for leakage control, baseline selection and uncertainty.</p></article>
+    <article class="kpi-card"><h3><a href="projects/05-beijing-air-quality-seaborn/FIRST_READ.html"><span class="sel-num">05</span>Missing Data Before Modelling</a></h3><p>43,824 hourly rows; a 155-hour gap makes indiscriminate interpolation unsuitable.</p><p>Read for data-quality judgment and observed-only analysis.</p></article>
+    <article class="kpi-card"><h3><a href="projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html"><span class="sel-num">02</span>Identification Matters</a></h3><p>Shock attribution changes from 32.4% to 0.35% with ordering.</p><p>Quantitative alternative: assumptions, sensitivity and 334 numerical checks.</p></article>
   </div>
   <h2 class="section">Supporting work</h2>
   <p><a href="projects/09-product-catalog/PROJECT.html">09 · Persistence and revision-checked pagination</a>
@@ -554,8 +593,9 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </div>
   </details>
 
-  <section class="card" id="project-01" data-tracks="">
-    <figure class="research-image"><a href="projects/01-equity-time-series-forecasting/Research_Analysis.html"><img loading="lazy" src="projects/01-equity-time-series-forecasting/results/q4_return_forecast.png" alt="Fixed-origin equity return forecast compared with held-out observations" width="1200" height="700"></a><figcaption>Held-out returns · A small improvement on one window is not a deployment case.</figcaption></figure>
+  <section class="card has-figure" id="project-01" data-tracks="">
+    <div class="card-body">
+
     <h3><span class="num">01</span>Equity Time-Series Forecasting</h3>
     <p class="stack">statsmodels · ARMA/ARIMA · fixed-origin holdout · 252 values verified per run</p>
     <span class="tag">Negative result</span>
@@ -568,6 +608,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     <p class="decision"><strong>Decision relevance.</strong> Keep the zero-return
       benchmark: this small advantage on one window does not justify deploying
       a trading model. Wider time-based validation and transaction costs remain necessary.</p>
+    </div>
+    <figure class="research-image"><a href="projects/01-equity-time-series-forecasting/Research_Analysis.html"><img loading="lazy" src="projects/01-equity-time-series-forecasting/results/q4_return_forecast.png" alt="Fixed-origin equity return forecast compared with held-out observations" width="1200" height="700"></a><figcaption>Held-out returns · A small improvement on one window is not a deployment case.</figcaption></figure>
     <p class="cardlinks">
       <a href="projects/01-equity-time-series-forecasting/FIRST_READ.html">Read the report</a>
       <a href="projects/01-equity-time-series-forecasting/Research_Analysis.html">Full analysis</a>
@@ -575,8 +617,9 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </p>
   </section>
 
-  <section class="card" id="project-02" data-tracks="ds">
-    <figure class="research-image"><a href="projects/02-shanghai-hongkong-market-linkages/Research_Analysis.html"><img loading="lazy" src="projects/02-shanghai-hongkong-market-linkages/results/fevd_order_sensitivity.png" alt="Market variance decomposition under two Cholesky orderings" width="1200" height="700"></a><figcaption>Identification sensitivity · The same data can support very different shock attributions.</figcaption></figure>
+  <section class="card has-figure" id="project-02" data-tracks="ds">
+    <div class="card-body">
+
     <h3><span class="num">02</span>Shanghai–Hong Kong Market Linkages</h3>
     <p class="stack">VAR / VECM · Johansen · Granger · 334 values verified per run</p>
     <span class="tag">Negative result</span>
@@ -591,6 +634,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     <p class="decision"><strong>Decision relevance.</strong> Treat shock attribution
       as sensitive to identification assumptions. It is insufficient evidence for
       a directional hedging rule or a causal claim about either market.</p>
+    </div>
+    <figure class="research-image"><a href="projects/02-shanghai-hongkong-market-linkages/Research_Analysis.html"><img loading="lazy" src="projects/02-shanghai-hongkong-market-linkages/results/fevd_order_sensitivity.png" alt="Market variance decomposition under two Cholesky orderings" width="1200" height="700"></a><figcaption>Identification sensitivity · The same data can support very different shock attributions.</figcaption></figure>
     <p class="cardlinks">
       <a href="projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html">Read the report</a>
       <a href="projects/02-shanghai-hongkong-market-linkages/Research_Analysis.html">Full analysis</a>
@@ -598,8 +643,9 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </p>
   </section>
 
-  <section class="card" id="project-03" data-tracks="ba">
-    <figure class="research-image"><a href="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png"><img loading="lazy" src="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png" alt="Battery chemistry composition with explicit subtotal and source qualifications" width="1200" height="700"></a><figcaption>Industry evidence · Source scope and denominator choices are part of the analysis.</figcaption></figure>
+  <section class="card has-figure" id="project-03" data-tracks="ba">
+    <div class="card-body">
+
     <h3><span class="num">03</span>China's New Energy Vehicle Transition, 2015–2025</h3>
     <p class="stack">pandas · matplotlib · 7 compiled tables · 16 figures, bilingual</p>
     <p><strong>Business question.</strong> What can national industry statistics
@@ -616,6 +662,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     <p class="decision"><strong>Decision relevance.</strong> Charging investment
       needs location, utilization and power data. National connector counts and a
       series with a reporting break cannot alone establish where capacity is scarce.</p>
+    </div>
+    <figure class="research-image"><a href="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png"><img loading="lazy" src="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png" alt="Battery chemistry composition with explicit subtotal and source qualifications" width="1200" height="700"></a><figcaption>Industry evidence · Source scope and denominator choices are part of the analysis.</figcaption></figure>
     <p class="cardlinks">
       <a href="projects/03-china-nev-industry-analytics/FIRST_READ.html">Research brief</a>
       <a href="projects/03-china-nev-industry-analytics/charts_en/08_dashboard.png">Dashboard</a>
@@ -625,7 +673,9 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </p>
   </section>
 
-  <section class="card" id="project-04" data-tracks="ba">
+  <section class="card has-figure" id="project-04" data-tracks="ba">
+    <div class="card-body">
+
     <h3><span class="num">04</span>Bike-Sharing Demand: Interactive Visualisation</h3>
     <p class="stack">Plotly · standalone offline charts · 17,379 hourly observations</p>
     <span class="tag">Data-quality finding</span>
@@ -640,6 +690,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       daily totals before using demand patterns to inform fleet planning. These
       historical aggregates support exploration; station-level rebalancing requires
       station availability and service-cost data.</p>
+    </div>
+    <figure class="research-image"><a href="projects/04-bike-sharing-interactive-visualization/charts/03_calendar_heatmap.html"><img loading="lazy" src="projects/04-bike-sharing-interactive-visualization/figures/calendar_heatmap_preview.png" alt="Calendar heatmap of daily bike-sharing rentals, 2011–2012" width="1800" height="1050"></a><figcaption>Daily rentals by calendar position · Open the interactive chart to switch years.</figcaption></figure>
     <p class="cardlinks">
       <a href="projects/04-bike-sharing-interactive-visualization/FIRST_READ.html">Research brief</a>
       <a href="projects/04-bike-sharing-interactive-visualization/charts/01_sunburst.html">Sunburst</a>
@@ -650,8 +702,9 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </p>
   </section>
 
-  <section class="card" id="project-05" data-tracks="ds ba">
-    <figure class="research-image"><a href="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png"><img loading="lazy" src="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png" alt="Missing PM2.5 hours grouped by gap length" width="1200" height="700"></a><figcaption>Missingness audit · Long gaps remain unfilled; headline analysis uses observed values.</figcaption></figure>
+  <section class="card has-figure" id="project-05" data-tracks="ds ba">
+    <div class="card-body">
+
     <h3><span class="num">05</span>Beijing PM2.5, 2010–2014</h3>
     <p class="stack">Seaborn · 43,824 hourly observations · 7 figures</p>
     <span class="tag">Method correction</span>
@@ -670,6 +723,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       missingness, distinguishing measurement periods and communicating observational
       uncertainty. This environmental study does not validate a business intervention
       or identify the effects of changing emissions or schedules.</p>
+    </div>
+    <figure class="research-image"><a href="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png"><img loading="lazy" src="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png" alt="Missing PM2.5 hours grouped by gap length" width="1200" height="700"></a><figcaption>Missingness audit · Long gaps remain unfilled; headline analysis uses observed values.</figcaption></figure>
     <p class="cardlinks">
       <a href="projects/05-beijing-air-quality-seaborn/FIRST_READ.html">Research brief</a>
       <a href="projects/05-beijing-air-quality-seaborn/figures/03_ventilation_wind_speed.png">Ventilation</a>
@@ -700,8 +755,9 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </p>
   </section>
 
-  <section class="card featured" id="project-07" data-tracks="ds ba">
-    <figure class="research-image"><a href="projects/07-nlp-job-postings/report.html"><img loading="lazy" src="projects/07-nlp-job-postings/results/ablation.png" alt="Text, lexicon and fused-feature classification results from the job-posting study" width="1200" height="750"></a><figcaption>Feature ablation · Read the research brief for evaluation design and uncertainty.</figcaption></figure>
+  <section class="card has-figure featured" id="project-07" data-tracks="ds ba">
+    <div class="card-body">
+
     <p class="eyebrow">NLP reading route · reproducible evaluation</p>
     <h3><span class="num">07</span>Does the Skill Signal Help?</h3>
     <p class="stack">Job-posting NLP · SkillSpan · 21,663 postings · 20 classes · employer-disjoint split</p>
@@ -718,14 +774,17 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       as the reference for further routing evaluation; assess extracted requirements
       directly before using them in a skills profile. These offline results do not
       establish production readiness, recruiter time savings or hiring outcomes.</p>
+    </div>
+    <figure class="research-image"><a href="projects/07-nlp-job-postings/report.html"><img loading="lazy" src="projects/07-nlp-job-postings/results/ablation.png" alt="Text, lexicon and fused-feature classification results from the job-posting study" width="1200" height="750"></a><figcaption>Feature ablation · Read the research brief for evaluation design and uncertainty.</figcaption></figure>
     <p class="cardlinks">
       <a href="projects/07-nlp-job-postings/report.html">Research brief</a>
       <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/07-nlp-job-postings/README.md">Project README</a>
     </p>
   </section>
 
-  <section class="card featured" id="project-08" data-tracks="ds">
-    <figure class="research-image"><a href="projects/08-market-direction/report.html"><img loading="lazy" src="projects/08-market-direction/results/uncertainty.png" alt="All six candidate Brier differences have pointwise block-bootstrap intervals crossing zero" width="1800" height="864"></a><figcaption>216 later trading days · Pointwise uncertainty does not establish a useful forecasting edge.</figcaption></figure>
+  <section class="card has-figure featured" id="project-08" data-tracks="ds">
+    <div class="card-body">
+
     <p class="eyebrow">Lab 6 research extension · temporal machine learning</p>
     <h3><span class="num">08</span>When the Baseline Wins</h3>
     <p class="stack">scikit-learn · purged rolling evaluation · ablations · block-bootstrap intervals</p>
@@ -743,6 +802,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       trading profitability or general forecasting ability.</p>
     <p>The original course lab supplied the topic; this new implementation uses
       openly licensed data and publishes neither the course dataset nor course code.</p>
+    </div>
+    <figure class="research-image"><a href="projects/08-market-direction/report.html"><img loading="lazy" src="projects/08-market-direction/results/uncertainty.png" alt="All six candidate Brier differences have pointwise block-bootstrap intervals crossing zero" width="1800" height="864"></a><figcaption>216 later trading days · Pointwise uncertainty does not establish a useful forecasting edge.</figcaption></figure>
     <p class="cardlinks"><a href="projects/08-market-direction/report.html">Research brief &amp; methods</a>
       <a href="projects/08-market-direction/results/predictions.csv">Auditable predictions</a>
       <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/08-market-direction">Code &amp; tests</a></p>
