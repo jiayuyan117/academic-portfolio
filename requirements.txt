@@ -4,4 +4,3 @@
 -r projects/03-china-nev-industry-analytics/requirements.txt
 -r projects/04-bike-sharing-interactive-visualization/requirements.txt
 -r projects/05-beijing-air-quality-seaborn/requirements.txt
--r projects/06-consumer-behaviour-matplotlib/requirements.txt

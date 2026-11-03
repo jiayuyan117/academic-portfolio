@@ -12,4 +12,4 @@ COPY . .
 RUN python -m pip install --no-cache-dir -c constraints.txt -r requirements.txt \
     && python -m pip check
 # Project 01's strict numerical reference is verified on Windows, not Linux.
-CMD ["python", "tools/rebuild.py", "--project", "02", "--project", "03", "--project", "04", "--project", "05", "--project", "06"]
+CMD ["python", "tools/rebuild.py", "--project", "02", "--project", "03", "--project", "04", "--project", "05"]

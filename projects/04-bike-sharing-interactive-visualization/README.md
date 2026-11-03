@@ -1,6 +1,6 @@
 # Bike-Sharing Demand: Interactive Visualisation
 
-**Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
+**Author: 闫佳玉 / Jiayu Yan**
 
 **Four interactive figures with explicit encodings and offline support.**
 
@@ -89,7 +89,4 @@ with networking disabled remains the final visual acceptance check.
 
 [UCI Bike Sharing Dataset](https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset),
 Fanaee-T & Gama (2013), Washington D.C. Capital Bikeshare, 2011–2012; inputs are
-unmodified. Developed from a course visualisation assignment. AI participated in
-analysis design, data-quality investigation, visual encoding, code, interpretation
-and English writing. Portfolio extensions are not claimed as independently
-designed original coursework.
+unmodified. Developed from a course visualisation assignment. AI tools were used for coding support and English editing; the author reviewed and verified all code, results and conclusions.

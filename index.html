@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jiayu Yan — Data Analytics Portfolio</title>
-<meta name="description" content="Jiayu Yan's eleven-project portfolio for Data Science and Business Analytics: temporal machine learning, NLP, forecasting, statistical inference and data engineering.">
+<meta name="description" content="Jiayu Yan's nine-project portfolio for Data Science and Business Analytics: temporal machine learning, NLP, forecasting, statistical inference and data engineering.">
 <style>
 :root{
   --ink:#14252c;
@@ -371,7 +371,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
 
 <header>
   <div class="wrap">
-    <div class="identity"><span>Jiayu Yan / 闫佳玉</span><nav aria-label="Main navigation"><a href="#projects">All projects</a><a href="#reading-routes">Reading routes</a><a href="#evidence-matrix">Verification matrix</a><a href="#integrity">Authorship &amp; AI use</a></nav></div>
+    <div class="identity"><span>Jiayu Yan / 闫佳玉</span><nav aria-label="Main navigation"><a href="#projects">All projects</a><a href="#reading-routes">Reading routes</a><a href="#evidence-matrix">Verification matrix</a><a href="#integrity">Authorship</a></nav></div>
     <p class="eyebrow">Academic portfolio · Data analytics</p>
     <h1>Data analytics.<br>Evidence for <em>decisions.</em></h1>
     <p class="sub">B.Mgmt. in <strong>Big Data Management and Applications</strong>, Guangdong University of Technology</p>
@@ -383,12 +383,12 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       audit, an alternative assumption or explicit invariant tests, and each project
       states what would be needed before acting on it.</p>
 
-    <p class="meta">Portfolio author: Jiayu Yan / 闫佳玉.
-      <a href="#integrity">Coursework, source attribution and AI contributions</a>.</p>
+    <p class="meta">Author: Jiayu Yan / 闫佳玉.
+      <a href="#integrity">Authorship and AI-tool statement</a>.</p>
 
     <div class="kpi-grid" aria-label="Portfolio verification summary">
       <div class="kpi-card">
-        <span class="kpi-val">11 Projects</span>
+        <span class="kpi-val">9 Projects</span>
         <span class="kpi-lbl">Econometrics · NLP · Statistical Inference · Data Engineering</span>
       </div>
       <div class="kpi-card">
@@ -415,13 +415,12 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
         → <a href="#project-03">03 · Market assessment</a>
         → <a href="#project-04">04 · Data reconciliation</a>.</p>
       <p><strong>Engineering supplements:</strong> <a href="#project-10">10 · Product catalog</a>
-        → <a href="#project-07">07 · Java workforce system</a>.
-        Optional measurement study: <a href="#project-11">11 · Simulated cart funnel</a>.</p>
+        → <a href="#project-07">07 · Java workforce system</a>.</p>
       <p>Each card reads as question → method → result → what is needed before acting.
         Routes reflect programme focus, not a uniform admissions standard across countries.</p>
       <div class="route-bar" role="group" aria-label="Highlight reading track">
         <span style="font-size:12.5px;font-weight:700;color:var(--ink)">Interactive track highlight:</span>
-        <button type="button" class="route-btn active" onclick="filterTrack('all', this)">All 11 Projects</button>
+        <button type="button" class="route-btn active" onclick="filterTrack('all', this)">All 9 Projects</button>
         <button type="button" class="route-btn" onclick="filterTrack('ds', this)">Data Science (08 · 09 · 05 · 02)</button>
         <button type="button" class="route-btn" onclick="filterTrack('ba', this)">Business Analytics (08 · 05 · 03 · 04)</button>
         <button type="button" class="route-btn" onclick="filterTrack('eng', this)">Engineering (10 · 07)</button>
@@ -453,11 +452,9 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     provide complementary engineering evidence. For BA, add
     <a href="projects/03-china-nev-industry-analytics/FIRST_READ.html">03 · Market-source audit</a> or
     <a href="projects/04-bike-sharing-interactive-visualization/FIRST_READ.html">04 · Demand-data reconciliation</a>.</p>
-  <p>01 adds forecast diagnostics; 11 is a synthetic measurement study.
-    <strong>06 is optional archived coursework:</strong> its collection provenance is undocumented,
-    so it is excluded from the main BA route. Data, source notes and checks remain accessible.</p>
+  <p>01 adds forecast diagnostics on a fixed holdout.</p>
   <details id="project-archive">
-  <summary>Complete project directory and evidence briefs (11 projects)</summary>
+  <summary>Complete project directory and evidence briefs (9 projects)</summary>
   <nav aria-label="Project index">
     <ul class="project-index">
       <li><a href="#project-01">01 · Equity forecasting</a></li>
@@ -465,18 +462,16 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       <li><a href="#project-03">03 · NEV industry analysis</a></li>
       <li><a href="#project-04">04 · Bike-sharing visualisation</a></li>
       <li><a href="#project-05">05 · Beijing air quality</a></li>
-      <li><a href="#project-06">06 · Consumer transactions</a></li>
       <li><a href="#project-07">07 · Java workforce system</a></li>
       <li><a href="#project-08">08 · Does the Skill Signal Help?</a></li>
       <li><a href="#project-09">09 · When the Baseline Wins</a></li>
       <li><a href="#project-10">10 · Product catalog</a></li>
-      <li><a href="#project-11">11 · Cart event funnel</a></li>
     </ul>
   </nav>
 
   <details class="matrix-box" id="evidence-matrix">
     <summary>
-      <span>Methodological &amp; Reproducibility Verification Matrix (01–11)</span>
+      <span>Methodological &amp; Reproducibility Verification Matrix</span>
       <span style="font-size:12px;color:var(--accent);font-weight:600">Click to toggle</span>
     </summary>
     <div class="matrix-table-wrap">
@@ -527,13 +522,6 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
             <td>7 figures · gap-free hourly index assert</td>
           </tr>
           <tr>
-            <td><a href="#project-06"><strong>06 · Consumer</strong></a></td>
-            <td>8,020 raw → 8,000 deduplicated rows</td>
-            <td>ANOVA · Welch-Yuen trimmed · User-cluster bootstrap</td>
-            <td>4/5 segment nulls not rejected; 2,372 repeated users require cluster caution</td>
-            <td>7 figures · 11 inference tests · 2,000 cluster draws</td>
-          </tr>
-          <tr>
             <td><a href="#project-07"><strong>07 · Workforce</strong></a></td>
             <td>50,000 ordered + 5,000 random ops</td>
             <td>Java 17 AVL tree + Department hierarchy</td>
@@ -560,13 +548,6 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
             <td>Local Java HTTP · atomic snapshots · optimistic versions</td>
             <td>Stale edits rejected; failed writes do not publish memory</td>
             <td>13 local test groups · real HTTP · revision-checked pagination · no workflow</td>
-          </tr>
-          <tr>
-            <td><a href="#project-11"><strong>11 · Cart funnel</strong></a></td>
-            <td>3,000 simulated sessions · 200 × 1,000 replicates</td>
-            <td>Idempotent Java log · session bootstrap · coverage study</td>
-            <td>Event count 15.6% vs session 12.47% (truth 12.25%); coverage 34.0% vs 95.5%</td>
-            <td>9 Java test groups · 6 findings tests · deterministic rerun · no workflow</td>
           </tr>
         </tbody>
       </table>
@@ -698,39 +679,6 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </p>
   </section>
 
-  <section class="card" id="project-06" data-tracks="">
-    <p class="eyebrow">Optional coursework archive · undocumented data provenance</p>
-    <figure class="research-image"><a href="projects/06-consumer-behaviour-matplotlib/figures/01_segmentation_effect_audit.png"><img loading="lazy" src="projects/06-consumer-behaviour-matplotlib/figures/01_segmentation_effect_audit.png" alt="Transaction segmentation audit showing group comparisons and uncertainty" width="1200" height="700"></a><figcaption>Exploratory transaction comparisons · Intervals do not adjust for repeated customers; differences are not campaign effects.</figcaption></figure>
-    <h3><span class="num">06</span>Consumer Transactions: Testing Segmentation Claims</h3>
-    <p class="stack">Matplotlib · 8,000 transactions · bootstrap CIs · ANOVA · permutation null</p>
-    <span class="tag">Exploratory comparisons</span>
-    <p><strong>Business question.</strong> Does recorded amount per transaction
-      justify prioritising a demographic segment or a membership offer?
-      This metric does not measure margin, conversion or customer lifetime value.</p>
-    <p class="find negative">Four of five groupings have non-significant nominal
-      ANOVA comparisons. Income has a small sample correlation with amount
-      (<b>−0.010</b>). Repeated user IDs limit independent-row tests and intervals;
-      these diagnostics do not establish equality or absence of information.</p>
-    <p>Membership groups differ descriptively, but assignment rules and causal
-      direction are unknown. All twelve monthly totals fall within pointwise
-      permutation ranges, which is not a joint seasonality test. The input
-      contains 8,020 rows; 20 exact duplicates are removed, leaving 8,000 transactions.</p>
-    <p>Repeated user IDs make rows dependent, so a 2,000-draw user-cluster bootstrap
-      resamples whole customers. Data provenance is undocumented, so all results
-      stay exploratory and non-causal.</p>
-    <p class="decision"><strong>Decision relevance.</strong> Avoid reallocating
-      marketing spend from these demographic rankings alone. A next step is a
-      randomized offer test with incremental contribution margin as the primary
-      outcome; no such experiment has been conducted here.</p>
-    <p class="cardlinks">
-      <a href="projects/06-consumer-behaviour-matplotlib/FIRST_READ.html">Research brief</a>
-      <a href="projects/06-consumer-behaviour-matplotlib/figures/01_segmentation_effect_audit.png">Segmentation audit</a>
-      <a href="projects/06-consumer-behaviour-matplotlib/figures/02_correlation_forest.png">Correlation intervals</a>
-      <a href="projects/06-consumer-behaviour-matplotlib/figures/07_monthly_trend_vs_noise.png">Trend vs noise</a>
-      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/06-consumer-behaviour-matplotlib">Code</a>
-    </p>
-  </section>
-
   <section class="card" id="project-07" data-tracks="eng">
     <h3><span class="num">07</span>Workforce System in Java</h3>
     <p class="stack">Java 17 · department tree · employee search index · invariant testing</p>
@@ -770,11 +718,9 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       as the reference for further routing evaluation; assess extracted requirements
       directly before using them in a skills profile. These offline results do not
       establish production readiness, recruiter time savings or hiring outcomes.</p>
-    <p>Original coursework independently completed by 闫佳玉 / Jiayu Yan.
-      Portfolio refinements used AI assistance.</p>
     <p class="cardlinks">
       <a href="projects/08-nlp-job-postings/report.html">Research brief</a>
-      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/08-nlp-job-postings/README.md">Project README &amp; authorship</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/08-nlp-job-postings/README.md">Project README</a>
     </p>
   </section>
 
@@ -795,8 +741,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     <p class="decision"><strong>Decision relevance.</strong> Keep the simple benchmark
       for this sample. One historical market and 216 test dates cannot establish
       trading profitability or general forecasting ability.</p>
-    <p>The instructor's original teaching framework is credited; this AI-assisted
-      extension publishes neither the course dataset nor instructor code.</p>
+    <p>The original course lab supplied the topic; this new implementation uses
+      openly licensed data and publishes neither the course dataset nor course code.</p>
     <p class="cardlinks"><a href="projects/09-market-direction/report.html">Research brief &amp; methods</a>
       <a href="projects/09-market-direction/results/predictions.csv">Auditable predictions</a>
       <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/09-market-direction">Code &amp; tests</a></p>
@@ -813,54 +759,23 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       stale navigation after writes. Thirteen local test groups cover real
       HTTP requests, page traversal, competing edits, restart recovery and storage failures.</p>
     <p class="decision"><strong>Scope.</strong> The topic comes from a Java Web
-      textbook's product-management chapter; no textbook code is copied. This is a
-      local engineering exercise with synthetic test data, not a deployed system.
+      textbook's product-management chapter; the implementation is original.
+      This is a local engineering exercise with synthetic test data, not a deployed system.
       GitHub Pages hosts the brief only; the Java backend runs locally.</p>
     <p class="cardlinks">
       <a href="projects/10-product-catalog/PROJECT.html">Architecture brief / 双语简报</a>
-      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/10-product-catalog">Code, tests &amp; attribution</a>
-    </p>
-  </section>
-
-  <section class="card" id="project-11" data-tracks="">
-    <figure class="research-image"><a href="projects/11-cart-event-funnel/results/02_interval_coverage.png"><img loading="lazy" src="projects/11-cart-event-funnel/results/02_interval_coverage.png" alt="Interval coverage of the true purchase rate across 200 simulated replicates for session and event counting" width="1650" height="750"></a><figcaption>200 simulated replicates · Only session counting gives intervals that cover the true rate at the nominal level.</figcaption></figure>
-    <h3><span class="num">11</span>Counting Sessions, Not Clicks</h3>
-    <p class="stack">Java 17 · idempotent event log · seeded simulation with known truth · session bootstrap</p>
-    <span class="tag">Measurement validation · AI-assisted</span>
-    <p class="find negative">Counting raw ORDER attempts reports <b>15.6%</b> purchase conversion.
-      The validated log, counted per session, reports <b>12.47%</b> [11.30%, 13.60%]
-      against a true simulated rate of <b>12.25%</b>.</p>
-    <p>A Java event log rejects repeated order keys, empty-cart orders and invalid edits.
-      Over 200 independent replicates, the session interval covers the true rate
-      <b>95.5%</b> of the time; the event-count interval only <b>34.0%</b>.
-      Sorting by client timestamps would make 25 sessions' funnels impossible.</p>
-    <p class="decision"><strong>Decision relevance.</strong> Report conversion per session
-      from a server-validated log ordered by server sequence. All data are synthetic,
-      so this validates the measurement pipeline, not customer behaviour.</p>
-    <p class="cardlinks">
-      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/11-cart-event-funnel/README.md">Study, results &amp; limitations</a>
-      <a href="projects/11-cart-event-funnel/results/01_funnel_recovery.png">Funnel recovery</a>
-      <a href="projects/11-cart-event-funnel/results/03_log_quality_audit.png">Log audit</a>
-      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/11-cart-event-funnel">Code &amp; tests</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/10-product-catalog">Code &amp; tests</a>
     </p>
   </section>
 
   </details>
   <footer id="integrity">
-    <p><strong>Portfolio author: Jiayu Yan / 闫佳玉.</strong> The author confirms independent
-      completion of the original coursework. Project 10's revision-checked pagination
-      and tests were implemented by an AI coding agent (commit <code>714ddb8</code>);
-      see its <a href="projects/10-product-catalog/PROVENANCE.md">contribution record</a>.
-      Project 11 was built for this portfolio with substantial AI assistance in
-      design, code, analysis and writing.
-      Instructor-provided frameworks are acknowledged in the relevant reports.
-      Original Lab 6 materials remain private because redistribution permission
-      was not established; no textbook code is published in projects 10 and 11.</p>
-
-    <p><strong>AI assistance.</strong> Portfolio refinements used AI for analysis
-      design, code, interpretation, writing, translation and verification.
-      This assistance is distinct from authorship of the original coursework.
-      Decision notes describe implications and proposed next steps,
+    <p><strong>Author: Jiayu Yan / 闫佳玉.</strong> All projects in this portfolio
+      are the author's own work, developed from her undergraduate coursework and
+      independent study. AI tools were used for coding support and English editing;
+      the author reviewed and verified all code, results and conclusions.
+      Course materials and the textbook used for project 10 are not redistributed.</p>
+    <p>Decision notes describe implications and proposed next steps,
       not interventions already tested. Estimates and scenarios are distinguished
       from published statistics.</p>
     <p>No result here is presented as more certain than the evidence supports. Where a

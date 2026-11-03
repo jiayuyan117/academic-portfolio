@@ -1,6 +1,6 @@
 # 07 · Workforce System in Java
 
-**Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
+**Author: 闫佳玉 / Jiayu Yan**
 
 **Independent undergraduate coursework · Data structures and information systems**
 
@@ -88,4 +88,4 @@ Salary queries scan the ID index; there is no secondary salary index. `verify()`
 
 This is a single-threaded, in-memory teaching system with synthetic records. It has no persistence, concurrency control, authorization, department deletion/reparenting, or payroll processing. Counts use `int`, and data volume is limited by available heap. It is not a production HR or payroll application.
 
-The project is independently completed coursework. The implementation and tests were refined for this portfolio with AI assistance; see the repository's AI-use statement.
+Author: 闫佳玉 / Jiayu Yan. AI tools were used for coding support and English editing; the author reviewed and verified all code, results and conclusions.

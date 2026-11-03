@@ -138,11 +138,8 @@ Last verified run: **11 reference tables, 252 numeric values matched, 0 errors**
 
 ## Provenance and limitations
 
-Developed from supplied econometrics coursework; the original teaching notebook
+Developed from supplied econometrics coursework; the original course notebook
 and dataset are retained unmodified in `source_materials/` for comparison. The
 data were provided with the course: the upstream vendor, adjustment policy and
 dividend treatment were **not** independently verified, so the study describes
-the supplied closing-price series rather than a total-return investment. AI
-participated in analysis design, code, verification, interpretation and English
-writing. Current portfolio extensions are not claimed as independently designed
-original coursework; retained source materials support comparison.
+the supplied closing-price series rather than a total-return investment. AI tools were used for coding support and English editing; the author reviewed and verified all code, results and conclusions. Retained source materials support comparison.

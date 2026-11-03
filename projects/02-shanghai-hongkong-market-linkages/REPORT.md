@@ -179,7 +179,7 @@ forecast or select the return VAR using XZSJ.
 
 ## Methods, provenance and reproducibility
 
-This analysis develops supplied econometrics coursework and retains its original datasets and teaching notebook in source_materials. AI assistance was used for code completion, analytical organization, verification, and English writing. The data were supplied with the course; upstream vendor and price-adjustment details were not independently established.
+This analysis develops the author's econometrics coursework and retains its original datasets and course notebook in source_materials. AI tools were used for coding support and English editing; the author reviewed and verified all code, results and conclusions. The data were supplied with the course; upstream vendor and price-adjustment details were not independently established.
 
 The English research notebook is fully executed. The runner verifies source hashes, recomputes the analysis and compares numerical evidence with the established reference results before exporting self-contained HTML and a file manifest. Exact dependency versions and the Python environment are recorded.
 

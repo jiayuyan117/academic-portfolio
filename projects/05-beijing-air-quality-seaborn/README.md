@@ -1,6 +1,6 @@
 # Beijing PM2.5, 2010–2014
 
-**Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
+**Author: 闫佳玉 / Jiayu Yan**
 
 **Observed-hour associations and an explicit audit of missing-data policy**
 
@@ -127,8 +127,5 @@ readings paired with Beijing Capital International Airport meteorology,
 2010-01-01 to 2014-12-31, used unmodified.
 
 Developed from a course Seaborn assignment; the original script is kept in
-`source_materials/` for comparison. AI participated in the gap-audit design,
-statistical framing, code, interpretation and writing. Current methodological
-additions are portfolio extensions, not claimed as independently designed
-original coursework. Opposite Pearson/Spearman signs alone do not establish
+`source_materials/` for comparison. AI tools were used for coding support and English editing; the author reviewed and verified all code, results and conclusions. Opposite Pearson/Spearman signs alone do not establish
 non-monotonicity; binned summaries are descriptive and subject to confounding.

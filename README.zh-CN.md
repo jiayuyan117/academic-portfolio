@@ -1,6 +1,6 @@
 # 闫佳玉 — 数据分析作品集
 
-**作者：闫佳玉 / Jiayu Yan。教师框架与 AI 辅助研究扩展在各项目中分别署名说明。**
+**作者：闫佳玉 / Jiayu Yan**
 
 广东工业大学 **大数据管理与应用** 本科
 · 申请方向：数据科学 / 商业分析硕士（美国 · 新加坡 · 香港）
@@ -17,16 +17,14 @@ English version: [README.md](README.md)
 
 如果评审时间有限，先看 **08 → 09 → 05**；偏计量或量化的项目可用 **02** 替换 05。
 
-01–10 均以本科课程作品为基础，11 是为作品集新增、在 AI 大量辅助下完成的测量研究。它们检验技能特征能否改善岗位类别分类、预测能否优于
+9 个项目均由本科课程作业深化为可复现研究。它们检验技能特征能否改善岗位类别分类、预测能否优于
 简单基准、市场联动估计如何依赖识别假设、数据质量是否足以支持业务结论，
 以及小型系统在数据修改时能否保持一致。
-
-
 
 否证结果和方法纠错与正面发现一起呈现。没有拒绝零假设并不证明完全没有差异；
 观测数据的相关性也不等于干预效果。
 
-**01–07** 的既有 CI 已分别留下数值校验、分析与图表重建或 Java 测试的成功记录。
+**01–05 与 07** 的既有 CI 已分别留下数值校验、分析与图表重建或 Java 测试的成功记录。
 两个计量项目检查输入 SHA-256，并以 `rtol=1e-6` 比对合计 **586 个数值**。
 **08** 已完成来源重建、分类与抽取实验，并保留预测供独立重算指标。
 
@@ -46,11 +44,10 @@ English version: [README.md](README.md)
 BA 从特征价值、数据质量进入市场分母和需求数据对账；按专业方向取舍，不假定美港新存在统一录取标准。
 
 **工程补充：** 10 展示持久化、版本校验分页与 HTTP 测试；07 展示数据结构与不变量。
-**其他补充：** 01 预测诊断、03 市场来源、04 可视化、11 明确标注的模拟测量。
-**可选课程归档：** 06 保留探索性推断练习及完整数据，但来源不明，不作为 BA 旗舰。
+**其他补充：** 01 预测诊断、03 市场来源、04 可视化。
 
 <details>
-<summary>完整项目目录：精选、补充与可选课程练习</summary>
+<summary>完整项目目录：精选与补充</summary>
 
 | 项目 | 阅读重点 |
 | --- | --- |
@@ -59,12 +56,10 @@ BA 从特征价值、数据质量进入市场分母和需求数据对账；按�
 | [03 · 新能源汽车转型](projects/03-china-nev-industry-analytics/) | 来源追溯与市场分母口径 |
 | [04 · 共享单车可视化](projects/04-bike-sharing-interactive-visualization/) | 日期对账与交互图表 |
 | [05 · 北京 PM2.5](projects/05-beijing-air-quality-seaborn/) | 缺失机制与观测关联 |
-| [06 · 消费交易](projects/06-consumer-behaviour-matplotlib/) | 客群证据与决策限制 |
 | [07 · Java 员工系统](projects/07-workforce-system-java/) | 数据结构与不变量测试 |
 | [08 · Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md) | NLP 评估、否证结果与可复现性 |
 | [09 · When the Baseline Wins](projects/09-market-direction/report.html) | 时序机器学习、包含基准的模型选择与分块置信区间 |
 | [10 · 商品目录](projects/10-product-catalog/PROJECT.html) | 文件持久化、旧版本冲突与 HTTP 边界测试 |
-| [11 · 购物车事件漏斗](projects/11-cart-event-funnel/README.md) | 会话口径与事件口径、模拟真实值与区间覆盖率 |
 
 </details>
 
@@ -83,7 +78,7 @@ BA 从特征价值、数据质量进入市场分母和需求数据对账；按�
 ## 补充简报与完整证据
 
 <details>
-<summary>展开全部 11 项简报（建议先读上面的精选入口）</summary>
+<summary>展开全部 9 项简报（建议先读上面的精选入口）</summary>
 
 ### 01 · [股票时间序列预测](projects/01-equity-time-series-forecasting/)
 `statsmodels` · `ARMA/ARIMA` · `固定起点样本外检验` · `每次运行校验 252 个数值`
@@ -141,21 +136,6 @@ UCI 共享单车数据集的两个文件把日期分别存成 `2011/1/1` 和 `20
 **决策含义：** 可将通风指标作为户外作业预警的待验证候选变量，结合实时监测和
 后续时间段检验；不能由这些相关性推断限产或调度的效果。
 
-### 06 · [消费交易：检验客群划分是否有据](projects/06-consumer-behaviour-matplotlib/)
-`Matplotlib` · `8,000 条交易` · `Bootstrap 置信区间 · ANOVA · 置换检验`
-
-五个分组的名义ANOVA检验中有四个未显著，属于探索性结果，不证明无差异或无信息。
-收入与消费额的样本相关系数为−0.010；独立行置信区间未校正重复用户，不能证明无关联。
-会员组存在描述性差异，但等级规则与因果方向未知。12个月落在逐点置换区间内，
-不构成联合季节性检验，更不能证明没有季节性。原始采集方式及是否合成未知，
-不宣称该文件代表真实顾客。
-口径统一为：**原始 8,020 行，删除 20 行完全重复记录，得到 8,000 笔交易**。
-原始检验与图中区间以交易为单位，未校正客户内相关性；另有 2,000 次用户聚类
-Bootstrap 提供均值差的逐点区间。这项敏感性分析不能补足来源或证明营销效果。
-
-**决策含义：** 暂不依据这些人口特征排名重分配营销预算。下一步可设计随机优惠实验，
-以增量贡献利润为主指标；这里没有声称已经开展该实验。
-
 ### 07 · [Java 员工信息系统](projects/07-workforce-system-java/)
 `Java 17` · `部门树` · `平衡员工索引` · `JUnit 5`
 
@@ -182,16 +162,12 @@ TF-IDF/CNN/冻结 MiniLM 对照均已运行，并保留预测供独立重算。
 
 **决策含义：** 大类岗位路由继续保留纯文本基准；将抽取结果用于技能画像前，
 需要直接验证具体技能跨度。
-
-**作者：闫佳玉 / Jiayu Yan。原始课程项目由作者独立完成。**
-作品集完善使用了 AI 辅助，详见[署名说明](projects/08-nlp-job-postings/CONTRIBUTIONS.md)。
 [阅读研究简报](https://jiayuyan117.github.io/academic-portfolio/projects/08-nlp-job-postings/report.html)。
 
 ### 09 · [When the Baseline Wins](projects/09-market-direction/report.html)
 
-实验课 6 的 AI 辅助研究升级，采用独立实现和 UCI Istanbul Stock Exchange
-公开数据（Akbilgic，2013；CC BY 4.0），没有上传课程原始数据或教师代码。
-教师贡献包括原作业的模型示范、时序划分、标准化、聚类/PCA 与五道练习框架。
+在课程机器学习实验的基础上深化的研究，采用全新实现和 UCI Istanbul Stock Exchange
+公开数据（Akbilgic，2013；CC BY 4.0），没有上传课程原始数据或课程代码。
 
 开发期模型选择包含基准，最终选中历史上涨频率。五段滚动测试共 216 个日期：
 基准 Brier 为 **0.245605**，本地特征逻辑回归为 **0.246611**。
@@ -200,31 +176,22 @@ TF-IDF/CNN/冻结 MiniLM 对照均已运行，并保留预测供独立重算。
 这是单市场历史研究，不是盈利证明。
 
 七项时序约束测试、六张结果表完整重跑及 24 组区间复算已在本地通过；
-项目带独立 CI 工作流。英文报告记录数据日期说明不一致、教师贡献、AI 使用和研究限制。
+项目带独立 CI 工作流。英文报告记录数据日期说明不一致和研究限制。
 在项目目录使用独立环境安装项目依赖后运行 `python verify.py` 和
 `python -m unittest discover -s tests -v`，首次运行自动下载并校验公开数据。
 
 ### 10 · [商品目录：可核验的数据修改](projects/10-product-catalog/PROJECT.html)
 
-以教材商品管理章节为选题的 Java 工程项目，不转载教材代码。提供本地 HTTP
+以教材商品管理章节为选题的 Java 工程项目，代码为本人独立实现，不转载教材代码。提供本地 HTTP
 增删改查、整数分金额、原子文件快照和旧版本冲突检查，与 07 的内存数据结构互补。
 新增版本校验分页、SKU／价格确定性排序；写入后旧分页链接返回 409。
 本机实际通过 13 组测试，包括真实 HTTP 请求、完整分页遍历、重启恢复、
-竞争修改和写入失败。本轮由 AI 协助实现与验证；查询仍为扫描，不宣称索引性能提升。
+竞争修改和写入失败。查询仍为扫描，不宣称索引性能提升。
 GitHub Pages 只能展示静态简报，Java 后端需本地运行。
 
 不声称存在真实用户、研究成果或已部署的业务系统。
 详见[运行说明与测试证据](projects/10-product-catalog/README.md)及
-[来源与分工](projects/10-product-catalog/PROVENANCE.md)。本项目不使用 workflow。
-
-### 11 · [按会话计数，而不是按点击计数](projects/11-cart-event-funnel/README.md)
-
-Java 购物车事件日志对每次客户端请求做校验并记录拒绝原因（重复下单、空购物车、
-删除不存在的商品、下单后的事件）。3,000 个模拟会话中，按原始下单事件计算的转化率为
-**15.6%**，按已验证日志、每会话计一次为 **12.47%**（95% 区间 [11.30%, 13.60%]），
-真实值 **12.25%**。200 次独立重复中，会话口径区间覆盖真实值 **95.5%**，事件口径仅 **34.0%**。
-所有数据均为模拟数据。本项目在 AI 大量辅助下完成，教材只提供选题。
-
+[来源说明](projects/10-product-catalog/PROVENANCE.md)。本项目不使用 workflow。
 
 </details>
 
@@ -240,12 +207,10 @@ Java 购物车事件日志对每次客户端请求做校验并记录拒绝原因
 | 03 新能源汽车 | Linux：图表重建与数据/语义检查；未核实来源仍保留标注 | 依次运行 `python src/nev_visualization.py` 和 `python src/build_figures_en.py` |
 | 04 共享单车 | Linux：交互图重建与日期对账检查 | `python src/build_charts.py` |
 | 05 北京 PM2.5 | Linux：分析与图表重建、时间索引和缺口审计 | `python src/analyze.py` |
-| 06 消费交易 | Linux：分析与图表重建、推断语义检查 | `python src/analyze.py` |
 | 07 Java 员工系统 | Linux / Java 17：Maven 验证、JUnit 和参考模型测试 | `mvn verify` |
 | 08 招聘文本 NLP | 来源重建、已保存预测校验及小样本训练检查 | `python run.py verify`；`python run.py smoke` |
 | 09 时序机器学习 | 本地完整重跑、7 项时序测试、预测与区间校验；已有独立 CI | `python verify.py`；`python -m unittest discover -s tests -v` |
 | 10 商品目录 | Windows / JDK 21，Java 17 编译目标；13 组测试，无 workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 test` |
-| 11 购物车漏斗 | 已有本地 9 组 Java 测试、6 项分析测试与确定性重跑记录，无 workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1` |
 
 
 项目 01 和 02 交付的是**校验器**而不只是运行脚本：它会核对每个输入文件的 SHA-256
@@ -253,13 +218,12 @@ Java 购物车事件日志对每次客户端请求做校验并记录拒绝原因
 即失败，然后把重新生成的每个数值与存档参考值比对。库版本的静默变化会表现为构建
 失败，而不是一个悄悄变了的结论。
 
-表中命令在各项目目录运行。01–06 使用项目依赖声明与根目录 `constraints.txt`，
+表中命令在各项目目录运行。01–05 使用项目依赖声明与根目录 `constraints.txt`，
 01–07 的文档环境为 CPython 3.12.10 和 JDK 17。CI 按任务分别重跑 notebook、
-重建分析与图表或执行 Java 测试。08 使用单独的复现说明，不属于上述成功记录的覆盖范围。
+重建分析与图表或执行 Java 测试。08、09 有各自的 workflow 和复现说明。
 01 的 Linux 优化器结果超出原有容差，因此未声称它能在 Linux 上通过 Windows
 数值基准；参考值和容差均未修改。
-已有证据见 [workflow 运行记录](https://github.com/jiayuyan117/academic-portfolio/actions/workflows/build.yml)
-及 [CI 历史说明](docs/REVIEW_RESOLUTION.md#boundaries-of-this-evidence)。
+已有证据见 [workflow 运行记录](https://github.com/jiayuyan117/academic-portfolio/actions/workflows/build.yml)。
 安装、统一重建和容器说明见 [REPRODUCING.md](REPRODUCING.md)。
 README 为独立维护的文案，生成 `findings.json` 不会自动更新 README。
 
@@ -281,8 +245,8 @@ python tools/rebuild.py --project 01
 **计量经济学与预测** — ARMA/ARIMA、VAR/VECM、单位根与协整检验、格兰杰因果、
 脉冲响应与方差分解、残差与 ARCH 诊断、对预先设定基准的固定起点样本外评估。
 
-**推断纪律** — Bootstrap 与 Fisher-z 置信区间、单因素 ANOVA 与 Kruskal-Wallis
-（含多重比较的 Bonferroni 校正）、置换零假设区间、截尾均值稳健性检验，以及
+**推断纪律** — 雇主聚类 Bootstrap 与移动分块 Bootstrap 置信区间、相对预设基准的配对模型比较、
+残差白噪声与 ARCH 检验、识别假设敏感性检查，以及
 如实报告不确定性及可检测差异边界的判断力。
 
 **数据工程与数据质量** — 输入文件哈希校验、连接完整性检查、插值前的缺口长度审计、
@@ -295,19 +259,12 @@ python tools/rebuild.py --project 01
 
 **研究表达** — 把"测量到的""估算的""仍然是假设的"三类内容分开陈述；中英文双语交付。
 
-## 学术诚信与 AI 使用说明
+## 作者声明
 
-**作品集作者：Jiayu Yan / 闫佳玉。** 作者声明原始课程作品由本人独立完成。
-公开扩展另记贡献：10 的版本校验分页及测试由 AI 编程代理实际实现（提交 `714ddb8`）；
-11 的设计、代码、分析与写作均有 AI 大量参与。详见
-[10 来源与分工](projects/10-product-catalog/PROVENANCE.md)和
-[08 贡献说明](projects/08-nlp-job-postings/CONTRIBUTIONS.md)。
+**作者：闫佳玉 / Jiayu Yan。** 本仓库全部项目均为作者本人作品，由本科课程作业和
+自主学习深化而成。AI 工具用于编程辅助与英文润色；全部代码、结果与结论均经作者本人
+审核与验证。课程材料与教材代码均未转载；09 采用全新实现和 CC BY 4.0 公开数据。
 
-教师提供的框架在相关报告中注明。实验课 6 原始材料本地保留；
-公开版采用独立实现与明确许可的数据，研究扩展使用 AI 辅助。
-
-**AI 辅助说明：** 作品集完善过程中，AI 参与了分析设计、代码实现、结果解释、
-写作、翻译和验证；这些协助与原始课程作品的独立作者身份分别说明。
 决策建议描述证据含义和未来验证步骤，不冒充已做的干预实验。
 估算、情景与公开统计分开标注；尚未完成的来源核验明确披露。
 

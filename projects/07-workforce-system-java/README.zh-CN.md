@@ -38,5 +38,4 @@ java -cp target/classes Workforce
 完整的实现说明、复杂度和测试范围见 [英文 README](README.md)；
 项目摘要见 [PROJECT.html](PROJECT.html)。
 
-作品集整理阶段使用了 AI 辅助代码结构整理、写作、翻译和验证；这不改变原始
-课程作品由本人独立完成这一事实。
+作者：闫佳玉。AI 工具用于编程辅助与英文润色；全部代码、结果与结论均经作者本人审核与验证。

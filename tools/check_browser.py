@@ -39,13 +39,13 @@ def main() -> None:
             page.set_viewport_size({"width": width, "height": 900})
             assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
             page.screenshot(path=str(OUTPUT / f"selected-{width}.png"), full_page=True)
-        page.evaluate("location.hash = 'project-06'")
+        page.evaluate("location.hash = 'project-07'")
         page.wait_for_function("document.getElementById('project-archive').open")
-        assert page.locator("#project-06").is_visible()
+        assert page.locator("#project-07").is_visible()
         page.locator("#project-archive").evaluate("(el) => el.open = false")
         page.locator("#project-archive > summary").click()
-        assert page.locator("section.card").count() == 11
-        expected = [f"{number:02d}" for number in range(1, 12)]
+        expected = [f"{number:02d}" for number in (1, 2, 3, 4, 5, 7, 8, 9, 10)]
+        assert page.locator("section.card").count() == len(expected)
         assert page.locator("section.card h3 .num").all_text_contents() == expected
         assert page.locator(".project-index a").evaluate_all(
             "(links) => links.map(a => a.hash)"
@@ -77,7 +77,7 @@ def main() -> None:
                 assert card.evaluate("(el) => getComputedStyle(el).opacity") == "1"
                 selected = track != "all" and track in card.get_attribute("data-tracks").split()
                 assert ("highlighted" in (card.get_attribute("class") or "")) == selected
-        for number in range(3, 8):
+        for number in (3, 4, 5, 7):
             folder = next((ROOT / "projects").glob(f"{number:02d}-*"))
             brief = folder / ("PROJECT.html" if number == 7 else "FIRST_READ.html")
             page.goto(brief.as_uri())

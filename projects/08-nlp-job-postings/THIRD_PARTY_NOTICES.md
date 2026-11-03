@@ -18,8 +18,7 @@
 - **JobStreet:** Mohamad Azrai bin Mahadan. The pinned card has conflicting
   Apache-2.0 and CC BY 4.0 statements. This release redistributes no JobStreet
   descriptions and does not choose one of those declarations as definitive.
-- **Coursework:** team attribution is preserved in CONTRIBUTIONS.md. Original
-  Word files are not redistributed by this integration.
+- **Coursework:** the original Word report is not redistributed.
 
 The integration's MIT license covers its implementation scope only. Third-party
 data and model terms remain separate.

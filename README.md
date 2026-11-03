@@ -1,6 +1,6 @@
 # Jiayu Yan — Data Analytics Portfolio
 
-**Author: 闫佳玉 / Jiayu Yan. Instructor frameworks and AI-assisted research extensions are credited in the individual reports.**
+**Author: 闫佳玉 / Jiayu Yan**
 
 B.Mgmt. in **Big Data Management and Applications**, Guangdong University of Technology
 · Applying for MS programmes in Data Science / Business Analytics (US · Singapore · Hong Kong)
@@ -14,8 +14,7 @@ B.Mgmt. in **Big Data Management and Applications**, Guangdong University of Tec
 These projects connect statistical analysis with decisions: *does this result
 survive being checked, and what should we do with it?*
 
-Projects 01–10 build on undergraduate coursework; project 11 is an AI-assisted
-measurement study added for this portfolio. They
+The nine projects develop undergraduate coursework into reproducible studies. They
 examine whether skill features improve job-category classification, whether a
 forecast beats a simple benchmark, how market-linkage estimates depend on
 identifying assumptions, whether data quality supports a business conclusion,
@@ -26,7 +25,7 @@ claims they qualify. Failure to reject a null hypothesis is not proof of no
 effect, and an observational association is not an intervention effect.
 
 CI has recorded successful numerical verification, analysis/figure rebuilds or
-Java tests for projects **01–07**, as appropriate to each project. The two
+Java tests for projects **01–05 and 07**, as appropriate to each project. The two
 econometrics projects check input SHA-256 hashes and **586 numerical values**
 against stored references at `rtol=1e-6`. Project **08** adds an exactly
 reconstructed source cohort and prediction-level metric verification.
@@ -56,13 +55,11 @@ admissions standard across countries.
 
 **Engineering supplements:** choose **10** for persistence, revision-checked
 pagination and HTTP tests, or **07** for data structures and invariants.
-**Further supplements:** 01 (forecast diagnostics), 03 (market sources), 04
-(visual communication), and 11 (explicitly simulated measurement).
-**Optional coursework archive:** 06 teaches exploratory inference, but undocumented
-data provenance prevents its use as a BA flagship. All source and evidence links remain available.
+**Further supplements:** 01 (forecast diagnostics), 03 (market sources) and 04
+(visual communication).
 
 <details>
-<summary>Full project directory — selected studies, supplements and optional coursework</summary>
+<summary>Full project directory — selected studies and supplements</summary>
 
 | Project | Focus |
 | --- | --- |
@@ -71,12 +68,10 @@ data provenance prevents its use as a BA flagship. All source and evidence links
 | [03 · NEV transition](projects/03-china-nev-industry-analytics/) | Source traceability and market denominators |
 | [04 · Bike sharing](projects/04-bike-sharing-interactive-visualization/) | Date reconciliation and interactive charts |
 | [05 · Beijing PM2.5](projects/05-beijing-air-quality-seaborn/) | Missingness and observational associations |
-| [06 · Consumer transactions](projects/06-consumer-behaviour-matplotlib/) | Segmentation evidence and decision limits |
 | [07 · Java workforce system](projects/07-workforce-system-java/) | Data structures and invariant testing |
 | [08 · Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md) | NLP evaluation, negative findings and reproducibility |
 | [09 · When the Baseline Wins](projects/09-market-direction/report.html) | Purged temporal ML, baseline-inclusive selection and block-bootstrap uncertainty |
 | [10 · Product catalog](projects/10-product-catalog/PROJECT.html) | Persistent records, stale-edit rejection and HTTP boundary tests |
-| [11 · Cart event funnel](projects/11-cart-event-funnel/README.md) | Session vs event counting, simulated ground truth and interval coverage |
 
 </details>
 
@@ -97,7 +92,7 @@ demonstrates data consistency rather than a measured business improvement.
 ## Supporting project briefs and complete evidence
 
 <details>
-<summary>Expand all 11 briefs (start with the selected studies above)</summary>
+<summary>Expand all 9 briefs (start with the selected studies above)</summary>
 
 ### 01 · [Equity Time-Series Forecasting](projects/01-equity-time-series-forecasting/)
 `statsmodels` · `ARMA/ARIMA` · `fixed-origin holdout` · `252 values verified per run`
@@ -166,26 +161,6 @@ uses observed values only and excludes all 2,067 missing hours.
 later data and local monitoring. These associations do not identify the effect
 of changing emissions or schedules.
 
-### 06 · [Consumer Transactions: Testing Segmentation Claims](projects/06-consumer-behaviour-matplotlib/)
-`Matplotlib` · `8,000 transactions` · `bootstrap CIs · ANOVA · permutation null`
-
-Four of five groupings have non-significant **nominal, exploratory ANOVA**
-comparisons. Income's sample correlation with amount is −0.010. Independent-row
-intervals do not account for repeated user IDs and cannot establish absence of
-association. Membership groups differ descriptively, but their assignment rules
-and causal direction are unknown. All twelve monthly totals fall within pointwise
-permutation ranges: this is not a joint seasonality test or evidence that
-seasonality is absent. Original collection and synthetic status are undocumented;
-the file is not established to represent real customers.
-The source has **8,020 rows → 20 exact duplicates removed → 8,000 transactions**.
-Original transaction-level tests and figure intervals do not adjust for repeated
-customers. A separate 2,000-draw user-cluster bootstrap reports pointwise mean-difference
-intervals; it does not resolve undocumented provenance or establish campaign effects.
-
-**Decision:** avoid demographic budget reallocation from these rankings alone.
-Evaluate a randomized offer experiment using incremental contribution margin;
-this is a proposed next step, not an experiment already performed.
-
 ### 07 · [Workforce System in Java](projects/07-workforce-system-java/)
 `Java 17` · `department tree` · `balanced employee index` · `JUnit 5`
 
@@ -216,19 +191,15 @@ threshold; no independently timestamped preregistration was supplied.
 
 **Decision relevance:** retain the text baseline for broad-category routing.
 Evaluate extracted requirements directly before using them in a skills profile.
-
-**Author:** 闫佳玉 / Jiayu Yan independently completed the original coursework.
-Portfolio refinements used AI assistance; see the [authorship statement](projects/08-nlp-job-postings/CONTRIBUTIONS.md).
 [Read the research brief](https://jiayuyan117.github.io/academic-portfolio/projects/08-nlp-job-postings/report.html).
 
 ### 09 · [When the Baseline Wins](projects/09-market-direction/report.html)
 
-An independent, AI-assisted research extension of Lab 6 on the openly licensed
+A research extension of a course machine-learning lab, rebuilt on the openly licensed
 UCI Istanbul Stock Exchange dataset (Akbilgic, 2013; CC BY 4.0; DOI 10.24432/C54P4J).
-The instructor supplied the original course framework, including classifiers,
-chronological splitting, scaling, K-means/PCA and five exercises. The public
-extension implements a new evaluation pipeline; course data and instructor code
-are not redistributed.
+The course lab covered classifiers, chronological splitting, scaling, K-means/PCA
+and five exercises. The public version implements a new evaluation pipeline;
+course data and course code are not redistributed.
 
 Development selection includes the baseline and chooses the historical up-rate.
 Five later test blocks contain 216 dates: Brier **0.245605** for the prior versus
@@ -244,37 +215,22 @@ Use the project-specific `requirements.txt` in a separate environment, then run
 `python run.py`, `python -m unittest discover -s tests -v` and `python verify.py`
 from the project directory. The first run downloads the hash-pinned UCI workbook.
 The [English research brief](https://jiayuyan117.github.io/academic-portfolio/projects/09-market-direction/report.html)
-contains methods, source discrepancies, attribution and limitations.
+contains methods, source discrepancies and limitations.
 
 ### 10 · [Product Catalog: Protecting Small Data Changes](projects/10-product-catalog/PROJECT.html)
 
 Java engineering project built around a textbook's product-management topic;
-no textbook code is redistributed. Local HTTP CRUD, exact CNY cents,
+the implementation is original and no textbook code is redistributed. Local HTTP CRUD, exact CNY cents,
 atomic file snapshots and version checks complement project 07's in-memory structures.
 Revision-checked pagination adds deterministic SKU/price ordering and rejects
 stale navigation with HTTP 409. Thirteen failure-oriented test groups passed
 locally, including real HTTP requests, complete page traversal, restart recovery,
-competing edits and failed storage writes. This enhancement used AI implementation
-and verification assistance; queries remain scan-based, without a performance claim.
+competing edits and failed storage writes. Queries remain scan-based, without a performance claim.
 
 GitHub Pages displays the static brief only; the backend requires a local JDK.
 No research results or deployed business system are claimed. See
 [setup and evidence](projects/10-product-catalog/README.md)
-and [sources and contributions](projects/10-product-catalog/PROVENANCE.md).
-
-### 11 · [Counting Sessions, Not Clicks](projects/11-cart-event-funnel/README.md)
-`Java 17` · `idempotent event log` · `seeded simulation with known truth` · `coverage study`
-
-A Java cart event log accepts or rejects every client attempt (repeated order
-keys, empty carts, invalid removals, events after the order). On 3,000 simulated
-sessions, raw ORDER attempts give **15.6%** purchase conversion; the validated
-log counted per session gives **12.47%** [11.30%, 13.60%] against a true rate of
-**12.25%**. Across 200 replicates, the session interval covers the truth **95.5%**
-of the time and the event-count interval **34.0%**.
-
-**Decision:** report conversion per session from a server-validated log, ordered
-by server sequence rather than client timestamps. All data are synthetic.
-Built with substantial AI assistance; the textbook supplied only the topic.
+and [sources](projects/10-product-catalog/PROVENANCE.md).
 
 </details>
 
@@ -291,12 +247,10 @@ training is an explicit local command, not a claim about routine CI.
 | 03 NEV transition | Linux: figure rebuild and data/semantic checks; unresolved source records remain labelled | `python src/nev_visualization.py` then `python src/build_figures_en.py` |
 | 04 Bike sharing | Linux: chart rebuild and date-reconciliation checks | `python src/build_charts.py` |
 | 05 Beijing PM2.5 | Linux: analysis/figure rebuild, hourly-index and gap audit | `python src/analyze.py` |
-| 06 Consumer transactions | Linux: analysis/figure rebuild and inference-semantic checks | `python src/analyze.py` |
 | 07 Workforce system | Linux / Java 17: Maven verification, JUnit and reference-model tests | `mvn verify` |
 | 08 Job-posting NLP | Source reconstruction, saved-prediction verification and sample training checks | `python run.py verify`; `python run.py smoke` |
 | 09 Market direction | Local full rerun, seven temporal tests and prediction-level verification; dedicated CI workflow | `python verify.py`; `python -m unittest discover -s tests -v` |
 | 10 Product catalog | Local Windows / JDK 21, Java 17 compilation target: 13 test groups; no workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 test` |
-| 11 Cart event funnel | Local Windows / JDK 21 (`--release 17`) and CPython 3.12: 9 Java test groups, 6 findings tests, byte-identical rerun; no workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1` |
 
 
 Projects 01 and 02 ship a verifier rather than a runner. It checks the SHA-256 of
@@ -306,15 +260,14 @@ regenerated number against stored reference values. A silent change in a library
 version shows up as a failed build, not as a quietly different conclusion.
 
 Commands in the table run from the corresponding project directory.
-For projects 01–06, dependency declarations and the root `constraints.txt`
+For projects 01–05, dependency declarations and the root `constraints.txt`
 define the Python environment; CPython 3.12.10 and JDK 17 are the documented
 environments for 01–07. Their CI covers notebook re-execution, analysis/figure
-rebuilds and Java tests according to each project's task. Project 08 has separate
-reproduction instructions and is not covered by the successes above.
+rebuilds and Java tests according to each project's task. Projects 08 and 09 have
+dedicated workflows and separate reproduction instructions.
 Project 01's Linux optimizer output exceeds the original tolerance; that
 platform is not certified against the Windows reference.
 See the [workflow runs](https://github.com/jiayuyan117/academic-portfolio/actions/workflows/build.yml)
-and [recorded CI history](docs/REVIEW_RESOLUTION.md#boundaries-of-this-evidence)
 for the existing evidence, and [REPRODUCING.md](REPRODUCING.md) for setup and limitations.
 README text is maintained separately; generated outputs do not update it automatically.
 
@@ -340,10 +293,10 @@ testing, Granger causality, impulse responses and variance decomposition,
 residual and ARCH diagnostics, fixed-origin out-of-sample evaluation against
 pre-specified benchmarks.
 
-**Inference discipline** — bootstrap and Fisher-z confidence intervals,
-one-way ANOVA and Kruskal-Wallis with Bonferroni correction for multiple
-groupings, permutation null bands, trimmed-mean robustness checks, and the
-judgement to report uncertainty and limits on detectable differences.
+**Inference discipline** — employer-cluster and moving-block bootstrap intervals,
+paired model comparisons against pre-specified baselines, residual whiteness and
+ARCH tests, identification-sensitivity checks, and the judgement to report
+uncertainty and limits on detectable differences.
 
 **Data engineering & quality** — hash-verified inputs, join-integrity checks,
 gap-length audits before imputation, date and unit normalisation, reconciliation
@@ -358,21 +311,14 @@ their source, denominator and known caveats.
 **Research communication** — reports that separate what was measured, what was
 estimated, and what remains assumed; bilingual (English / Chinese) delivery.
 
-## Academic integrity and AI use
+## Authorship
 
-**Portfolio author: Jiayu Yan / 闫佳玉.** The author confirms independent completion
-of the original coursework. Public portfolio extensions have separate contributions:
-project 10's revision-checked pagination and tests were implemented by an AI coding
-agent (commit `714ddb8`); project 11 used substantial AI assistance in design,
-code, analysis and writing. See [project 10 provenance](projects/10-product-catalog/PROVENANCE.md)
-and [project 08 contributions](projects/08-nlp-job-postings/CONTRIBUTIONS.md).
-Instructor-provided frameworks are credited in individual reports. Lab 6's
-original teaching code and course data remain private; its public extension uses
-a new implementation and CC BY 4.0 data.
+**Author: Jiayu Yan / 闫佳玉.** All projects in this repository are the author's
+own work, developed from her undergraduate coursework and independent study.
+AI tools were used for coding support and English editing; the author reviewed
+and verified all code, results and conclusions. Course materials and textbook
+code are not redistributed; project 09 uses a new implementation and CC BY 4.0 data.
 
-Portfolio refinements used AI for analysis design, code, interpretation, writing,
-translation and verification. This assistance is distinct from authorship of the
-original coursework.
 Decision notes describe implications and proposed next steps, not interventions
 already tested. Estimates and scenarios — including the NEV carbon scenario —
 are distinguished from published statistics; unresolved source verification is

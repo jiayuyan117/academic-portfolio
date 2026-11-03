@@ -97,7 +97,7 @@ def check_project(number: str) -> None:
         print("Project 08: evidence manifest and report links passed")
         return
     folder = ROOT / "projects" / PROJECTS[number][0]
-    if number in {"03", "04", "05", "06"}:
+    if number in {"03", "04", "05"}:
         brief = Page(folder / "FIRST_READ.html")
         for link in brief.links + brief.resources:
             check_local_link(brief, link)
@@ -147,13 +147,6 @@ def check_project(number: str) -> None:
         assert data["hours_left_missing"] == 1891, data
         assert data["observed_pm25_hours"] == 41757, data
         assert data["analysis_excluded_missing_hours"] == 2067, data
-    elif number == "06":
-        count_files(folder / "figures", "*.png", 7)
-        data = findings(folder)
-        assert data["rows_after_dedup"] == 8000, data
-        assert data["data"]["rows"] == 8020, data
-        assert data["not_rejected_segmentations"] == 4, data
-        assert data["months_inside_null_band"] == 12, data
     print(f"Project {number}: delivery checks passed")
 
 
@@ -171,12 +164,12 @@ def main() -> None:
         check_project(number)
     if not args.project:
         page = Page(ROOT / "index.html")
-        expected = {f"project-{n:02}" for n in range(1, 12)}
+        expected = {f"project-{n:02}" for n in (1, 2, 3, 4, 5, 7, 8, 9, 10)}
         actual = {value for value in page.ids if re.fullmatch(r"project-\d+", value)}
         assert actual == expected, (actual, expected)
         for link in page.links + page.resources:
             check_local_link(page, link)
-        print("Homepage: eleven project anchors and all local links checked")
+        print("Homepage: nine project anchors and all local links checked")
         for name in ("README.md", "README.zh-CN.md"):
             text = (ROOT / name).read_text(encoding="utf-8")
             for value in re.findall(r"\[[^\]]+\]\(([^)\s]+)\)", text):

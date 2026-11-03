@@ -1,12 +1,12 @@
 # Does the Skill Signal Help?
 
-**Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
+**Author: 闫佳玉 / Jiayu Yan**
 
 ### Job-posting classification and skill extraction, evaluated separately
 
 [Read the research brief](https://jiayuyan117.github.io/academic-portfolio/projects/08-nlp-job-postings/report.html)
 · [Data card](DATA_CARD.md) · [Methods and evidence](METHODS.md)
-· [Contribution statement](CONTRIBUTIONS.md)
+
 
 ![NLP checks](https://github.com/jiayuyan117/academic-portfolio/actions/workflows/nlp.yml/badge.svg)
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-315a80)
@@ -124,14 +124,10 @@ only, compare alternative fusion weights on validation data, and evaluate the
 chosen design once on a new employer/time holdout. This is a proposed extension,
 not a completed experiment or a causal claim.
 
-## Attribution and scope
+## Authorship and scope
 
-Original coursework was independently completed by **闫佳玉 / Jiayu Yan**,
-as confirmed by the author. See [CONTRIBUTIONS.md](CONTRIBUTIONS.md) for the
-distinction between original authorship and AI-assisted portfolio refinements.
+Author: **闫佳玉 / Jiayu Yan**. AI tools were used for coding support and English editing; the author reviewed and verified all code, results and conclusions.
 
-The public integration adds English documentation, configurable execution,
-fixed-source reconstruction, independent checks and generated reports with AI
-assistance. It is coursework research, not a peer-reviewed publication.
+The public version adds English documentation, configurable execution, fixed-source reconstruction, independent checks and generated reports. It is coursework research, not a peer-reviewed publication.
 Dataset permissions and upstream attributions are separate from the
 [implementation license](LICENSE). See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

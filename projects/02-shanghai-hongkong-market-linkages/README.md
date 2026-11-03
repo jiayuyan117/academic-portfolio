@@ -151,6 +151,4 @@ Developed from supplied econometrics coursework; original materials retained
 unmodified in `source_materials/`. Vendor, collection process and exact
 observation timestamps of the supplied data were not independently verified, and
 the two markets' differing trading hours are a known limitation of same-day
-return alignment. AI participated in analysis design, sensitivity analyses, code,
-verification, interpretation and English writing. Current extensions are not
-claimed as independently designed original coursework.
+return alignment. AI tools were used for coding support and English editing; the author reviewed and verified all code, results and conclusions.

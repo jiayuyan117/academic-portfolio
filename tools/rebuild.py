@@ -15,7 +15,7 @@ PROJECTS = {
            ["src/nev_visualization.py", "src/build_figures_en.py"]),
     "04": ("04-bike-sharing-interactive-visualization", ["src/build_charts.py"]),
     "05": ("05-beijing-air-quality-seaborn", ["src/analyze.py"]),
-    "06": ("06-consumer-behaviour-matplotlib", ["src/analyze.py"]),
+
 }
 
 

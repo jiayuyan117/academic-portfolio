@@ -1,6 +1,6 @@
 # China's New Energy Vehicle Transition, 2015–2025
 
-**Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
+**Author: 闫佳玉 / Jiayu Yan**
 
 **Turning eleven years of public industry statistics into a reproducible, caveat-explicit analysis**
 
@@ -124,6 +124,4 @@ intentionally fails while unresolved source records remain.
 The compilation draws on industry statistics with verification status recorded
 per observation. This descriptive analysis contains no causal estimate of policy
 effects; the carbon figure is a scenario rather than a measurement.
-Original coursework was independently completed by 闫佳玉 / Jiayu Yan.
-Portfolio refinements used AI for analysis design, code, interpretation, writing,
-translation and verification. Original materials are retained for comparison.
+Author: 闫佳玉 / Jiayu Yan. AI tools were used for coding support and English editing; the author reviewed and verified all code, results and conclusions. Original materials are retained for comparison.

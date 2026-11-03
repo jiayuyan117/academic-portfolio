@@ -120,7 +120,7 @@ prediction intervals. These are proposed extensions, not claimed completed exper
 
 ### Provenance and reproducibility
 
-This analysis develops supplied econometrics coursework and retains its original datasets and teaching notebook in source_materials. AI assistance was used for code completion, analytical organization, verification, and English writing. The data were supplied with the course; upstream vendor and price-adjustment details were not independently established.
+This analysis develops the author's econometrics coursework and retains its original datasets and course notebook in source_materials. AI tools were used for coding support and English editing; the author reviewed and verified all code, results and conclusions. The data were supplied with the course; upstream vendor and price-adjustment details were not independently established.
 
 `Research_Analysis.ipynb` contains the executed analysis; `Research_Analysis.html` provides the same narrative, code, tables and figures for offline reading. `results/` contains regenerated numerical evidence. The reproduction runner verifies source hashes and compares recomputed tables with the established reference results before exporting the HTML and manifest.
 

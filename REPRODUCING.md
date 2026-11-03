@@ -1,20 +1,21 @@
 # Reproduce the portfolio
 
-Use **CPython 3.12** for projects 01–06 and **JDK 17 + Maven 3.9**
+Use **CPython 3.12** for projects 01–05 and **JDK 17 + Maven 3.9**
 for project 07. Run commands from the repository root unless stated otherwise.
 Project 08 has a separate CPython 3.12 environment and task runner. From
 `projects/08-nlp-job-postings`, install its `requirements.txt`, run
 `python run.py verify` for the committed research evidence, `python run.py smoke`
 for sample training, and `python run.py data` / `python run.py reproduce` for
 full baseline retraining. Its optional deep models use `requirements-deep.txt`.
-The root runner and aggregate requirements retain their 01–06 scope.
+Project 09 has its own `requirements.txt`, CI workflow and `verify.py`; project 10
+uses `run.ps1` with a local JDK. The root runner and aggregate requirements cover 01–05.
 The public reports and charts are committed, so reading them requires no Python
 installation. Rebuilding requires downloading packages once.
 
 Project 01's original strict numerical reference uses **Windows x86-64 with
-AVX2/FMA support** and the runner's fixed CPU profile. Project 02 is checked on Windows and Linux; 03–07 are checked on
+AVX2/FMA support** and the runner's fixed CPU profile. Project 02 is checked on Windows and Linux; 03–05 and 07 are checked on
 Linux as well as the local Windows validation. On macOS/Linux, select projects
-02–06 rather than using the all-project command below. A Linux project 01 run
+02–05 rather than using the all-project command below. A Linux project 01 run
 still executes the checks and fails on excessive drift; it is not silently skipped.
 
 ## Python: a clean, isolated environment
@@ -76,8 +77,8 @@ with the numerical regression checks reviewed before accepting new results.
   verified statistics.
 - **04:** reconcile hourly and daily demand, then rebuild four standalone
   interactive charts.
-- **05–06:** rebuild figures, underlying tables and `outputs/findings.json`.
-  The 04 and 06 pipelines also regenerate their project READMEs. The 05 README,
+- **05:** rebuild figures, underlying tables and `outputs/findings.json`.
+  The 04 pipeline also regenerates its project README. The 05 README,
   root overviews and homepage are maintained separately and must be checked
   when results change.
 - **07:** run deterministic and randomized reference-model tests, including
@@ -104,7 +105,6 @@ python tools/check_delivery.py
 python -m unittest discover -s portfolio_common/tests -v
 python -m unittest discover -s projects/03-china-nev-industry-analytics/tests -v
 python -m unittest discover -s projects/04-bike-sharing-interactive-visualization/tests -v
-python -m unittest discover -s projects/06-consumer-behaviour-matplotlib/tests -v
 ```
 
 For a real browser check, install the optional testing tools:
@@ -129,7 +129,7 @@ docker run --rm academic-portfolio
 
 The Dockerfile fixes the Python patch version and Debian release and installs
 the same dependency constraints. It includes CJK fonts for the Chinese figures.
-It rebuilds Python projects 02–06 inside the Linux container; project 01 requires
+It rebuilds Python projects 02–05 inside the Linux container; project 01 requires
 the documented Windows reference environment, and Java is tested separately.
 Building the image requires network access. Container execution is a supported
 recipe only to the extent recorded in the delivery verification report; do not

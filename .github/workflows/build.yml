@@ -35,7 +35,7 @@ jobs:
           - {project: '03', folder: 03-china-nev-industry-analytics, os: ubuntu-22.04}
           - {project: '04', folder: 04-bike-sharing-interactive-visualization, os: ubuntu-22.04}
           - {project: '05', folder: 05-beijing-air-quality-seaborn, os: ubuntu-22.04}
-          - {project: '06', folder: 06-consumer-behaviour-matplotlib, os: ubuntu-22.04}
+
           - {project: '01', folder: 01-equity-time-series-forecasting, os: windows-2022}
           - {project: '02', folder: 02-shanghai-hongkong-market-linkages, os: windows-2022}
     steps:
@@ -60,7 +60,7 @@ jobs:
         if: matrix.project == '01' || matrix.project == '02'
         run: python -m unittest discover -s portfolio_common/tests -v
       - name: Test data and inference semantics
-        if: matrix.project == '03' || matrix.project == '04' || matrix.project == '06'
+        if: matrix.project == '03' || matrix.project == '04'
         run: python -m unittest discover -s projects/${{ matrix.folder }}/tests -v
       - name: Rebuild and verify
         run: python tools/rebuild.py --project ${{ matrix.project }}

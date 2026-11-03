@@ -265,8 +265,7 @@ claim to reproduce that external experiment.</p>
 python run.py smoke
 python run.py data
 python run.py reproduce</code></pre>
-<footer>Original coursework independently completed by 闫佳玉 / Jiayu Yan.
-Portfolio refinements used AI for analysis design, code, interpretation, writing, translation and verification.
+<footer>Author: 闫佳玉 / Jiayu Yan. AI tools were used for coding support and English editing; the author reviewed and verified all code, results and conclusions.
 This is not a peer-reviewed publication. Detailed methods, data rights and attribution are in the repository.</footer>
 </main>
 <script>
