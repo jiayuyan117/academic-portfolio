@@ -25,9 +25,9 @@ claims they qualify. Failure to reject a null hypothesis is not proof of no
 effect, and an observational association is not an intervention effect.
 
 CI has recorded successful numerical verification, analysis/figure rebuilds or
-Java tests for projects **01–05 and 07**, as appropriate to each project. The two
+Java tests for projects **01–05 and 06**, as appropriate to each project. The two
 econometrics projects check input SHA-256 hashes and **586 numerical values**
-against stored references at `rtol=1e-6`. Project **08** adds an exactly
+against stored references at `rtol=1e-6`. Project **07** adds an exactly
 reconstructed source cohort and prediction-level metric verification.
 
 ## A 30-second reading guide
@@ -37,24 +37,24 @@ Business Analytics master's programmes in the **US, Singapore and Hong Kong**.
 This portfolio connects evaluation, data quality and analytical communication
 with decisions whose limits are made explicit.
 
-Start with three selected studies: **08 → 09 → 05**. They demonstrate NLP
+Start with three selected studies: **07 → 08 → 05**. They demonstrate NLP
 evaluation, temporal validation and missing-data judgment with traceable evidence.
 For a quantitative/econometrics programme, substitute **02** for 05.
 
 | Selection | Why read it | Evidence entry |
 | --- | --- | --- |
-| [08 · NLP evaluation](projects/08-nlp-job-postings/report.html) | Employer-disjoint feature comparison; separate extraction evaluation | [Saved predictions and checks](projects/08-nlp-job-postings/README.md#what-is-independently-checkable) |
-| [09 · Temporal ML](projects/09-market-direction/report.html) | Baseline-inclusive selection and uncertainty across later test blocks | [Verification](projects/09-market-direction/verify.py) |
+| [07 · NLP evaluation](projects/07-nlp-job-postings/report.html) | Employer-disjoint feature comparison; separate extraction evaluation | [Saved predictions and checks](projects/07-nlp-job-postings/README.md#what-is-independently-checkable) |
+| [08 · Temporal ML](projects/08-market-direction/report.html) | Baseline-inclusive selection and uncertainty across later test blocks | [Verification](projects/08-market-direction/verify.py) |
 | [05 · Missing data](projects/05-beijing-air-quality-seaborn/FIRST_READ.html) | Gap audit before imputation; observed-only conclusions | [Findings](projects/05-beijing-air-quality-seaborn/outputs/findings.json) |
 | [02 · Identification alternative](projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html) | Same-model results change with shock ordering | [Numerical evidence](projects/02-shanghai-hongkong-market-linkages/results/verification.json) |
 
-**DS route: 08 → 09 → 05 → 02. BA route: 08 → 05 → 03 → 04.**
+**DS route: 07 → 08 → 05 → 02. BA route: 07 → 05 → 03 → 04.**
 The BA route moves from feature value and data quality to market denominators and
 demand-data reconciliation. These routes reflect programme emphasis, not a uniform
 admissions standard across countries.
 
-**Engineering supplements:** choose **10** for persistence, revision-checked
-pagination and HTTP tests, or **07** for data structures and invariants.
+**Engineering supplements:** choose **09** for persistence, revision-checked
+pagination and HTTP tests, or **06** for data structures and invariants.
 **Further supplements:** 01 (forecast diagnostics), 03 (market sources) and 04
 (visual communication).
 
@@ -68,10 +68,10 @@ pagination and HTTP tests, or **07** for data structures and invariants.
 | [03 · NEV transition](projects/03-china-nev-industry-analytics/) | Source traceability and market denominators |
 | [04 · Bike sharing](projects/04-bike-sharing-interactive-visualization/) | Date reconciliation and interactive charts |
 | [05 · Beijing PM2.5](projects/05-beijing-air-quality-seaborn/) | Missingness and observational associations |
-| [07 · Java workforce system](projects/07-workforce-system-java/) | Data structures and invariant testing |
-| [08 · Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md) | NLP evaluation, negative findings and reproducibility |
-| [09 · When the Baseline Wins](projects/09-market-direction/report.html) | Purged temporal ML, baseline-inclusive selection and block-bootstrap uncertainty |
-| [10 · Product catalog](projects/10-product-catalog/PROJECT.html) | Persistent records, stale-edit rejection and HTTP boundary tests |
+| [06 · Java workforce system](projects/06-workforce-system-java/) | Data structures and invariant testing |
+| [07 · Does the Skill Signal Help?](projects/07-nlp-job-postings/README.md) | NLP evaluation, negative findings and reproducibility |
+| [08 · When the Baseline Wins](projects/08-market-direction/report.html) | Purged temporal ML, baseline-inclusive selection and block-bootstrap uncertainty |
+| [09 · Product catalog](projects/09-product-catalog/PROJECT.html) | Persistent records, stale-edit rejection and HTTP boundary tests |
 
 </details>
 
@@ -81,12 +81,12 @@ pagination and HTTP tests, or **07** for data structures and invariants.
 | --- | --- | --- |
 | [03 · Market assessment](projects/03-china-nev-industry-analytics/README.md) | Reconcile public sales, battery and charging statistics before assessing market transition. | 47.9% NEV share uses all-vehicle sales including exports. Site investment still needs local utilization, power and cost data. |
 | [05 · Data quality](projects/05-beijing-air-quality-seaborn/README.md) | Audit missing hourly measurements before interpreting associations. | Long gaps remain unfilled; observational patterns support further validation, not intervention effects. |
-| [08 · Job-information quality](projects/08-nlp-job-postings/README.md) | Compare text and skill features on held-out employers; evaluate extraction separately. | Fusion Macro-F1 of 0.7348 versus 0.7406 for text does not justify the added features under this study's criterion. Operational value remains unmeasured. |
+| [07 · Job-information quality](projects/07-nlp-job-postings/README.md) | Compare text and skill features on held-out employers; evaluate extraction separately. | Fusion Macro-F1 of 0.7348 versus 0.7406 for text does not justify the added features under this study's criterion. Operational value remains unmeasured. |
 
 Read each project as **question → data and method → result → decision implication
 → limitation**. The recommendations are academic interpretations, not deployed
 interventions or measured ROI. The environmental study (05) demonstrates transferable
-missing-data analysis and uncertainty communication; the Java project (07)
+missing-data analysis and uncertainty communication; the Java project (06)
 demonstrates data consistency rather than a measured business improvement.
 
 ## Supporting project briefs and complete evidence
@@ -161,7 +161,7 @@ uses observed values only and excludes all 2,067 missing hours.
 later data and local monitoring. These associations do not identify the effect
 of changing emissions or schedules.
 
-### 07 · [Workforce System in Java](projects/07-workforce-system-java/)
+### 06 · [Workforce System in Java](projects/06-workforce-system-java/)
 `Java 17` · `department tree` · `balanced employee index` · `JUnit 5`
 
 An organization tree and an employee search index must describe the same people.
@@ -174,7 +174,7 @@ transfers and structural invariants.
 Production use would also require persistence, authorization and audit history.
 
 
-### 08 · [Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md)
+### 07 · [Does the Skill Signal Help?](projects/07-nlp-job-postings/README.md)
 `Job-posting NLP` · `SkillSpan` · `21,663 postings` · `20 classes` · `employer-disjoint split`
 
 Adding SkillSpan Skill + Knowledge lexicon features does not clear the study's
@@ -191,9 +191,9 @@ threshold; no independently timestamped preregistration was supplied.
 
 **Decision relevance:** retain the text baseline for broad-category routing.
 Evaluate extracted requirements directly before using them in a skills profile.
-[Read the research brief](https://jiayuyan117.github.io/academic-portfolio/projects/08-nlp-job-postings/report.html).
+[Read the research brief](https://jiayuyan117.github.io/academic-portfolio/projects/07-nlp-job-postings/report.html).
 
-### 09 · [When the Baseline Wins](projects/09-market-direction/report.html)
+### 08 · [When the Baseline Wins](projects/08-market-direction/report.html)
 
 A research extension of a course machine-learning lab, rebuilt on the openly licensed
 UCI Istanbul Stock Exchange dataset (Akbilgic, 2013; CC BY 4.0; DOI 10.24432/C54P4J).
@@ -214,14 +214,14 @@ Seven tests cover scientific failure modes such as future-feature leakage.
 Use the project-specific `requirements.txt` in a separate environment, then run
 `python run.py`, `python -m unittest discover -s tests -v` and `python verify.py`
 from the project directory. The first run downloads the hash-pinned UCI workbook.
-The [English research brief](https://jiayuyan117.github.io/academic-portfolio/projects/09-market-direction/report.html)
+The [English research brief](https://jiayuyan117.github.io/academic-portfolio/projects/08-market-direction/report.html)
 contains methods, source discrepancies and limitations.
 
-### 10 · [Product Catalog: Protecting Small Data Changes](projects/10-product-catalog/PROJECT.html)
+### 09 · [Product Catalog: Protecting Small Data Changes](projects/09-product-catalog/PROJECT.html)
 
 Java engineering project built around a textbook's product-management topic;
 the implementation is original and no textbook code is redistributed. Local HTTP CRUD, exact CNY cents,
-atomic file snapshots and version checks complement project 07's in-memory structures.
+atomic file snapshots and version checks complement project 06's in-memory structures.
 Revision-checked pagination adds deterministic SKU/price ordering and rejects
 stale navigation with HTTP 409. Thirteen failure-oriented test groups passed
 locally, including real HTTP requests, complete page traversal, restart recovery,
@@ -229,8 +229,8 @@ competing edits and failed storage writes. Queries remain scan-based, without a 
 
 GitHub Pages displays the static brief only; the backend requires a local JDK.
 No research results or deployed business system are claimed. See
-[setup and evidence](projects/10-product-catalog/README.md)
-and [sources](projects/10-product-catalog/PROVENANCE.md).
+[setup and evidence](projects/09-product-catalog/README.md)
+and [sources](projects/09-product-catalog/PROVENANCE.md).
 
 </details>
 
@@ -247,10 +247,10 @@ training is an explicit local command, not a claim about routine CI.
 | 03 NEV transition | Linux: figure rebuild and data/semantic checks; unresolved source records remain labelled | `python src/nev_visualization.py` then `python src/build_figures_en.py` |
 | 04 Bike sharing | Linux: chart rebuild and date-reconciliation checks | `python src/build_charts.py` |
 | 05 Beijing PM2.5 | Linux: analysis/figure rebuild, hourly-index and gap audit | `python src/analyze.py` |
-| 07 Workforce system | Linux / Java 17: Maven verification, JUnit and reference-model tests | `mvn verify` |
-| 08 Job-posting NLP | Source reconstruction, saved-prediction verification and sample training checks | `python run.py verify`; `python run.py smoke` |
-| 09 Market direction | Local full rerun, seven temporal tests and prediction-level verification; dedicated CI workflow | `python verify.py`; `python -m unittest discover -s tests -v` |
-| 10 Product catalog | Local Windows / JDK 21, Java 17 compilation target: 13 test groups; no workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 test` |
+| 06 Workforce system | Linux / Java 17: Maven verification, JUnit and reference-model tests | `mvn verify` |
+| 07 Job-posting NLP | Source reconstruction, saved-prediction verification and sample training checks | `python run.py verify`; `python run.py smoke` |
+| 08 Market direction | Local full rerun, seven temporal tests and prediction-level verification; dedicated CI workflow | `python verify.py`; `python -m unittest discover -s tests -v` |
+| 09 Product catalog | Local Windows / JDK 21, Java 17 compilation target: 13 test groups; no workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 test` |
 
 
 Projects 01 and 02 ship a verifier rather than a runner. It checks the SHA-256 of
@@ -263,7 +263,7 @@ Commands in the table run from the corresponding project directory.
 For projects 01–05, dependency declarations and the root `constraints.txt`
 define the Python environment; CPython 3.12.10 and JDK 17 are the documented
 environments for 01–07. Their CI covers notebook re-execution, analysis/figure
-rebuilds and Java tests according to each project's task. Projects 08 and 09 have
+rebuilds and Java tests according to each project's task. Projects 07 and 08 have
 dedicated workflows and separate reproduction instructions.
 Project 01's Linux optimizer output exceeds the original tolerance; that
 platform is not certified against the Windows reference.
@@ -317,7 +317,7 @@ estimated, and what remains assumed; bilingual (English / Chinese) delivery.
 own work, developed from her undergraduate coursework and independent study.
 AI tools were used for coding support and English editing; the author reviewed
 and verified all code, results and conclusions. Course materials and textbook
-code are not redistributed; project 09 uses a new implementation and CC BY 4.0 data.
+code are not redistributed; project 08 uses a new implementation and CC BY 4.0 data.
 
 Decision notes describe implications and proposed next steps, not interventions
 already tested. Estimates and scenarios — including the NEV carbon scenario —

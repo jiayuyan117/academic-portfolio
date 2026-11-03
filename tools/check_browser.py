@@ -39,12 +39,12 @@ def main() -> None:
             page.set_viewport_size({"width": width, "height": 900})
             assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
             page.screenshot(path=str(OUTPUT / f"selected-{width}.png"), full_page=True)
-        page.evaluate("location.hash = 'project-07'")
+        page.evaluate("location.hash = 'project-06'")
         page.wait_for_function("document.getElementById('project-archive').open")
-        assert page.locator("#project-07").is_visible()
+        assert page.locator("#project-06").is_visible()
         page.locator("#project-archive").evaluate("(el) => el.open = false")
         page.locator("#project-archive > summary").click()
-        expected = [f"{number:02d}" for number in (1, 2, 3, 4, 5, 7, 8, 9, 10)]
+        expected = [f"{number:02d}" for number in range(1, 10)]
         assert page.locator("section.card").count() == len(expected)
         assert page.locator("section.card h3 .num").all_text_contents() == expected
         assert page.locator(".project-index a").evaluate_all(
@@ -77,9 +77,9 @@ def main() -> None:
                 assert card.evaluate("(el) => getComputedStyle(el).opacity") == "1"
                 selected = track != "all" and track in card.get_attribute("data-tracks").split()
                 assert ("highlighted" in (card.get_attribute("class") or "")) == selected
-        for number in (3, 4, 5, 7):
+        for number in range(3, 7):
             folder = next((ROOT / "projects").glob(f"{number:02d}-*"))
-            brief = folder / ("PROJECT.html" if number == 7 else "FIRST_READ.html")
+            brief = folder / ("PROJECT.html" if number == 6 else "FIRST_READ.html")
             page.goto(brief.as_uri())
             for width in (1280, 375, 320):
                 page.set_viewport_size({"width": width, "height": 900})
@@ -89,13 +89,13 @@ def main() -> None:
                 for image in page.locator("img").all():
                     assert image.evaluate("(img) => img.complete && img.naturalWidth > 0")
                 page.screenshot(path=str(OUTPUT / f"brief-{number:02d}-{width}.png"), full_page=True)
-            if number == 7:
+            if number == 6:
                 for button in page.locator(".sim-controls button").all():
                     button.click()
                     assert page.locator("#avl-svg circle").count() in (3, 4)
                     assert page.locator("#dept-list li").count() == 4
             assert not errors, errors
-        page.goto((ROOT / "projects/08-nlp-job-postings/report.html").as_uri())
+        page.goto((ROOT / "projects/07-nlp-job-postings/report.html").as_uri())
         assert page.title() == "Does the Skill Signal Help? | Jiayu Yan"
         assert page.locator("figure img").count() == 3
         page.wait_for_function(
@@ -113,7 +113,7 @@ def main() -> None:
             assert button.get_attribute("aria-pressed") == "true"
             assert page.locator('.sim-btn[aria-pressed="true"]').count() == 1
             assert page.locator("#case-body").inner_text()
-        page.goto((ROOT / "projects/09-market-direction/report.html").as_uri())
+        page.goto((ROOT / "projects/08-market-direction/report.html").as_uri())
         assert page.title() == "When the baseline wins | Jiayu Yan"
         for width in (1280, 375, 320):
             page.set_viewport_size({"width": width, "height": 900})
@@ -180,7 +180,7 @@ def main() -> None:
             print(f"Live homepage: three viewport widths, images, order and {len(links)} same-site links passed.")
             live.close()
         browser.close()
-    print("Homepage, briefs 03–09, route/scenario controls and four offline charts passed.")
+    print("Homepage, briefs 03–08, route/scenario controls and four offline charts passed.")
 
 
 if __name__ == "__main__":

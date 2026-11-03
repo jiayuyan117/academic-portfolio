@@ -2,18 +2,18 @@
 
 Use **CPython 3.12** for projects 01–05 and **JDK 17 + Maven 3.9**
 for project 07. Run commands from the repository root unless stated otherwise.
-Project 08 has a separate CPython 3.12 environment and task runner. From
-`projects/08-nlp-job-postings`, install its `requirements.txt`, run
+Project 07 has a separate CPython 3.12 environment and task runner. From
+`projects/07-nlp-job-postings`, install its `requirements.txt`, run
 `python run.py verify` for the committed research evidence, `python run.py smoke`
 for sample training, and `python run.py data` / `python run.py reproduce` for
 full baseline retraining. Its optional deep models use `requirements-deep.txt`.
-Project 09 has its own `requirements.txt`, CI workflow and `verify.py`; project 10
+Project 08 has its own `requirements.txt`, CI workflow and `verify.py`; project 09
 uses `run.ps1` with a local JDK. The root runner and aggregate requirements cover 01–05.
 The public reports and charts are committed, so reading them requires no Python
 installation. Rebuilding requires downloading packages once.
 
 Project 01's original strict numerical reference uses **Windows x86-64 with
-AVX2/FMA support** and the runner's fixed CPU profile. Project 02 is checked on Windows and Linux; 03–05 and 07 are checked on
+AVX2/FMA support** and the runner's fixed CPU profile. Project 02 is checked on Windows and Linux; 03–05 and 06 are checked on
 Linux as well as the local Windows validation. On macOS/Linux, select projects
 02–05 rather than using the all-project command below. A Linux project 01 run
 still executes the checks and fails on excessive drift; it is not silently skipped.
@@ -92,7 +92,7 @@ is retained unchanged. Git attributes preserve input CSV bytes across platforms.
 ## Java
 
 ```bash
-mvn -B -f projects/07-workforce-system-java/pom.xml verify
+mvn -B -f projects/06-workforce-system-java/pom.xml verify
 ```
 
 See the project's README for the lightweight `javac` demonstration and the

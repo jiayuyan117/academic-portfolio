@@ -171,12 +171,12 @@ footer{{margin-top:56px;border-top:1px solid var(--line);padding-top:22px;color:
 @media print{{body{{background:white}}main{{padding:0}}.topbar{{display:none}}figure,.result{{break-inside:avoid}}}}
 </style></head><body>
 <header class="topbar"><nav aria-label="Research navigation">
-<strong>08 · Job-Posting NLP Evaluation Brief</strong>
+<strong>07 · Job-Posting NLP Evaluation Brief</strong>
 <div class="nav-links"><a href="../../index.html">← Portfolio</a>
-<a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/08-nlp-job-postings">Code &amp; documentation</a>
+<a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/07-nlp-job-postings">Code &amp; documentation</a>
 <a href="results/metrics.json">Machine-readable results</a></div></nav></header>
 <main>
-<span class="eyebrow">08 / Natural language processing · Reproducible research brief</span>
+<span class="eyebrow">07 / Natural language processing · Reproducible research brief</span>
 <h1>Does the skill signal help?</h1>
 <p class="intro">Classifying a job advertisement and extracting its exact skill requirements answer different operational questions.
 This study tests a Skill + Knowledge phrase lexicon against a full-text TF-IDF baseline under strict employer isolation,

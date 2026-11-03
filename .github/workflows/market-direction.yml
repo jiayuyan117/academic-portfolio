@@ -3,11 +3,11 @@ on:
   push:
     branches: [main]
     paths:
-      - 'projects/09-market-direction/**'
+      - 'projects/08-market-direction/**'
       - '.github/workflows/market-direction.yml'
   pull_request:
     paths:
-      - 'projects/09-market-direction/**'
+      - 'projects/08-market-direction/**'
       - '.github/workflows/market-direction.yml'
   workflow_dispatch:
 permissions:
@@ -21,7 +21,7 @@ jobs:
       OPENBLAS_NUM_THREADS: '1'
     defaults:
       run:
-        working-directory: projects/09-market-direction
+        working-directory: projects/08-market-direction
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

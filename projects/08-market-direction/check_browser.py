@@ -24,7 +24,7 @@ def main():
                 page = browser.new_page(viewport={"width": width, "height": 950}, device_scale_factor=1)
                 errors = []
                 page.on("pageerror", lambda e: errors.append(str(e)))
-                for route in ("index.html", "projects/09-market-direction/report.html"):
+                for route in ("index.html", "projects/08-market-direction/report.html"):
                     response = page.goto(f"http://127.0.0.1:{server.server_port}/{route}", wait_until="networkidle")
                     assert response.status == 200
                     assert page.evaluate("document.documentElement.scrollWidth <= innerWidth"), route
@@ -34,9 +34,9 @@ def main():
                         page.locator("summary").last.click()
                         assert page.locator("details").last.get_attribute("open") is not None
                     else:
-                        assert page.locator("#project-09").count() == 1
+                        assert page.locator("#project-08").count() == 1
                         page.get_by_role("button", name="Data Science Track").click()
-                        assert "highlighted" in page.locator("#project-09").get_attribute("class")
+                        assert "highlighted" in page.locator("#project-08").get_attribute("class")
                     assert not errors, errors
                     name = ("report" if route.endswith("report.html") else "home") + f"-{width}"
                     page.screenshot(path=str(out / f"{name}.png"), full_page=True)

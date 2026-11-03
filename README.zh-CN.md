@@ -15,7 +15,7 @@ English version: [README.md](README.md)
 
 这些项目围绕两个问题：**这个结论经得起检验吗？它能支持什么决策？**
 
-如果评审时间有限，先看 **08 → 09 → 05**；偏计量或量化的项目可用 **02** 替换 05。
+如果评审时间有限，先看 **07 → 08 → 05**；偏计量或量化的项目可用 **02** 替换 05。
 
 9 个项目均由本科课程作业深化为可复现研究。它们检验技能特征能否改善岗位类别分类、预测能否优于
 简单基准、市场联动估计如何依赖识别假设、数据质量是否足以支持业务结论，
@@ -24,9 +24,9 @@ English version: [README.md](README.md)
 否证结果和方法纠错与正面发现一起呈现。没有拒绝零假设并不证明完全没有差异；
 观测数据的相关性也不等于干预效果。
 
-**01–05 与 07** 的既有 CI 已分别留下数值校验、分析与图表重建或 Java 测试的成功记录。
+**01–05 与 06** 的既有 CI 已分别留下数值校验、分析与图表重建或 Java 测试的成功记录。
 两个计量项目检查输入 SHA-256，并以 `rtol=1e-6` 比对合计 **586 个数值**。
-**08** 已完成来源重建、分类与抽取实验，并保留预测供独立重算指标。
+**07** 已完成来源重建、分类与抽取实验，并保留预测供独立重算指标。
 
 ## 30 秒导读
 
@@ -35,15 +35,15 @@ English version: [README.md](README.md)
 
 | 精选 | 筛选理由 | 证据入口 |
 | --- | --- | --- |
-| [08 · NLP 评估](projects/08-nlp-job-postings/report.html) | 雇主隔离的特征比较，分类与抽取独立评估 | [预测与校验说明](projects/08-nlp-job-postings/README.md#what-is-independently-checkable) |
-| [09 · 时序机器学习](projects/09-market-direction/report.html) | 模型选择包含基准，后续测试区间报告不确定性 | [验证程序](projects/09-market-direction/verify.py) |
+| [07 · NLP 评估](projects/07-nlp-job-postings/report.html) | 雇主隔离的特征比较，分类与抽取独立评估 | [预测与校验说明](projects/07-nlp-job-postings/README.md#what-is-independently-checkable) |
+| [08 · 时序机器学习](projects/08-market-direction/report.html) | 模型选择包含基准，后续测试区间报告不确定性 | [验证程序](projects/08-market-direction/verify.py) |
 | [05 · 缺失数据](projects/05-beijing-air-quality-seaborn/FIRST_READ.html) | 先审计缺口，再确定插值与分析口径 | [分析结果](projects/05-beijing-air-quality-seaborn/outputs/findings.json) |
 | [02 · 计量替代项](projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html) | 展示识别假设如何改变同一模型的解释 | [数值验证记录](projects/02-shanghai-hongkong-market-linkages/results/verification.json) |
 
-**DS 路线：08 → 09 → 05 → 02。BA 路线：08 → 05 → 03 → 04。**
+**DS 路线：07 → 08 → 05 → 02。BA 路线：07 → 05 → 03 → 04。**
 BA 从特征价值、数据质量进入市场分母和需求数据对账；按专业方向取舍，不假定美港新存在统一录取标准。
 
-**工程补充：** 10 展示持久化、版本校验分页与 HTTP 测试；07 展示数据结构与不变量。
+**工程补充：** 09 展示持久化、版本校验分页与 HTTP 测试；06 展示数据结构与不变量。
 **其他补充：** 01 预测诊断、03 市场来源、04 可视化。
 
 <details>
@@ -56,10 +56,10 @@ BA 从特征价值、数据质量进入市场分母和需求数据对账；按�
 | [03 · 新能源汽车转型](projects/03-china-nev-industry-analytics/) | 来源追溯与市场分母口径 |
 | [04 · 共享单车可视化](projects/04-bike-sharing-interactive-visualization/) | 日期对账与交互图表 |
 | [05 · 北京 PM2.5](projects/05-beijing-air-quality-seaborn/) | 缺失机制与观测关联 |
-| [07 · Java 员工系统](projects/07-workforce-system-java/) | 数据结构与不变量测试 |
-| [08 · Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md) | NLP 评估、否证结果与可复现性 |
-| [09 · When the Baseline Wins](projects/09-market-direction/report.html) | 时序机器学习、包含基准的模型选择与分块置信区间 |
-| [10 · 商品目录](projects/10-product-catalog/PROJECT.html) | 文件持久化、旧版本冲突与 HTTP 边界测试 |
+| [06 · Java 员工系统](projects/06-workforce-system-java/) | 数据结构与不变量测试 |
+| [07 · Does the Skill Signal Help?](projects/07-nlp-job-postings/README.md) | NLP 评估、否证结果与可复现性 |
+| [08 · When the Baseline Wins](projects/08-market-direction/report.html) | 时序机器学习、包含基准的模型选择与分块置信区间 |
+| [09 · 商品目录](projects/09-product-catalog/PROJECT.html) | 文件持久化、旧版本冲突与 HTTP 边界测试 |
 
 </details>
 
@@ -69,11 +69,11 @@ BA 从特征价值、数据质量进入市场分母和需求数据对账；按�
 | --- | --- | --- |
 | [03 · 市场评估](projects/03-china-nev-industry-analytics/README.md) | 对齐公开销量、电池与充电统计口径，再评估市场转型。 | 新能源占比 47.9% 使用含出口的全车型销量口径；选址投资仍需要当地利用率、功率与成本数据。 |
 | [05 · 数据质量](projects/05-beijing-air-quality-seaborn/README.md) | 解释观测关联前审计小时测量缺失。 | 长缺口保留缺失，相关模式需要后续验证，不能解释为干预效果。 |
-| [08 · 岗位信息质量](projects/08-nlp-job-postings/README.md) | 在隔离雇主的留出集上比较文本与技能特征，并独立评估抽取。 | 融合 Macro-F1 为 0.7348，文本为 0.7406，未达到研究设定的改善标准；实际运营价值尚未测量。 |
+| [07 · 岗位信息质量](projects/07-nlp-job-postings/README.md) | 在隔离雇主的留出集上比较文本与技能特征，并独立评估抽取。 | 融合 Macro-F1 为 0.7348，文本为 0.7406，未达到研究设定的改善标准；实际运营价值尚未测量。 |
 
 每个项目按 **问题 → 数据与方法 → 结果 → 决策意义 → 限制** 阅读。
 建议属于学术分析解释，不是已部署的干预或实测 ROI。环境研究（05）展示可迁移的
-缺失数据分析与不确定性表达；Java 项目（07）展示数据一致性，不声称已实现业务改善。
+缺失数据分析与不确定性表达；Java 项目（06）展示数据一致性，不声称已实现业务改善。
 
 ## 补充简报与完整证据
 
@@ -136,7 +136,7 @@ UCI 共享单车数据集的两个文件把日期分别存成 `2011/1/1` 和 `20
 **决策含义：** 可将通风指标作为户外作业预警的待验证候选变量，结合实时监测和
 后续时间段检验；不能由这些相关性推断限产或调度的效果。
 
-### 07 · [Java 员工信息系统](projects/07-workforce-system-java/)
+### 06 · [Java 员工信息系统](projects/06-workforce-system-java/)
 `Java 17` · `部门树` · `平衡员工索引` · `JUnit 5`
 
 部门层级和员工索引必须始终描述同一批员工。系统实现新增、转岗、删除、
@@ -147,7 +147,7 @@ UCI 共享单车数据集的两个文件把日期分别存成 `2011/1/1` 和 `20
 持久化、访问控制和审计记录。
 
 
-### 08 · [Does the Skill Signal Help?](projects/08-nlp-job-postings/README.md)
+### 07 · [Does the Skill Signal Help?](projects/07-nlp-job-postings/README.md)
 `招聘文本 NLP` · `SkillSpan` · `21,663 条招聘记录` · `20 个类别` · `雇主不交叉划分`
 
 加入 SkillSpan Skill + Knowledge 词典特征未达到研究设定的提升标准：
@@ -162,9 +162,9 @@ TF-IDF/CNN/冻结 MiniLM 对照均已运行，并保留预测供独立重算。
 
 **决策含义：** 大类岗位路由继续保留纯文本基准；将抽取结果用于技能画像前，
 需要直接验证具体技能跨度。
-[阅读研究简报](https://jiayuyan117.github.io/academic-portfolio/projects/08-nlp-job-postings/report.html)。
+[阅读研究简报](https://jiayuyan117.github.io/academic-portfolio/projects/07-nlp-job-postings/report.html)。
 
-### 09 · [When the Baseline Wins](projects/09-market-direction/report.html)
+### 08 · [When the Baseline Wins](projects/08-market-direction/report.html)
 
 在课程机器学习实验的基础上深化的研究，采用全新实现和 UCI Istanbul Stock Exchange
 公开数据（Akbilgic，2013；CC BY 4.0），没有上传课程原始数据或课程代码。
@@ -180,18 +180,18 @@ TF-IDF/CNN/冻结 MiniLM 对照均已运行，并保留预测供独立重算。
 在项目目录使用独立环境安装项目依赖后运行 `python verify.py` 和
 `python -m unittest discover -s tests -v`，首次运行自动下载并校验公开数据。
 
-### 10 · [商品目录：可核验的数据修改](projects/10-product-catalog/PROJECT.html)
+### 09 · [商品目录：可核验的数据修改](projects/09-product-catalog/PROJECT.html)
 
 以教材商品管理章节为选题的 Java 工程项目，代码为本人独立实现，不转载教材代码。提供本地 HTTP
-增删改查、整数分金额、原子文件快照和旧版本冲突检查，与 07 的内存数据结构互补。
+增删改查、整数分金额、原子文件快照和旧版本冲突检查，与 06 的内存数据结构互补。
 新增版本校验分页、SKU／价格确定性排序；写入后旧分页链接返回 409。
 本机实际通过 13 组测试，包括真实 HTTP 请求、完整分页遍历、重启恢复、
 竞争修改和写入失败。查询仍为扫描，不宣称索引性能提升。
 GitHub Pages 只能展示静态简报，Java 后端需本地运行。
 
 不声称存在真实用户、研究成果或已部署的业务系统。
-详见[运行说明与测试证据](projects/10-product-catalog/README.md)及
-[来源说明](projects/10-product-catalog/PROVENANCE.md)。本项目不使用 workflow。
+详见[运行说明与测试证据](projects/09-product-catalog/README.md)及
+[来源说明](projects/09-product-catalog/PROVENANCE.md)。本项目不使用 workflow。
 
 </details>
 
@@ -207,10 +207,10 @@ GitHub Pages 只能展示静态简报，Java 后端需本地运行。
 | 03 新能源汽车 | Linux：图表重建与数据/语义检查；未核实来源仍保留标注 | 依次运行 `python src/nev_visualization.py` 和 `python src/build_figures_en.py` |
 | 04 共享单车 | Linux：交互图重建与日期对账检查 | `python src/build_charts.py` |
 | 05 北京 PM2.5 | Linux：分析与图表重建、时间索引和缺口审计 | `python src/analyze.py` |
-| 07 Java 员工系统 | Linux / Java 17：Maven 验证、JUnit 和参考模型测试 | `mvn verify` |
-| 08 招聘文本 NLP | 来源重建、已保存预测校验及小样本训练检查 | `python run.py verify`；`python run.py smoke` |
-| 09 时序机器学习 | 本地完整重跑、7 项时序测试、预测与区间校验；已有独立 CI | `python verify.py`；`python -m unittest discover -s tests -v` |
-| 10 商品目录 | Windows / JDK 21，Java 17 编译目标；13 组测试，无 workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 test` |
+| 06 Java 员工系统 | Linux / Java 17：Maven 验证、JUnit 和参考模型测试 | `mvn verify` |
+| 07 招聘文本 NLP | 来源重建、已保存预测校验及小样本训练检查 | `python run.py verify`；`python run.py smoke` |
+| 08 时序机器学习 | 本地完整重跑、7 项时序测试、预测与区间校验；已有独立 CI | `python verify.py`；`python -m unittest discover -s tests -v` |
+| 09 商品目录 | Windows / JDK 21，Java 17 编译目标；13 组测试，无 workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 test` |
 
 
 项目 01 和 02 交付的是**校验器**而不只是运行脚本：它会核对每个输入文件的 SHA-256
@@ -219,8 +219,8 @@ GitHub Pages 只能展示静态简报，Java 后端需本地运行。
 失败，而不是一个悄悄变了的结论。
 
 表中命令在各项目目录运行。01–05 使用项目依赖声明与根目录 `constraints.txt`，
-01–07 的文档环境为 CPython 3.12.10 和 JDK 17。CI 按任务分别重跑 notebook、
-重建分析与图表或执行 Java 测试。08、09 有各自的 workflow 和复现说明。
+01–06 的文档环境为 CPython 3.12.10 和 JDK 17。CI 按任务分别重跑 notebook、
+重建分析与图表或执行 Java 测试。07、08 有各自的 workflow 和复现说明。
 01 的 Linux 优化器结果超出原有容差，因此未声称它能在 Linux 上通过 Windows
 数值基准；参考值和容差均未修改。
 已有证据见 [workflow 运行记录](https://github.com/jiayuyan117/academic-portfolio/actions/workflows/build.yml)。
@@ -263,7 +263,7 @@ python tools/rebuild.py --project 01
 
 **作者：闫佳玉 / Jiayu Yan。** 本仓库全部项目均为作者本人作品，由本科课程作业和
 自主学习深化而成。AI 工具用于编程辅助与英文润色；全部代码、结果与结论均经作者本人
-审核与验证。课程材料与教材代码均未转载；09 采用全新实现和 CC BY 4.0 公开数据。
+审核与验证。课程材料与教材代码均未转载；08 采用全新实现和 CC BY 4.0 公开数据。
 
 决策建议描述证据含义和未来验证步骤，不冒充已做的干预实验。
 估算、情景与公开统计分开标注；尚未完成的来源核验明确披露。

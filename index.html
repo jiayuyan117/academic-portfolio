@@ -406,24 +406,24 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </div>
 
     <nav class="guide" id="reading-routes" aria-label="Suggested reading routes">
-      <p><strong>Data Science route:</strong> <a href="#project-08">08 · NLP evaluation</a>
-        → <a href="#project-09">09 · Temporal ML</a>
+      <p><strong>Data Science route:</strong> <a href="#project-07">07 · NLP evaluation</a>
+        → <a href="#project-08">08 · Temporal ML</a>
         → <a href="#project-05">05 · Missing data</a>
         → <a href="#project-02">02 · Identification assumptions</a>.</p>
-      <p><strong>Business Analytics route:</strong> <a href="#project-08">08 · Feature value</a>
+      <p><strong>Business Analytics route:</strong> <a href="#project-07">07 · Feature value</a>
         → <a href="#project-05">05 · Data quality</a>
         → <a href="#project-03">03 · Market assessment</a>
         → <a href="#project-04">04 · Data reconciliation</a>.</p>
-      <p><strong>Engineering supplements:</strong> <a href="#project-10">10 · Product catalog</a>
-        → <a href="#project-07">07 · Java workforce system</a>.</p>
+      <p><strong>Engineering supplements:</strong> <a href="#project-09">09 · Product catalog</a>
+        → <a href="#project-06">06 · Java workforce system</a>.</p>
       <p>Each card reads as question → method → result → what is needed before acting.
         Routes reflect programme focus, not a uniform admissions standard across countries.</p>
       <div class="route-bar" role="group" aria-label="Highlight reading track">
         <span style="font-size:12.5px;font-weight:700;color:var(--ink)">Interactive track highlight:</span>
         <button type="button" class="route-btn active" onclick="filterTrack('all', this)">All 9 Projects</button>
-        <button type="button" class="route-btn" onclick="filterTrack('ds', this)">Data Science (08 · 09 · 05 · 02)</button>
-        <button type="button" class="route-btn" onclick="filterTrack('ba', this)">Business Analytics (08 · 05 · 03 · 04)</button>
-        <button type="button" class="route-btn" onclick="filterTrack('eng', this)">Engineering (10 · 07)</button>
+        <button type="button" class="route-btn" onclick="filterTrack('ds', this)">Data Science (07 · 08 · 05 · 02)</button>
+        <button type="button" class="route-btn" onclick="filterTrack('ba', this)">Business Analytics (07 · 05 · 03 · 04)</button>
+        <button type="button" class="route-btn" onclick="filterTrack('eng', this)">Engineering (09 · 06)</button>
       </div>
     </nav>
 
@@ -438,17 +438,17 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
 
 <main class="wrap" id="projects">
   <h2 class="section">Selected studies</h2>
-  <p>Start with 08, 09 and 05. For an econometrics-focused programme, substitute 02
+  <p>Start with 07, 08 and 05. For an econometrics-focused programme, substitute 02
     for 05. Each entry opens the research evidence directly.</p>
   <div class="kpi-grid" id="selected-studies">
-    <article class="kpi-card"><h3><a href="projects/08-nlp-job-postings/report.html">08 · Does the Skill Signal Help?</a></h3><p>Employer-disjoint NLP evaluation on 21,663 postings. Text Macro-F1 0.7406 versus fusion 0.7348.</p><p>Read for feature value, held-out evaluation and prediction-level checks.</p></article>
-    <article class="kpi-card"><h3><a href="projects/09-market-direction/report.html">09 · When the Baseline Wins</a></h3><p>Purged temporal evaluation across 216 later dates; development selection retains the prior.</p><p>Read for leakage control, baseline selection and uncertainty.</p></article>
+    <article class="kpi-card"><h3><a href="projects/07-nlp-job-postings/report.html">07 · Does the Skill Signal Help?</a></h3><p>Employer-disjoint NLP evaluation on 21,663 postings. Text Macro-F1 0.7406 versus fusion 0.7348.</p><p>Read for feature value, held-out evaluation and prediction-level checks.</p></article>
+    <article class="kpi-card"><h3><a href="projects/08-market-direction/report.html">08 · When the Baseline Wins</a></h3><p>Purged temporal evaluation across 216 later dates; development selection retains the prior.</p><p>Read for leakage control, baseline selection and uncertainty.</p></article>
     <article class="kpi-card"><h3><a href="projects/05-beijing-air-quality-seaborn/FIRST_READ.html">05 · Missing Data Before Modelling</a></h3><p>43,824 hourly rows; a 155-hour gap makes indiscriminate interpolation unsuitable.</p><p>Read for data-quality judgment and observed-only analysis.</p></article>
     <article class="kpi-card"><h3><a href="projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html">02 · Identification Matters</a></h3><p>Shock attribution changes from 32.4% to 0.35% with ordering.</p><p>Quantitative alternative: assumptions, sensitivity and 334 numerical checks.</p></article>
   </div>
   <h2 class="section">Supporting work</h2>
-  <p><a href="projects/10-product-catalog/PROJECT.html">10 · Persistence and revision-checked pagination</a>
-    and <a href="projects/07-workforce-system-java/PROJECT.html">07 · Data structures and invariants</a>
+  <p><a href="projects/09-product-catalog/PROJECT.html">09 · Persistence and revision-checked pagination</a>
+    and <a href="projects/06-workforce-system-java/PROJECT.html">06 · Data structures and invariants</a>
     provide complementary engineering evidence. For BA, add
     <a href="projects/03-china-nev-industry-analytics/FIRST_READ.html">03 · Market-source audit</a> or
     <a href="projects/04-bike-sharing-interactive-visualization/FIRST_READ.html">04 · Demand-data reconciliation</a>.</p>
@@ -462,10 +462,10 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       <li><a href="#project-03">03 · NEV industry analysis</a></li>
       <li><a href="#project-04">04 · Bike-sharing visualisation</a></li>
       <li><a href="#project-05">05 · Beijing air quality</a></li>
-      <li><a href="#project-07">07 · Java workforce system</a></li>
-      <li><a href="#project-08">08 · Does the Skill Signal Help?</a></li>
-      <li><a href="#project-09">09 · When the Baseline Wins</a></li>
-      <li><a href="#project-10">10 · Product catalog</a></li>
+      <li><a href="#project-06">06 · Java workforce system</a></li>
+      <li><a href="#project-07">07 · Does the Skill Signal Help?</a></li>
+      <li><a href="#project-08">08 · When the Baseline Wins</a></li>
+      <li><a href="#project-09">09 · Product catalog</a></li>
     </ul>
   </nav>
 
@@ -522,28 +522,28 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
             <td>7 figures · gap-free hourly index assert</td>
           </tr>
           <tr>
-            <td><a href="#project-07"><strong>07 · Workforce</strong></a></td>
+            <td><a href="#project-06"><strong>06 · Workforce</strong></a></td>
             <td>50,000 ordered + 5,000 random ops</td>
             <td>Java 17 AVL tree + Department hierarchy</td>
             <td>Logarithmic height &amp; exact membership bijection across rotations/deletes</td>
             <td>Maven JUnit 5 + TreeMap oracle + <code>verify()</code></td>
           </tr>
           <tr>
-            <td><a href="#project-08"><strong>08 · Job NLP</strong></a></td>
+            <td><a href="#project-07"><strong>07 · Job NLP</strong></a></td>
             <td>21,663 postings · 2,757 SkillSpan sents</td>
             <td>Employer-disjoint TF-IDF/SVM · BIO LR · CNN/MiniLM</td>
             <td>Fusion Macro-F1 (0.7348) vs. Text (0.7406): Δ = −0.0059 [−0.0176, +0.0070]</td>
             <td>SHA-256 manifest · 22,213 source refs</td>
           </tr>
           <tr>
-            <td><a href="#project-09"><strong>09 · Temporal ML</strong></a></td>
+            <td><a href="#project-08"><strong>08 · Temporal ML</strong></a></td>
             <td>536 public return observations · 216 test days</td>
             <td>Purged rolling evaluation · train-only scaling · paired block bootstrap</td>
             <td>Development selects the prior; local logistic ΔBrier +0.001006 [−0.002279, +0.004296]</td>
             <td>7 temporal tests · 6 reproduced tables · 24 interval checks</td>
           </tr>
           <tr>
-            <td><a href="#project-10"><strong>10 · Product catalog</strong></a></td>
+            <td><a href="#project-09"><strong>09 · Product catalog</strong></a></td>
             <td>Synthetic test inputs; no user dataset</td>
             <td>Local Java HTTP · atomic snapshots · optimistic versions</td>
             <td>Stale edits rejected; failed writes do not publish memory</td>
@@ -679,8 +679,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </p>
   </section>
 
-  <section class="card" id="project-07" data-tracks="eng">
-    <h3><span class="num">07</span>Workforce System in Java</h3>
+  <section class="card" id="project-06" data-tracks="eng">
+    <h3><span class="num">06</span>Workforce System in Java</h3>
     <p class="stack">Java 17 · department tree · employee search index · invariant testing</p>
     <span class="tag">Information systems</span>
     <p class="find">A department tree and an employee search index must describe the same people.
@@ -693,17 +693,17 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       system demonstrates core invariants; production use would also require
       persistence, access control and audit history.</p>
     <p class="cardlinks">
-      <a href="projects/07-workforce-system-java/PROJECT.html">Architecture brief &amp; illustrated scenarios</a>
-      <a href="projects/07-workforce-system-java/README.md">English README</a>
-      <a href="projects/07-workforce-system-java/README.zh-CN.md">中文 README</a>
-      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/07-workforce-system-java">Code &amp; tests</a>
+      <a href="projects/06-workforce-system-java/PROJECT.html">Architecture brief &amp; illustrated scenarios</a>
+      <a href="projects/06-workforce-system-java/README.md">English README</a>
+      <a href="projects/06-workforce-system-java/README.zh-CN.md">中文 README</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/06-workforce-system-java">Code &amp; tests</a>
     </p>
   </section>
 
-  <section class="card featured" id="project-08" data-tracks="ds ba">
-    <figure class="research-image"><a href="projects/08-nlp-job-postings/report.html"><img loading="lazy" src="projects/08-nlp-job-postings/results/ablation.png" alt="Text, lexicon and fused-feature classification results from the job-posting study" width="1200" height="750"></a><figcaption>Feature ablation · Read the research brief for evaluation design and uncertainty.</figcaption></figure>
+  <section class="card featured" id="project-07" data-tracks="ds ba">
+    <figure class="research-image"><a href="projects/07-nlp-job-postings/report.html"><img loading="lazy" src="projects/07-nlp-job-postings/results/ablation.png" alt="Text, lexicon and fused-feature classification results from the job-posting study" width="1200" height="750"></a><figcaption>Feature ablation · Read the research brief for evaluation design and uncertainty.</figcaption></figure>
     <p class="eyebrow">NLP reading route · reproducible evaluation</p>
-    <h3><span class="num">08</span>Does the Skill Signal Help?</h3>
+    <h3><span class="num">07</span>Does the Skill Signal Help?</h3>
     <p class="stack">Job-posting NLP · SkillSpan · 21,663 postings · 20 classes · employer-disjoint split</p>
     <p><strong>Business question.</strong> Does adding skill-lexicon features
       improve broad-category routing enough to justify the added feature pipeline?
@@ -719,15 +719,15 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       directly before using them in a skills profile. These offline results do not
       establish production readiness, recruiter time savings or hiring outcomes.</p>
     <p class="cardlinks">
-      <a href="projects/08-nlp-job-postings/report.html">Research brief</a>
-      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/08-nlp-job-postings/README.md">Project README</a>
+      <a href="projects/07-nlp-job-postings/report.html">Research brief</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/07-nlp-job-postings/README.md">Project README</a>
     </p>
   </section>
 
-  <section class="card featured" id="project-09" data-tracks="ds">
-    <figure class="research-image"><a href="projects/09-market-direction/report.html"><img loading="lazy" src="projects/09-market-direction/results/uncertainty.png" alt="All six candidate Brier differences have pointwise block-bootstrap intervals crossing zero" width="1800" height="864"></a><figcaption>216 later trading days · Pointwise uncertainty does not establish a useful forecasting edge.</figcaption></figure>
+  <section class="card featured" id="project-08" data-tracks="ds">
+    <figure class="research-image"><a href="projects/08-market-direction/report.html"><img loading="lazy" src="projects/08-market-direction/results/uncertainty.png" alt="All six candidate Brier differences have pointwise block-bootstrap intervals crossing zero" width="1800" height="864"></a><figcaption>216 later trading days · Pointwise uncertainty does not establish a useful forecasting edge.</figcaption></figure>
     <p class="eyebrow">Lab 6 research extension · temporal machine learning</p>
-    <h3><span class="num">09</span>When the Baseline Wins</h3>
+    <h3><span class="num">08</span>When the Baseline Wins</h3>
     <p class="stack">scikit-learn · purged rolling evaluation · ablations · block-bootstrap intervals</p>
     <span class="tag">Negative result · open licensed data</span>
     <p class="find negative">Development-only model selection chooses the <b>historical up-rate</b>.
@@ -743,19 +743,19 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       trading profitability or general forecasting ability.</p>
     <p>The original course lab supplied the topic; this new implementation uses
       openly licensed data and publishes neither the course dataset nor course code.</p>
-    <p class="cardlinks"><a href="projects/09-market-direction/report.html">Research brief &amp; methods</a>
-      <a href="projects/09-market-direction/results/predictions.csv">Auditable predictions</a>
-      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/09-market-direction">Code &amp; tests</a></p>
+    <p class="cardlinks"><a href="projects/08-market-direction/report.html">Research brief &amp; methods</a>
+      <a href="projects/08-market-direction/results/predictions.csv">Auditable predictions</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/08-market-direction">Code &amp; tests</a></p>
   </section>
 
-  <section class="card" id="project-10" data-tracks="eng">
-    <h3><span class="num">10</span>Product Catalog: Protecting Small Data Changes</h3>
+  <section class="card" id="project-09" data-tracks="eng">
+    <h3><span class="num">09</span>Product Catalog: Protecting Small Data Changes</h3>
     <p class="stack">Java 17 target · local HTTP · atomic file snapshots · version conflicts</p>
     <span class="tag">Engineering · persistence &amp; concurrency</span>
     <p class="find">Two browser tabs should not silently overwrite each other.
       Version checks reject stale edits; a failed snapshot write does not publish new state in memory.</p>
     <p>Product CRUD, search, exact CNY cents and persistent records complement
-      project 07's in-memory data structures. Revision-checked pagination rejects
+      project 06's in-memory data structures. Revision-checked pagination rejects
       stale navigation after writes. Thirteen local test groups cover real
       HTTP requests, page traversal, competing edits, restart recovery and storage failures.</p>
     <p class="decision"><strong>Scope.</strong> The topic comes from a Java Web
@@ -763,8 +763,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       This is a local engineering exercise with synthetic test data, not a deployed system.
       GitHub Pages hosts the brief only; the Java backend runs locally.</p>
     <p class="cardlinks">
-      <a href="projects/10-product-catalog/PROJECT.html">Architecture brief / 双语简报</a>
-      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/10-product-catalog">Code &amp; tests</a>
+      <a href="projects/09-product-catalog/PROJECT.html">Architecture brief / 双语简报</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/09-product-catalog">Code &amp; tests</a>
     </p>
   </section>
 
@@ -774,7 +774,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
       are the author's own work, developed from her undergraduate coursework and
       independent study. AI tools were used for coding support and English editing;
       the author reviewed and verified all code, results and conclusions.
-      Course materials and the textbook used for project 10 are not redistributed.</p>
+      Course materials and the textbook used for project 09 are not redistributed.</p>
     <p>Decision notes describe implications and proposed next steps,
       not interventions already tested. Estimates and scenarios are distinguished
       from published statistics.</p>

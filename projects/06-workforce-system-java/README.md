@@ -1,4 +1,4 @@
-# 07 · Workforce System in Java
+# 06 · Workforce System in Java
 
 **Author: 闫佳玉 / Jiayu Yan**
 

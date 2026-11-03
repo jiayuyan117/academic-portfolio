@@ -93,14 +93,14 @@ jobs:
           distribution: temurin
           java-version: '17'
           cache: maven
-      - name: Verify project 07
-        run: mvn -B -f projects/07-workforce-system-java/pom.xml verify
+      - name: Verify project 06
+        run: mvn -B -f projects/06-workforce-system-java/pom.xml verify
       - name: Preserve JUnit results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: java-tests
-          path: projects/07-workforce-system-java/target/surefire-reports
+          path: projects/06-workforce-system-java/target/surefire-reports
 
   site:
     name: Published artifact and link checks
