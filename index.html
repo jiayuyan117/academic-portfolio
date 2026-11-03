@@ -412,6 +412,40 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
 .route-btn{min-height:44px;max-width:100%;white-space:normal}
 .route-label{font-size:12.5px;font-weight:700;color:var(--ink)}
 .matrix-hint{font-size:12px;color:var(--accent);font-weight:600}
+main>p,.card:not(.has-figure) p{max-width:80ch}
+main.wrap{padding-top:48px}
+@media(max-width:760px){main.wrap{padding-top:32px}}
+#project-archive>summary{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:8px 0 28px;
+  padding:16px 20px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-left:4px solid var(--accent);
+  border-radius:10px;
+  box-shadow:var(--shadow);
+  color:var(--ink);
+  font-weight:700;
+  font-size:15.5px;
+  cursor:pointer;
+  list-style:none;
+  transition:border-color .15s ease,box-shadow .15s ease;
+}
+#project-archive>summary::-webkit-details-marker{display:none}
+#project-archive>summary::before{
+  content:"";
+  width:8px;
+  height:8px;
+  flex-shrink:0;
+  border-right:2px solid var(--accent);
+  border-bottom:2px solid var(--accent);
+  transform:rotate(-45deg);
+  transition:transform .15s ease;
+}
+#project-archive[open]>summary::before{transform:rotate(45deg)}
+#project-archive>summary:hover{border-color:var(--accent);box-shadow:var(--shadow-hover)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media print{
   body{background:#fff;font-size:12pt}
