@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#f6f5f0">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Jiayu Yan — Data Analytics Portfolio">
-<meta property="og:description" content="Eight reproducible projects in decision analytics, market sizing, NLP and forecasting, each tested out of sample against a simple baseline.">
+<meta property="og:description" content="Jiayu Yan's work in decision analytics, NLP and forecasting: research findings, reproducible evidence and a Java engineering project.">
 <meta property="og:url" content="https://jiayuyan117.github.io/academic-portfolio/">
 <link rel="canonical" href="https://jiayuyan117.github.io/academic-portfolio/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23146964'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='28' font-weight='700' fill='%23fff' text-anchor='middle'%3EJY%3C/text%3E%3C/svg%3E">
@@ -60,7 +60,7 @@ header{
   align-items:center;
   border-bottom:1px solid var(--line);
   padding-bottom:18px;
-  margin-bottom:44px;
+  margin-bottom:32px;
   font-size:13.5px;
   font-weight:700;
   letter-spacing:.06em;
@@ -95,7 +95,7 @@ h1 em{color:var(--accent);font-weight:400;font-style:italic}
   font-size:18.5px;
   line-height:1.62;
   color:var(--ink);
-  max-width:76ch;
+  max-width:64ch;
 }
 .meta{font-size:14px;color:var(--muted);margin:14px 0 0;max-width:82ch}
 
@@ -352,16 +352,16 @@ h2.section{
 .nw{white-space:nowrap}
 
 /* Selected studies */
-#selected-studies{gap:16px;margin-bottom:40px}
+#selected-studies{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-bottom:40px}
 #selected-studies .kpi-card{
   display:flex;
   flex-direction:column;
   border-top:3px solid var(--accent);
-  padding:20px 20px 18px;
+  padding:26px 28px 22px;
   transition:box-shadow .2s ease,transform .2s ease;
 }
 #selected-studies .kpi-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px)}
-#selected-studies h3{font:700 19px/1.3 Georgia,serif;margin:0 0 12px;letter-spacing:-.01em}
+#selected-studies h3{font:700 25px/1.25 Georgia,serif;margin:0 0 14px;letter-spacing:-.01em}
 #selected-studies h3 a{color:var(--ink)}
 #selected-studies h3 a:hover{color:var(--accent);text-decoration:none}
 #selected-studies .sel-num{
@@ -371,7 +371,7 @@ h2.section{
   letter-spacing:.08em;
   color:var(--accent);
 }
-#selected-studies p{margin:0 0 10px;font-size:14px;line-height:1.6}
+#selected-studies p{margin:0 0 14px;font-size:15px;line-height:1.65}
 #selected-studies p:last-child{margin:auto 0 0;padding-top:10px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
 
 footer{
@@ -402,6 +402,8 @@ footer p{margin:0 0 10px;max-width:88ch}
   .lede{font-size:17px}
 }
 @media(max-width:520px){
+  #selected-studies{grid-template-columns:1fr}
+  #selected-studies .kpi-card{padding:22px}
   .kpi-grid,.project-index{grid-template-columns:1fr}
   .identity{align-items:flex-start;flex-direction:column}
   .identity nav{justify-content:flex-start}
@@ -446,7 +448,11 @@ main.wrap{padding-top:48px}
 }
 #project-archive[open]>summary::before{transform:rotate(45deg)}
 #project-archive>summary:hover{border-color:var(--accent);box-shadow:var(--shadow-hover)}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.verification-strip{display:flex;flex-wrap:wrap;gap:12px 32px;margin:26px 0 0;padding:18px 0;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.verification-strip strong{display:block;font-size:16px;color:var(--ink)}
+.guide summary{cursor:pointer;font-weight:700;color:var(--ink);min-height:44px;padding:8px 0}
+.guide summary:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}#selected-studies .kpi-card:hover{transform:none}}
 @media print{
   body{background:#fff;font-size:12pt}
   header{background:none}
@@ -468,35 +474,27 @@ main.wrap{padding-top:48px}
     <p class="sub">B.Mgmt. in <strong>Big Data Management and Applications</strong>, Guangdong University of Technology</p>
     <p class="sub">Applying for MS programmes in Business Analytics / Data Science — US · Singapore · Hong Kong</p>
 
-    <p class="lede">Eight studies in decision analytics, NLP, forecasting and data
-      quality, built around one question: does this result survive being checked?
-      Headline numbers are tested out of sample against a simple baseline, a
-      data-quality audit or an alternative assumption, and each project states
-      what would be needed before acting on it.</p>
+    <p class="lede">I study when a model adds enough value to inform a decision.
+      My work tests pollution alerts, market forecasts and job-posting features
+      against simple alternatives—and reports where the evidence falls short.</p>
 
     <p class="meta">Author: Jiayu Yan / 闫佳玉.
       <a href="#integrity">Authorship and AI-tool statement</a>.</p>
 
-    <div class="kpi-grid" aria-label="Portfolio verification summary">
-      <div class="kpi-card">
-        <span class="kpi-val">8 Projects</span>
-        <span class="kpi-lbl">Decision analytics · NLP · Forecasting · Data Quality</span>
-      </div>
-      <div class="kpi-card">
-        <span class="kpi-val">586 Values</span>
-        <span class="kpi-lbl">Checked in econometrics pipelines at <span class="nw">rtol = 1e-6</span></span>
-      </div>
-      <div class="kpi-card">
-        <span class="kpi-val">21,663 Jobs</span>
-        <span class="kpi-lbl">Employer-disjoint NLP cohort with <span class="nw">SHA-256</span> manifest</span>
-      </div>
-      <div class="kpi-card">
-        <span class="kpi-val">Out of sample</span>
-        <span class="kpi-lbl">Every predictive claim scored on data held out from fitting and tuning</span>
-      </div>
+    <div class="links">
+      <a class="btn primary" href="#projects">Explore selected studies</a>
+      <a class="btn" href="https://github.com/jiayuyan117/academic-portfolio">View source on GitHub</a>
+      <a class="btn" href="https://github.com/jiayuyan117/academic-portfolio/blob/main/README.zh-CN.md" lang="zh-CN">中文导读</a>
+    </div>
+    <div class="verification-strip" aria-label="Portfolio verification summary">
+      <span><strong>8 projects</strong>Research, visualisation and software engineering</span>
+      <span><strong>586 reference values</strong>Checked in the two econometrics projects</span>
+      <span><strong>Held-out evaluation</strong>Predictive models compared with simple baselines</span>
     </div>
 
-    <nav class="guide" id="reading-routes" aria-label="Suggested reading routes">
+    <details class="guide" id="reading-routes">
+      <summary>Choose a reading route · Business Analytics / Data Science</summary>
+      <nav aria-label="Suggested reading routes">
       <p><strong>Business Analytics route:</strong> <a href="#project-05">05 · Alert decision</a>
         → <a href="#project-03">03 · Market sizing</a>
         → <a href="#project-06">06 · Feature value</a>
@@ -506,8 +504,7 @@ main.wrap{padding-top:48px}
         → <a href="#project-02">02 · Forecast tests &amp; identification</a>
         → <a href="#project-05">05 · Missing data &amp; alerts</a>.</p>
       <p><strong>Engineering supplement:</strong> <a href="#project-08">08 · Product catalog</a>.</p>
-      <p>Each card reads as question → method → result → what is needed before acting.
-        Routes reflect programme focus, not a uniform admissions standard across countries.</p>
+      <p>Follow a route for depth, or start with any selected study below.</p>
       <div class="route-bar" role="group" aria-label="Highlight reading track">
         <span class="route-label">Interactive track highlight:</span>
         <button type="button" class="route-btn active" onclick="filterTrack('all', this)">All 8 Projects</button>
@@ -515,26 +512,19 @@ main.wrap{padding-top:48px}
         <button type="button" class="route-btn" onclick="filterTrack('ds', this)">Data Science (06 · 07 · 02 · 05)</button>
         <button type="button" class="route-btn" onclick="filterTrack('eng', this)">Engineering (08)</button>
       </div>
-    </nav>
-
-    <div class="links">
-      <a class="btn primary" href="https://github.com/jiayuyan117/academic-portfolio">Repository on GitHub</a>
-      <a class="btn" href="https://github.com/jiayuyan117/academic-portfolio/blob/main/README.zh-CN.md">中文版</a>
-      <a class="btn" href="https://github.com/jiayuyan117/academic-portfolio/blob/main/REPRODUCING.md">Reproduce the work</a>
-      <a class="btn" href="https://github.com/jiayuyan117/academic-portfolio/actions/workflows/build.yml">Build &amp; verification</a>
-    </div>
+      </nav>
+    </details>
   </div>
 </header>
 
 <main class="wrap" id="projects">
   <h2 class="section">Selected studies</h2>
-  <p>For Business Analytics, start with 05, 03 and 06. For a data-science or
-    econometrics programme, read 06, 07 and 02. Each entry opens the research evidence directly.</p>
+  <p>Four questions, with results and limits. Open a study for its methods, figures and saved evidence.</p>
   <div class="kpi-grid" id="selected-studies">
-    <article class="kpi-card"><h3><a href="projects/05-beijing-air-quality-seaborn/FIRST_READ.html"><span class="sel-num">05</span>Should We Alert Tomorrow?</a></h3><p>Next-day pollution alert tested on 2014 after tuning on 2013. Alert cost per day 0.126 below persistence, 95% CI [0.066, 0.195].</p><p>Read for decision costs, temporal validation and data-quality rules.</p></article>
-    <article class="kpi-card"><h3><a href="projects/03-china-nev-industry-analytics/FIRST_READ.html"><span class="sel-num">03</span>Sizing a Market in Advance</a></h3><p>Rolling backtest of NEV-share forecasts: every model under-forecast, and the fitted S-curve ceiling moved from 6% to 100% to 54%.</p><p>Read for market sizing, denominators and assumption risk.</p></article>
-    <article class="kpi-card"><h3><a href="projects/06-nlp-job-postings/report.html"><span class="sel-num">06</span>Does the Skill Signal Help?</a></h3><p>Employer-disjoint NLP evaluation on 21,663 postings. Text Macro-F1 0.7406 versus fusion 0.7348.</p><p>Read for feature value, held-out evaluation and prediction-level checks.</p></article>
-    <article class="kpi-card"><h3><a href="projects/07-market-direction/report.html"><span class="sel-num">07</span>When the Baseline Wins</a></h3><p>Purged temporal evaluation across 216 later dates; development selection retains the prior.</p><p>Read for leakage control, baseline selection and uncertainty.</p></article>
+    <article class="kpi-card"><h3><a href="projects/05-beijing-air-quality-seaborn/FIRST_READ.html"><span class="sel-num">05 · DECISION ANALYTICS</span>Should We Alert Tomorrow?</a></h3><p>On the 2014 test set, a next-day pollution model reduced cost per day by <strong>0.126</strong> against persistence (95% CI [0.066, 0.195]), after threshold selection on 2013.</p><p>The assumed 3:1 missed-alert / false-alarm cost ratio needs operational validation.</p></article>
+    <article class="kpi-card"><h3><a href="projects/03-china-nev-industry-analytics/FIRST_READ.html"><span class="sel-num">03 · MARKET SIZING</span>Sizing a Market in Advance</a></h3><p>Every model under-forecast NEV share <strong>on average</strong> in the rolling backtest. The fitted S-curve ceiling shifted from 6% to 100% to 54% as data arrived.</p><p>A fitted growth curve does not establish a stable market ceiling; source and denominator limits remain explicit.</p></article>
+    <article class="kpi-card"><h3><a href="projects/06-nlp-job-postings/report.html"><span class="sel-num">06 · NLP EVALUATION</span>Does the Skill Signal Help?</a></h3><p>In an employer-disjoint study of 21,663 postings, text features scored <strong>0.7406 Macro-F1</strong>; adding skill features scored 0.7348.</p><p>The added features did not meet the study's improvement criterion. Skill extraction is evaluated separately.</p></article>
+    <article class="kpi-card"><h3><a href="projects/07-market-direction/report.html"><span class="sel-num">07 · TEMPORAL MACHINE LEARNING</span>When the Baseline Wins</a></h3><p>Development selection retained the historical up-rate. Across <strong>216 later test dates</strong>, feature comparisons did not establish a predictive edge.</p><p>Time-aware splits and bootstrap intervals qualify this retrospective, single-market result; no profitability claim is made.</p></article>
   </div>
   <h2 class="section">Supporting work</h2>
   <p><a href="projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html">02 · Forecast tests and identification</a>
@@ -671,15 +661,16 @@ main.wrap{padding-top:48px}
       Kong's 10-step forecast-error variance — reverse the Cholesky ordering and the same
       quantity becomes <b>0.35%</b>. An order-free generalized decomposition gives
       <b>24.6%</b>, and the same-day residual correlation (0.568² ≈ 32.3%) accounts
-      for almost all of it: the linkage is same-day co-movement, not lagged spillover.</p>
+      for almost all of it, suggesting that this decomposition mainly reflects
+      same-day co-movement. It does not establish a causal spillover.</p>
     <p>Across <b>500 rolling one-step forecasts</b>, re-estimated every 20 days on
       earlier data only, VAR(7) is significantly worse than predicting zero return in
       both markets (Diebold–Mariano <i>p</i> = 0.042 and 0.012). Johansen selects rank 2
       stably, yet every fitted VECM rejects residual whiteness, so no long-run
       equilibrium claim is made.</p>
-    <p class="decision"><strong>Decision relevance.</strong> Use the co-movement for
-      same-day risk and hedge sizing. Do not build a next-day directional signal on
-      lagged Shanghai returns; it lost to "no change" out of sample.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Investigate the co-movement
+      for contemporaneous risk analysis. These results do not validate a hedge or
+      a next-day directional signal; VAR lost to zero return out of sample.</p>
     </div>
     <figure class="research-image"><a href="projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html"><img loading="lazy" src="projects/02-shanghai-hongkong-market-linkages/results/robustness.png" alt="Rolling-origin forecast losses relative to zero return, and Cholesky versus generalized variance decompositions" width="2040" height="782"></a><figcaption>500 rolling origins and an order-free decomposition · The single-holdout edge was noise.</figcaption></figure>
     <p class="cardlinks">

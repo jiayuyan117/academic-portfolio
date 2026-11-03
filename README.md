@@ -9,16 +9,16 @@ B.Mgmt. in **Big Data Management and Applications**, Guangdong University of Tec
 
 ---
 
-## What this repository is for
+## Research focus
 
-These projects connect statistical analysis with decisions: *does this result
-survive being checked, and what should we do with it?*
+I study when a model adds enough value to inform a decision. My projects compare
+pollution alerts, market forecasts and job-posting features with simple alternatives,
+and examine the data quality behind those comparisons.
 
-The eight projects develop undergraduate coursework into reproducible studies.
-They test whether a next-day alert model beats persistence once decision costs
-are counted, whether a market could have been sized in advance, whether skill
-features improve job-category classification, whether forecasts beat a simple
-benchmark across many origins, and whether data quality supports a conclusion.
+This portfolio brings together eight projects developed through undergraduate
+coursework and independent study: statistical and NLP research, interactive
+visualisation, and a Java engineering project. Reports link to methods, sources
+and saved evidence so readers can inspect both the findings and their limits.
 
 Every predictive claim is scored on data held out from fitting and tuning.
 Negative findings and methodological corrections are reported alongside the
@@ -32,12 +32,9 @@ reconstructed source cohort and prediction-level metric verification.
 
 ## A 30-second reading guide
 
-I study Big Data Management and Applications and am applying for Business
-Analytics / Data Science master's programmes in the **US, Singapore and Hong Kong**.
-
 **Business Analytics route: 05 → 03 → 06 → 04.**
-**Data Science route: 06 → 07 → 02 → 05.** Routes reflect programme emphasis,
-not a uniform admissions standard across countries.
+**Data Science route: 06 → 07 → 02 → 05.**
+Start with one brief below; use the linked predictions and checks for a closer look.
 
 | Selection | Why read it | Evidence entry |
 | --- | --- | --- |
@@ -90,8 +87,7 @@ interventions or measured ROI.
 Training-only BIC selects MA(2); it beats a zero-return forecast by **0.29% of
 RMSE** on an untouched 20-day holdout — while Ljung-Box **rejects** residual
 adequacy at lag 20 and ARCH-LM rejects constant variance (*p* = 4e-09).
-The project is built to make both facts visible at once, because a 0.29% edge on
-one window is not a model you would use.
+The small gain on one window does not establish practical forecasting value.
 
 **Decision:** retain the benchmark until time-based validation across more
 windows and transaction-cost analysis establish a practically useful gain.
@@ -103,12 +99,13 @@ A Shanghai shock appears to explain **32.4%** of Hong Kong's 10-step
 forecast-error variance — until the Cholesky ordering is reversed, when the same
 quantity becomes **0.35%**. The order-free generalized FEVD gives **24.6%**, and
 the same-day residual correlation (0.568² ≈ 32.3%) accounts for almost all of
-it: the linkage is same-day co-movement, not lagged spillover. Across **500
+it, suggesting that this decomposition mainly reflects same-day co-movement.
+It does not establish a causal spillover. Across **500
 rolling one-step forecasts**, VAR(7) is significantly worse than a zero-return
 forecast in both markets (Diebold–Mariano *p* = 0.042 and 0.012).
 
-**Decision:** use the co-movement for same-day risk and hedge sizing; do not
-build a next-day directional signal on lagged Shanghai returns.
+**Decision:** investigate the co-movement for contemporaneous risk analysis;
+these results do not validate a hedge or a next-day directional signal.
 
 ### 03 · [China's NEV Transition, 2015–2025](projects/03-china-nev-industry-analytics/)
 `pandas` · `scipy` · `7 compiled tables` · `16 figures, bilingual` · `rolling-origin backtest`

@@ -68,6 +68,7 @@ def main() -> None:
             page.evaluate("window.scrollTo({top: 0, behavior: 'instant'})")
             page.screenshot(path=str(OUTPUT / f"homepage-{width}-viewport.png"))
         assert not errors, errors
+        page.locator("#reading-routes > summary").click()
         buttons = page.locator(".route-btn")
         for index, track in enumerate(("all", "ba", "ds", "eng")):
             buttons.nth(index).click()
