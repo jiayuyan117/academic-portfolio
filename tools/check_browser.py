@@ -33,8 +33,19 @@ def main() -> None:
         errors: list[str] = []
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.goto((ROOT / "index.html").as_uri())
-        assert page.locator("section.card").count() == 9
-        expected = [f"{number:02d}" for number in range(1, 10)]
+        assert page.locator("#selected-studies article").count() == 4
+        assert not page.locator("#project-archive").evaluate("(el) => el.open")
+        for width in (1280, 375, 320):
+            page.set_viewport_size({"width": width, "height": 900})
+            assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+            page.screenshot(path=str(OUTPUT / f"selected-{width}.png"), full_page=True)
+        page.evaluate("location.hash = 'project-06'")
+        page.wait_for_function("document.getElementById('project-archive').open")
+        assert page.locator("#project-06").is_visible()
+        page.locator("#project-archive").evaluate("(el) => el.open = false")
+        page.locator("#project-archive > summary").click()
+        assert page.locator("section.card").count() == 11
+        expected = [f"{number:02d}" for number in range(1, 12)]
         assert page.locator("section.card h3 .num").all_text_contents() == expected
         assert page.locator(".project-index a").evaluate_all(
             "(links) => links.map(a => a.hash)"
@@ -147,6 +158,7 @@ def main() -> None:
             assert response and response.status == 200
             assert page.locator("h1").inner_text() == "Data analytics.\nEvidence for decisions."
             assert page.locator("section.card h3 .num").all_text_contents() == expected
+            page.locator("#project-archive").evaluate("(el) => el.open = true")
             for width in (1280, 375, 320):
                 page.set_viewport_size({"width": width, "height": 900})
                 assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")

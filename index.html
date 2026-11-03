@@ -377,14 +377,14 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     <p class="sub">B.Mgmt. in <strong>Big Data Management and Applications</strong>, Guangdong University of Technology</p>
     <p class="sub">Applying for MS programmes in Data Science / Business Analytics — US · Singapore · Hong Kong</p>
 
-    <p class="lede">Eleven projects, each built around one question: does this result survive
+    <p class="lede">Selected studies in NLP, temporal validation and missing data,
+      built around one question: does this result survive
       being checked? Headline numbers are tested against a benchmark, a data-quality
       audit, an alternative assumption or explicit invariant tests, and each project
       states what would be needed before acting on it.</p>
 
-    <p class="meta">Projects 01–10 by 闫佳玉 / Jiayu Yan, developed from undergraduate coursework.
-      Project 11 was built with substantial AI assistance. Portfolio refinements used AI
-      assistance; instructor frameworks and data sources are credited in each report.</p>
+    <p class="meta">Portfolio author: Jiayu Yan / 闫佳玉.
+      <a href="#integrity">Coursework, source attribution and AI contributions</a>.</p>
 
     <div class="kpi-grid" aria-label="Portfolio verification summary">
       <div class="kpi-card">
@@ -406,27 +406,25 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </div>
 
     <nav class="guide" id="reading-routes" aria-label="Suggested reading routes">
-      <p><strong>Data Science route:</strong> <a href="#project-09">09 · Temporal ML</a>
-        → <a href="#project-08">08 · NLP evaluation</a>
-        → <a href="#project-01">01 · Forecasting</a>
-        → <a href="#project-02">02 · Market linkages</a>
-        → <a href="#project-05">05 · Missing data</a>.</p>
-      <p><strong>Business Analytics route:</strong> <a href="#project-06">06 · Marketing allocation</a>
+      <p><strong>Data Science route:</strong> <a href="#project-08">08 · NLP evaluation</a>
+        → <a href="#project-09">09 · Temporal ML</a>
+        → <a href="#project-05">05 · Missing data</a>
+        → <a href="#project-02">02 · Identification assumptions</a>.</p>
+      <p><strong>Business Analytics route:</strong> <a href="#project-08">08 · Feature value</a>
+        → <a href="#project-05">05 · Data quality</a>
         → <a href="#project-03">03 · Market assessment</a>
-        → <a href="#project-08">08 · Job-information quality</a>
         → <a href="#project-04">04 · Data reconciliation</a>.</p>
-      <p><strong>Systems &amp; data quality:</strong> <a href="#project-04">04</a>
-        → <a href="#project-05">05</a> → <a href="#project-07">07 · Java workforce system</a>
-        → <a href="#project-10">10 · Product catalog</a>
-        → <a href="#project-11">11 · Cart event funnel</a>.</p>
+      <p><strong>Engineering supplements:</strong> <a href="#project-10">10 · Product catalog</a>
+        → <a href="#project-07">07 · Java workforce system</a>.
+        Optional measurement study: <a href="#project-11">11 · Simulated cart funnel</a>.</p>
       <p>Each card reads as question → method → result → what is needed before acting.
-        These are academic analyses; no deployed business impact is claimed.</p>
+        Routes reflect programme focus, not a uniform admissions standard across countries.</p>
       <div class="route-bar" role="group" aria-label="Highlight reading track">
         <span style="font-size:12.5px;font-weight:700;color:var(--ink)">Interactive track highlight:</span>
         <button type="button" class="route-btn active" onclick="filterTrack('all', this)">All 11 Projects</button>
-        <button type="button" class="route-btn" onclick="filterTrack('ds', this)">Data Science Track (09 · 08 · 01 · 02 · 05)</button>
-        <button type="button" class="route-btn" onclick="filterTrack('ba', this)">Business Analytics Track (06 · 03 · 08 · 04 · 11)</button>
-        <button type="button" class="route-btn" onclick="filterTrack('eng', this)">Systems &amp; Data Quality (04 · 05 · 07 · 10 · 11)</button>
+        <button type="button" class="route-btn" onclick="filterTrack('ds', this)">Data Science (08 · 09 · 05 · 02)</button>
+        <button type="button" class="route-btn" onclick="filterTrack('ba', this)">Business Analytics (08 · 05 · 03 · 04)</button>
+        <button type="button" class="route-btn" onclick="filterTrack('eng', this)">Engineering (10 · 07)</button>
       </div>
     </nav>
 
@@ -440,7 +438,26 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
 </header>
 
 <main class="wrap" id="projects">
-  <h2 class="section">Projects</h2>
+  <h2 class="section">Selected studies</h2>
+  <p>Start with 08, 09 and 05. For an econometrics-focused programme, substitute 02
+    for 05. Each entry opens the research evidence directly.</p>
+  <div class="kpi-grid" id="selected-studies">
+    <article class="kpi-card"><h3><a href="projects/08-nlp-job-postings/report.html">08 · Does the Skill Signal Help?</a></h3><p>Employer-disjoint NLP evaluation on 21,663 postings. Text Macro-F1 0.7406 versus fusion 0.7348.</p><p>Read for feature value, held-out evaluation and prediction-level checks.</p></article>
+    <article class="kpi-card"><h3><a href="projects/09-market-direction/report.html">09 · When the Baseline Wins</a></h3><p>Purged temporal evaluation across 216 later dates; development selection retains the prior.</p><p>Read for leakage control, baseline selection and uncertainty.</p></article>
+    <article class="kpi-card"><h3><a href="projects/05-beijing-air-quality-seaborn/FIRST_READ.html">05 · Missing Data Before Modelling</a></h3><p>43,824 hourly rows; a 155-hour gap makes indiscriminate interpolation unsuitable.</p><p>Read for data-quality judgment and observed-only analysis.</p></article>
+    <article class="kpi-card"><h3><a href="projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html">02 · Identification Matters</a></h3><p>Shock attribution changes from 32.4% to 0.35% with ordering.</p><p>Quantitative alternative: assumptions, sensitivity and 334 numerical checks.</p></article>
+  </div>
+  <h2 class="section">Supporting work</h2>
+  <p><a href="projects/10-product-catalog/PROJECT.html">10 · Persistence and revision-checked pagination</a>
+    and <a href="projects/07-workforce-system-java/PROJECT.html">07 · Data structures and invariants</a>
+    provide complementary engineering evidence. For BA, add
+    <a href="projects/03-china-nev-industry-analytics/FIRST_READ.html">03 · Market-source audit</a> or
+    <a href="projects/04-bike-sharing-interactive-visualization/FIRST_READ.html">04 · Demand-data reconciliation</a>.</p>
+  <p>01 adds forecast diagnostics; 11 is a synthetic measurement study.
+    <strong>06 is optional archived coursework:</strong> its collection provenance is undocumented,
+    so it is excluded from the main BA route. Data, source notes and checks remain accessible.</p>
+  <details id="project-archive">
+  <summary>Complete project directory and evidence briefs (11 projects)</summary>
   <nav aria-label="Project index">
     <ul class="project-index">
       <li><a href="#project-01">01 · Equity forecasting</a></li>
@@ -457,7 +474,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </ul>
   </nav>
 
-  <details class="matrix-box" id="evidence-matrix" open>
+  <details class="matrix-box" id="evidence-matrix">
     <summary>
       <span>Methodological &amp; Reproducibility Verification Matrix (01–11)</span>
       <span style="font-size:12px;color:var(--accent);font-weight:600">Click to toggle</span>
@@ -556,7 +573,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </div>
   </details>
 
-  <section class="card" id="project-01" data-tracks="ds">
+  <section class="card" id="project-01" data-tracks="">
     <figure class="research-image"><a href="projects/01-equity-time-series-forecasting/Research_Analysis.html"><img loading="lazy" src="projects/01-equity-time-series-forecasting/results/q4_return_forecast.png" alt="Fixed-origin equity return forecast compared with held-out observations" width="1200" height="700"></a><figcaption>Held-out returns · A small improvement on one window is not a deployment case.</figcaption></figure>
     <h3><span class="num">01</span>Equity Time-Series Forecasting</h3>
     <p class="stack">statsmodels · ARMA/ARIMA · fixed-origin holdout · 252 values verified per run</p>
@@ -627,7 +644,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </p>
   </section>
 
-  <section class="card" id="project-04" data-tracks="ba eng">
+  <section class="card" id="project-04" data-tracks="ba">
     <h3><span class="num">04</span>Bike-Sharing Demand: Interactive Visualisation</h3>
     <p class="stack">Plotly · standalone offline charts · 17,379 hourly observations</p>
     <span class="tag">Data-quality finding</span>
@@ -652,7 +669,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </p>
   </section>
 
-  <section class="card" id="project-05" data-tracks="ds eng">
+  <section class="card" id="project-05" data-tracks="ds ba">
     <figure class="research-image"><a href="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png"><img loading="lazy" src="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png" alt="Missing PM2.5 hours grouped by gap length" width="1200" height="700"></a><figcaption>Missingness audit · Long gaps remain unfilled; headline analysis uses observed values.</figcaption></figure>
     <h3><span class="num">05</span>Beijing PM2.5, 2010–2014</h3>
     <p class="stack">Seaborn · 43,824 hourly observations · 7 figures</p>
@@ -681,7 +698,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </p>
   </section>
 
-  <section class="card" id="project-06" data-tracks="ba">
+  <section class="card" id="project-06" data-tracks="">
+    <p class="eyebrow">Optional coursework archive · undocumented data provenance</p>
     <figure class="research-image"><a href="projects/06-consumer-behaviour-matplotlib/figures/01_segmentation_effect_audit.png"><img loading="lazy" src="projects/06-consumer-behaviour-matplotlib/figures/01_segmentation_effect_audit.png" alt="Transaction segmentation audit showing group comparisons and uncertainty" width="1200" height="700"></a><figcaption>Exploratory transaction comparisons · Intervals do not adjust for repeated customers; differences are not campaign effects.</figcaption></figure>
     <h3><span class="num">06</span>Consumer Transactions: Testing Segmentation Claims</h3>
     <p class="stack">Matplotlib · 8,000 transactions · bootstrap CIs · ANOVA · permutation null</p>
@@ -804,7 +822,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </p>
   </section>
 
-  <section class="card" id="project-11" data-tracks="ba eng">
+  <section class="card" id="project-11" data-tracks="">
     <figure class="research-image"><a href="projects/11-cart-event-funnel/results/02_interval_coverage.png"><img loading="lazy" src="projects/11-cart-event-funnel/results/02_interval_coverage.png" alt="Interval coverage of the true purchase rate across 200 simulated replicates for session and event counting" width="1650" height="750"></a><figcaption>200 simulated replicates · Only session counting gives intervals that cover the true rate at the nominal level.</figcaption></figure>
     <h3><span class="num">11</span>Counting Sessions, Not Clicks</h3>
     <p class="stack">Java 17 · idempotent event log · seeded simulation with known truth · session bootstrap</p>
@@ -827,8 +845,12 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     </p>
   </section>
 
+  </details>
   <footer id="integrity">
-    <p><strong>Authorship.</strong> Projects 01–10 are by 闫佳玉 / Jiayu Yan.
+    <p><strong>Portfolio author: Jiayu Yan / 闫佳玉.</strong> The author confirms independent
+      completion of the original coursework. Project 10's revision-checked pagination
+      and tests were implemented by an AI coding agent (commit <code>714ddb8</code>);
+      see its <a href="projects/10-product-catalog/PROVENANCE.md">contribution record</a>.
       Project 11 was built for this portfolio with substantial AI assistance in
       design, code, analysis and writing.
       Instructor-provided frameworks are acknowledged in the relevant reports.
@@ -850,6 +872,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
 
 <script>
 function filterTrack(track, btn) {
+  document.getElementById('project-archive').open = true;
   document.querySelectorAll('.route-btn').forEach(b => {
     b.classList.remove('active');
     b.setAttribute('aria-pressed', String(b === btn));
@@ -868,6 +891,17 @@ function filterTrack(track, btn) {
 }
 document.querySelectorAll('.route-btn').forEach(b =>
   b.setAttribute('aria-pressed', String(b.classList.contains('active'))));
+function revealTarget() {
+  const target = document.getElementById(location.hash.slice(1));
+  if (!target) return;
+  for (let parent = target.parentElement; parent; parent = parent.parentElement) {
+    if (parent.tagName === 'DETAILS') parent.open = true;
+  }
+  if (target.tagName === 'DETAILS') target.open = true;
+  target.scrollIntoView();
+}
+window.addEventListener('hashchange', revealTarget);
+if (location.hash) revealTarget();
 </script>
 </body>
 </html>

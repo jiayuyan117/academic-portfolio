@@ -38,17 +38,31 @@ Business Analytics master's programmes in the **US, Singapore and Hong Kong**.
 This portfolio connects evaluation, data quality and analytical communication
 with decisions whose limits are made explicit.
 
-If a reviewer has limited time, start with **09 → 08 → 07 → 10**: temporal
-machine learning, NLP evaluation, Java data structures, invariant testing,
-persistence and HTTP boundary tests. Then choose the remaining projects by
-programme focus.
+Start with three selected studies: **08 → 09 → 05**. They demonstrate NLP
+evaluation, temporal validation and missing-data judgment with traceable evidence.
+For a quantitative/econometrics programme, substitute **02** for 05.
 
-For Data Science, follow **09 → 08 → 01 → 02 → 05** through temporal machine
-learning, NLP evaluation, forecasting, identification assumptions and missing
-data. For Business Analytics, follow **06 → 03 → 08 → 04** through marketing
-allocation, market assessment, job-information quality and data reconciliation.
-Projects **07 and 10** cover engineering: data structures, persistence and
-concurrent edits.
+| Selection | Why read it | Evidence entry |
+| --- | --- | --- |
+| [08 · NLP evaluation](projects/08-nlp-job-postings/report.html) | Employer-disjoint feature comparison; separate extraction evaluation | [Saved predictions and checks](projects/08-nlp-job-postings/README.md#what-is-independently-checkable) |
+| [09 · Temporal ML](projects/09-market-direction/report.html) | Baseline-inclusive selection and uncertainty across later test blocks | [Verification](projects/09-market-direction/verify.py) |
+| [05 · Missing data](projects/05-beijing-air-quality-seaborn/FIRST_READ.html) | Gap audit before imputation; observed-only conclusions | [Findings](projects/05-beijing-air-quality-seaborn/outputs/findings.json) |
+| [02 · Identification alternative](projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html) | Same-model results change with shock ordering | [Numerical evidence](projects/02-shanghai-hongkong-market-linkages/results/verification.json) |
+
+**DS route: 08 → 09 → 05 → 02. BA route: 08 → 05 → 03 → 04.**
+The BA route moves from feature value and data quality to market denominators and
+demand-data reconciliation. These routes reflect programme emphasis, not a uniform
+admissions standard across countries.
+
+**Engineering supplements:** choose **10** for persistence, revision-checked
+pagination and HTTP tests, or **07** for data structures and invariants.
+**Further supplements:** 01 (forecast diagnostics), 03 (market sources), 04
+(visual communication), and 11 (explicitly simulated measurement).
+**Optional coursework archive:** 06 teaches exploratory inference, but undocumented
+data provenance prevents its use as a BA flagship. All source and evidence links remain available.
+
+<details>
+<summary>Full project directory — selected studies, supplements and optional coursework</summary>
 
 | Project | Focus |
 | --- | --- |
@@ -64,13 +78,14 @@ concurrent edits.
 | [10 · Product catalog](projects/10-product-catalog/PROJECT.html) | Persistent records, stale-edit rejection and HTTP boundary tests |
 | [11 · Cart event funnel](projects/11-cart-event-funnel/README.md) | Session vs event counting, simulated ground truth and interval coverage |
 
+</details>
 
 ### Business Analytics: from question to decision
 
 | Project | Decision question and method | Evidence and action boundary |
 | --- | --- | --- |
 | [03 · Market assessment](projects/03-china-nev-industry-analytics/README.md) | Reconcile public sales, battery and charging statistics before assessing market transition. | 47.9% NEV share uses all-vehicle sales including exports. Site investment still needs local utilization, power and cost data. |
-| [06 · Marketing allocation](projects/06-consumer-behaviour-matplotlib/README.md) | Compare recorded amount per transaction across segments using exploratory tests and intervals. | Repeated customers and undocumented provenance prevent a validated allocation rule. A randomized offer study is proposed, not performed. |
+| [05 · Data quality](projects/05-beijing-air-quality-seaborn/README.md) | Audit missing hourly measurements before interpreting associations. | Long gaps remain unfilled; observational patterns support further validation, not intervention effects. |
 | [08 · Job-information quality](projects/08-nlp-job-postings/README.md) | Compare text and skill features on held-out employers; evaluate extraction separately. | Fusion Macro-F1 of 0.7348 versus 0.7406 for text does not justify the added features under this study's criterion. Operational value remains unmeasured. |
 
 Read each project as **question → data and method → result → decision implication
@@ -79,7 +94,10 @@ interventions or measured ROI. The environmental study (05) demonstrates transfe
 missing-data analysis and uncertainty communication; the Java project (07)
 demonstrates data consistency rather than a measured business improvement.
 
-## Projects — 11 in total
+## Supporting project briefs and complete evidence
+
+<details>
+<summary>Expand all 11 briefs (start with the selected studies above)</summary>
 
 ### 01 · [Equity Time-Series Forecasting](projects/01-equity-time-series-forecasting/)
 `statsmodels` · `ARMA/ARIMA` · `fixed-origin holdout` · `252 values verified per run`
@@ -160,8 +178,9 @@ permutation ranges: this is not a joint seasonality test or evidence that
 seasonality is absent. Original collection and synthetic status are undocumented;
 the file is not established to represent real customers.
 The source has **8,020 rows → 20 exact duplicates removed → 8,000 transactions**.
-These transaction-level tests and intervals do not adjust for repeated customers,
-so inferential results remain exploratory pending customer-level validation.
+Original transaction-level tests and figure intervals do not adjust for repeated
+customers. A separate 2,000-draw user-cluster bootstrap reports pointwise mean-difference
+intervals; it does not resolve undocumented provenance or establish campaign effects.
 
 **Decision:** avoid demographic budget reallocation from these rankings alone.
 Evaluate a randomized offer experiment using incremental contribution margin;
@@ -257,6 +276,8 @@ of the time and the event-count interval **34.0%**.
 by server sequence rather than client timestamps. All data are synthetic.
 Built with substantial AI assistance; the textbook supplied only the topic.
 
+</details>
+
 ## Reproducibility
 
 Each project has checks matched to its claims. The NLP workflow recomputes
@@ -339,8 +360,12 @@ estimated, and what remains assumed; bilingual (English / Chinese) delivery.
 
 ## Academic integrity and AI use
 
-**Projects 01–10 by 闫佳玉 / Jiayu Yan.** Project 11 was built for this portfolio
-with substantial AI assistance in design, code, analysis and writing.
+**Portfolio author: Jiayu Yan / 闫佳玉.** The author confirms independent completion
+of the original coursework. Public portfolio extensions have separate contributions:
+project 10's revision-checked pagination and tests were implemented by an AI coding
+agent (commit `714ddb8`); project 11 used substantial AI assistance in design,
+code, analysis and writing. See [project 10 provenance](projects/10-product-catalog/PROVENANCE.md)
+and [project 08 contributions](projects/08-nlp-job-postings/CONTRIBUTIONS.md).
 Instructor-provided frameworks are credited in individual reports. Lab 6's
 original teaching code and course data remain private; its public extension uses
 a new implementation and CC BY 4.0 data.

@@ -177,6 +177,11 @@ def main() -> None:
         for link in page.links + page.resources:
             check_local_link(page, link)
         print("Homepage: eleven project anchors and all local links checked")
+        for name in ("README.md", "README.zh-CN.md"):
+            text = (ROOT / name).read_text(encoding="utf-8")
+            for value in re.findall(r"\[[^\]]+\]\(([^)\s]+)\)", text):
+                check_local_link(page, value)
+        print("Bilingual README: relative link targets checked (Markdown anchors excluded)")
 
 
 if __name__ == "__main__":

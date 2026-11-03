@@ -15,7 +15,7 @@ English version: [README.md](README.md)
 
 这些项目围绕两个问题：**这个结论经得起检验吗？它能支持什么决策？**
 
-如果评审时间有限，建议先看 **09 → 08 → 07 → 10**：这条路线集中展示时序机器学习、NLP 评估、Java 数据结构、不变量测试、持久化和 HTTP 边界测试；再根据申请方向阅读其余项目。
+如果评审时间有限，先看 **08 → 09 → 05**；偏计量或量化的项目可用 **02** 替换 05。
 
 01–10 均以本科课程作品为基础，11 是为作品集新增、在 AI 大量辅助下完成的测量研究。它们检验技能特征能否改善岗位类别分类、预测能否优于
 简单基准、市场联动估计如何依赖识别假设、数据质量是否足以支持业务结论，
@@ -35,9 +35,22 @@ English version: [README.md](README.md)
 我以大数据管理与应用的本科训练为基础，申请**美国、新加坡、香港的数据科学 /
 商业分析硕士**。作品集将模型评估、数据质量与研究表达连接到具体决策，并明确证据边界。
 
-数据科学路线为 **09 → 08 → 01 → 02 → 05**，依次阅读时序机器学习、NLP 评估、
-预测检验、识别假设与缺失数据；商业分析路线为 **06 → 03 → 08 → 04**，
-关注营销资源分配、市场评估、岗位信息质量与数据对账。**07、10** 展示工程能力：数据结构、持久化与并发修改。
+| 精选 | 筛选理由 | 证据入口 |
+| --- | --- | --- |
+| [08 · NLP 评估](projects/08-nlp-job-postings/report.html) | 雇主隔离的特征比较，分类与抽取独立评估 | [预测与校验说明](projects/08-nlp-job-postings/README.md#what-is-independently-checkable) |
+| [09 · 时序机器学习](projects/09-market-direction/report.html) | 模型选择包含基准，后续测试区间报告不确定性 | [验证程序](projects/09-market-direction/verify.py) |
+| [05 · 缺失数据](projects/05-beijing-air-quality-seaborn/FIRST_READ.html) | 先审计缺口，再确定插值与分析口径 | [分析结果](projects/05-beijing-air-quality-seaborn/outputs/findings.json) |
+| [02 · 计量替代项](projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html) | 展示识别假设如何改变同一模型的解释 | [数值验证记录](projects/02-shanghai-hongkong-market-linkages/results/verification.json) |
+
+**DS 路线：08 → 09 → 05 → 02。BA 路线：08 → 05 → 03 → 04。**
+BA 从特征价值、数据质量进入市场分母和需求数据对账；按专业方向取舍，不假定美港新存在统一录取标准。
+
+**工程补充：** 10 展示持久化、版本校验分页与 HTTP 测试；07 展示数据结构与不变量。
+**其他补充：** 01 预测诊断、03 市场来源、04 可视化、11 明确标注的模拟测量。
+**可选课程归档：** 06 保留探索性推断练习及完整数据，但来源不明，不作为 BA 旗舰。
+
+<details>
+<summary>完整项目目录：精选、补充与可选课程练习</summary>
 
 | 项目 | 阅读重点 |
 | --- | --- |
@@ -53,20 +66,24 @@ English version: [README.md](README.md)
 | [10 · 商品目录](projects/10-product-catalog/PROJECT.html) | 文件持久化、旧版本冲突与 HTTP 边界测试 |
 | [11 · 购物车事件漏斗](projects/11-cart-event-funnel/README.md) | 会话口径与事件口径、模拟真实值与区间覆盖率 |
 
+</details>
 
 ### 商业分析：从问题到决策
 
 | 项目 | 决策问题与方法 | 证据及行动边界 |
 | --- | --- | --- |
 | [03 · 市场评估](projects/03-china-nev-industry-analytics/README.md) | 对齐公开销量、电池与充电统计口径，再评估市场转型。 | 新能源占比 47.9% 使用含出口的全车型销量口径；选址投资仍需要当地利用率、功率与成本数据。 |
-| [06 · 营销资源分配](projects/06-consumer-behaviour-matplotlib/README.md) | 用探索性检验与区间比较各组每笔交易记录金额。 | 重复客户与来源不明限制了分配规则的有效性；随机优惠实验只是建议，尚未执行。 |
+| [05 · 数据质量](projects/05-beijing-air-quality-seaborn/README.md) | 解释观测关联前审计小时测量缺失。 | 长缺口保留缺失，相关模式需要后续验证，不能解释为干预效果。 |
 | [08 · 岗位信息质量](projects/08-nlp-job-postings/README.md) | 在隔离雇主的留出集上比较文本与技能特征，并独立评估抽取。 | 融合 Macro-F1 为 0.7348，文本为 0.7406，未达到研究设定的改善标准；实际运营价值尚未测量。 |
 
 每个项目按 **问题 → 数据与方法 → 结果 → 决策意义 → 限制** 阅读。
 建议属于学术分析解释，不是已部署的干预或实测 ROI。环境研究（05）展示可迁移的
 缺失数据分析与不确定性表达；Java 项目（07）展示数据一致性，不声称已实现业务改善。
 
-## 项目（共 11 个）
+## 补充简报与完整证据
+
+<details>
+<summary>展开全部 11 项简报（建议先读上面的精选入口）</summary>
 
 ### 01 · [股票时间序列预测](projects/01-equity-time-series-forecasting/)
 `statsmodels` · `ARMA/ARIMA` · `固定起点样本外检验` · `每次运行校验 252 个数值`
@@ -133,8 +150,8 @@ UCI 共享单车数据集的两个文件把日期分别存成 `2011/1/1` 和 `20
 不构成联合季节性检验，更不能证明没有季节性。原始采集方式及是否合成未知，
 不宣称该文件代表真实顾客。
 口径统一为：**原始 8,020 行，删除 20 行完全重复记录，得到 8,000 笔交易**。
-检验和区间以交易为单位，尚未校正同一客户重复交易的相关性，
-因此属于探索性结果，业务行动前还需客户层面的验证。
+原始检验与图中区间以交易为单位，未校正客户内相关性；另有 2,000 次用户聚类
+Bootstrap 提供均值差的逐点区间。这项敏感性分析不能补足来源或证明营销效果。
 
 **决策含义：** 暂不依据这些人口特征排名重分配营销预算。下一步可设计随机优惠实验，
 以增量贡献利润为主指标；这里没有声称已经开展该实验。
@@ -209,6 +226,8 @@ Java 购物车事件日志对每次客户端请求做校验并记录拒绝原因
 所有数据均为模拟数据。本项目在 AI 大量辅助下完成，教材只提供选题。
 
 
+</details>
+
 ## 可复现性
 
 各项目按其研究内容进行验证。NLP 工作流重算已保存预测的指标，并运行真实数据小样本实验；
@@ -224,6 +243,9 @@ Java 购物车事件日志对每次客户端请求做校验并记录拒绝原因
 | 06 消费交易 | Linux：分析与图表重建、推断语义检查 | `python src/analyze.py` |
 | 07 Java 员工系统 | Linux / Java 17：Maven 验证、JUnit 和参考模型测试 | `mvn verify` |
 | 08 招聘文本 NLP | 来源重建、已保存预测校验及小样本训练检查 | `python run.py verify`；`python run.py smoke` |
+| 09 时序机器学习 | 本地完整重跑、7 项时序测试、预测与区间校验；已有独立 CI | `python verify.py`；`python -m unittest discover -s tests -v` |
+| 10 商品目录 | Windows / JDK 21，Java 17 编译目标；13 组测试，无 workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 test` |
+| 11 购物车漏斗 | 已有本地 9 组 Java 测试、6 项分析测试与确定性重跑记录，无 workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1` |
 
 
 项目 01 和 02 交付的是**校验器**而不只是运行脚本：它会核对每个输入文件的 SHA-256
@@ -275,7 +297,11 @@ python tools/rebuild.py --project 01
 
 ## 学术诚信与 AI 使用说明
 
-**01–10 作者：闫佳玉 / Jiayu Yan。11 为作品集新增项目，设计、代码、分析与写作均有 AI 大量参与。**
+**作品集作者：Jiayu Yan / 闫佳玉。** 作者声明原始课程作品由本人独立完成。
+公开扩展另记贡献：10 的版本校验分页及测试由 AI 编程代理实际实现（提交 `714ddb8`）；
+11 的设计、代码、分析与写作均有 AI 大量参与。详见
+[10 来源与分工](projects/10-product-catalog/PROVENANCE.md)和
+[08 贡献说明](projects/08-nlp-job-postings/CONTRIBUTIONS.md)。
 
 教师提供的框架在相关报告中注明。实验课 6 原始材料本地保留；
 公开版采用独立实现与明确许可的数据，研究扩展使用 AI 辅助。

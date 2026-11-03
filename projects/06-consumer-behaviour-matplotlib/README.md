@@ -1,5 +1,9 @@
 # Consumer Transactions: Evidence for a Segmentation Decision
 
+**Portfolio placement: optional coursework archive.** Collection provenance and
+synthetic status are undocumented; this exercise is retained for inference
+practice and evidence traceability, outside the main Business Analytics route.
+
 **Author: 闫佳玉 / Jiayu Yan. Original coursework independently completed by the author.**
 
 **8,020 raw rows → remove 20 exact duplicates →
