@@ -6,7 +6,10 @@
 - [x] Select revision-checked pagination and deterministic sorting, building on existing persistent revisions instead of adding another CRUD project.
 - [x] Implement and test query contract, navigation and failure cases: run.ps1 test, 13 groups passed, 0 failed on 2026-11-03.
 - [x] Update bilingual evidence and assistance attribution.
-- [ ] Commit, push and verify remote SHA.
+- [x] Commit, push and verify remote SHA: implementation commit
+  `714ddb8db84473a584797a96fe911b76cdd47c1d` pushed to origin/main;
+  `git ls-remote origin refs/heads/main` matched local HEAD. Working tree clean
+  before this task-record completion update.
 
 Scope: bounded local catalog, not an indexed database or production service.
 Implementation and verification for this enhancement are performed with AI coding assistance.
