@@ -58,8 +58,15 @@ these are explanatory states, not recorded user activity.</p>
 <tr><td>Disk destination cannot be replaced.</td><td>Return a storage failure; retain the previous in-memory state.</td></tr>
 <tr><td>A stored name includes <code>&lt;script&gt;</code>.</td><td>Render it as text, not executable markup.</td></tr>
 </tbody></table></section>
+<section><h2>Pagination that detects changes</h2>
+<p>Search pages default to 20 products, with a maximum of 100. SKU order or price
+order with a unique SKU tie-breaker makes traversal deterministic. Rows, count
+and revision come from one synchronized read. Navigation preserves the query.</p>
+<p>A successful write invalidates existing page links with HTTP 409. Search again
+to read the new state. No historical snapshots are retained. Queries still scan
+and sort; no index or measured performance gain is claimed.</p></section>
 <section><h2>Verification with stated limits</h2>
-<p><strong>10 test groups passed, 0 failed</strong> on Windows with Temurin
+<p><strong>13 test groups passed, 0 failed</strong> on 2026-11-03, Windows with Temurin
 21.0.12.1, compiled using <code>--release 17</code>. Tests execute real loopback
 HTTP requests, storage round trips, competing edits, corrupt snapshots and
 failed-write scenarios. Assertions are explicit and do not depend on
@@ -75,15 +82,18 @@ was not established, so no textbook code, binaries or database configuration is
 published. This new implementation uses JDK HttpServer and a TSV snapshot, not
 the textbook's JSP/Servlet/JDBC stack.</p>
 <p>Designed and completed by Jiayu Yan / 闫佳玉. As elsewhere in the portfolio,
-AI tools assisted with review, test design and documentation. No research results,
+AI tools implemented this pagination enhancement, wrote and ran tests, and updated documentation. No research results,
 real users or production deployment are claimed.</p>
 <p><a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/10-product-catalog/PROVENANCE.md">Full provenance &amp; contribution statement</a></p></section>
 <section id="chinese" lang="zh-CN"><h2>中文说明：小系统，明确的证据边界</h2>
 <p>本项目以教材商品管理为选题背景，新编写本地 Java 应用，侧重持久化、
 金额校验和并发冲突。它与已有员工系统的数据结构内容互补，不包装成研究成果。</p>
-<p>10 组测试在本机实际运行通过，包括 HTTP 请求、重启恢复、旧版本拒绝及写入失败。
+<p>新增版本校验分页、SKU／价格排序与条件保留；写入后旧翻页链接返回 409。
+查询仍采用扫描加排序，不宣称索引或实测性能提升。</p>
+<p>13 组测试在本机实际运行通过，包括 HTTP 请求、重启恢复、旧版本拒绝及写入失败，
+以及分页完整遍历、同价次序和非法分页参数。
 这不代表生产可用或已完成跨平台验证。所有示例数据均为构造数据。
-项目由闫佳玉完成，AI 工具协助了代码审查、测试设计和文档整理。</p>
+本轮经闫佳玉授权，由 AI 工具实现分页、编写并运行测试、更新文档。</p>
 <p>本页仅为静态展示。运行后端需要本地 JDK；GitHub Pages 不能运行 Java。</p></section>
 <footer>Jiayu Yan / 闫佳玉 · Academic portfolio · Engineering project · 2026</footer>
 </main></body></html>

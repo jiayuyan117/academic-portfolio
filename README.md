@@ -230,8 +230,11 @@ contains methods, source discrepancies, attribution and limitations.
 Java engineering project built around a textbook's product-management topic;
 no textbook code is redistributed. Local HTTP CRUD, exact CNY cents,
 atomic file snapshots and version checks complement project 07's in-memory structures.
-Ten failure-oriented test groups passed locally, including real HTTP requests,
-restart recovery, competing edits and failed storage writes.
+Revision-checked pagination adds deterministic SKU/price ordering and rejects
+stale navigation with HTTP 409. Thirteen failure-oriented test groups passed
+locally, including real HTTP requests, complete page traversal, restart recovery,
+competing edits and failed storage writes. This enhancement used AI implementation
+and verification assistance; queries remain scan-based, without a performance claim.
 
 GitHub Pages displays the static brief only; the backend requires a local JDK.
 No research results or deployed business system are claimed. See
@@ -255,7 +258,7 @@ training is an explicit local command, not a claim about routine CI.
 | 07 Workforce system | Linux / Java 17: Maven verification, JUnit and reference-model tests | `mvn verify` |
 | 08 Job-posting NLP | Source reconstruction, saved-prediction verification and sample training checks | `python run.py verify`; `python run.py smoke` |
 | 09 Market direction | Local full rerun, seven temporal tests and prediction-level verification; dedicated CI workflow | `python verify.py`; `python -m unittest discover -s tests -v` |
-| 10 Product catalog | Local Windows / JDK 21, Java 17 compilation target: 10 test groups; no workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 test` |
+| 10 Product catalog | Local Windows / JDK 21, Java 17 compilation target: 13 test groups; no workflow | `powershell -NoProfile -ExecutionPolicy Bypass -File .\run.ps1 test` |
 
 
 Projects 01 and 02 ship a verifier rather than a runner. It checks the SHA-256 of

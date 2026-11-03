@@ -77,14 +77,35 @@ not implemented. Do not manually edit storage while the process is running.
 The server binds to IPv4 loopback, checks the Host header, uses an unpredictable
 per-process form token, rejects foreign Origin headers and escapes stored text.
 It also limits form bodies to 8 KiB, queries to 2 KiB and catalogs to 1,000 rows.
-No authentication, authorization, TLS, audit trail, request timeout framework,
-pagination or production load testing is provided. Do not expose it through a
-proxy or use it for sensitive records. Snapshot writes are O(n); full-page
-rendering and four worker threads are appropriate only to this small local demo.
+No authentication, authorization, TLS, audit trail, request timeout framework
+or production load testing is provided. Do not expose it through a
+proxy or use it for sensitive records. Snapshot writes are O(n); four worker
+threads are appropriate only to this small local demo.
+
+### Revision-checked pagination
+
+Search accepts `q` (at most 200 Java characters), `sort=sku|price`,
+`limit=1..100` (default 20), and `offset=0..1000`. Price order uses SKU as a
+unique tie-breaker. Rows, total count and revision are read under one lock;
+returned page records are immutable. Previous/Next links preserve the filter,
+sort, limit and revision. For example, start with `/?q=book&sort=price&limit=2`,
+then follow the generated Next link.
+
+A positive HTTP offset requires a nonnegative `revision`. Any committed create,
+edit or delete invalidates old links with HTTP 409; a fresh search starts over.
+Invalid query parameters return 400. An offset beyond the result count returns
+an empty page. Rejected writes do not advance the revision. This detects change
+instead of retaining historical snapshots; frequent writes may force restarts.
+Revision is a consistency marker, not an authentication token.
+
+Queries scan O(n) records and sort m matches in O(m log m), with O(m) working
+memory; only up to `limit` records are rendered. This is not an index or a
+measured throughput improvement. The 1,000-product scope makes that tradeoff
+explicit. The TSV format and existing data remain compatible.
 
 ## Actual verification
 
-On 2026-10-30, Windows / Temurin **21.0.12.1**, compilation with `--release 17`
+On 2026-11-03, Windows / Temurin **21.0.12.1**, compilation with `--release 17`
 and the dependency-free test runner produced:
 
 ```text
@@ -97,8 +118,11 @@ PASS corrupt snapshots fail closed and retain bytes
 PASS failed storage commit does not publish memory
 PASS HTTP CRUD, escaping, conflict and method semantics
 PASS HTTP CSRF, cross-origin, malformed and oversized requests
+PASS pagination matches independent ordering oracle and survives restart
+PASS query bounds and successful mutations invalidate traversal
+PASS HTTP page links preserve filters and reject stale or invalid continuations
 PASS strict form parsing
-RESULT: 10 tests passed, 0 failed
+RESULT: 13 tests passed, 0 failed
 ```
 
 Tests use temporary directories and actual loopback HTTP requests, not mocked
@@ -113,10 +137,17 @@ modified or invoked for this project.
 
 本项目由闫佳玉完成，主题来自教材第 5 章商品管理示例。
 教材源代码、数据库配置及压缩包均未转载；不宣称有真实用户、实习业务数据
-或研究成果。第 13 章会员管理未采用。AI 工具协助了代码审查、测试设计和文档整理。
+或研究成果。第 13 章会员管理未采用。本轮 AI 工具执行了分页设计、代码实现、
+测试编写与运行、文档更新；不将本轮工作表述为作者独立手写。
 
 实现覆盖商品增删改查、金额与库存校验、文件持久化、并发版本冲突及
 HTTP 表单边界。与项目 07 的内存数据结构侧重点不同。本机实际运行了
-10 组测试并全部通过；静态简报不能执行 Java 服务。详细来源与分工见
+13 组测试并全部通过；静态简报不能执行 Java 服务。详细来源与分工见
 [PROVENANCE.md](PROVENANCE.md)。未来可在需要时替换为 JDBC 事务存储，
 补充用户权限及审计；这些属于未实现的后续工作。
+
+本轮新增带版本校验的分页：支持 SKU 或价格排序（同价按 SKU 排序），默认每页
+20 条、最多 100 条。翻页保留搜索条件；任何成功写入后旧链接返回 409，要求重新
+查询，避免无提示地混用不同目录状态。测试使用 37 条构造记录核对完整遍历、排序、
+无重复遗漏及重启版本恢复，并验证真实 HTTP 导航和错误请求。查询仍为扫描加排序，
+没有新增索引或吞吐量基准。桌面课程报告是另一套资料管理系统，其 66 项检查未计入这里。

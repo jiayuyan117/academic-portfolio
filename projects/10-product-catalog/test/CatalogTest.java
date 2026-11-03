@@ -150,6 +150,82 @@ public final class CatalogTest {
                     check(c.list("").isEmpty(), "rejected requests mutated state");
                 }
             });
+            test("pagination matches independent ordering oracle and survives restart", () -> {
+                Path file = dir.resolve("pages.tsv");
+                List<Catalog.Product> expected = new ArrayList<>();
+                try (Catalog c = new Catalog(file)) {
+                    Random random = new Random(20261103);
+                    for (int i = 0; i < 37; i++) {
+                        String sku = String.format(Locale.ROOT, "P-%03d", i);
+                        String name = i % 2 == 0 ? "书 & Paper" : "Other";
+                        int price = random.nextInt(4);
+                        c.save(sku, name, "" + price, i, 0);
+                        if (i % 2 == 0) expected.add(new Catalog.Product(sku, name, price * 100L, i, i + 1));
+                    }
+                }
+                expected.sort(Comparator.comparingLong(Catalog.Product::cents).thenComparing(Catalog.Product::sku));
+                try (Catalog c = new Catalog(file)) {
+                    List<Catalog.Product> actual = new ArrayList<>();
+                    Catalog.Page first = c.query("书 &", "price", 0, 3, -1);
+                    for (int offset = 0; offset < first.total(); offset += 3) {
+                        Catalog.Page page = c.query("书 &", "price", offset, 3, first.revision());
+                        check(page.total() == expected.size() && page.items().size() <= 3, "page bounds/count");
+                        actual.addAll(page.items());
+                    }
+                    check(actual.equals(expected), "missing, duplicate or misordered rows");
+                    check(first.revision() == 37, "revision after restart");
+                    rejects(UnsupportedOperationException.class, () -> first.items().clear());
+                    check(c.query("absent", "sku", 0, 20, -1).total() == 0, "no matches");
+                    check(c.query("", "sku", 1000, 100, -1).items().isEmpty(), "beyond end");
+                    check(c.query("p-00", "sku", 0, 100, -1).total() == 10, "case insensitive SKU");
+                }
+            });
+            test("query bounds and successful mutations invalidate traversal", () -> {
+                try (Catalog c = new Catalog(dir.resolve("query-validation.tsv"))) {
+                    c.save("A", "First", "1", 0, 0);
+                    long revision = c.query("", "sku", 0, 1, -1).revision();
+                    rejects(IllegalArgumentException.class, () -> c.query("", "sku", -1, 1, -1));
+                    rejects(IllegalArgumentException.class, () -> c.query("", "sku", 1001, 1, -1));
+                    for (int limit : new int[]{0, 101, Integer.MAX_VALUE})
+                        rejects(IllegalArgumentException.class, () -> c.query("", "sku", 0, limit, -1));
+                    rejects(IllegalArgumentException.class, () -> c.query("", "unknown", 0, 1, -1));
+                    rejects(IllegalArgumentException.class, () -> c.query("x".repeat(201), "sku", 0, 1, -1));
+                    rejects(IllegalArgumentException.class, () -> c.query("", "sku", 0, 1, -2));
+                    rejects(IllegalArgumentException.class, () -> c.save("B", "Bad", "-1", 0, 0));
+                    check(c.query("", "sku", 0, 1, revision).total() == 1, "rejected write invalidates page");
+                    c.save("A", "Edited", "2", 0, 1);
+                    rejects(Catalog.Conflict.class, () -> c.query("", "sku", 0, 1, revision));
+                    c.delete("A", 2);
+                    rejects(Catalog.Conflict.class, () -> c.query("", "sku", 0, 1, 2));
+                    c.save("A", "Recreated", "3", 0, 0);
+                    rejects(Catalog.Conflict.class, () -> c.query("", "sku", 0, 1, 3));
+                }
+            });
+            test("HTTP page links preserve filters and reject stale or invalid continuations", () -> {
+                try (Catalog c = new Catalog(dir.resolve("http-pages.tsv"));
+                     CatalogServer server = new CatalogServer(c, 0)) {
+                    c.save("A", "书 & <one>", "2", 0, 0);
+                    c.save("B", "书 & two", "1", 0, 0);
+                    HttpClient client = HttpClient.newHttpClient();
+                    String base = "http://127.0.0.1:" + server.port();
+                    String start = "/?q=%E4%B9%A6+%26&sort=price&limit=1";
+                    var first = request(client, base, start, "GET", "", null);
+                    check(first.statusCode() == 200 && first.body().contains("<h3>B")
+                            && !first.body().contains("<h3>A"), "bounded sorted render");
+                    var link = Pattern.compile("href='([^']+)'>Next").matcher(first.body());
+                    check(link.find(), "next link missing");
+                    String next = link.group(1).replace("&amp;", "&");
+                    var second = request(client, base, next, "GET", "", null);
+                    check(second.statusCode() == 200 && second.body().contains("<h3>A")
+                            && second.body().contains("&lt;one&gt;") && !second.body().contains(">Next</a>"), "last page");
+                    for (String bad : List.of("?offset=1", "?limit=101", "?offset=2147483648",
+                            "?sort=bad", "?revision=-2", "?limit=1&limit=2"))
+                        check(request(client, base, "/" + bad, "GET", "", null).statusCode() == 400, bad);
+                    c.save("C", "书 & three", "0", 0, 0);
+                    check(request(client, base, next, "GET", "", null).statusCode() == 409, "stale page");
+                    check(request(client, base, start, "GET", "", null).statusCode() == 200, "fresh search");
+                }
+            });
             test("strict form parsing", () -> {
                 rejects(IllegalArgumentException.class, () -> CatalogServer.form("sku=A&sku=B"));
                 rejects(IllegalArgumentException.class, () -> CatalogServer.form("q=%ZZ"));

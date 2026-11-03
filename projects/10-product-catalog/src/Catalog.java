@@ -77,6 +77,30 @@ public final class Catalog implements AutoCloseable {
         return products.values().stream().filter(p -> p.sku().toLowerCase(Locale.ROOT).contains(q)
                 || p.name().toLowerCase(Locale.ROOT).contains(q)).toList();
     }
+    public record Page(List<Product> items, int total, int offset, int limit, long revision) {
+        public Page { items = List.copyOf(items); }
+    }
+
+    /** One synchronized read binds rows, count and revision to the same committed state.
+     * expectedRevision=-1 starts a new traversal; subsequent pages must reuse the revision.
+     * No historical snapshots are retained: any successful write invalidates a traversal.
+     */
+    public synchronized Page query(String query, String sort, int offset, int limit, long expectedRevision) {
+        if (query == null || query.length() > 200 || offset < 0 || offset > 1000
+                || limit < 1 || limit > 100 || expectedRevision < -1)
+            throw new IllegalArgumentException("Invalid query bounds");
+        Comparator<Product> order;
+        if ("sku".equals(sort)) order = Comparator.comparing(Product::sku);
+        else if ("price".equals(sort))
+            order = Comparator.comparingLong(Product::cents).thenComparing(Product::sku);
+        else throw new IllegalArgumentException("Unknown sort");
+        if (expectedRevision != -1 && expectedRevision != revision) throw new Conflict();
+        List<Product> matches = new ArrayList<>(list(query));
+        matches.sort(order);
+        int from = Math.min(offset, matches.size());
+        int to = Math.min(from + limit, matches.size());
+        return new Page(matches.subList(from, to), matches.size(), offset, limit, revision);
+    }
     public synchronized void save(String sku, String name, String price, int stock, long expected)
             throws IOException {
         if (sku == null) throw new IllegalArgumentException("SKU required");

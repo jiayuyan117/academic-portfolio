@@ -20,11 +20,13 @@ implementation, not to the external textbook materials.
 
 ## Contributions and evidence
 
-- **Author:** 闫佳玉 / Jiayu Yan designed and completed the project, choosing the
-  product-management topic, the scope and the failure cases to test.
+- **Portfolio owner:** 闫佳玉 / Jiayu Yan authorized extending the existing
+  product catalog and publishing the result.
 - **AI assistance:** as with the rest of the portfolio, AI tools assisted with
   code review, test design, documentation, translation and running local
-  verification commands.
+  verification commands. In the 2026-11-03 enhancement, the AI coding agent
+  selected and implemented revision-checked pagination, wrote and ran tests,
+  and updated the bilingual evidence. This work is not claimed as unaided coding.
 - **Not claimed:** original research, real customer use or production business impact.
 
 All sample inputs in tests and documentation were created for this exercise.
@@ -35,5 +37,11 @@ and its limits are recorded in README.md, separately from hosting status.
 
 教材提供的是选题背景，不是可任意转载的源码授权。当前采用新写的 JDK HTTP
 服务和文件快照，不宣称复刻 JSP/Servlet/JDBC 或 SSH 技术栈。
-项目由闫佳玉完成；与作品集其他项目一致，AI 工具协助了代码审查、测试设计和文档整理。
+作品集归属闫佳玉；本轮经其授权，由 AI 编程代理选择并实现分页提升、
+编写和执行测试、整理双语证据，不宣称本轮代码为独立手写。
+
+On 2026-11-03 the chapter05/chapter13 entry names were rechecked read-only.
+The desktop Java Web course report describes a separate course-material system;
+its reported tests are not counted as catalog verification. Neither that report
+nor its personal details, source snippets or configuration were added here.
 

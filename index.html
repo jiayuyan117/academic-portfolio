@@ -540,7 +540,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
             <td>Synthetic test inputs; no user dataset</td>
             <td>Local Java HTTP · atomic snapshots · optimistic versions</td>
             <td>Stale edits rejected; failed writes do not publish memory</td>
-            <td>10 local test groups · real HTTP · no workflow</td>
+            <td>13 local test groups · real HTTP · revision-checked pagination · no workflow</td>
           </tr>
         </tbody>
       </table>
@@ -782,8 +782,9 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
     <p class="find">Two browser tabs should not silently overwrite each other.
       Version checks reject stale edits; a failed snapshot write does not publish new state in memory.</p>
     <p>Product CRUD, search, exact CNY cents and persistent records complement
-      project 07's in-memory data structures. Ten local test groups cover real
-      HTTP requests, competing edits, restart recovery and storage failures.</p>
+      project 07's in-memory data structures. Revision-checked pagination rejects
+      stale navigation after writes. Thirteen local test groups cover real
+      HTTP requests, page traversal, competing edits, restart recovery and storage failures.</p>
     <p class="decision"><strong>Scope.</strong> The topic comes from a Java Web
       textbook's product-management chapter; no textbook code is copied. This is a
       local engineering exercise with synthetic test data, not a deployed system.

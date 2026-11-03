@@ -48,7 +48,14 @@ public final class CatalogServer implements AutoCloseable {
             if (path.equals("/") && x.getRequestMethod().equals("GET")) {
                 String query = x.getRequestURI().getRawQuery();
                 if (query != null && query.length() > 2048) { respond(x, 414, "Query too long"); return; }
-                respond(x, 200, page(form(query == null ? "" : query).getOrDefault("q", "")));
+                Map<String, String> f = form(query == null ? "" : query);
+                String q = f.getOrDefault("q", ""), sort = f.getOrDefault("sort", "sku");
+                int offset = Integer.parseInt(f.getOrDefault("offset", "0"));
+                int limit = Integer.parseInt(f.getOrDefault("limit", "20"));
+                long revision = Long.parseLong(f.getOrDefault("revision", "-1"));
+                if (offset > 0 && revision < 0)
+                    throw new IllegalArgumentException("Continuation requires revision");
+                respond(x, 200, page(q, sort, catalog.query(q, sort, offset, limit, revision)));
                 return;
             }
             if (path.equals("/") || !x.getRequestMethod().equals("POST")) {
@@ -93,7 +100,13 @@ public final class CatalogServer implements AutoCloseable {
                 + "<label>Stock <input name='stock' type='number' min='0' max='1000000' required value='"
                 + (p == null ? "0" : p.stock()) + "'></label><button>Save</button>";
     }
-    private String page(String query) {
+    private String pageLink(String query, String sort, Catalog.Page page, int offset, String label) {
+        String url = "/?q=" + URLEncoder.encode(query, StandardCharsets.UTF_8)
+                + "&sort=" + sort + "&offset=" + offset + "&limit=" + page.limit()
+                + "&revision=" + page.revision();
+        return "<a href='" + escape(url) + "'>" + label + "</a> ";
+    }
+    private String page(String query, String sort, Catalog.Page result) {
         StringBuilder html = new StringBuilder("""
                 <!doctype html><html lang="en"><meta charset="utf-8">
                 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -106,10 +119,21 @@ public final class CatalogServer implements AutoCloseable {
                 <p>Local engineering exercise · CNY prices · No real customer data. Changes persist on this machine.</p>
                 <form method="get"><label>Search SKU or name <input name="q" value="
                 """);
-        html.append(escape(query)).append("\"></label><button>Search</button></form>")
+        html.append(escape(query)).append("\"></label><label>Sort <select name='sort'>")
+                .append("<option value='sku'").append(sort.equals("sku") ? " selected" : "").append(">SKU</option>")
+                .append("<option value='price'").append(sort.equals("price") ? " selected" : "").append(">Price, then SKU</option>")
+                .append("</select></label><label>Page size <input name='limit' type='number' min='1' max='100' value='")
+                .append(result.limit()).append("'></label><button>Search</button></form>")
                 .append("<section><h2>Create product</h2><form method='post' action='/save'>")
                 .append(fields(null)).append("</form></section><h2>Catalog results</h2>");
-        List<Catalog.Product> results = catalog.list(query);
+        html.append("<p>Total: ").append(result.total()).append(" · Revision: ").append(result.revision())
+                .append(" · Offset: ").append(result.offset()).append("</p><nav aria-label='Result pages'>");
+        if (result.offset() > 0)
+            html.append(pageLink(query, sort, result, Math.max(0, result.offset() - result.limit()), "Previous"));
+        if (result.offset() + result.limit() < result.total())
+            html.append(pageLink(query, sort, result, result.offset() + result.limit(), "Next"));
+        html.append("</nav><p>Catalog changes invalidate page links. Search again after a conflict.</p>");
+        List<Catalog.Product> results = result.items();
         if (results.isEmpty()) html.append("<p>No matching products.</p>");
         for (Catalog.Product p : results) {
             html.append("<section><h3>").append(escape(p.sku())).append(" · version ").append(p.version())
