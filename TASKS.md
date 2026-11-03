@@ -6,7 +6,7 @@ is preserved. Scope: admissions presentation by programme focus, not country ran
 - [x] Audit homepage, bilingual README, project summaries, provenance and saved evidence.
 - [x] Implement selected / supporting / optional hierarchy and consistent routes.
 - [x] Verify changed delivery, core evidence and catalog regression tests (limits below).
-- [ ] Commit, push main, compare remote SHA and inspect Pages deployment.
+- [x] Commit, push main, compare remote SHA and inspect Pages deployment.
 
 | Project | Placement and evidence reviewed |
 | --- | --- |
@@ -49,3 +49,12 @@ remain separately credited.
   rebuilds, 07 Maven suite and 11 simulation. Their existing evidence is historical.
 - Pages legacy build endpoint returned public HTTP 404; Actions and live page
   are checked separately after publication.
+
+Publication evidence: content commit `5e90cc804738d7ff8f2d2cebefd7dae2ba769382`
+matched origin/main. Public Actions reported success for
+[Pages deployment](https://github.com/jiayuyan117/academic-portfolio/actions/runs/41569228501),
+[build](https://github.com/jiayuyan117/academic-portfolio/actions/runs/41569228807) and
+[NLP verification](https://github.com/jiayuyan117/academic-portfolio/actions/runs/41569228956)
+at that exact SHA. Live homepage returned HTTP 200 with both selected-studies and
+project-archive content. This remote evidence does not change the local dependency
+limitations recorded above. This final log-only commit records the completed release.
