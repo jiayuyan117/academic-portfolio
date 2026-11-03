@@ -1,107 +1,883 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f7f2">
-  <meta name="description" content="Jiayu Yan's data science and business analytics portfolio: reproducible research, machine learning, NLP, forecasting, data quality and decision-focused analysis.">
-  <meta property="og:title" content="Jiayu Yan — Data Science & Business Analytics">
-  <meta property="og:description" content="A research portfolio built around one question: does the result survive being checked?">
-  <meta property="og:type" content="website">
-  <title>Jiayu Yan — Data Science & Business Analytics</title>
-  <style>
-    :root{
-      --bg:#f7f7f2;--paper:#fffefa;--ink:#132326;--text:#43565a;--muted:#738286;
-      --line:#d9e0db;--teal:#146b67;--teal-dark:#0b4543;--teal-pale:#e4f0ed;
-      --gold:#aa6b26;--gold-pale:#f8efe2;--shadow:0 18px 50px rgba(19,35,38,.08);
-      --radius:18px;--max:1180px;
-    }
-    *{box-sizing:border-box}html{scroll-behavior:smooth}
-    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.7 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
-    a{color:var(--teal);text-decoration:none}a:hover{color:var(--teal-dark);text-decoration:underline}
-    a:focus-visible,button:focus-visible{outline:3px solid #e2a65c;outline-offset:4px;border-radius:5px}
-    .skip{position:absolute;left:1rem;top:-5rem;background:var(--paper);padding:.65rem 1rem;z-index:10;border-radius:8px}.skip:focus{top:1rem}
-    .wrap{width:min(calc(100% - 3rem),var(--max));margin:auto}
-    .topbar{border-bottom:1px solid var(--line);background:rgba(247,247,242,.88);backdrop-filter:blur(14px);position:sticky;top:0;z-index:5}
-    .nav{height:70px;display:flex;align-items:center;justify-content:space-between;gap:2rem}
-    .brand{font-weight:800;letter-spacing:-.03em;color:var(--ink)}.brand small{display:block;font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:600}
-    .navlinks{display:flex;align-items:center;gap:1.35rem;font-size:.92rem}.navlinks a{color:var(--text)}.navlinks a:hover{color:var(--teal)}
-    .navlinks .nav-cta{border:1px solid var(--teal);padding:.45rem .8rem;border-radius:999px;color:var(--teal)}
-    header{padding:7.5rem 0 5.5rem;position:relative;overflow:hidden}
-    header:after{content:"";position:absolute;width:540px;height:540px;border-radius:50%;background:var(--teal-pale);right:-250px;top:-250px;opacity:.65;z-index:-1}
-    .eyebrow{display:flex;align-items:center;gap:.7rem;text-transform:uppercase;letter-spacing:.16em;font-size:.73rem;color:var(--teal);font-weight:800}.eyebrow:before{content:"";width:2.5rem;height:2px;background:var(--teal)}
-    h1,h2,h3,p{margin-top:0}h1{font-size:clamp(3.5rem,8vw,7.5rem);line-height:.95;letter-spacing:-.075em;color:var(--ink);max-width:880px;margin:1.4rem 0 1.8rem;font-weight:800}
-    .hero-copy{font-size:clamp(1.15rem,2vw,1.45rem);line-height:1.55;max-width:700px;color:var(--text)}
-    .hero-copy strong{color:var(--ink)}.actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2.2rem}
-    .button{display:inline-flex;align-items:center;gap:.55rem;padding:.75rem 1.05rem;border-radius:999px;border:1px solid var(--teal);font-weight:700}
-    .button.primary{background:var(--teal);color:white}.button.primary:hover{background:var(--teal-dark);text-decoration:none}.button.secondary{color:var(--teal);background:transparent}.button.secondary:hover{background:var(--teal-pale);text-decoration:none}
-    .hero-meta{display:flex;flex-wrap:wrap;gap:1rem 2rem;margin-top:3.2rem;color:var(--muted);font-size:.9rem}.hero-meta span{display:flex;align-items:center;gap:.45rem}.hero-meta b{color:var(--ink)}
-    section{padding:6rem 0;border-top:1px solid var(--line)}.section-head{display:flex;justify-content:space-between;align-items:end;gap:2rem;margin-bottom:2.3rem}
-    .section-kicker{color:var(--teal);font-size:.75rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin-bottom:.65rem}
-    h2{font-size:clamp(2rem,4vw,3.5rem);letter-spacing:-.06em;line-height:1.05;color:var(--ink);margin-bottom:0}.section-intro{max-width:560px;color:var(--text);margin:0}
-    .principles{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.principle{padding:1.5rem;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}.principle-number{color:var(--gold);font-weight:800;font-size:.8rem}.principle h3{font-size:1.15rem;color:var(--ink);margin:1rem 0 .45rem}.principle p{margin:0;font-size:.94rem}
-    .featured{display:grid;grid-template-columns:1.08fr .92fr;gap:1rem}.project-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:2rem;display:flex;flex-direction:column;min-height:310px;box-shadow:0 8px 25px rgba(19,35,38,.025);transition:transform .2s,box-shadow .2s,border-color .2s}.project-card:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:#a9c7bf}.project-card.large{grid-row:span 2;background:var(--teal-dark);color:#dcece8;border-color:var(--teal-dark);min-height:636px}.project-card.large h3,.project-card.large .project-title{color:white}.project-card.large a{color:#a8ddd1}.project-card.large .tag{color:#d9eadf;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)}
-    .project-index{font-size:.78rem;letter-spacing:.12em;font-weight:800;color:var(--gold)}.project-title{font-size:clamp(1.6rem,3vw,2.35rem);letter-spacing:-.045em;line-height:1.12;color:var(--ink);margin:.7rem 0 .85rem}.project-card p{margin-bottom:1.2rem}.project-result{font-size:1.1rem;color:var(--ink);font-weight:700;border-left:3px solid var(--gold);padding-left:1rem;margin:1.1rem 0}.large .project-result{color:white}.tags{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:auto}.tag{border:1px solid var(--line);border-radius:999px;padding:.25rem .6rem;font-size:.75rem;color:var(--muted)}.card-link{margin-top:1.6rem;font-weight:800}.project-card:not(.large) .card-link{color:var(--teal)}
-    .pathways{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}.pathway{padding:1.6rem 1.8rem;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}.pathway h3{color:var(--ink);margin-bottom:.45rem}.pathway p{margin-bottom:1rem}.pathway a{font-weight:800}
-    .all-projects{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.mini{padding:1.35rem;background:var(--paper);border:1px solid var(--line);border-radius:14px}.mini:hover{border-color:#a9c7bf}.mini b{color:var(--ink);display:block;margin-bottom:.3rem}.mini span{font-size:.87rem;color:var(--muted)}
-    .capabilities{display:grid;grid-template-columns:1fr 1fr;gap:4rem}.capabilities ul{list-style:none;padding:0;margin:0;display:grid;gap:.8rem}.capabilities li{padding:.9rem 0;border-bottom:1px solid var(--line);color:var(--text)}.capabilities li strong{color:var(--ink);display:block}
-    .closing{background:var(--teal-dark);color:#dcece8;border:0}.closing h2{color:white;max-width:670px}.closing .section-kicker{color:#a8ddd1}.closing a{color:white}.contact{display:flex;flex-wrap:wrap;gap:1rem;margin-top:2rem}.contact a{border:1px solid rgba(255,255,255,.35);padding:.65rem 1rem;border-radius:999px}.contact a:hover{background:rgba(255,255,255,.1);text-decoration:none}
-    footer{padding:2rem 0;color:var(--muted);font-size:.85rem}.footer-inner{display:flex;justify-content:space-between;gap:1rem}
-    @media(max-width:800px){.wrap{width:min(calc(100% - 2rem),var(--max))}.nav{height:62px}.navlinks a:not(.nav-cta){display:none}header{padding:5rem 0 4rem}section{padding:4rem 0}.section-head{display:block}.section-intro{margin-top:1rem}.principles,.featured,.pathways,.capabilities,.all-projects{grid-template-columns:1fr}.project-card.large{min-height:auto;grid-row:auto}.project-card{min-height:0}.footer-inner{display:block}.footer-inner span{display:block;margin-top:.5rem}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.project-card{transition:none}.project-card:hover{transform:none}}
-    @media(prefers-color-scheme:dark){:root{--bg:#101b1d;--paper:#172527;--ink:#edf5f1;--text:#b5c8c4;--muted:#8ea29f;--line:#2b3e3e;--teal-pale:#193c3a;--gold-pale:#3b2e1e}.topbar{background:rgba(16,27,29,.88)}.project-card.large{background:#0b3a38}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jiayu Yan — Data Analytics Portfolio</title>
+<meta name="description" content="Jiayu Yan's nine-project portfolio for Data Science and Business Analytics: temporal machine learning, NLP, forecasting, statistical inference and data engineering.">
+<style>
+:root{
+  --ink:#14252c;
+  --body:#3d5058;
+  --muted:#586c74;
+  --line:#d2ddd9;
+  --bg:#f6f5f0;
+  --card:#ffffff;
+  --surface-alt:#edf2ef;
+  --accent:#146964;
+  --accent-dark:#0d4744;
+  --accent-soft:#e1efed;
+  --flag:#9c6724;
+  --flag-bg:#f8f1e6;
+  --flag-border:#e1d1b8;
+  --shadow:0 10px 30px rgba(20,37,44,.045);
+  --shadow-hover:0 16px 38px rgba(20,37,44,.085);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--body);
+  font:16px/1.68 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent);text-decoration:none;transition:color .15s ease}
+a:hover{color:var(--accent-dark);text-decoration:underline}
+a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.skip{position:absolute;left:16px;top:-80px;background:#fff;padding:10px 14px;border-radius:6px;z-index:50;font-weight:600}
+.skip:focus{top:12px}
+section[id]{scroll-margin-top:28px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+
+/* Header & Hero */
+header{
+  background:linear-gradient(180deg,#f9f8f4 0%,var(--bg) 100%);
+  border-bottom:1px solid var(--line);
+  padding:42px 0 48px;
+}
+.identity{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid var(--line);
+  padding-bottom:18px;
+  margin-bottom:44px;
+  font-size:13.5px;
+  font-weight:700;
+  letter-spacing:.06em;
+  color:var(--ink);
+}
+.identity nav{display:flex;gap:24px;letter-spacing:0;font-weight:600}
+.identity>span{flex-shrink:0;white-space:nowrap}
+.eyebrow{
+  display:inline-block;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1.1px;
+  text-transform:uppercase;
+  color:var(--accent);
+  background:var(--accent-soft);
+  padding:4px 11px;
+  border-radius:999px;
+  margin:0 0 12px;
+}
+h1{
+  font:700 clamp(40px,5.2vw,68px)/1.08 Georgia,"Times New Roman",serif;
+  letter-spacing:-.035em;
+  color:var(--ink);
+  max-width:940px;
+  margin:8px 0 22px;
+}
+h1 em{color:var(--accent);font-weight:400;font-style:italic}
+.sub{font-size:16px;color:var(--body);margin:0 0 5px}
+.sub strong{color:var(--ink)}
+.lede{
+  margin:22px 0 0;
+  font-size:18.5px;
+  line-height:1.62;
+  color:var(--ink);
+  max-width:76ch;
+}
+.meta{font-size:14px;color:var(--muted);margin:14px 0 0;max-width:82ch}
+
+/* KPI Strip */
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  margin:30px 0 26px;
+}
+.kpi-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:16px 18px;
+  box-shadow:var(--shadow);
+}
+.kpi-val{
+  display:block;
+  font:700 26px/1.15 Georgia,serif;
+  color:var(--ink);
+  margin-bottom:4px;
+}
+.kpi-lbl{
+  font-size:12.5px;
+  color:var(--muted);
+  line-height:1.4;
+}
+
+/* Guide & Interactive Route Filter */
+.guide{
+  margin-top:22px;
+  padding:20px 24px;
+  background:var(--surface-alt);
+  border-left:4px solid var(--accent);
+  border-radius:0 10px 10px 0;
+  font-size:14.5px;
+}
+.guide p{margin:5px 0}
+.route-bar{
+  margin-top:14px;
+  padding-top:12px;
+  border-top:1px solid var(--line);
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+}
+.route-btn{
+  appearance:none;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--ink);
+  padding:5px 12px;
+  border-radius:999px;
+  font-size:12.5px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .15s ease;
+}
+.route-btn:hover{border-color:var(--accent);color:var(--accent)}
+.route-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+.links{margin:24px 0 0;display:flex;flex-wrap:wrap;gap:10px}
+.btn{
+  display:inline-block;
+  padding:9px 16px;
+  border-radius:6px;
+  font-size:14px;
+  font-weight:600;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--ink);
+  transition:all .15s ease;
+}
+.btn:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+.btn.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.primary:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:#fff}
+
+/* Main Content & Matrix */
+main{padding:48px 0 0}
+h2.section{
+  font:700 30px/1.28 Georgia,serif;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  margin:10px 0 18px;
+}
+.project-index{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px 16px;
+  list-style:none;
+  padding:0;
+  margin:0 0 36px;
+  font-size:14px;
+}
+.project-index li a{
+  display:block;
+  padding:10px 14px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:8px;
+  color:var(--ink);
+  font-weight:600;
+  box-shadow:0 2px 6px rgba(20,37,44,.03);
+  transition:all .15s ease;
+}
+.project-index li a:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+  text-decoration:none;
+  transform:translateY(-1px);
+}
+
+/* Evidence Matrix Table */
+.matrix-box{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:20px 24px;
+  margin-bottom:38px;
+  box-shadow:var(--shadow);
+}
+.matrix-box summary{
+  cursor:pointer;
+  font-weight:700;
+  color:var(--ink);
+  font-size:15.5px;
+  list-style:none;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.matrix-box summary::-webkit-details-marker{display:none}
+.matrix-table-wrap{overflow-x:auto;margin-top:16px}
+.matrix-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13.5px;
+}
+.matrix-table th,.matrix-table td{
+  padding:10px 12px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+  vertical-align:top;
+}
+.matrix-table th{
+  background:var(--surface-alt);
+  color:var(--ink);
+  font-weight:700;
+  white-space:nowrap;
+}
+
+/* Project Cards */
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:34px;
+  margin:0 0 26px;
+  display:flow-root;
+  box-shadow:var(--shadow);
+  transition:box-shadow .2s ease,border-color .2s ease,opacity .2s ease;
+}
+.card:hover{box-shadow:var(--shadow-hover)}
+.card.dimmed{opacity:1}
+.card.highlighted{border-color:var(--accent);box-shadow:0 0 0 2px rgba(20,105,100,.18),var(--shadow-hover)}
+.card h3{
+  font:700 28px/1.25 Georgia,serif;
+  color:var(--ink);
+  margin:0 0 10px;
+}
+.card h3 .num{
+  color:var(--accent);
+  font-weight:700;
+  margin-right:10px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:20px;
+}
+.stack{
+  margin:0 0 14px;
+  font:600 12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color:var(--muted);
+  letter-spacing:.02em;
+}
+.card p{margin:0 0 14px;font-size:15.5px}
+.decision{
+  font-size:15px;
+  background:var(--surface-alt);
+  padding:12px 16px;
+  border-radius:8px;
+  border-left:3px solid var(--accent);
+}
+.find{
+  border-left:3.5px solid var(--accent);
+  padding:6px 0 6px 16px;
+  margin:0 0 16px;
+  color:var(--ink);
+  background:linear-gradient(90deg,rgba(20,105,100,.05) 0%,transparent 100%);
+}
+.find.negative{
+  border-left-color:var(--flag);
+  background:linear-gradient(90deg,rgba(156,103,36,.07) 0%,transparent 100%);
+}
+.find b{color:var(--ink)}
+.tag{
+  display:inline-block;
+  font-size:11px;
+  letter-spacing:.65px;
+  text-transform:uppercase;
+  font-weight:700;
+  color:var(--flag);
+  border:1px solid var(--flag-border);
+  background:var(--flag-bg);
+  border-radius:4px;
+  padding:3px 8px;
+  margin:0 0 12px;
+}
+.research-image{
+  float:right;
+  width:46%;
+  margin:0 0 22px 30px;
+  padding:16px;
+  background:var(--surface-alt);
+  border:1px solid var(--line);
+  border-radius:8px;
+}
+.research-image img{display:block;width:100%;height:auto;border-radius:4px}
+.research-image figcaption{font-size:12px;line-height:1.5;margin-top:10px;color:var(--muted)}
+.cardlinks{
+  clear:both;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px 22px;
+  padding-top:16px;
+  margin-top:16px;
+  border-top:1px solid var(--line);
+  font-size:14px;
+  font-weight:600;
+}
+.cardlinks a{margin:0;white-space:normal;text-decoration:underline;text-underline-offset:4px}
+.featured{border-top:4px solid var(--accent)}
+.card.has-figure{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,.8fr);
+  column-gap:36px;
+  align-items:start;
+}
+.card.has-figure .card-body{grid-column:1;grid-row:1;min-width:0}
+.card.has-figure .research-image{grid-column:2;grid-row:1;float:none;width:auto;margin:4px 0 0}
+.card.has-figure .cardlinks{grid-column:1/-1}
+.card .eyebrow{display:table;font-size:11px}
+.card-body>*:last-child{margin-bottom:0}
+.nw{white-space:nowrap}
+
+/* Selected studies */
+#selected-studies{gap:16px;margin-bottom:40px}
+#selected-studies .kpi-card{
+  display:flex;
+  flex-direction:column;
+  border-top:3px solid var(--accent);
+  padding:20px 20px 18px;
+  transition:box-shadow .2s ease,transform .2s ease;
+}
+#selected-studies .kpi-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+#selected-studies h3{font:700 19px/1.3 Georgia,serif;margin:0 0 12px;letter-spacing:-.01em}
+#selected-studies h3 a{color:var(--ink)}
+#selected-studies h3 a:hover{color:var(--accent);text-decoration:none}
+#selected-studies .sel-num{
+  display:block;
+  margin-bottom:6px;
+  font:700 12px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  letter-spacing:.08em;
+  color:var(--accent);
+}
+#selected-studies p{margin:0 0 10px;font-size:14px;line-height:1.6}
+#selected-studies p:last-child{margin:auto 0 0;padding-top:10px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+
+footer{
+  margin:52px 0 0;
+  padding:36px 0 64px;
+  border-top:1px solid var(--line);
+  font-size:14px;
+  color:var(--muted);
+}
+footer p{margin:0 0 10px;max-width:88ch}
+
+@media(max-width:860px){
+  .kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .project-index{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card.has-figure{grid-template-columns:minmax(0,1fr)}
+  .card.has-figure .research-image{grid-column:1;grid-row:1;margin:0 0 22px}
+  .card.has-figure .card-body{grid-row:2}
+  .card.has-figure .cardlinks{grid-column:1}
+}
+@media(max-width:760px){
+  .wrap{padding:0 20px}
+  header{padding:26px 0 32px}
+  .identity{margin-bottom:30px;gap:16px}
+  .identity nav{gap:12px;flex-wrap:wrap;justify-content:flex-end}
+  .card{padding:22px}
+  .research-image{float:none;width:100%;margin:0 0 20px;padding:12px}
+  .card h3{font-size:24px}
+  .lede{font-size:17px}
+}
+@media(max-width:520px){
+  .kpi-grid,.project-index{grid-template-columns:1fr}
+  .identity{align-items:flex-start;flex-direction:column}
+  .identity nav{justify-content:flex-start}
+  .matrix-box{padding:16px}
+  .matrix-box summary{flex-wrap:wrap;gap:10px}
+}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.route-btn{min-height:44px;max-width:100%;white-space:normal}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
 </head>
 <body>
-  <a class="skip" href="#main">Skip to content</a>
-  <div class="topbar"><nav class="nav wrap" aria-label="Primary navigation">
-    <a class="brand" href="#"><small>Portfolio / 2026</small>Jiayu Yan</a>
-    <div class="navlinks"><a href="#work">Selected work</a><a href="#approach">Approach</a><a href="#about">About</a><a class="nav-cta" href="https://github.com/jiayuyan117/academic-portfolio">GitHub ↗</a></div>
-  </nav></div>
-  <header><div class="wrap">
-    <div class="eyebrow">Data science · business analytics · research</div>
-    <h1>Numbers should survive being checked.</h1>
-    <p class="hero-copy">I’m <strong>Jiayu Yan</strong>, a Big Data Management and Applications undergraduate at Guangdong University of Technology, applying for master’s programmes in <strong>Data Science and Business Analytics</strong> in the US, Singapore and Hong Kong.</p>
-    <div class="actions"><a class="button primary" href="#work">Explore selected work ↓</a><a class="button secondary" href="README.zh-CN.md">中文简介 ↗</a></div>
-    <div class="hero-meta"><span><b>9</b> research and engineering projects</span><span><b>01–09</b> reproducible evidence trails</span><span><b>GitHub Pages</b> public archive</span></div>
-  </div></header>
-  <main id="main">
-    <section id="approach"><div class="wrap">
-      <div class="section-head"><div><div class="section-kicker">What I look for</div><h2>From plausible numbers<br>to defensible decisions.</h2></div><p class="section-intro">Coursework often ends at the first plausible result. These projects continue to the part that decides whether the result means anything.</p></div>
-      <div class="principles">
-        <article class="principle"><span class="principle-number">01 / QUESTION</span><h3>Start with a decision</h3><p>Every project frames a concrete question before choosing a model, chart or statistical test.</p></article>
-        <article class="principle"><span class="principle-number">02 / CHECK</span><h3>Keep the baseline visible</h3><p>Simple comparisons, sensitivity checks and out-of-sample evaluation make weak evidence visible.</p></article>
-        <article class="principle"><span class="principle-number">03 / EXPLAIN</span><h3>State the boundary</h3><p>Negative findings, data gaps and identification limits are part of the result, not footnotes.</p></article>
+<a class="skip" href="#projects">Skip to projects</a>
+
+<header>
+  <div class="wrap">
+    <div class="identity"><span>Jiayu Yan / 闫佳玉</span><nav aria-label="Main navigation"><a href="#projects">All projects</a><a href="#reading-routes">Reading routes</a><a href="#evidence-matrix">Verification matrix</a><a href="#integrity">Authorship</a></nav></div>
+    <p class="eyebrow">Academic portfolio · Data analytics</p>
+    <h1>Data analytics.<br>Evidence for <em>decisions.</em></h1>
+    <p class="sub">B.Mgmt. in <strong>Big Data Management and Applications</strong>, Guangdong University of Technology</p>
+    <p class="sub">Applying for MS programmes in Data Science / Business Analytics — US · Singapore · Hong Kong</p>
+
+    <p class="lede">Selected studies in NLP, temporal validation and missing data,
+      built around one question: does this result survive
+      being checked? Headline numbers are tested against a benchmark, a data-quality
+      audit, an alternative assumption or explicit invariant tests, and each project
+      states what would be needed before acting on it.</p>
+
+    <p class="meta">Author: Jiayu Yan / 闫佳玉.
+      <a href="#integrity">Authorship and AI-tool statement</a>.</p>
+
+    <div class="kpi-grid" aria-label="Portfolio verification summary">
+      <div class="kpi-card">
+        <span class="kpi-val">9 Projects</span>
+        <span class="kpi-lbl">Econometrics · NLP · Statistical Inference · Data Engineering</span>
       </div>
-    </div></section>
-    <section id="work"><div class="wrap">
-      <div class="section-head"><div><div class="section-kicker">Selected work</div><h2>Projects worth<br>asking about.</h2></div><p class="section-intro">A short route through the portfolio. Each card links to the full report, code, evidence and reproduction notes.</p></div>
-      <div class="featured">
-        <article class="project-card large"><span class="project-index">07 / NLP RESEARCH</span><h3 class="project-title">Does the Skill Signal Help?</h3><p>Do dictionary-derived skill features improve job category classification? I separated text classification from exact skill-span extraction, used employer-disjoint evaluation, and kept the saved predictions available for independent metric checks.</p><p class="project-result">Text-only Macro-F1: 0.7406<br>Equal-weight fusion: 0.7348</p><div class="tags"><span class="tag">NLP</span><span class="tag">Evaluation design</span><span class="tag">21,663 records</span><span class="tag">Reproducibility</span></div><a class="card-link" href="projects/07-nlp-job-postings/report.html">Read the research brief ↗</a></article>
-        <article class="project-card"><span class="project-index">08 / TIME SERIES</span><h3 class="project-title">When the Baseline Wins</h3><p>Rolling tests and block confidence intervals show that local market features did not establish a reliable advantage over historical frequency.</p><p class="project-result">Brier difference: +0.001006</p><div class="tags"><span class="tag">Machine learning</span><span class="tag">Uncertainty</span></div><a class="card-link" href="projects/08-market-direction/report.html">Open report ↗</a></article>
-        <article class="project-card"><span class="project-index">05 / DATA QUALITY</span><h3 class="project-title">Beijing PM2.5</h3><p>Missingness is audited before interpolation, and correlations are reported with the evidence limits that keep them from becoming causal claims.</p><p class="project-result">2,067 missing hours audited</p><div class="tags"><span class="tag">Python</span><span class="tag">Seaborn</span><span class="tag">Data quality</span></div><a class="card-link" href="projects/05-beijing-air-quality-seaborn/FIRST_READ.html">Open analysis ↗</a></article>
+      <div class="kpi-card">
+        <span class="kpi-val">586 Values</span>
+        <span class="kpi-lbl">Checked in econometrics pipelines at <span class="nw">rtol = 1e-6</span></span>
       </div>
-    </div></section>
-    <section><div class="wrap">
-      <div class="section-head"><div><div class="section-kicker">Choose your route</div><h2>Read by your<br>question.</h2></div><p class="section-intro">The portfolio supports different admissions readers without forcing every reader through the same sequence.</p></div>
-      <div class="pathways"><article class="pathway"><h3>For Data Science</h3><p>NLP evaluation → temporal machine learning → missing data → identification sensitivity.</p><a href="projects/07-nlp-job-postings/README.md">07 → 08 → 05 → 02 ↗</a></article><article class="pathway"><h3>For Business Analytics</h3><p>Feature value → data quality → market measurement → demand and decision framing.</p><a href="projects/07-nlp-job-postings/README.md">07 → 05 → 03 → 04 ↗</a></article></div>
-    </div></section>
-    <section><div class="wrap"><div class="section-head"><div><div class="section-kicker">The full archive</div><h2>09 projects.<br>One evidence trail.</h2></div><p class="section-intro">Select a project to move from the short brief to source notes, code, outputs and reproduction instructions.</p></div>
-      <div class="all-projects">
-        <a class="mini" href="projects/01-equity-time-series-forecasting/FIRST_READ.html"><b>01 · Equity forecasting</b><span>ARMA / ARIMA · residual diagnostics</span></a>
-        <a class="mini" href="projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html"><b>02 · Shanghai–Hong Kong linkages</b><span>VAR / VECM · identification sensitivity</span></a>
-        <a class="mini" href="projects/03-china-nev-industry-analytics/FIRST_READ.html"><b>03 · New energy transition</b><span>Market denominators · source audit</span></a>
-        <a class="mini" href="projects/04-bike-sharing-interactive-visualization/FIRST_READ.html"><b>04 · Bike sharing</b><span>Plotly · data reconciliation</span></a>
-        <a class="mini" href="projects/05-beijing-air-quality-seaborn/FIRST_READ.html"><b>05 · Beijing PM2.5</b><span>Missingness · observational association</span></a>
-        <a class="mini" href="projects/06-workforce-system-java/PROJECT.html"><b>06 · Workforce system</b><span>Java · data structure invariants</span></a>
-        <a class="mini" href="projects/07-nlp-job-postings/report.html"><b>07 · Job postings NLP</b><span>Classification · extraction evaluation</span></a>
-        <a class="mini" href="projects/08-market-direction/report.html"><b>08 · Market direction</b><span>Temporal ML · rolling evaluation</span></a>
-        <a class="mini" href="projects/09-product-catalog/PROJECT.html"><b>09 · Product catalog</b><span>Java · persistence · HTTP boundaries</span></a>
+      <div class="kpi-card">
+        <span class="kpi-val">21,663 Jobs</span>
+        <span class="kpi-lbl">Employer-disjoint NLP cohort with <span class="nw">SHA-256</span> manifest</span>
       </div>
-    </div></section>
-    <section id="about"><div class="wrap"><div class="capabilities"><div><div class="section-kicker">What I bring</div><h2>Careful analysis,<br>useful delivery.</h2></div><ul><li><strong>Research design</strong>NLP feature comparisons, time-series baselines, sensitivity analysis and uncertainty intervals.</li><li><strong>Data engineering</strong>Hash-checked inputs, reproducible pipelines, date and unit reconciliation, deterministic outputs.</li><li><strong>Communication</strong>Clear separation of measured facts, estimates, scenarios and claims that still need validation.</li><li><strong>Engineering foundations</strong>Java data structures, persistence, version checks, HTTP boundaries and invariant-based tests.</li></ul></div></div></section>
-    <section class="closing"><div class="wrap"><div class="section-kicker">Let’s compare evidence</div><h2>The best project is the one that makes its own limits easy to see.</h2><p>I’m looking for graduate study where rigorous methods connect to meaningful questions and better decisions.</p><div class="contact"><a href="https://github.com/jiayuyan117/academic-portfolio">View source on GitHub ↗</a><a href="README.zh-CN.md">阅读中文说明 ↗</a></div></div></section>
-  </main>
-  <footer><div class="wrap footer-inner"><span>© 2026 Jiayu Yan · Data Science & Business Analytics</span><span>Built with semantic HTML, responsive CSS and reproducible project links.</span></div></footer>
+      <div class="kpi-card">
+        <span class="kpi-val">Python · Java</span>
+        <span class="kpi-lbl">pandas · statsmodels · scikit-learn · Plotly · JUnit 5</span>
+      </div>
+    </div>
+
+    <nav class="guide" id="reading-routes" aria-label="Suggested reading routes">
+      <p><strong>Data Science route:</strong> <a href="#project-07">07 · NLP evaluation</a>
+        → <a href="#project-08">08 · Temporal ML</a>
+        → <a href="#project-05">05 · Missing data</a>
+        → <a href="#project-02">02 · Identification assumptions</a>.</p>
+      <p><strong>Business Analytics route:</strong> <a href="#project-07">07 · Feature value</a>
+        → <a href="#project-05">05 · Data quality</a>
+        → <a href="#project-03">03 · Market assessment</a>
+        → <a href="#project-04">04 · Data reconciliation</a>.</p>
+      <p><strong>Engineering supplements:</strong> <a href="#project-09">09 · Product catalog</a>
+        → <a href="#project-06">06 · Java workforce system</a>.</p>
+      <p>Each card reads as question → method → result → what is needed before acting.
+        Routes reflect programme focus, not a uniform admissions standard across countries.</p>
+      <div class="route-bar" role="group" aria-label="Highlight reading track">
+        <span style="font-size:12.5px;font-weight:700;color:var(--ink)">Interactive track highlight:</span>
+        <button type="button" class="route-btn active" onclick="filterTrack('all', this)">All 9 Projects</button>
+        <button type="button" class="route-btn" onclick="filterTrack('ds', this)">Data Science (07 · 08 · 05 · 02)</button>
+        <button type="button" class="route-btn" onclick="filterTrack('ba', this)">Business Analytics (07 · 05 · 03 · 04)</button>
+        <button type="button" class="route-btn" onclick="filterTrack('eng', this)">Engineering (09 · 06)</button>
+      </div>
+    </nav>
+
+    <div class="links">
+      <a class="btn primary" href="https://github.com/jiayuyan117/academic-portfolio">Repository on GitHub</a>
+      <a class="btn" href="https://github.com/jiayuyan117/academic-portfolio/blob/main/README.zh-CN.md">中文版</a>
+      <a class="btn" href="https://github.com/jiayuyan117/academic-portfolio/blob/main/REPRODUCING.md">Reproduce the work</a>
+      <a class="btn" href="https://github.com/jiayuyan117/academic-portfolio/actions/workflows/build.yml">Build &amp; verification</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="projects">
+  <h2 class="section">Selected studies</h2>
+  <p>Start with 07, 08 and 05. For an econometrics-focused programme, substitute 02
+    for 05. Each entry opens the research evidence directly.</p>
+  <div class="kpi-grid" id="selected-studies">
+    <article class="kpi-card"><h3><a href="projects/07-nlp-job-postings/report.html"><span class="sel-num">07</span>Does the Skill Signal Help?</a></h3><p>Employer-disjoint NLP evaluation on 21,663 postings. Text Macro-F1 0.7406 versus fusion 0.7348.</p><p>Read for feature value, held-out evaluation and prediction-level checks.</p></article>
+    <article class="kpi-card"><h3><a href="projects/08-market-direction/report.html"><span class="sel-num">08</span>When the Baseline Wins</a></h3><p>Purged temporal evaluation across 216 later dates; development selection retains the prior.</p><p>Read for leakage control, baseline selection and uncertainty.</p></article>
+    <article class="kpi-card"><h3><a href="projects/05-beijing-air-quality-seaborn/FIRST_READ.html"><span class="sel-num">05</span>Missing Data Before Modelling</a></h3><p>43,824 hourly rows; a 155-hour gap makes indiscriminate interpolation unsuitable.</p><p>Read for data-quality judgment and observed-only analysis.</p></article>
+    <article class="kpi-card"><h3><a href="projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html"><span class="sel-num">02</span>Identification Matters</a></h3><p>Shock attribution changes from 32.4% to 0.35% with ordering.</p><p>Quantitative alternative: assumptions, sensitivity and 334 numerical checks.</p></article>
+  </div>
+  <h2 class="section">Supporting work</h2>
+  <p><a href="projects/09-product-catalog/PROJECT.html">09 · Persistence and revision-checked pagination</a>
+    and <a href="projects/06-workforce-system-java/PROJECT.html">06 · Data structures and invariants</a>
+    provide complementary engineering evidence. For BA, add
+    <a href="projects/03-china-nev-industry-analytics/FIRST_READ.html">03 · Market-source audit</a> or
+    <a href="projects/04-bike-sharing-interactive-visualization/FIRST_READ.html">04 · Demand-data reconciliation</a>.</p>
+  <p>01 adds forecast diagnostics on a fixed holdout.</p>
+  <details id="project-archive">
+  <summary>Complete project directory and evidence briefs (9 projects)</summary>
+  <nav aria-label="Project index">
+    <ul class="project-index">
+      <li><a href="#project-01">01 · Equity forecasting</a></li>
+      <li><a href="#project-02">02 · Market linkages</a></li>
+      <li><a href="#project-03">03 · NEV industry analysis</a></li>
+      <li><a href="#project-04">04 · Bike-sharing visualisation</a></li>
+      <li><a href="#project-05">05 · Beijing air quality</a></li>
+      <li><a href="#project-06">06 · Java workforce system</a></li>
+      <li><a href="#project-07">07 · Does the Skill Signal Help?</a></li>
+      <li><a href="#project-08">08 · When the Baseline Wins</a></li>
+      <li><a href="#project-09">09 · Product catalog</a></li>
+    </ul>
+  </nav>
+
+  <details class="matrix-box" id="evidence-matrix">
+    <summary>
+      <span>Methodological &amp; Reproducibility Verification Matrix</span>
+      <span style="font-size:12px;color:var(--accent);font-weight:600">Click to toggle</span>
+    </summary>
+    <div class="matrix-table-wrap">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th>Sample &amp; Granularity</th>
+            <th>Core Methodology</th>
+            <th>Key Finding / Diagnostic</th>
+            <th>Verification Scope</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="#project-01"><strong>01 · Equity</strong></a></td>
+            <td>Daily equity series · 20-day fixed holdout</td>
+            <td>ARMA/ARIMA · BIC · Ljung–Box · ARCH-LM</td>
+            <td>0.29% RMSE edge fails residual whiteness &amp; homoscedasticity (<i>p</i> = 4e-09)</td>
+            <td>11 tables · 252 values at <code>rtol=1e-6</code></td>
+          </tr>
+          <tr>
+            <td><a href="#project-02"><strong>02 · Linkages</strong></a></td>
+            <td>Paired Shanghai–HK index series</td>
+            <td>VAR(7) / VECM · Johansen · Cholesky FEVD</td>
+            <td>10-step FEVD flips from 32.4% to 0.35% when Cholesky order reverses</td>
+            <td>8 tables · 334 values at <code>rtol=1e-6</code></td>
+          </tr>
+          <tr>
+            <td><a href="#project-03"><strong>03 · NEV</strong></a></td>
+            <td>2015–2025 macro series · 7 tables</td>
+            <td>Denominator reconciliation · Provenance audit</td>
+            <td>47.9% share includes exports; 2025 NEA charging scope break isolated</td>
+            <td>16 bilingual figures · field provenance check</td>
+          </tr>
+          <tr>
+            <td><a href="#project-04"><strong>04 · Bike</strong></a></td>
+            <td>17,379 hourly &amp; 731 daily rows</td>
+            <td>Date-format normalisation · Offline Plotly</td>
+            <td>String join matches 0/731 days; parsed timestamps reconcile with 0 diff</td>
+            <td>4 standalone offline HTML charts</td>
+          </tr>
+          <tr>
+            <td><a href="#project-05"><strong>05 · PM2.5</strong></a></td>
+            <td>43,824 hourly rows · 2,067 missing</td>
+            <td>Run-length gap audit · Rank vs. linear corr</td>
+            <td>155h max gap (91% unfilled under ≤3h rule); TEMP Pearson/Spearman sign flip</td>
+            <td>7 figures · gap-free hourly index assert</td>
+          </tr>
+          <tr>
+            <td><a href="#project-06"><strong>06 · Workforce</strong></a></td>
+            <td>50,000 ordered + 5,000 random ops</td>
+            <td>Java 17 AVL tree + Department hierarchy</td>
+            <td>Logarithmic height &amp; exact membership bijection across rotations/deletes</td>
+            <td>Maven JUnit 5 + TreeMap oracle + <code>verify()</code></td>
+          </tr>
+          <tr>
+            <td><a href="#project-07"><strong>07 · Job NLP</strong></a></td>
+            <td>21,663 postings · 2,757 SkillSpan sents</td>
+            <td>Employer-disjoint TF-IDF/SVM · BIO LR · CNN/MiniLM</td>
+            <td>Fusion Macro-F1 (0.7348) vs. Text (0.7406): Δ = −0.0059 [−0.0176, +0.0070]</td>
+            <td>SHA-256 manifest · 22,213 source refs</td>
+          </tr>
+          <tr>
+            <td><a href="#project-08"><strong>08 · Temporal ML</strong></a></td>
+            <td>536 public return observations · 216 test days</td>
+            <td>Purged rolling evaluation · train-only scaling · paired block bootstrap</td>
+            <td>Development selects the prior; local logistic ΔBrier +0.001006 [−0.002279, +0.004296]</td>
+            <td>7 temporal tests · 6 reproduced tables · 24 interval checks</td>
+          </tr>
+          <tr>
+            <td><a href="#project-09"><strong>09 · Product catalog</strong></a></td>
+            <td>Synthetic test inputs; no user dataset</td>
+            <td>Local Java HTTP · atomic snapshots · optimistic versions</td>
+            <td>Stale edits rejected; failed writes do not publish memory</td>
+            <td>13 local test groups · real HTTP · revision-checked pagination · no workflow</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <section class="card has-figure" id="project-01" data-tracks="">
+    <div class="card-body">
+
+    <h3><span class="num">01</span>Equity Time-Series Forecasting</h3>
+    <p class="stack">statsmodels · ARMA/ARIMA · fixed-origin holdout · 252 values verified per run</p>
+    <span class="tag">Negative result</span>
+    <p class="find negative">Training-only BIC selects MA(2). It beats a zero-return
+      forecast by <b>0.29% of RMSE</b> on an untouched 20-day holdout — while Ljung–Box
+      <b>rejects</b> residual adequacy at lag 20 and ARCH-LM rejects constant variance
+      (<i>p</i> = 4e-09).</p>
+    <p>Model selection uses training data only. Fit, residual adequacy and holdout
+      performance are reported separately, against fixed benchmarks.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Keep the zero-return
+      benchmark: this small advantage on one window does not justify deploying
+      a trading model. Wider time-based validation and transaction costs remain necessary.</p>
+    </div>
+    <figure class="research-image"><a href="projects/01-equity-time-series-forecasting/Research_Analysis.html"><img loading="lazy" src="projects/01-equity-time-series-forecasting/results/q4_return_forecast.png" alt="Fixed-origin equity return forecast compared with held-out observations" width="1200" height="700"></a><figcaption>Held-out returns · A small improvement on one window is not a deployment case.</figcaption></figure>
+    <p class="cardlinks">
+      <a href="projects/01-equity-time-series-forecasting/FIRST_READ.html">Read the report</a>
+      <a href="projects/01-equity-time-series-forecasting/Research_Analysis.html">Full analysis</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/01-equity-time-series-forecasting">Code</a>
+    </p>
+  </section>
+
+  <section class="card has-figure" id="project-02" data-tracks="ds">
+    <div class="card-body">
+
+    <h3><span class="num">02</span>Shanghai–Hong Kong Market Linkages</h3>
+    <p class="stack">VAR / VECM · Johansen · Granger · 334 values verified per run</p>
+    <span class="tag">Negative result</span>
+    <p class="find negative">A Shanghai shock appears to explain <b>32.4%</b> of Hong
+      Kong's 10-step forecast-error variance — reverse the Cholesky ordering and the same
+      quantity becomes <b>0.35%</b>. Same data, same model, same sample; only the
+      identifying assumption changed.</p>
+    <p>VAR(7) also loses to a zero-return benchmark on MAE in both markets, and neither
+      Granger direction is significant at 5%. Johansen selects rank 2 stably, yet every
+      fitted VECM rejects residual whiteness — so no long-run equilibrium claim is made
+      and no VECM forecast is deployed on the back of it.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Treat shock attribution
+      as sensitive to identification assumptions. It is insufficient evidence for
+      a directional hedging rule or a causal claim about either market.</p>
+    </div>
+    <figure class="research-image"><a href="projects/02-shanghai-hongkong-market-linkages/Research_Analysis.html"><img loading="lazy" src="projects/02-shanghai-hongkong-market-linkages/results/fevd_order_sensitivity.png" alt="Market variance decomposition under two Cholesky orderings" width="1200" height="700"></a><figcaption>Identification sensitivity · The same data can support very different shock attributions.</figcaption></figure>
+    <p class="cardlinks">
+      <a href="projects/02-shanghai-hongkong-market-linkages/FIRST_READ.html">Read the report</a>
+      <a href="projects/02-shanghai-hongkong-market-linkages/Research_Analysis.html">Full analysis</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/02-shanghai-hongkong-market-linkages">Code</a>
+    </p>
+  </section>
+
+  <section class="card has-figure" id="project-03" data-tracks="ba">
+    <div class="card-body">
+
+    <h3><span class="num">03</span>China's New Energy Vehicle Transition, 2015–2025</h3>
+    <p class="stack">pandas · matplotlib · 7 compiled tables · 16 figures, bilingual</p>
+    <p><strong>Business question.</strong> What can national industry statistics
+      establish about market transition, and what additional evidence would a
+      charging-investment assessment require?</p>
+    <p class="find">In 2025, NEVs accounted for <b>47.9%</b> of CAAM's all-vehicle
+      sales, <b>including exports</b>. The important analytical distinctions are the
+      denominators: domestic sales, registrations, fleet stock and battery-chemistry
+      subtotals answer different questions.</p>
+    <p>A source audit records publication dates and evidence levels, corrects the
+      2021 PHEV sales input, and flags the <b>2025 charging-statistics break</b>.
+      Historical observations still awaiting verification remain labelled.
+      The carbon calculation is an illustrative scenario, not measured emissions savings.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Charging investment
+      needs location, utilization and power data. National connector counts and a
+      series with a reporting break cannot alone establish where capacity is scarce.</p>
+    </div>
+    <figure class="research-image"><a href="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png"><img loading="lazy" src="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png" alt="Battery chemistry composition with explicit subtotal and source qualifications" width="1200" height="700"></a><figcaption>Industry evidence · Source scope and denominator choices are part of the analysis.</figcaption></figure>
+    <p class="cardlinks">
+      <a href="projects/03-china-nev-industry-analytics/FIRST_READ.html">Research brief</a>
+      <a href="projects/03-china-nev-industry-analytics/charts_en/08_dashboard.png">Dashboard</a>
+      <a href="projects/03-china-nev-industry-analytics/charts_en/04_battery_chemistry.png">Battery chemistry</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/docs/NEV_SOURCE_AUDIT.md">Source audit</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/03-china-nev-industry-analytics">Code &amp; data</a>
+    </p>
+  </section>
+
+  <section class="card has-figure" id="project-04" data-tracks="ba">
+    <div class="card-body">
+
+    <h3><span class="num">04</span>Bike-Sharing Demand: Interactive Visualisation</h3>
+    <p class="stack">Plotly · standalone offline charts · 17,379 hourly observations</p>
+    <span class="tag">Data-quality finding</span>
+    <p class="find negative">The two files in the UCI Bike Sharing Dataset store dates as
+      <code>2011/1/1</code> and <code>2011-01-01</code>, so the obvious join between them
+      matches <b>0 of 731 days</b> — and any reconciliation check built on it passes while
+      comparing nothing to nothing. Parsed properly, the files agree exactly.</p>
+    <p>Four interactive figures, each labelling what every visual channel encodes. The
+      density contour is a count of <i>observations</i>; ride volume is carried only by
+      marker size on a separate layer, so the two can never be read off the same channel.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Reconcile hourly and
+      daily totals before using demand patterns to inform fleet planning. These
+      historical aggregates support exploration; station-level rebalancing requires
+      station availability and service-cost data.</p>
+    </div>
+    <figure class="research-image"><a href="projects/04-bike-sharing-interactive-visualization/charts/03_calendar_heatmap.html"><img loading="lazy" src="projects/04-bike-sharing-interactive-visualization/figures/calendar_heatmap_preview.png" alt="Calendar heatmap of daily bike-sharing rentals, 2011–2012" width="1800" height="1050"></a><figcaption>Daily rentals by calendar position · Open the interactive chart to switch years.</figcaption></figure>
+    <p class="cardlinks">
+      <a href="projects/04-bike-sharing-interactive-visualization/FIRST_READ.html">Research brief</a>
+      <a href="projects/04-bike-sharing-interactive-visualization/charts/01_sunburst.html">Sunburst</a>
+      <a href="projects/04-bike-sharing-interactive-visualization/charts/02_density_contour.html">Density</a>
+      <a href="projects/04-bike-sharing-interactive-visualization/charts/03_calendar_heatmap.html">Calendar</a>
+      <a href="projects/04-bike-sharing-interactive-visualization/charts/04_season_timeline.html">Animation</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/04-bike-sharing-interactive-visualization">Code</a>
+    </p>
+  </section>
+
+  <section class="card has-figure" id="project-05" data-tracks="ds ba">
+    <div class="card-body">
+
+    <h3><span class="num">05</span>Beijing PM2.5, 2010–2014</h3>
+    <p class="stack">Seaborn · 43,824 hourly observations · 7 figures</p>
+    <span class="tag">Method correction</span>
+    <p class="find negative"><b>48.5%</b> of observed hourly PM2.5 readings exceed
+      75 µg/m³, a daily-standard reference value, not an hourly compliance limit.
+      Spearman ρ is <b>−0.360</b> for cumulated wind speed and <b>+0.011</b> for
+      temperature. Median PM2.5 is <b>6.3× higher</b> in the lowest cumulated-wind-speed
+      decile than in the highest.</p>
+    <p>Temperature's Pearson <i>r</i> (−0.091) and Spearman ρ (+0.011) have different
+      signs. This alone does not establish non-monotonicity; conditional medians
+      offer an additional descriptive view. Separately, 1,341 of the 2,067 missing hours
+      sit inside gaps longer than a day — the longest is 155 consecutive hours.
+      A short-gap policy audit leaves 91% unfilled. The headline figures and
+      correlations use only original observations, excluding all 2,067 missing hours.</p>
+    <p class="decision"><strong>Transferable analytical skills.</strong> Auditing
+      missingness, distinguishing measurement periods and communicating observational
+      uncertainty. This environmental study does not validate a business intervention
+      or identify the effects of changing emissions or schedules.</p>
+    </div>
+    <figure class="research-image"><a href="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png"><img loading="lazy" src="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png" alt="Missing PM2.5 hours grouped by gap length" width="1200" height="700"></a><figcaption>Missingness audit · Long gaps remain unfilled; headline analysis uses observed values.</figcaption></figure>
+    <p class="cardlinks">
+      <a href="projects/05-beijing-air-quality-seaborn/FIRST_READ.html">Research brief</a>
+      <a href="projects/05-beijing-air-quality-seaborn/figures/03_ventilation_wind_speed.png">Ventilation</a>
+      <a href="projects/05-beijing-air-quality-seaborn/figures/01_missing_data_gap_audit.png">Gap audit</a>
+      <a href="projects/05-beijing-air-quality-seaborn/figures/07_season_hour_heatmap.png">Season × hour</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/05-beijing-air-quality-seaborn">Code</a>
+    </p>
+  </section>
+
+  <section class="card" id="project-06" data-tracks="eng">
+    <h3><span class="num">06</span>Workforce System in Java</h3>
+    <p class="stack">Java 17 · department tree · employee search index · invariant testing</p>
+    <span class="tag">Information systems</span>
+    <p class="find">A department tree and an employee search index must describe the same people.
+      Transfers, deletion, membership and ordering are checked against explicit invariants.</p>
+    <p>Immutable employee records, integer salary cents and reference-model tests
+      make state changes inspectable. Ordered inputs and deletion edge cases
+      test behaviour beyond a single random workload.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Consistent department
+      membership supports reliable headcount reporting. This in-memory teaching
+      system demonstrates core invariants; production use would also require
+      persistence, access control and audit history.</p>
+    <p class="cardlinks">
+      <a href="projects/06-workforce-system-java/PROJECT.html">Architecture brief &amp; illustrated scenarios</a>
+      <a href="projects/06-workforce-system-java/README.md">English README</a>
+      <a href="projects/06-workforce-system-java/README.zh-CN.md">中文 README</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/06-workforce-system-java">Code &amp; tests</a>
+    </p>
+  </section>
+
+  <section class="card has-figure featured" id="project-07" data-tracks="ds ba">
+    <div class="card-body">
+
+    <p class="eyebrow">NLP reading route · reproducible evaluation</p>
+    <h3><span class="num">07</span>Does the Skill Signal Help?</h3>
+    <p class="stack">Job-posting NLP · SkillSpan · 21,663 postings · 20 classes · employer-disjoint split</p>
+    <p><strong>Business question.</strong> Does adding skill-lexicon features
+      improve broad-category routing enough to justify the added feature pipeline?
+      Offline category accuracy and useful requirement extraction are evaluated separately.</p>
+    <p class="find">Adding a Skill + Knowledge lexicon does not clear the improvement criterion:
+      test Macro-F1 is <b>0.7406</b> for text and <b>0.7348</b> for equal-weight fusion.</p>
+    <p>Text-only, lexicon-only and combined features are evaluated with an
+      employer-disjoint split. Saved predictions support metric checks.
+      Classification and exact-span extraction are separate tasks; the brief
+      explains uncertainty and differences from the original paper.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Retain the text baseline
+      as the reference for further routing evaluation; assess extracted requirements
+      directly before using them in a skills profile. These offline results do not
+      establish production readiness, recruiter time savings or hiring outcomes.</p>
+    </div>
+    <figure class="research-image"><a href="projects/07-nlp-job-postings/report.html"><img loading="lazy" src="projects/07-nlp-job-postings/results/ablation.png" alt="Text, lexicon and fused-feature classification results from the job-posting study" width="1200" height="750"></a><figcaption>Feature ablation · Read the research brief for evaluation design and uncertainty.</figcaption></figure>
+    <p class="cardlinks">
+      <a href="projects/07-nlp-job-postings/report.html">Research brief</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/blob/main/projects/07-nlp-job-postings/README.md">Project README</a>
+    </p>
+  </section>
+
+  <section class="card has-figure featured" id="project-08" data-tracks="ds">
+    <div class="card-body">
+
+    <p class="eyebrow">Lab 6 research extension · temporal machine learning</p>
+    <h3><span class="num">08</span>When the Baseline Wins</h3>
+    <p class="stack">scikit-learn · purged rolling evaluation · ablations · block-bootstrap intervals</p>
+    <span class="tag">Negative result · open licensed data</span>
+    <p class="find negative">Development-only model selection chooses the <b>historical up-rate</b>.
+      On five subsequent test blocks its Brier score is <b>0.245605</b>.
+      Local logistic regression changes loss by <b>+0.001006</b>,
+      with a 95% interval of <b>[−0.002279, +0.004296]</b>; lower is better.</p>
+    <p>A new implementation on CC BY 4.0 UCI market returns separates model selection,
+      rolling refitting and exploratory ablations. A return-only model's small apparent
+      gain also has an interval crossing zero. Seven tests check time alignment and
+      preprocessing, and a full rerun verifies six evidence tables.</p>
+    <p class="decision"><strong>Decision relevance.</strong> Keep the simple benchmark
+      for this sample. One historical market and 216 test dates cannot establish
+      trading profitability or general forecasting ability.</p>
+    <p>The original course lab supplied the topic; this new implementation uses
+      openly licensed data and publishes neither the course dataset nor course code.</p>
+    </div>
+    <figure class="research-image"><a href="projects/08-market-direction/report.html"><img loading="lazy" src="projects/08-market-direction/results/uncertainty.png" alt="All six candidate Brier differences have pointwise block-bootstrap intervals crossing zero" width="1800" height="864"></a><figcaption>216 later trading days · Pointwise uncertainty does not establish a useful forecasting edge.</figcaption></figure>
+    <p class="cardlinks"><a href="projects/08-market-direction/report.html">Research brief &amp; methods</a>
+      <a href="projects/08-market-direction/results/predictions.csv">Auditable predictions</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/08-market-direction">Code &amp; tests</a></p>
+  </section>
+
+  <section class="card" id="project-09" data-tracks="eng">
+    <h3><span class="num">09</span>Product Catalog: Protecting Small Data Changes</h3>
+    <p class="stack">Java 17 target · local HTTP · atomic file snapshots · version conflicts</p>
+    <span class="tag">Engineering · persistence &amp; concurrency</span>
+    <p class="find">Two browser tabs should not silently overwrite each other.
+      Version checks reject stale edits; a failed snapshot write does not publish new state in memory.</p>
+    <p>Product CRUD, search, exact CNY cents and persistent records complement
+      project 06's in-memory data structures. Revision-checked pagination rejects
+      stale navigation after writes. Thirteen local test groups cover real
+      HTTP requests, page traversal, competing edits, restart recovery and storage failures.</p>
+    <p class="decision"><strong>Scope.</strong> The topic comes from a Java Web
+      textbook's product-management chapter; the implementation is original.
+      This is a local engineering exercise with synthetic test data, not a deployed system.
+      GitHub Pages hosts the brief only; the Java backend runs locally.</p>
+    <p class="cardlinks">
+      <a href="projects/09-product-catalog/PROJECT.html">Architecture brief / 双语简报</a>
+      <a href="https://github.com/jiayuyan117/academic-portfolio/tree/main/projects/09-product-catalog">Code &amp; tests</a>
+    </p>
+  </section>
+
+  </details>
+  <footer id="integrity">
+    <p><strong>Author: Jiayu Yan / 闫佳玉.</strong> All projects in this portfolio
+      are the author's own work, developed from her undergraduate coursework and
+      independent study. AI tools were used for coding support and English editing;
+      the author reviewed and verified all code, results and conclusions.
+      Course materials and the textbook used for project 09 are not redistributed.</p>
+    <p>Decision notes describe implications and proposed next steps,
+      not interventions already tested. Estimates and scenarios are distinguished
+      from published statistics.</p>
+    <p>No result here is presented as more certain than the evidence supports. Where a
+      model fails, the failure is the finding.</p>
+    <p>Code MIT licensed · third-party datasets under their original terms ·
+      <a href="https://github.com/jiayuyan117">@jiayuyan117</a></p>
+  </footer>
+</main>
+
+<script>
+function filterTrack(track, btn) {
+  document.getElementById('project-archive').open = true;
+  document.querySelectorAll('.route-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-pressed', String(b === btn));
+  });
+  btn.classList.add('active');
+  document.querySelectorAll('section.card').forEach(card => {
+    card.classList.remove('dimmed', 'highlighted');
+    if (track === 'all') return;
+    const tracks = (card.getAttribute('data-tracks') || '').split(/\s+/);
+    if (tracks.includes(track)) {
+      card.classList.add('highlighted');
+    } else {
+      card.classList.add('dimmed');
+    }
+  });
+}
+document.querySelectorAll('.route-btn').forEach(b =>
+  b.setAttribute('aria-pressed', String(b.classList.contains('active'))));
+function revealTarget() {
+  const target = document.getElementById(location.hash.slice(1));
+  if (!target) return;
+  for (let parent = target.parentElement; parent; parent = parent.parentElement) {
+    if (parent.tagName === 'DETAILS') parent.open = true;
+  }
+  if (target.tagName === 'DETAILS') target.open = true;
+  target.scrollIntoView();
+}
+window.addEventListener('hashchange', revealTarget);
+if (location.hash) revealTarget();
+</script>
 </body>
 </html>
