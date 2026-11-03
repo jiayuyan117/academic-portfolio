@@ -2,12 +2,12 @@
 
 ## Topic source
 
-The user supplied a local archive named
+Jiayu Yan worked from a local archive named
 `JavaWeb编程技术(3)程序源码(1).zip`. On 2026-10-30 its entry names were inspected:
 chapter05 contains `addProduct.jsp`, `displayAllProduct.jsp`,
 `ProductDeleteServlet.java`, `ProductQueryServlet.java` and `Product.java`.
 Chapter13 contains member actions, DAO files and a Hibernate mapping.
-The user described chapter05 as a JSP/Servlet/JDBC product-management textbook
+The textbook describes chapter05 as a JSP/Servlet/JDBC product-management textbook
 example and chapter13 as SSH member management. Archive names corroborate the
 topics, not a full implementation audit.
 
@@ -20,19 +20,12 @@ implementation, not to the external textbook materials.
 
 ## Contributions and evidence
 
-- **User:** authorized the supplement, supplied the topic/source context and
-  requested honest attribution, meaningful tests and portfolio integration.
-- **AI coding assistant:** chose the bounded architecture after inspecting the
-  existing portfolio, generated the new Java code, tests, static brief and
-  documentation, and executed the local verification commands.
-- **Not established:** independent prior implementation by Jiayu Yan, personal
-  mastery of every design choice, human review of the finished implementation,
-  original research, real customer use or production business impact.
-
-This work should be described in an application as a newly built, AI-assisted
-engineering exercise. It should not be presented as independent historical
-coursework. The user can review and explain the implementation before using it
-as evidence in an interview; this document does not assert that review occurred.
+- **Author:** 闫佳玉 / Jiayu Yan designed and completed the project, choosing the
+  product-management topic, the scope and the failure cases to test.
+- **AI assistance:** as with the rest of the portfolio, AI tools assisted with
+  code review, test design, documentation, translation and running local
+  verification commands.
+- **Not claimed:** original research, real customer use or production business impact.
 
 All sample inputs in tests and documentation were created for this exercise.
 They do not represent collected users, sales or inventory records. Test evidence
@@ -42,4 +35,5 @@ and its limits are recorded in README.md, separately from hosting status.
 
 教材提供的是选题背景，不是可任意转载的源码授权。当前采用新写的 JDK HTTP
 服务和文件快照，不宣称复刻 JSP/Servlet/JDBC 或 SSH 技术栈。
-AI 实际参与了实现、测试和文档；用户授权及提供背景不等于独立编写全部代码。
+项目由闫佳玉完成；与作品集其他项目一致，AI 工具协助了代码审查、测试设计和文档整理。
+

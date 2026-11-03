@@ -171,12 +171,12 @@ def main() -> None:
         check_project(number)
     if not args.project:
         page = Page(ROOT / "index.html")
-        expected = {f"project-{n:02}" for n in range(1, 10)}
+        expected = {f"project-{n:02}" for n in range(1, 11)}
         actual = {value for value in page.ids if re.fullmatch(r"project-\d+", value)}
         assert actual == expected, (actual, expected)
         for link in page.links + page.resources:
             check_local_link(page, link)
-        print("Homepage: nine project anchors and all local links checked")
+        print("Homepage: ten project anchors and all local links checked")
 
 
 if __name__ == "__main__":

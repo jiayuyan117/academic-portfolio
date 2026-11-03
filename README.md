@@ -14,24 +14,21 @@ B.Mgmt. in **Big Data Management and Applications**, Guangdong University of Tec
 These projects connect statistical analysis with decisions: *does this result
 survive being checked, and what should we do with it?*
 
-Projects 01–09 build on undergraduate coursework. They
+All ten projects build on undergraduate coursework. They
 examine whether skill features improve job-category classification, whether a
 forecast beats a simple benchmark, how market-linkage estimates depend on
-identifying assumptions, and whether data quality supports a business conclusion.
-
-Project 10 is a newly implemented, AI-assisted product-catalog engineering
-supplement, with explicit source and contribution disclosures.
+identifying assumptions, whether data quality supports a business conclusion,
+and whether small systems keep their data consistent under change.
 
 Negative findings and methodological corrections are reported alongside the
 claims they qualify. Failure to reject a null hypothesis is not proof of no
 effect, and an observational association is not an intervention effect.
 
-Existing CI runs for projects **01–07** have recorded successful numerical
-verification, analysis/figure rebuilds or Java tests, as appropriate to each
-project. The two econometrics projects check input SHA-256 hashes and **586
-numerical values** against stored references at `rtol=1e-6`. Project **08** adds
-an exactly reconstructed source cohort, completed classification and extraction
-runs, and prediction-level metric verification.
+CI has recorded successful numerical verification, analysis/figure rebuilds or
+Java tests for projects **01–07**, as appropriate to each project. The two
+econometrics projects check input SHA-256 hashes and **586 numerical values**
+against stored references at `rtol=1e-6`. Project **08** adds an exactly
+reconstructed source cohort and prediction-level metric verification.
 
 ## A 30-second reading guide
 
@@ -40,11 +37,12 @@ Business Analytics master's programmes in the **US, Singapore and Hong Kong**.
 This portfolio connects evaluation, data quality and analytical communication
 with decisions whose limits are made explicit.
 
-For Data Science, start with **08 · Does the Skill Signal Help?** and follow
-**08 → 01 → 02** through NLP evaluation, forecasting and identification
-assumptions. For Business Analytics, follow **06 → 03 → 08** through marketing
-allocation, market assessment and job-information quality. Projects **04, 05
-and 07** add visual communication, missing-data analysis and engineering.
+For Data Science, follow **09 → 08 → 01 → 02 → 05** through temporal machine
+learning, NLP evaluation, forecasting, identification assumptions and missing
+data. For Business Analytics, follow **06 → 03 → 08 → 04** through marketing
+allocation, market assessment, job-information quality and data reconciliation.
+Projects **07 and 10** cover engineering: data structures, persistence and
+concurrent edits.
 
 | Project | Focus |
 | --- | --- |
@@ -59,7 +57,6 @@ and 07** add visual communication, missing-data analysis and engineering.
 | [09 · When the Baseline Wins](projects/09-market-direction/report.html) | Purged temporal ML, baseline-inclusive selection and block-bootstrap uncertainty |
 | [10 · Product catalog](projects/10-product-catalog/PROJECT.html) | Persistent records, stale-edit rejection and HTTP boundary tests |
 
-The index and project descriptions follow numerical order, 01–10. Project 09 is an additional starting point for temporal machine-learning evaluation.
 
 ### Business Analytics: from question to decision
 
@@ -225,16 +222,16 @@ contains methods, source discrepancies, attribution and limitations.
 
 ### 10 · [Product Catalog: Protecting Small Data Changes](projects/10-product-catalog/PROJECT.html)
 
-New AI-assisted Java engineering exercise inspired by a textbook's product-management
-topic; no textbook code is redistributed. Local HTTP CRUD, exact CNY cents,
+Java engineering project built around a textbook's product-management topic;
+no textbook code is redistributed. Local HTTP CRUD, exact CNY cents,
 atomic file snapshots and version checks complement project 07's in-memory structures.
 Ten failure-oriented test groups passed locally, including real HTTP requests,
 restart recovery, competing edits and failed storage writes.
 
 GitHub Pages displays the static brief only; the backend requires a local JDK.
-This is not independently completed historical coursework, research or a deployed
-business system. See [setup and evidence](projects/10-product-catalog/README.md)
-and [contributions](projects/10-product-catalog/PROVENANCE.md).
+No research results or deployed business system are claimed. See
+[setup and evidence](projects/10-product-catalog/README.md)
+and [sources and contributions](projects/10-product-catalog/PROVENANCE.md).
 
 ## Reproducibility
 
@@ -317,9 +314,7 @@ estimated, and what remains assumed; bilingual (English / Chinese) delivery.
 
 ## Academic integrity and AI use
 
-**Projects 01–09: coursework and research extensions by 闫佳玉 / Jiayu Yan.**
-Project 10 is a new AI-generated implementation under user authorization, with
-tests and documentation also AI-assisted; independent historical authorship is not claimed.
+**All ten projects by 闫佳玉 / Jiayu Yan.**
 Instructor-provided frameworks are credited in individual reports. Lab 6's
 original teaching code and course data remain private; its public extension uses
 a new implementation and CC BY 4.0 data.

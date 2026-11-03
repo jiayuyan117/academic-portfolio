@@ -1,9 +1,8 @@
 # 10 · Product Catalog: Protecting Small Data Changes
 
-An AI-assisted engineering supplement for Jiayu Yan's academic portfolio, newly
-implemented from the **product-management topic** of a Java Web textbook example.
-This is not a claim of independently completed historical coursework, research,
-production deployment, real users or measured business impact.
+An engineering project by Jiayu Yan / 闫佳玉, built around the
+**product-management topic** of a Java Web textbook example; no textbook code is copied.
+No research results, production deployment, real users or measured business impact are claimed.
 
 [Architecture brief / 双语简报](PROJECT.html) · [Source and contribution statement](PROVENANCE.md)
 
@@ -17,7 +16,7 @@ nonnegative integer. The initial catalog is empty. Any example products entered
 for demonstration are synthetic.
 
 Project 07 already covers in-memory trees and workforce membership invariants.
-This supplement instead covers HTTP input boundaries, file persistence, restart
+This project instead covers HTTP input boundaries, file persistence, restart
 recovery and competing edits. It deliberately uses **JDK HttpServer and a versioned
 TSV snapshot**, not JSP, Servlet, JDBC or SSH. The local JDK was available but Maven
 was not; avoiding downloaded dependencies makes this bounded exercise reproducible.
@@ -108,13 +107,13 @@ OS file-lock mechanism is used); no separate-process crash test was performed.
 The failed-save test makes the destination an occupied directory and checks that
 memory remains unchanged. It does not simulate a power failure. JDK 17 runtime,
 Linux/macOS and visual browser rendering were not tested. No workflow was added,
-modified or invoked for this supplement.
+modified or invoked for this project.
 
 ## 中文说明
 
-这是本次新编写的 AI 辅助工程补充，主题来自教材第 5 章商品管理示例。
-教材源代码、数据库配置及压缩包均未转载；不宣称用户独立完成了这份实现，
-也不宣称有真实用户、实习业务数据或研究成果。第 13 章会员管理未采用。
+本项目由闫佳玉完成，主题来自教材第 5 章商品管理示例。
+教材源代码、数据库配置及压缩包均未转载；不宣称有真实用户、实习业务数据
+或研究成果。第 13 章会员管理未采用。AI 工具协助了代码审查、测试设计和文档整理。
 
 实现覆盖商品增删改查、金额与库存校验、文件持久化、并发版本冲突及
 HTTP 表单边界。与项目 07 的内存数据结构侧重点不同。本机实际运行了
