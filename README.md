@@ -7,6 +7,8 @@ B.Mgmt. in **Big Data Management and Applications**, Guangdong University of Tec
 
 **[→ Browse the portfolio site](https://jiayuyan117.github.io/academic-portfolio/)**
 
+[中文网页](https://jiayuyan117.github.io/academic-portfolio/index.zh-CN.html)
+
 ---
 
 ## Research focus
@@ -286,9 +288,12 @@ what was measured, estimated and assumed; bilingual (English / Chinese) delivery
 
 **Author: Jiayu Yan / 闫佳玉.** All projects in this repository are the author's
 own work, developed from her undergraduate coursework and independent study.
-AI tools were used for coding support and English editing; the author reviewed
-and verified all code, results and conclusions. Course materials and textbook
-code are not redistributed; project 07 uses a new implementation and CC BY 4.0 data.
+AI tools assisted with coding, editing and bilingual website presentation.
+Verification scope is documented in each project's linked evidence; automated checks
+do not establish independent authorship or validate every conclusion.
+Original coursework is retained in the source folders of projects 01, 02 and 05.
+Project 07 does not redistribute course data or code and uses a new implementation
+with CC BY 4.0 data; project 08 does not redistribute textbook code.
 
 Decision notes describe implications and proposed next steps, not interventions
 already tested. Estimates, assumed cost ratios and scenarios — including the NEV

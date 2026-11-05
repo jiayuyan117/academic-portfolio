@@ -78,6 +78,39 @@ def main() -> None:
                 assert card.evaluate("(el) => getComputedStyle(el).opacity") == "1"
                 selected = track != "all" and track in card.get_attribute("data-tracks").split()
                 assert ("highlighted" in (card.get_attribute("class") or "")) == selected
+        page.goto((ROOT / "index.html").as_uri())
+        page.locator('a[hreflang="zh-CN"]').click()
+        assert page.title() == "闫佳玉 — 数据分析作品集"
+        assert page.locator("html").get_attribute("lang") == "zh-CN"
+        assert page.locator("#selected-studies article").count() == 4
+        assert not page.locator("#project-archive").evaluate("(el) => el.open")
+        for width in (1280, 375, 320):
+            page.set_viewport_size({"width": width, "height": 900})
+            assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+            page.screenshot(path=str(OUTPUT / f"chinese-{width}.png"), full_page=True)
+        page.locator('a[href="#project-04"]').click()
+        assert page.locator("#project-archive").evaluate("(el) => el.open")
+        assert page.locator("#project-04").is_visible()
+        page.reload()
+        assert page.locator("#project-archive").evaluate("(el) => el.open")
+        page.locator("#project-archive > summary").click()
+        assert not page.locator("#project-archive").evaluate("(el) => el.open")
+        page.locator("#project-archive > summary").focus()
+        page.keyboard.press("Enter")
+        assert page.locator("#project-archive").evaluate("(el) => el.open")
+        page.locator('nav a[hreflang="en"]').click()
+        assert page.title() == "Jiayu Yan — Data Analytics Portfolio"
+        assert not errors, errors
+        # The translated content and directory remain readable without JavaScript.
+        no_script = browser.new_context(java_script_enabled=False)
+        no_script.route(re.compile(r"^https?://"), block_network)
+        static_page = no_script.new_page()
+        static_page.goto((ROOT / "index.zh-CN.html").as_uri())
+        assert static_page.locator("#selected-studies article").count() == 4
+        static_page.locator("#project-archive > summary").click()
+        assert static_page.locator("#project-08").is_visible()
+        no_script.close()
+        print("Chinese homepage: three widths, language switches, deep link, keyboard and no-JS reading passed")
         for number in range(3, 6):
             folder = next((ROOT / "projects").glob(f"{number:02d}-*"))
             brief = folder / "FIRST_READ.html"

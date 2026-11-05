@@ -183,6 +183,13 @@ def main() -> None:
         for link in page.links + page.resources:
             check_local_link(page, link)
         print("Homepage: eight project anchors and all local links checked")
+        chinese = Page(ROOT / "index.zh-CN.html")
+        actual = {value for value in chinese.ids if re.fullmatch(r"project-\d+", value)}
+        assert actual == expected, (actual, expected)
+        assert "index.zh-CN.html" in page.links and "index.html" in chinese.links
+        for link in chinese.links + chinese.resources:
+            check_local_link(chinese, link)
+        print("Chinese homepage: eight anchors, language switch and all local links checked")
         for name in ("README.md", "README.zh-CN.md"):
             text = (ROOT / name).read_text(encoding="utf-8")
             for value in re.findall(r"\[[^\]]+\]\(([^)\s]+)\)", text):
